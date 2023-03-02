@@ -2,37 +2,49 @@ import {useEffect, useState} from 'react';
 import {api, handleError} from 'helpers/api';
 import {Spinner} from 'components/ui/Spinner';
 import {Button} from 'components/ui/Button';
-import {useHistory} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import "styles/views/Game.scss";
+import "styles/views/Profile.scss";
 
-const Player = ({user}) => (
-  <div className="player container">
-    <div className="player username">{user.username}</div>
-    <div className="player name">{user.name}</div>
-    <div className="player id">id: {user.id}</div>
-  </div>
-);
 
-Player.propTypes = {
-  user: PropTypes.object
+const FormField = props => {
+    return (
+        <div className="title-field">
+            <input
+                className="title-field"
+                placeholder={props.placeholder}
+                value={props.value}
+                onChange={e => props.onChange(e.target.value)}
+            />
+        </div>
+    );
+};
+
+FormField.propTypes = {
+  placeholder: PropTypes.string,
+    value: PropTypes.string,
+    onChange: PropTypes.func
 };
 
 const Profile = () => {
   // use react-router-dom's hook to access the history
   const history = useHistory();
+  const userId = useParams().userId;
+
 
   // define a state variable (using the state hook).
   // if this variable changes, the component will re-render, but the variable will
   // keep its value throughout render cycles.
   // a component can have as many state variables as you like.
   // more information can be found under https://reactjs.org/docs/hooks-state.html
-  const [users, setUsers] = useState(null);
+  const [user, setUser] = useState([]);
+
 
   const toGamePage = () => {
     history.push('/game');
   }
+
 
   // the effect hook can be used to react to change in your component.
   // in this case, the effect hook is only run once, the first time the component is mounted
@@ -40,9 +52,9 @@ const Profile = () => {
   // for more information on the effect hook, please see https://reactjs.org/docs/hooks-effect.html
   useEffect(() => {
     // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
-    async function fetchData() {
+    const fetchData = async() => {
       try {
-        const response = await api.get('/users');
+        const response = await api.get('/users/' + userId);
 
         // delays continuous execution of an async operation for 1 second.
         // This is just a fake async call, so that the spinner can be displayed
@@ -50,7 +62,7 @@ const Profile = () => {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         // Get the returned users and update the state.
-        setUsers(response.data);
+        setUser(response.data);
 
         // This is just some data for you to see what is available.
         // Feel free to remove it.
@@ -71,46 +83,35 @@ const Profile = () => {
     fetchData();
   }, []);
 
-  let content = <Spinner/>;
+   // let content = <Spinner/>;
 
-  if (users) {
-    content = (
-      <div className="profile">
-          <table>
-              <tr>
-                  <th>Username</th>
-                  <td className="player username">{users[0].username}</td>
-              </tr>
-              <tr>
-                  <th>Name</th>
-                  <td className="player name">{users[0].name}</td>
-              </tr>
-              <tr>
-                  <th>Creation Date</th>
-                  <td className="player creationDate">{users[0].creationDate}</td>
-              </tr>
-              <tr>
-                  <th>Online Status</th>
-                  <td className="player status">{users[0].status}</td>
-              </tr>
-          </table>
-        <Button
-          width="100%"
-          onClick={() => toGamePage()}
-        >
-          Dashboard
-        </Button>
-      </div>
-    );
-  }
+    let content = (
+            <div>
+                <div>
+                    <div>{user.username && user && <h1>username: {user.username}</h1>}</div>
+                    <div>{user.userId && user && <h2>ID: {user.userId}</h2>}</div>
+                    <div>{user.creationDate && user && <h2>creation date: {user.creationDate}</h2>}</div>
+                    <div>{user.status && user && <h2>status: {user.status}</h2>}</div>
+                    <div>{user.birthdate && user && <h2>birthdate: {user.birthdate}</h2>}</div>
+                </div>
+
+                <Button
+                    width="100%"
+                    onClick={() => toGamePage()}
+                >
+                    Dashboard
+                </Button>
+            </div>
+        );
+
 
   return (
-    <BaseContainer className="game container">
-      <h2>User Profile</h2>
-      <p className="game paragraph">
-        Get all users from secure endpoint:
-      </p>
-      {content}
+        <BaseContainer className="game container">
+            <h2>User Profile</h2>
+            <p className="game paragraph">
+                Here you see your profile information:
+            </p>
+        {content}
     </BaseContainer>
   );
 }

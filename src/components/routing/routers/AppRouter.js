@@ -26,23 +26,20 @@ const AppRouter = () => {
             <GameRouter base="/game"/>
           </GameGuard>
         </Route>
-        <Route exact path="/register">
-          <RegisterGuard>
-            <Register/>
-          </RegisterGuard>
-        </Route>
         <Route exact path="/login">
           <LoginGuard>
             <Login/>
           </LoginGuard>
         </Route>
+
+        <Route exact path="/register">
+          <RegisterGuard>
+            <Register/>
+          </RegisterGuard>
+        </Route>
+        <Route exact path={`/Profile/`}><Profile/></Route>
         <Route exact path="/">
           <Redirect to="/game"/>
-        </Route>
-        <Route path="/profile">
-          <LoginGuard>
-            <Profile/>
-          </LoginGuard>
         </Route>
       </Switch>
     </BrowserRouter>
