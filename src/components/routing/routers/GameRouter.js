@@ -21,6 +21,9 @@ const GameRouter = props => {
           <Route exact path={`${props.base}/profile/:userId/edit`}>
               <EditProfile/>
           </Route>
+          <Route exact path={`${props.base}/profile/:userId/edit`}>
+              <EditProfile/>
+          </Route>
 
         <Route exact path={`${props.base}`}>
             <Redirect to={`${props.base}/dashboard`}/>

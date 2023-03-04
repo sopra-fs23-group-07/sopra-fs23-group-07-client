@@ -31,6 +31,7 @@ const Profile = () => {
   // use react-router-dom's hook to access the history
   const history = useHistory();
   const userId = useParams().userId;
+  const token = useParams().token;
 
 
   // define a state variable (using the state hook).
@@ -45,6 +46,17 @@ const Profile = () => {
     history.push('/game');
   }
 
+    const editProfile = () => {
+        try {
+            if(localStorage.getItem('token') == user.token){history.push(`/game/profile/${user.userId}/edit`)}
+
+            else{alert("You can't access this profil page");}
+        } catch (error) {
+            console.error(`Something went wrong while trying to edit the user: \n${handleError(error)}`);
+            console.error("Details:", error);
+            alert("Something went wrong when trying to edit the profile! See the console for details.");
+        }
+    };
 
   // the effect hook can be used to react to change in your component.
   // in this case, the effect hook is only run once, the first time the component is mounted
@@ -59,7 +71,7 @@ const Profile = () => {
         // delays continuous execution of an async operation for 1 second.
         // This is just a fake async call, so that the spinner can be displayed
         // feel free to remove it :)
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        //await new Promise(resolve => setTimeout(resolve, 1000));
 
         // Get the returned users and update the state.
         setUser(response.data);
@@ -85,6 +97,15 @@ const Profile = () => {
 
    // let content = <Spinner/>;
 
+    let editProfileButton = (
+        <div>
+            <Button width="100%"
+                    onClick={() => editProfile()}>
+                Edit Profile
+            </Button>
+        </div>
+    )
+
     let content = (
             <div>
                 <div>
@@ -101,6 +122,7 @@ const Profile = () => {
                 >
                     Dashboard
                 </Button>
+
             </div>
         );
 
@@ -108,6 +130,7 @@ const Profile = () => {
   return (
         <BaseContainer className="game container">
             <h2>User Profile</h2>
+            {editProfileButton}
             <p className="game paragraph">
                 Here you see your profile information:
             </p>
