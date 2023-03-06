@@ -23,7 +23,6 @@ FormField.propTypes = {
 const EditProfile = () => { //setting start states of username and birthday
     const history = useHistory();
     const userId = useParams().userId;
-    const token = useParams().token;
     const [user, setUser] = useState([]);
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
@@ -51,7 +50,7 @@ const EditProfile = () => { //setting start states of username and birthday
             }
             else{
 
-                alert("You can't access this profil page");}
+                alert("You can't access this profile page");}
 
         } catch (error) {
             alert(`Something went wrong during the edit: \n${handleError(error)}`);}};
@@ -85,18 +84,18 @@ const EditProfile = () => { //setting start states of username and birthday
     }, []);
 
     return (
-        <div className="editProfile">
-            <div className="editProfile container">
-                <div className="editProfile form">
-                    <FormField label="Username" value={username} onChange={un => setUsername(un)}/>
-                    <FormField label="Password" value={password} onChange={pa => setPassword(pa)}/>
-                    <FormField label="Name" value={name} onChange={na => setName(na)}/>
-                    <FormField label="Birthdate" value={birthdate} onChange={bd => setBirthdate(bd)}/>
+        <BaseContainer className="editProfile container">
 
-                    <Button  width="100%"onClick={() => edit()}>Save Profile</Button>
-                </div>
-            </div>
-        </div>
+                    <div className="editProfile form">
+                        <FormField label="Username" value={username} onChange={un => setUsername(un)}/>
+                        <FormField label="Password" value={password} onChange={pa => setPassword(pa)}/>
+                        <FormField label="Name" value={name} onChange={na => setName(na)}/>
+                        <FormField label="Birthdate" value={birthdate} onChange={bd => setBirthdate(bd)}/>
+
+                        <Button  width="100%"onClick={() => edit()}>Save Profile</Button>
+                    </div>
+
+        </BaseContainer>
     );
 };
 

@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {api, handleError} from 'helpers/api';
 import {Spinner} from 'components/ui/Spinner';
 import {Button} from 'components/ui/Button';
-import {useHistory} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
@@ -35,10 +35,24 @@ const Game = () => {
   // a component can have as many state variables as you like.
   // more information can be found under https://reactjs.org/docs/hooks-state.html
   const [users, setUsers] = useState(null);
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  const [username, setUsername] = useState(null);
 
-  const logout = () => {
-    localStorage.removeItem('token');
-    history.push('/login');
+  const doLogout = async () => {
+      try {
+          const response = await api.post(`/users/logout/${userId}`);
+
+
+          localStorage.removeItem('token');
+          localStorage.removeItem('userId');
+
+          history.push('/login');
+          console.log(response);
+      }
+      catch (error){
+          alert(`Something went wrong during the logout: \n${handleError(error)}`);
+      }
   }
 
   // the effect hook can be used to react to change in your component.
@@ -90,7 +104,7 @@ const Game = () => {
         </ul>
         <Button
           width="100%"
-          onClick={() => logout()}
+          onClick={() => doLogout()}
         >
           Logout
         </Button>
