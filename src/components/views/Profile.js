@@ -104,13 +104,20 @@ const Profile = () => {
     )
 
     let content = (
-            <div>
-                <div>
-                    <div>{user.username && user && <h1>username: {user.username}</h1>}</div>
-                    <div>{user.userId && user && <h2>ID: {user.userId}</h2>}</div>
-                    <div>{user.creationDate && user && <h2>creation date: {user.creationDate}</h2>}</div>
-                    <div>{user.status && user && <h2>status: {user.status}</h2>}</div>
-                    <div>{user.birthdate && user && <h2>birthdate: {user.birthdate}</h2>}</div>
+            <div className="row">
+                <div className="profile user-list column">
+                    <div className="profile user-item-left"><h1>username: </h1></div>
+                    <div className="profile user-item-left"><h2>ID: </h2></div>
+                    <div className="profile user-item-left"><h2>creation date: </h2></div>
+                    <div className="profile user-item-left"><h2>status: </h2></div>
+                    <div className="profile user-item-left"><h2>birthdate: </h2></div>
+                </div>
+                <div className="profile user-list-right column">
+                    <div className="profile user-item-right">{user.username && user && <h1><span>{user.username}</span> </h1>}</div>
+                    <div className="profile user-item-right">{user.userId && user && <h2>{user.userId}</h2>}</div>
+                    <div className="profile user-item-right">{user.creationDate && user && <h2>{user.creationDate}</h2>}</div>
+                    <div className="profile user-item-right">{user.status && user && <h2>{user.status}</h2>}</div>
+                    <div className="profile user-item-right">{user.birthdate && user && <h2>{user.birthdate}</h2>}</div>
                 </div>
 
                 <Button

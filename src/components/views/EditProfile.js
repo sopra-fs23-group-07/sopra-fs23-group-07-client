@@ -9,8 +9,8 @@ import PropTypes from "prop-types";
 //component for Editpage display, defining label,value and onchange as passable values
 const FormField = props => {
     return (
-        <div className="edit field"> <label className="edit label"> {props.label} </label>
-            <input className="edit input" placeholder="enter here.." value={props.value} onChange={e => props.onChange(e.target.value)}/>
+        <div className="editProfile field"> <h3><label className="editProfile label"> {props.label} </label></h3>
+            <input className="editProfile input" placeholder="enter here.." value={props.value} onChange={e => props.onChange(e.target.value)}/>
         </div>);};
 
 //defining type of passable values to FormField
@@ -83,17 +83,26 @@ const EditProfile = () => { //setting start states of username and birthday
         fetchData();
     }, [userId]);
 
+    let content =(
+
+            <div className="editProfile form">
+                <FormField label="Username" value={username} onChange={un => setUsername(un)}/>
+                <FormField label="Password" value={password} onChange={pa => setPassword(pa)}/>
+                <FormField label="Name" value={name} onChange={na => setName(na)}/>
+                <FormField label="Birthdate" value={birthdate} onChange={bd => setBirthdate(bd)}/>
+
+                <Button  width="100%" onClick={() => edit()}>Save Profile</Button>
+            </div>
+
+    );
+
     return (
         <BaseContainer className="editProfile container">
-
-                    <div className="editProfile form">
-                        <FormField label="Username" value={username} onChange={un => setUsername(un)}/>
-                        <FormField label="Password" value={password} onChange={pa => setPassword(pa)}/>
-                        <FormField label="Name" value={name} onChange={na => setName(na)}/>
-                        <FormField label="Birthdate" value={birthdate} onChange={bd => setBirthdate(bd)}/>
-
-                        <Button  width="100%"onClick={() => edit()}>Save Profile</Button>
-                    </div>
+            <h2>Edit Profile</h2>
+            <p className="editProfile paragraph">
+                Here you can edit your profile information:
+            </p>
+            {content}
 
         </BaseContainer>
     );

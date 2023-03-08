@@ -6,6 +6,17 @@
 
   for more information visit https://sass-lang.com/guide
  */
+.column {
+  float: left;
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 
 .profile {
   &.container {
@@ -20,6 +31,22 @@
   &.user-list {
     list-style: none;
     padding-left: 0;
+  }
+  &.user-item-right {
+    list-style: none;
+    padding-left: 5px;
+    text-align: left;
+    border-radius: $borderRadius;
+    background: lighten($background, 5);
+
+  }
+  &.user-item-left {
+    list-style: none;
+    padding-right: 5px;
+    text-align: right;
+    border-radius: $borderRadius;
+    background: lighten($background, 5);
+
   }
   &.user-item {
     display: flex;
