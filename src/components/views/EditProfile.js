@@ -35,7 +35,7 @@ const EditProfile = () => { //setting start states of username and birthday
     const edit = async () => {
 
         try {
-            if(localStorage.getItem('token') == user.token){
+            if(localStorage.getItem('token') === user.token){
 
                 const requestBody = JSON.stringify({
                     "userId": userId,
@@ -80,8 +80,8 @@ const EditProfile = () => { //setting start states of username and birthday
 
         }
 
-        fetchData()
-    }, []);
+        fetchData();
+    }, [userId]);
 
     return (
         <BaseContainer className="editProfile container">
