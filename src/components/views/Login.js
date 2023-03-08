@@ -79,7 +79,7 @@ const Login = props => {
               width="100%"
               onClick={() => doLogin()}
             >
-              Login
+              &#x1F513; Login
             </Button>
           </div>
           <div>
@@ -90,7 +90,7 @@ const Login = props => {
                 width = "100%"
                 onClick={() => history.push("/register")}
             >
-              Register
+              &#x1F511; Register
             </Button>
           </div>
         </div>

@@ -15,7 +15,7 @@ const Player = ({user}) => {
         <div className="player username" onClick={() => history.push("profile/"+user.userId)}>{user.username}</div>
         <div className="player name">{user.name}</div>
         <div className="player id">id: {user.userId}</div>
-        <Button onClick={() => history.push("profile/"+user.userId)}>Profile</Button>
+        <Button onClick={() => history.push("profile/"+user.userId)}>&#x1F464; Profile</Button>
 
       </div>
     );
@@ -104,7 +104,7 @@ const Game = () => {
           width="100%"
           onClick={() => doLogout()}
         >
-          Logout
+            &#x1F512; Logout
         </Button>
       </div>
     );

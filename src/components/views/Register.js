@@ -85,7 +85,7 @@ const Register = props => {
               width="100%"
               onClick={() => doRegister()}
             >
-              Register
+              &#x1F511; Register
             </Button>
           </div>
           <div>
@@ -96,7 +96,7 @@ const Register = props => {
                 width="100%"
                 onClick={() => history.push("/login")}
             >
-              Login
+              &#x1F513; Login
             </Button>
           </div>
         </div>

@@ -96,10 +96,7 @@ const Profile = () => {
 
     let editProfileButton = (
         <div>
-            <Button width="100%"
-                    onClick={() => editProfile()}>
-                Edit Profile
-            </Button>
+
         </div>
     )
 
@@ -119,12 +116,15 @@ const Profile = () => {
                     <div className="profile user-item-right">{user.status && user && <h2>{user.status}</h2>}</div>
                     <div className="profile user-item-right">{user.birthdate && user && <h2>{user.birthdate}</h2>}</div>
                 </div>
-
+                <Button width="46%"
+                        onClick={() => editProfile()}>
+                    &#128221; Edit Profile
+                </Button>
                 <Button
-                    width="100%"
+                    width="46%"
                     onClick={() => toGamePage()}
                 >
-                    Dashboard
+                    &#x1F4CA; Dashboard
                 </Button>
 
             </div>

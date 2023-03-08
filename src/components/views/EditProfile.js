@@ -91,7 +91,7 @@ const EditProfile = () => { //setting start states of username and birthday
                 <FormField label="Name" value={name} onChange={na => setName(na)}/>
                 <FormField label="Birthdate" value={birthdate} onChange={bd => setBirthdate(bd)}/>
 
-                <Button  width="100%" onClick={() => edit()}>Save Profile</Button>
+                <Button  width="100%" onClick={() => edit()}> &#x1F4BE; Save Profile</Button>
             </div>
 
     );
