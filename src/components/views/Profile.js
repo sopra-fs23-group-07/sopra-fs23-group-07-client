@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react';
 import {api, handleError} from 'helpers/api';
-import {Spinner} from 'components/ui/Spinner';
 import {Button} from 'components/ui/Button';
 import {useHistory, useParams} from 'react-router-dom';
 import BaseContainer from "components/ui/BaseContainer";
@@ -31,7 +30,6 @@ const Profile = () => {
   // use react-router-dom's hook to access the history
   const history = useHistory();
   const userId = useParams().userId;
-  const token = useParams().token;
 
 
   // define a state variable (using the state hook).
@@ -48,7 +46,7 @@ const Profile = () => {
 
     const editProfile = () => {
         try {
-            if(localStorage.getItem('token') == user.token){history.push(`/game/profile/${user.userId}/edit`)}
+            if(localStorage.getItem('token') === user.token){history.push(`/game/profile/${user.userId}/edit`)}
 
             else{alert("You can't access this profil page");}
         } catch (error) {
@@ -93,9 +91,8 @@ const Profile = () => {
     }
 
     fetchData();
-  }, []);
+  }, [userId]);
 
-   // let content = <Spinner/>;
 
     let editProfileButton = (
         <div>
