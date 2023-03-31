@@ -12,6 +12,7 @@ import MyEvents from "components/views/MyEvents";
 import Home from "components/views/Home";
 import Lobbies from "components/views/Lobbies";
 import Header from "components/views/Header";
+import CreateLobby from "components/views/CreateLobby";
 
 /**
  * Main router of your application.
@@ -69,6 +70,11 @@ const AppRouter = () => {
 
         <Route exact path="/Profile">
           <Profile />
+        </Route>
+
+        {/* TODO: Add a Guard to make sure only logged in users can create Lobby */}
+        <Route exact path="/CreateLobby">
+          <CreateLobby />
         </Route>
 
         {/* <Route exact path="/Lobby/:id">
