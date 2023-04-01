@@ -1,0 +1,18 @@
+.table-map-container {
+  display: inline-block;
+  flex-direction: row;
+  border: 3px solid #fff;
+  width: 1200px;
+}
+
+.table-container {
+  flex: 1;
+  margin-right: 20px;
+  border: 3px solid #fff;
+  width: 700px;
+}
+
+.map-container {
+  width: 400px;
+  border: 3px solid #fff;
+}

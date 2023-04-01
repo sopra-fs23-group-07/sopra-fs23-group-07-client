@@ -1,6 +1,7 @@
 import Header from "components/views/Header";
 import AppRouter from "components/routing/routers/AppRouter";
-
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 /**
  * Happy coding!
  * React Template by Lucas Pelloni
@@ -9,7 +10,9 @@ import AppRouter from "components/routing/routers/AppRouter";
 const App = () => {
   return (
     <div>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
       <AppRouter />
+        </LocalizationProvider>
     </div>
   );
 };

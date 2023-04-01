@@ -55,7 +55,6 @@ const CreateLobby = () => {
         />
       </div>
       <br />
-      <div className="ParticipantsMaxSelection">
         <h3> Enter maximum number of participants:</h3>
         <input
           type="text"

@@ -15,6 +15,7 @@ import Header from "components/views/Header";
 import CreateLobby from "components/views/CreateLobby";
 import Test from "../../views/Test";
 import Test2 from "../../views/Test2";
+import TestLobby from "../../views/TestLobby";
 
 /**
  * Main router of your application.
@@ -83,6 +84,9 @@ const AppRouter = () => {
         </Route>
         <Route exact path="/Test2">
           <Test2 />
+        </Route>
+        <Route exact path="/TestLobby">
+          <TestLobby />
         </Route>
 
         {/* <Route exact path="/Lobby/:id">
