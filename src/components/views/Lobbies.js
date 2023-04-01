@@ -1,7 +1,7 @@
 import React from "react";
 import BaseContainer from "components/ui/BaseContainer";
 import { useHistory } from "react-router-dom";
-import { Button } from "components/ui/Button";
+import {Button} from "@mui/material";
 
 const Lobbies = () => {
   const history = useHistory();
@@ -13,7 +13,7 @@ const Lobbies = () => {
   return (
     <BaseContainer className="lobby">
       <h1>Lobbies</h1>
-      <Button onClick={() => handleCreateLobbyClick()}>Create New Lobby</Button>
+      <Button variant="contained"  style={{ margin: '20px' }} onClick={() => handleCreateLobbyClick()}>Create New Lobby</Button>
     </BaseContainer>
   );
 };

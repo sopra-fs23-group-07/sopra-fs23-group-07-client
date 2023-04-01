@@ -1,10 +1,10 @@
 import React, {useEffect, useRef, useState, useReducer} from "react";
 import { useHistory } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
-import { Button } from "components/ui/Button";
 import 'mapbox-gl/dist/mapbox-gl.css'
 import "styles/ui/Map.scss";
 import AddLocation from "helpers/AddLocation";
+import {Button} from "@mui/material";
 
 
 
@@ -50,8 +50,8 @@ const Home = () => {
     <BaseContainer className="lobby">
       <h1>Home</h1>
 
-      <Button onClick={() => handleEventsClick()}>Show all Events</Button>
-      <Button onClick={() => handleLobbiesClick()}>Find Lobby</Button>
+      <Button variant="contained" style={{ margin: '20px' }} onClick={() => handleEventsClick()}>Show all Events</Button>
+      <Button variant="contained"  style={{ margin: '20px' }} onClick={() => handleLobbiesClick()}>Find Lobby</Button>
         {/*<div id="map"></div>*/}
         {/*<div ref={mapContainer} className="map-container" />*/}
         <AddLocation></AddLocation>
