@@ -70,25 +70,25 @@ const Home = () => {
     const [zoom, setZoom] = useState(12);    //Zoom Level
     const start = [lng, lat];                //Initial Directions
 
-    mapboxgl.accessToken = process.env.REACT_APP_MAP_TOKEN;
-
-
-    useEffect(() => {
-        if (map.current) return; // initialize map only once
-        map.current = new mapboxgl.Map({
-            container: mapContainer.current,
-            style: 'mapbox://styles/mapbox/streets-v11',
-            center: [lng, lat],
-            zoom: zoom
-        });
-        map.current.on('move', () => {
-            setLng(map.current.getCenter().lng.toFixed(4));
-            setLat(map.current.getCenter().lat.toFixed(4));
-            setZoom(map.current.getZoom().toFixed(2));
-        });
-        //route();
-
-    }, [map.current]);
+    // mapboxgl.accessToken = process.env.REACT_APP_MAP_TOKEN;
+    //
+    //
+    // useEffect(() => {
+    //     if (map.current) return; // initialize map only once
+    //     map.current = new mapboxgl.Map({
+    //         container: mapContainer.current,
+    //         style: 'mapbox://styles/mapbox/streets-v11',
+    //         center: [lng, lat],
+    //         zoom: zoom
+    //     });
+    //     map.current.on('move', () => {
+    //         setLng(map.current.getCenter().lng.toFixed(4));
+    //         setLat(map.current.getCenter().lat.toFixed(4));
+    //         setZoom(map.current.getZoom().toFixed(2));
+    //     });
+    //     //route();
+    //
+    // }, [map.current]);
 
   return (
     <BaseContainer className="lobby">
@@ -96,9 +96,9 @@ const Home = () => {
 
       <Button onClick={() => handleEventsClick()}>Show all Events</Button>
       <Button onClick={() => handleLobbiesClick()}>Find Lobby</Button>
-        <div id="map"></div>
-        <div ref={mapContainer} className="map-container" />
-        {/*<AddLocation></AddLocation>*/}
+        {/*<div id="map"></div>*/}
+        {/*<div ref={mapContainer} className="map-container" />*/}
+        <AddLocation></AddLocation>
     </BaseContainer>
   );
 };
