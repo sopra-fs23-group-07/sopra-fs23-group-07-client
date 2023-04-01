@@ -113,6 +113,9 @@ const Profile = () => {
           <h1>username: </h1>
         </div>
         <div className="profile user-item-left">
+          <h2>E-Mail: </h2>
+        </div>
+        <div className="profile user-item-left">
           <h2>ID: </h2>
         </div>
         <div className="profile user-item-left">
@@ -134,8 +137,11 @@ const Profile = () => {
           )}
         </div>
         <div className="profile user-item-right">
-          {user.userId && user && <h2>{user.userId}</h2>}
+          {user.email && user && <h2>{user.email}</h2>}
         </div>
+        <div className="profile user-item-right">
+        {user.userId && user && <h2>{user.userId}</h2>}
+      </div>
         <div className="profile user-item-right">
           {user.creationDate && user && <h2>{user.creationDate}</h2>}
         </div>

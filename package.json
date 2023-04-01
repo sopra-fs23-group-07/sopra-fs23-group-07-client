@@ -6,10 +6,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
-    "@mui/lab": "^5.0.0-alpha.124",
     "@mui/material": "^5.11.15",
-    "@mui/styles": "^5.11.13",
-    "@mui/x-date-pickers": "^6.0.4",
     "axios": "^0.24.0",
     "dayjs": "^1.11.7",
     "deck.gl": "^8.9.6",
@@ -48,5 +45,9 @@
     "last 1 chrome version",
     "last 1 firefox version",
     "last 1 safari version"
-  ]
+  ],
+  "devDependencies": {
+    "@mui/lab": "^5.0.0-alpha.124",
+    "@mui/x-date-pickers": "^6.0.4"
+  }
 }

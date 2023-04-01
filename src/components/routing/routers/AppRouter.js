@@ -6,7 +6,6 @@ import Login from "components/views/Login";
 import { RegisterGuard } from "../routeProtectors/RegisterGuard";
 import Register from "components/views/Register";
 import Profile from "../../views/Profile";
-// import Lobby from "components/views/Lobby";
 import Events from "components/views/Events";
 import MyEvents from "components/views/MyEvents";
 import Home from "components/views/Home";
@@ -16,6 +15,7 @@ import CreateLobby from "components/views/CreateLobby";
 import Test from "../../views/Test";
 import Test2 from "../../views/Test2";
 import TestLobby from "../../views/TestLobby";
+import {CreateLobbyGuard} from "../routeProtectors/CreateLobbyGuard";
 
 /**
  * Main router of your application.
@@ -75,9 +75,11 @@ const AppRouter = () => {
           <Profile />
         </Route>
 
-        {/* TODO: Add a Guard to make sure only logged in users can create Lobby */}
+        {/* DONE: Add a Guard to make sure only logged in users can create Lobby */}
         <Route exact path="/CreateLobby">
-          <CreateLobby />
+          <CreateLobbyGuard>
+            <CreateLobby />
+          </CreateLobbyGuard>
         </Route>
         <Route exact path="/Test">
           <Test />
