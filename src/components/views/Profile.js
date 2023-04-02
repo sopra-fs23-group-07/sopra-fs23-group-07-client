@@ -46,7 +46,7 @@ const Profile = () => {
       if (localStorage.getItem("token") === user.token) {
         history.push(`/game/profile/${user.userId}/edit`);
       } else {
-        alert("You can't access this profil page");
+        alert("You can't access this profile page");
       }
     } catch (error) {
       console.error(

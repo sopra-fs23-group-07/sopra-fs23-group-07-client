@@ -20,12 +20,12 @@ const NavbarLoggedIn = () => {
     history.push("/Events");
   };
 
-  // needs to be adjusted when implementing MyEvents screen propably with userid and Guard
+  // needs to be adjusted when implementing MyEvents screen probably with userid and Guard
   const handleMyEventsClick = () => {
     history.push("/MyEvents");
   };
 
-  // needs to be adjusted when implementing Profile screen propably with userid and Guard
+  // needs to be adjusted when implementing Profile screen probably with userid and Guard
   const handleProfileClick = () => {
     history.push("/Profile");
   };

@@ -14,11 +14,13 @@
     justify-content: center;
     width: 60%;
     max-width: 30em;
-    height: 30em;
+    height: 35em;
     font-size: 16px;
     font-weight: 300;
     padding-left: 37px;
     padding-right: 37px;
+    padding-top: 60px;
+    padding-bottom: 60px;
     border-radius: 0.75em;
     background-color: $background;
     transition: opacity 0.5s ease, transform 0.5s ease;
@@ -42,8 +44,8 @@
   &.label {
     color: $textColor;
     margin-bottom: 10px;
-    text-transform: lowercase;
-    font-weight: 300;
+    text-transform: capitalize;
+    font-weight: 500;
   }
   &.button-container {
     display: flex;
