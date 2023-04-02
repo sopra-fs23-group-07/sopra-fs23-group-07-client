@@ -13,7 +13,7 @@ import {
     Typography
 } from "@mui/material";
 import "styles/views/Lobbies.scss";
-import AddLocation from "../../helpers/AddLocation";
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 
 const generateTableData = (lobbies) => {
     const tableData = [];
@@ -48,20 +48,27 @@ const Lobbies = () => {
   const handleCreateLobbyClick = () => {
     history.push("/CreateLobby");
   };
+
+  const handleViewLobby = (lobbyId) => {
+      history.push("/Lobbies/"+ String(lobbyId))
+  }
     const sportLobbies = [
         {
+            lobbyId: 1,
             lobbyName: "Lausanne Marathon",
             canton: "Vaud",
             sport: "Running",
             numPlayers: "7/10"
         },
         {
+            lobbyId: 2,
             lobbyName: "Swiss Basketball Cup Final",
             canton: "Fribourg",
             sport: "Basketball",
             numPlayers: "4/5"
         },
         {
+            lobbyId: 3,
             lobbyName: "Zurich International Chess Festival",
             canton: "Zurich",
             sport: "Chess",
@@ -69,9 +76,12 @@ const Lobbies = () => {
         }
     ];
   return (
-      <BaseContainer className="lobbies table-map-container">
+      <BaseContainer>
           <h1>Lobbies</h1>
-              <div className="lobbies table-container">
+          <div align="right" style={{marginBottom: '1em'}}>
+              <Button variant="contained"  startIcon={<AddBoxOutlinedIcon />} onClick={() => handleCreateLobbyClick()}>Create New Lobby</Button>
+          </div>
+          <div className="lobbies-table-container">
                   <TableContainer component={Paper}>
                       <Table>
                           <TableHead>
@@ -97,17 +107,13 @@ const Lobbies = () => {
                                       <TableCell>{sportLobby.canton}</TableCell>
                                       <TableCell>{sportLobby.sport}</TableCell>
                                       <TableCell>{sportLobby.numPlayers}</TableCell>
-                                      <TableCell><Button>View</Button></TableCell>
+                                      <TableCell><Button onClick={() => handleViewLobby(sportLobby.lobbyId)}>View</Button></TableCell>
                                   </TableRow>
                               ))}
                           </TableBody>
                       </Table>
                   </TableContainer>
               </div>
-              <div className="lobbies map-container">
-                  <AddLocation />
-              </div>
-          <Button variant="contained"  style={{ margin: '20px' }} onClick={() => handleCreateLobbyClick()}>Create New Lobby</Button>
       </BaseContainer>
   );
 };

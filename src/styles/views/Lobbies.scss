@@ -1,21 +1,13 @@
-.lobbies {
-  &.table-map-container {
-    display: inline-block;
-    flex-direction: row;
-    border: 3px solid #fff;
-    width: 100%;
-    align-items: center;
-  }
+.lobbies-table-container {
+  display: flex;
+  width: 1200px;
+  gap: 2rem;
+}
 
-  &.table-container {
-    flex: 1;
-    margin-right: 20px;
-    border: 3px solid #fff;
-    width: 49%;
-  }
 
-  &.map-container {
-    width: 49%;
-    border: 3px solid #fff;
+@media only screen and (max-width: 400px){
+  .lobbies-table-map-container {
+    display: flex;
+    flex-direction: column;
   }
 }
