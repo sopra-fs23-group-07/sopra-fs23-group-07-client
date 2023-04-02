@@ -1,18 +1,20 @@
-.table-map-container {
-  display: inline-block;
-  flex-direction: row;
-  border: 3px solid #fff;
+.events-table-map-container {
+  display: flex;
   width: 1200px;
+  gap: 2rem;
 }
 
-.table-container {
-  flex: 1;
-  margin-right: 20px;
-  border: 3px solid #fff;
-  width: 700px;
+.events-table-container {
+  width: 60%;
 }
 
-.map-container {
-  width: 400px;
-  border: 3px solid #fff;
+.events-map-container {
+  width: 40%
+}
+
+@media only screen and (max-width: 400px){
+  .events-table-map-container {
+    display: flex;
+   flex-direction: column;
+  }
 }

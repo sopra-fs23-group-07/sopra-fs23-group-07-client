@@ -98,8 +98,8 @@ const Events = () => {
     return (
         <BaseContainer className="lobby">
             <h1>Events</h1>
-            <div className="table-map-container">
-                <div className="table-container">
+            <div className="flex space-x-12">
+                <div className="w-[60%]">
                     <TableContainer component={Paper}>
                         <Table>
                             <TableHead>
@@ -140,7 +140,7 @@ const Events = () => {
                         </Table>
                     </TableContainer>
                 </div>
-                <div className="map-container">
+                <div className="w-[40%] ">
                     <AddLocation />
                 </div>
             </div>
