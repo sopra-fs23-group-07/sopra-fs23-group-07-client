@@ -54,6 +54,7 @@ const Lobbies = () => {
 
   const handleViewLobby = (lobbyId) => {
     history.push("/Lobbies/" + String(lobbyId));
+    // TODO: send information which user join to the backend
   };
 
   const sportLobbies = [
