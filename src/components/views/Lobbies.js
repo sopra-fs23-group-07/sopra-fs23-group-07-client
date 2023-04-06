@@ -16,6 +16,7 @@ import "styles/views/Lobbies.scss";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import Schedule from "@mui/icons-material/Schedule"; // Alternative icons could be AccessAlarm, Timer, Hourglass
 import CountDownTimer from "helpers/CountDownTimer";
+import {api, handleError} from "../../helpers/api";
 
 // TODO: Can we delete this?
 // const generateTableData = (lobbies) => {
@@ -47,14 +48,24 @@ import CountDownTimer from "helpers/CountDownTimer";
 
 const Lobbies = () => {
   const history = useHistory();
+  const userId = localStorage.getItem("userId");
 
   const handleCreateLobbyClick = () => {
     history.push("/CreateLobby");
   };
 
-  const handleViewLobby = (lobbyId) => {
+  const handleJoinLobby = async (lobbyId) => {
+    try {
+      const requestBody = JSON.stringify({
+        "userId": userId
+      });
+      await api.put("/lobbies/"+lobbyId+"/join", requestBody)
+    } catch (error) {
+      alert(`Something went wrong when joining the lobby: \n${handleError(error)}`);
+    }
+
+
     history.push("/Lobbies/" + String(lobbyId));
-    // TODO: send information which user join to the backend
   };
 
   const sportLobbies = [
@@ -129,8 +140,8 @@ const Lobbies = () => {
                     <CountDownTimer initialSeconds={sportLobby.timeleft} />
                   </TableCell>
                   <TableCell>
-                    <Button onClick={() => handleViewLobby(sportLobby.lobbyId)}>
-                      View
+                    <Button onClick={() => handleJoinLobby(sportLobby.lobbyId)}>
+                      Join
                     </Button>
                   </TableCell>
                 </TableRow>
