@@ -22,7 +22,7 @@ FormField.propTypes = {
 
 const EditProfile = () => { //setting start states of username and birthday
     const history = useHistory();
-    const userId = useParams().userId;
+    const userId = localStorage.getItem("userId");
     const [user, setUser] = useState([]);
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);

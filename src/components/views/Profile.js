@@ -28,7 +28,7 @@ FormField.propTypes = {
 const Profile = () => {
   // use react-router-dom's hook to access the history
   const history = useHistory();
-  const userId = useParams().userId;
+  const userId = localStorage.getItem("userId");
 
   // define a state variable (using the state hook).
   // if this variable changes, the component will re-render, but the variable will

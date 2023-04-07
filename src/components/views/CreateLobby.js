@@ -11,6 +11,7 @@ const CreateLobby = () => {
   const [lobbyName, setLobbyName] = useState("");
   const [maxParticipants, setMaxParticipants] = useState("");
   const [region, setRegion] = useState("");
+  const [lobby, setLobby] = useState(null);
 
   const handleLobbyClick = async () => {
     try {
@@ -20,18 +21,26 @@ const CreateLobby = () => {
         return;
       }
 
+      const userId = localStorage.getItem("userId");
+
       // send lobby to backend
       const requestBody = JSON.stringify({
         lobbyName: lobbyName,
-        maxParticipants: maxParticipants,
-        region: region,
+        lobbyRegion: region,
+        lobbyMaxMembers: maxParticipants,
+        lobbyTimeLimit: "100",
+        hostMemberId: userId,
       });
 
       // TODO: uncomment when Backend is ready and check REST specifications again then
-      // const response = await api.post("/Lobby", requestBody);
+      const response = await api.post("/lobbies", requestBody);
+      console.log(response.data)
+      setLobby(response.data);
 
       // TODO: Make sure that always a new lobby with the correct Id is created. Probably get LobbyId from Backend response.
-      history.push("/Lobby");
+
+        history.push(`/Lobby/${response.data.lobbyId}`);
+
     } catch (error) {
       alert(
         `Something went wrong during lobby creation (Check if you filled in all fields): \n${handleError(

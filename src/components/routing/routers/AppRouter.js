@@ -14,7 +14,7 @@ import Header from "components/views/Header";
 import CreateLobby from "components/views/CreateLobby";
 import Test from "../../views/Test";
 import Test2 from "../../views/Test2";
-import TestLobby from "../../views/TestLobby";
+import Lobby from "../../views/Lobby";
 import {CreateLobbyGuard} from "../routeProtectors/CreateLobbyGuard";
 
 /**
@@ -81,14 +81,17 @@ const AppRouter = () => {
             <CreateLobby />
           </CreateLobbyGuard>
         </Route>
+
+        <Route path="/Lobby/:id"  render={() => <Lobby/>}/>
+
         <Route exact path="/Test">
           <Test />
         </Route>
         <Route exact path="/Test2">
           <Test2 />
         </Route>
-        <Route exact path="/TestLobby">
-          <TestLobby />
+        <Route exact path="/Lobby">
+          <Lobby />
         </Route>
 
         {/* <Route exact path="/Lobby/:id">

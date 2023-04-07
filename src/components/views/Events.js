@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import BaseContainer from "components/ui/BaseContainer";
 import { useHistory } from "react-router-dom";
 import {
@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import "styles/views/Events.scss";
 import AddLocation from "helpers/AddLocation";
+import {api, handleError} from 'helpers/api';
 import { async } from "q";
 
 const generateTableData = (events) => {
@@ -59,6 +60,30 @@ const Events = () => {
 
   const [open, setOpen] = useState(false); // state for the pop-up
   const urlRef = useRef(null); // ref for the URL input
+  const [events, setEvents] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await api.get(`/events`);
+
+        setEvents(response.data);
+
+        console.log('request to:', response.request.responseURL);
+        console.log('status code:', response.status);
+        console.log('status text:', response.statusText);
+        console.log('requested data:', response.data);
+
+        console.log(response);
+      } catch (error) {
+        console.error(`Something went wrong while fetching the event: \n${handleError(error)}`);
+        console.error("Details:", error);
+        alert("Something went wrong while fetching the events! See the console for details.");
+      }
+    }
+
+    fetchData();
+  }, []);
 
   const handleCopyClick = () => {
     if (navigator.clipboard) {
@@ -73,46 +98,16 @@ const Events = () => {
     history.push("/Event/" + String(eventId));
   };
 
-  const GetSportEvents = async () => {
-    try {
-      sportEvents = await api.get(`/events`);
-    } catch (error) {
-      alert(
-        `Something went wrong while fetching events: \n${handleError(error)}`
-      );
-    }
-  };
+  // const GetSportEvents = async () => {
+  //   try {
+  //     sportEvents = await api.get(`/events`);
+  //   } catch (error) {
+  //     alert(
+  //       `Something went wrong while fetching events: \n${handleError(error)}`
+  //     );
+  //   }
+  // };
 
-  // TODO: Remove dummy events when real events are ready from the back end
-  const sportEvents = [
-    {
-      eventId: 0,
-      eventname: "Lausanne Marathon",
-      canton: "Vaud",
-      sport: "Running",
-      numPlayers: "7/10",
-      date: "October 16, 2023",
-      time: "9:00",
-    },
-    {
-      eventId: 1,
-      eventname: "Swiss Basketball Cup Final",
-      canton: "Fribourg",
-      sport: "Basketball",
-      numPlayers: "4/5",
-      date: "March 5, 2024",
-      time: "20:00",
-    },
-    {
-      eventId: 5,
-      eventname: "Zurich International Chess Festival",
-      canton: "Zurich",
-      sport: "Chess",
-      numPlayers: "1/2",
-      date: "August 14, 2024",
-      time: "14:30",
-    },
-  ];
 
   return (
     <BaseContainer className="lobby">
@@ -144,29 +139,34 @@ const Events = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {sportEvents.map((sportEvent) => (
-                  <TableRow key={sportEvent.eventname}>
-                    <TableCell>{sportEvent.eventname}</TableCell>
-                    <TableCell>{sportEvent.canton}</TableCell>
-                    <TableCell>{sportEvent.sport}</TableCell>
-                    <TableCell>{sportEvent.numPlayers}</TableCell>
-                    <TableCell>{sportEvent.date}</TableCell>
-                    <TableCell>{sportEvent.time}</TableCell>
-                    <TableCell>
-                      <Button
-                        onClick={() => handleViewEventClick(sportEvent.eventId)}
-                      >
-                        View
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {events && events.map((event) => {
+                  const dateString = event.eventDate;
+                  const date = new Date(dateString);
+                  const formattedDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+                  return (
+                      <TableRow key={event.eventName}>
+                        <TableCell>{event.eventName}</TableCell>
+                        <TableCell>{event.eventRegion}</TableCell>
+                        <TableCell>{event.eventSport}</TableCell>
+                        <TableCell>{event.eventMaxParticipants}</TableCell>
+                        <TableCell>{formattedDate}</TableCell>
+                        <TableCell>{"13min"}</TableCell>
+                        <TableCell>
+                          <Button
+                              onClick={() => handleViewEventClick(event.eventId)}
+                          >
+                            View
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>
         </div>
         <div className="w-[40%] ">
-          <AddLocation />
+          {events &&  <AddLocation events_passed={events} /> }
         </div>
       </div>
     </BaseContainer>

@@ -38,7 +38,7 @@ const NavbarLoggedIn = () => {
       localStorage.removeItem("token");
       localStorage.removeItem("userId");
 
-      history.push("/Home");
+      history.push("/login");
       console.log(response);
     } catch (error) {
       alert(`Something went wrong during the logout: \n${handleError(error)}`);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import BaseContainer from "components/ui/BaseContainer";
 import { useHistory } from "react-router-dom";
 import {
@@ -16,6 +16,7 @@ import "styles/views/Lobbies.scss";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import Schedule from "@mui/icons-material/Schedule"; // Alternative icons could be AccessAlarm, Timer, Hourglass
 import CountDownTimer from "helpers/CountDownTimer";
+import {api, handleError} from "../../helpers/api";
 
 // TODO: Can we delete this?
 // const generateTableData = (lobbies) => {
@@ -53,36 +54,37 @@ const Lobbies = () => {
   };
 
   const handleViewLobby = (lobbyId) => {
-    history.push("/Lobbies/" + String(lobbyId));
+    history.push("/Lobby/" + String(lobbyId));
     // TODO: send information which user join to the backend
   };
 
-  const sportLobbies = [
-    {
-      lobbyId: 1,
-      lobbyName: "Lausanne Marathon",
-      canton: "Vaud",
-      sport: "Running",
-      numPlayers: "7/10",
-      timeleft: "542", // time left until lobby autofinishs in seconds
-    },
-    {
-      lobbyId: 2,
-      lobbyName: "Swiss Basketball Cup Final",
-      canton: "Fribourg",
-      sport: "Basketball",
-      numPlayers: "4/5",
-      timeleft: "67",
-    },
-    {
-      lobbyId: 3,
-      lobbyName: "Zurich International Chess Festival",
-      canton: "Zurich",
-      sport: "Chess",
-      numPlayers: "1/2",
-      timeleft: "180",
-    },
-  ];
+
+  const [lobbies, setLobbies] = useState();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await api.get(`/lobbies`);
+
+        setLobbies(response.data);
+
+        console.log('request to:', response.request.responseURL);
+        console.log('status code:', response.status);
+        console.log('status text:', response.statusText);
+        console.log('requested data:', response.data);
+
+        console.log(response);
+      } catch (error) {
+        console.error(`Something went wrong while fetching the lobby: \n${handleError(error)}`);
+        console.error("Details:", error);
+        alert("Something went wrong while fetching the lobbies! See the console for details.");
+      }
+    }
+
+    fetchData();
+  }, []);
+
+
 
   return (
     <BaseContainer>
@@ -108,9 +110,6 @@ const Lobbies = () => {
                   <Typography fontWeight="bold">Canton</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography fontWeight="bold">Sport</Typography>
-                </TableCell>
-                <TableCell>
                   <Typography fontWeight="bold">Number of users</Typography>
                 </TableCell>
                 <TableCell>
@@ -119,17 +118,17 @@ const Lobbies = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {sportLobbies.map((sportLobby) => (
-                <TableRow key={sportLobby.lobbyName}>
-                  <TableCell>{sportLobby.lobbyName}</TableCell>
-                  <TableCell>{sportLobby.canton}</TableCell>
-                  <TableCell>{sportLobby.sport}</TableCell>
-                  <TableCell>{sportLobby.numPlayers}</TableCell>
+              {lobbies && lobbies.map((lobby) => (
+                <TableRow key={lobby.lobbyName}>
+                  <TableCell>{lobby.lobbyName}</TableCell>
+                  <TableCell>{lobby.lobbyRegion}</TableCell>
+                  {/* Todo: wait for backend to give us number of users registered*/}
+                  <TableCell>{lobby.lobbyMembers}/{lobby.lobbyMaxMembers}</TableCell>
                   <TableCell>
-                    <CountDownTimer initialSeconds={sportLobby.timeleft} />
+                    <CountDownTimer initialSeconds={lobby.timeleft} />
                   </TableCell>
                   <TableCell>
-                    <Button onClick={() => handleViewLobby(sportLobby.lobbyId)}>
+                    <Button onClick={() => handleViewLobby(lobby.lobbyId)}>
                       View
                     </Button>
                   </TableCell>
