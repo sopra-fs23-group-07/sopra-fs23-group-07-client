@@ -68,13 +68,17 @@ const Lobbies = () => {
       const requestBody = JSON.stringify({
         "userId": userId
       });
-      await api.put(`/lobbies/${lobbyId}/join`, requestBody)
+      await api.put(`/lobbies/${lobbyId}/join`, requestBody);
+
+      localStorage.setItem("lobbyId", lobbyId);
+      history.push("/Lobby/" + String(lobbyId));
+
     } catch (error) {
       alert(`Something went wrong when joining the lobby: \n${handleError(error)}`);
     }
 
 
-    history.push("/Lobby/" + String(lobbyId));
+
   };
 
 

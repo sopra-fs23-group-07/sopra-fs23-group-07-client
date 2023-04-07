@@ -60,7 +60,7 @@ const generateTableData = (users) => {
 const Lobby = () => {
 
   const history = useHistory(); // needed for linking
-  const lobbyId = useParams().lobbyId;
+  const lobbyId = localStorage.getItem("lobbyId");
 
   const [lobby, setLobby] = useState([]);
 
