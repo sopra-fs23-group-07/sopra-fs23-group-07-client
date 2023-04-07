@@ -51,7 +51,7 @@ const AppRouter = () => {
           <Profile />
         </Route>
         <Route exact path="/">
-          <Redirect to="/game" />
+          <Redirect to="/Home" />
         </Route>
 
         {/* New routes added for navbar */}

@@ -62,18 +62,22 @@ const Lobbies = () => {
     // TODO: send information which user join to the backend
   }
   const handleJoinLobby = async (lobbyId) => {
+    console.log("this is lobby id: " + lobbyId);
     try {
+      console.log("this is lobby id: " + lobbyId);
       const requestBody = JSON.stringify({
         "userId": userId
       });
-      await api.put("/lobbies/"+lobbyId+"/join", requestBody)
+      await api.put(`/lobbies/${lobbyId}/join`, requestBody)
     } catch (error) {
       alert(`Something went wrong when joining the lobby: \n${handleError(error)}`);
     }
 
 
-    history.push("/Lobbies/" + String(lobbyId));
+    history.push("/Lobby/" + String(lobbyId));
   };
+
+
 
 
   const [lobbies, setLobbies] = useState();
@@ -154,7 +158,7 @@ const Lobbies = () => {
                     <Button
                         variant="outlined"
                         endIcon={<PersonAddOutlinedIcon />}
-                        onClick={() => handleJoinLobby(sportLobby.lobbyId)}>
+                        onClick={() => handleJoinLobby(lobby.lobbyId)}>
                       Join
 
                     </Button>

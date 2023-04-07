@@ -80,21 +80,21 @@ const Lobby = () => {
 
 
   const [time, setTime] = useState(false); // state for the pop-up
-  useEffect(() => {
-    const intervalId = setInterval(async () => {
-      try {
-        const response = await api.get("/testlive");
-        setTime(response.data);
-        console.log("time: " + time);
-        // do something with time
-      } catch (error) {
-        alert(`Something went wrong during the login: \n${handleError(error)}`);
-      }
-    }, 1000);
-
-    // Clear the interval when the component is unmounted
-    return () => clearInterval(intervalId);
-  }, []);
+  // useEffect(() => {
+  //   const intervalId = setInterval(async () => {
+  //     try {
+  //       const response = await api.get("/testlive");
+  //       setTime(response.data);
+  //       console.log("time: " + time);
+  //       // do something with time
+  //     } catch (error) {
+  //       alert(`Something went wrong during the login: \n${handleError(error)}`);
+  //     }
+  //   }, 1000);
+  //
+  //   // Clear the interval when the component is unmounted
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
 
   const users = [
