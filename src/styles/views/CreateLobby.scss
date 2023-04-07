@@ -1,0 +1,79 @@
+@import 'styles/theme';
+
+.createLobby {
+  background-color: $background;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+
+  &.container {
+    position: absolute;
+    background-color: $background;
+    width: 40%;
+    height: auto;
+    left: 30%;
+    top: 20%;
+    border-radius: $borderRadius;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+
+  }
+  &.form {
+    background-color: $background;
+    text-align: right;
+    height: auto;
+    width: 100%;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-self: flex-start;
+
+  }
+  &.list-item {
+    height: 35px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: $background;
+
+    &.text {
+      padding-top: 10px;
+    }
+  }
+  &.field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+  }
+  &.input {
+    height: 40px;
+    width: 80%;
+    padding-left: 15px;
+    margin-left: 0px;
+    border: none;
+    border-radius: $borderRadius;
+    background: transparentize(white, 0.85);
+    color: $textColor;
+    align-self: center;
+    text-align: center;
+  }
+  &.label {
+    color: $textColor;
+    padding: 5px;
+    margin: 10px;
+    border-radius: $borderRadius;
+    background: lighten($background, 5);
+    align-items: center;
+    width: 100%;
+
+  }
+  &.button-container {
+    display: flex;
+    justify-content: center;
+    margin: 1em;
+  }
+
+
+}
