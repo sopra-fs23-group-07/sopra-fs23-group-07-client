@@ -16,6 +16,7 @@ import Test from "../../views/Test";
 import Test2 from "../../views/Test2";
 import Lobby from "../../views/Lobby";
 import {CreateLobbyGuard} from "../routeProtectors/CreateLobbyGuard";
+import Lobby from "../../views/Lobby";
 
 /**
  * Main router of your application.
@@ -93,7 +94,9 @@ const AppRouter = () => {
         <Route exact path="/Lobby">
           <Lobby />
         </Route>
-
+        <Route exact path="/Lobby">
+          <Lobby/>
+        </Route>
         {/* <Route exact path="/Lobby/:id">
           <Lobby />
         </Route> */}

@@ -33,9 +33,11 @@ const CreateLobby = () => {
       });
 
       // TODO: uncomment when Backend is ready and check REST specifications again then
+
       const response = await api.post("/lobbies", requestBody);
       console.log(response.data)
       setLobby(response.data);
+
 
       // TODO: Make sure that always a new lobby with the correct Id is created. Probably get LobbyId from Backend response.
 

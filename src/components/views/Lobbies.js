@@ -14,7 +14,9 @@ import {
 } from "@mui/material";
 import "styles/views/Lobbies.scss";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
+import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import Schedule from "@mui/icons-material/Schedule"; // Alternative icons could be AccessAlarm, Timer, Hourglass
+import HourglassTopOutlinedIcon from '@mui/icons-material/HourglassTopOutlined';
 import CountDownTimer from "helpers/CountDownTimer";
 import {api, handleError} from "../../helpers/api";
 
@@ -48,14 +50,29 @@ import {api, handleError} from "../../helpers/api";
 
 const Lobbies = () => {
   const history = useHistory();
+  const userId = localStorage.getItem("userId");
 
   const handleCreateLobbyClick = () => {
     history.push("/CreateLobby");
   };
 
+
   const handleViewLobby = (lobbyId) => {
     history.push("/Lobby/" + String(lobbyId));
     // TODO: send information which user join to the backend
+  }
+  const handleJoinLobby = async (lobbyId) => {
+    try {
+      const requestBody = JSON.stringify({
+        "userId": userId
+      });
+      await api.put("/lobbies/"+lobbyId+"/join", requestBody)
+    } catch (error) {
+      alert(`Something went wrong when joining the lobby: \n${handleError(error)}`);
+    }
+
+
+    history.push("/Lobbies/" + String(lobbyId));
   };
 
 
@@ -113,8 +130,9 @@ const Lobbies = () => {
                   <Typography fontWeight="bold">Number of users</Typography>
                 </TableCell>
                 <TableCell>
-                  <Schedule />
+                  <HourglassTopOutlinedIcon />
                 </TableCell>
+                <TableCell/>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -128,8 +146,17 @@ const Lobbies = () => {
                     <CountDownTimer initialSeconds={lobby.timeleft} />
                   </TableCell>
                   <TableCell>
+
                     <Button onClick={() => handleViewLobby(lobby.lobbyId)}>
                       View
+                    </Button>
+
+                    <Button
+                        variant="outlined"
+                        endIcon={<PersonAddOutlinedIcon />}
+                        onClick={() => handleJoinLobby(sportLobby.lobbyId)}>
+                      Join
+
                     </Button>
                   </TableCell>
                 </TableRow>

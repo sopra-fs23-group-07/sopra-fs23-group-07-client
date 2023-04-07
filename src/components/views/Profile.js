@@ -90,7 +90,7 @@ const Profile = () => {
         console.log(response);
       } catch (error) {
         console.error(
-          `Something went wrong while fetching the users: \n${handleError(
+          `Something went wrong while fetching the user: \n${handleError(
             error
           )}`
         );

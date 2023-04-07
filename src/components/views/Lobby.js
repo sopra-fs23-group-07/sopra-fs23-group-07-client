@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
 import BaseContainer from "components/ui/BaseContainer";
-import { useHistory } from "react-router-dom";
 import {
   Dialog,
   DialogTitle,
@@ -29,6 +28,11 @@ import {api, handleError} from "../../helpers/api";
 import User from "../../models/User";
 import AddLocation from "../../helpers/AddLocation";
 
+import {useHistory, useParams} from "react-router-dom";
+import { Spinner } from "components/ui/Spinner";
+import "styles/views/Lobby.scss";
+
+
 const generateTableData = (users) => {
   const tableData = [];
 
@@ -54,7 +58,11 @@ const generateTableData = (users) => {
   return tableData;
 };
 const Lobby = () => {
-  const history = useHistory();
+
+  const history = useHistory(); // needed for linking
+  const lobbyId = useParams().lobbyId;
+
+  const [lobby, setLobby] = useState([]);
 
   const timeleft = "350";
 
@@ -106,6 +114,30 @@ const Lobby = () => {
     setVoting(voting + 1);
     console.log(voting);
   }
+
+  useEffect(()=> {
+      const fetchData = async () => {
+          try{
+              const response = await api.get("/lobbies/"+lobbyId)
+
+              setLobby(response.data);
+
+              console.log("request to:", response.request.responseURL);
+              console.log("status code:", response.status);
+              console.log("status text:", response.statusText);
+              console.log("requested data:", response.data);
+              console.log(response);
+
+          } catch (error){
+              console.error(
+                  `Something went wrong while fetching the lobby: \n${handleError(
+                      error
+                  )}`
+              );
+          }
+      };
+      fetchData()
+  }, [lobbyId])
 
   return (
     <BaseContainer className="lobby">
