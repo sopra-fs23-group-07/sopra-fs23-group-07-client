@@ -20,8 +20,10 @@ import {
   FormGroup,
 } from "@mui/material";
 import "styles/views/Events.scss";
+import Schedule from "@mui/icons-material/Schedule"; // Alternative icons could be AccessAlarm, Timer, Hourglass
 import AddLocation from "helpers/AddLocation";
 import { async } from "q";
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 
 const generateTableData = (events) => {
   const tableData = [];
@@ -139,8 +141,9 @@ const Events = () => {
                     <Typography fontWeight="bold">Date</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography fontWeight="bold">Time</Typography>
+                    <Schedule/>
                   </TableCell>
+                  <TableCell/>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -154,7 +157,9 @@ const Events = () => {
                     <TableCell>{sportEvent.time}</TableCell>
                     <TableCell>
                       <Button
-                        onClick={() => handleViewEventClick(sportEvent.eventId)}
+                          variant="outlined"
+                          endIcon={<VisibilityOutlinedIcon />}
+                          onClick={() => handleViewEventClick(sportEvent.eventId)}
                       >
                         View
                       </Button>

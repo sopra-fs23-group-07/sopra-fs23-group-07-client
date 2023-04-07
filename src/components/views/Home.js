@@ -5,6 +5,8 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import "styles/ui/Map.scss";
 import AddLocation from "helpers/AddLocation";
 import {Button} from "@mui/material";
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
 
 
 
@@ -50,8 +52,18 @@ const Home = () => {
     <BaseContainer className="lobby">
       <h1>Home</h1>
 
-      <Button variant="contained" style={{ margin: '20px' }} onClick={() => handleEventsClick()}>Show all Events</Button>
-      <Button variant="contained"  style={{ margin: '20px' }} onClick={() => handleLobbiesClick()}>Find Lobby</Button>
+      <Button variant="contained"
+              startIcon={<EventNoteOutlinedIcon/>}
+              style={{ margin: '20px' }}
+              onClick={() => handleEventsClick()}>
+        Show all Events
+      </Button>
+      <Button variant="contained"
+              startIcon={<SearchOutlinedIcon/>}
+              style={{ margin: '20px' }}
+              onClick={() => handleLobbiesClick()}>
+        Find Lobby
+      </Button>
         {/*<div id="map"></div>*/}
         {/*<div ref={mapContainer} className="map-container" />*/}
         <AddLocation></AddLocation>

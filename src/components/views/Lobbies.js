@@ -14,7 +14,9 @@ import {
 } from "@mui/material";
 import "styles/views/Lobbies.scss";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
+import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import Schedule from "@mui/icons-material/Schedule"; // Alternative icons could be AccessAlarm, Timer, Hourglass
+import HourglassTopOutlinedIcon from '@mui/icons-material/HourglassTopOutlined';
 import CountDownTimer from "helpers/CountDownTimer";
 import {api, handleError} from "../../helpers/api";
 
@@ -125,8 +127,9 @@ const Lobbies = () => {
                   <Typography fontWeight="bold">Number of users</Typography>
                 </TableCell>
                 <TableCell>
-                  <Schedule />
+                  <HourglassTopOutlinedIcon />
                 </TableCell>
+                <TableCell/>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -140,7 +143,10 @@ const Lobbies = () => {
                     <CountDownTimer initialSeconds={sportLobby.timeleft} />
                   </TableCell>
                   <TableCell>
-                    <Button onClick={() => handleJoinLobby(sportLobby.lobbyId)}>
+                    <Button
+                        variant="outlined"
+                        endIcon={<PersonAddOutlinedIcon />}
+                        onClick={() => handleJoinLobby(sportLobby.lobbyId)}>
                       Join
                     </Button>
                   </TableCell>
