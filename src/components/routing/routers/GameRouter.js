@@ -26,6 +26,7 @@ const GameRouter = props => {
             <Lobby/>
         </Route>
 
+
     </div>
   );
 };

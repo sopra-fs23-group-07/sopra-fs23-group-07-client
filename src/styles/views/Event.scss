@@ -1,0 +1,18 @@
+.event{
+  &.table-container {
+    width: 50%;
+  }
+
+  &.button-container{
+    width: 90%;
+    padding : 1em;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+  }
+
+  &.button{
+    margin: 1em;
+  }
+}
+

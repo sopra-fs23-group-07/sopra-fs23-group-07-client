@@ -3,10 +3,6 @@ import BaseContainer from "components/ui/BaseContainer";
 import { useHistory } from "react-router-dom";
 import {
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
   Table,
   TableBody,
   TableRow,
@@ -14,10 +10,7 @@ import {
   TableContainer,
   Paper,
   TableHead,
-  Typography,
-  Switch,
-  FormControlLabel,
-  FormGroup,
+  Typography
 } from "@mui/material";
 import "styles/views/Events.scss";
 import Schedule from "@mui/icons-material/Schedule"; // Alternative icons could be AccessAlarm, Timer, Hourglass
@@ -60,7 +53,6 @@ const generateTableData = (events) => {
 const Events = () => {
   const history = useHistory();
 
-  const [open, setOpen] = useState(false); // state for the pop-up
   const urlRef = useRef(null); // ref for the URL input
   const [events, setEvents] = useState(null);
 
@@ -97,7 +89,7 @@ const Events = () => {
   };
 
   const handleViewEventClick = (eventId) => {
-    history.push("/Event/" + String(eventId));
+    history.push("/Events/" + String(eventId));
   };
 
   // const GetSportEvents = async () => {
@@ -169,9 +161,9 @@ const Events = () => {
             </Table>
           </TableContainer>
         </div>
-        <div className="w-[40%] ">
-          {events &&  <AddLocation events_passed={events} /> }
-        </div>
+        {/*<div className="w-[40%] ">*/}
+        {/*  {events &&  <AddLocation events_passed={events} /> }*/}
+        {/*</div>*/}
       </div>
     </BaseContainer>
   );
