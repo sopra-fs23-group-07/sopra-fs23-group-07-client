@@ -11,9 +11,10 @@ on:
 jobs:
   deploy:
     name: Deploying to Google Cloud
-    runs-on: ubuntu-latest
     env:
       REACT_APP_MAP_TOKEN=${{ secrets.REACT_APP_MAP_TOKEN }}
+    runs-on: ubuntu-latest
+
 
     steps:
       - name: Checkout
