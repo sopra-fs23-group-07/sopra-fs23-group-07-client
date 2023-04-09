@@ -78,7 +78,7 @@ const EditProfile = () => { //setting start states of username and birthday
                 alert("Something went wrong while getting the data for the user! See the console for details.");
             }
 
-            
+
         }
 
         fetchData();
