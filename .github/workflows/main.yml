@@ -12,6 +12,8 @@ jobs:
   deploy:
     name: Deploying to Google Cloud
     runs-on: ubuntu-latest
+    env:
+      REACT_APP_MAP_TOKEN=${{ secrets.REACT_APP_MAP_TOKEN }}
 
     steps:
       - name: Checkout
@@ -31,8 +33,7 @@ jobs:
           deliverables: app.yaml
           version: v1
           credentials: ${{ secrets.GCP_SERVICE_CREDENTIALS }}
-          env_vars:
-            REACT_APP_MAP_TOKEN=${{ secrets.REACT_APP_MAP_TOKEN }}
+
 
       - name: Test
         run: curl "${{ steps.deploy.outputs.url }}"
