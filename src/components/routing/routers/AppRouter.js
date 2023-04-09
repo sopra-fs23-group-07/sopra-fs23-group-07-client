@@ -15,6 +15,7 @@ import CreateLobby from "components/views/CreateLobby";
 import Test from "../../views/Test";
 import Lobby from "../../views/Lobby";
 import {CreateLobbyGuard} from "../routeProtectors/CreateLobbyGuard";
+import Event from "../../views/Event";
 
 /**
  * Main router of your application.
@@ -50,7 +51,7 @@ const AppRouter = () => {
           <Profile />
         </Route>
         <Route exact path="/">
-          <Redirect to="/game" />
+          <Redirect to="/home" />
         </Route>
 
         {/* New routes added for navbar */}
@@ -96,9 +97,9 @@ const AppRouter = () => {
           <Lobby />
         </Route> */}
 
-        {/* <Route exact path="/Event/:id">
+        <Route exact path="/Events/:eventId">
           <Event />
-        </Route> */}
+        </Route>
       </Switch>
     </BrowserRouter>
   );
