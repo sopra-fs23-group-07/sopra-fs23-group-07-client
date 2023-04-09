@@ -57,10 +57,7 @@ const Lobbies = () => {
   };
 
 
-  const handleViewLobby = (lobbyId) => {
-    history.push("/Lobby/" + String(lobbyId));
-    // TODO: send information which user join to the backend
-  }
+
   const handleJoinLobby = async (lobbyId) => {
     console.log("this is lobby id: " + lobbyId);
     try {
@@ -76,8 +73,6 @@ const Lobbies = () => {
     } catch (error) {
       alert(`Something went wrong when joining the lobby: \n${handleError(error)}`);
     }
-
-
 
   };
 
@@ -154,10 +149,6 @@ const Lobbies = () => {
                     <CountDownTimer initialSeconds={lobby.timeleft} />
                   </TableCell>
                   <TableCell>
-
-                    <Button onClick={() => handleViewLobby(lobby.lobbyId)}>
-                      View
-                    </Button>
 
                     <Button
                         variant="outlined"

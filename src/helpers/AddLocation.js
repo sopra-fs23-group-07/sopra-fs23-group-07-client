@@ -143,8 +143,8 @@ This is used to retrieve the city of the user with the help of the ip adress
                 {/*//         }*/}
                 {/*//     }}*/}
                 {/*// />*/}
-
-                <NavigationControl position="bottom-right"/> //this is used for the zoom in and zoom out buttons
+                {/*this is used for the zoom in and zoom out buttons*/}
+                <NavigationControl position="bottom-right"/>
                 <GeolocateControl //this allows to track the position of the user. With the track icon.
                     position="top-left"
                     trackUserLocation

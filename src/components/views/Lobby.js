@@ -31,6 +31,7 @@ import AddLocation from "../../helpers/AddLocation";
 import {useHistory, useParams} from "react-router-dom";
 import { Spinner } from "components/ui/Spinner";
 import "styles/views/Lobby.scss";
+import SelectDateAndTime from "../../helpers/SelectDateAndTime";
 
 
 const generateTableData = (users) => {
@@ -61,8 +62,13 @@ const Lobby = () => {
 
   const history = useHistory(); // needed for linking
   const lobbyId = localStorage.getItem("lobbyId");
+  const userId = localStorage.getItem("userId");
 
   const [lobby, setLobby] = useState([]);
+  const [selectedSports, setSelectedSports] = React.useState([]);
+  const handleSelectedSports = (sports) => {
+    setSelectedSports(sports);
+  };
 
   const timeleft = "350";
 
@@ -80,21 +86,29 @@ const Lobby = () => {
 
 
   const [time, setTime] = useState(false); // state for the pop-up
-  // useEffect(() => {
-  //   const intervalId = setInterval(async () => {
-  //     try {
-  //       const response = await api.get("/testlive");
-  //       setTime(response.data);
-  //       console.log("time: " + time);
-  //       // do something with time
-  //     } catch (error) {
-  //       alert(`Something went wrong during the login: \n${handleError(error)}`);
-  //     }
-  //   }, 1000);
-  //
-  //   // Clear the interval when the component is unmounted
-  //   return () => clearInterval(intervalId);
-  // }, []);
+  const [members, setMembers] = useState([]); // state for the pop-up
+  const help = [{ username: "John", sports: ["Basketball"]}];
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await api.get("/lobbies/"+lobbyId)
+        setLobby(response.data);
+        setMembers(response.data.memberDTOs);
+        // console.log("request to:", response.request.responseURL);
+        // console.log("status code:", response.status);
+        // console.log("status text:", response.statusText);
+        // console.log("requested data:", response.data);
+        // console.log("memberDTO array:", response.data.memberDTOs[0].username);
+        // console.log("members:",members);
+        // console.log("lobby:",lobby);
+      } catch (error) {
+        alert(`Something went wrong during the login: \n${handleError(error)}`);
+      }
+    }
+    fetchData(); // Make initial request immediately
+    const intervalId = setInterval(fetchData, 1000); // Update data every second
+    return () => clearInterval(intervalId); // Clear the interval when the component is unmounted
+  }, []);
 
 
   const users = [
@@ -115,34 +129,27 @@ const Lobby = () => {
     console.log(voting);
   }
 
-  useEffect(()=> {
-      const fetchData = async () => {
-          try{
-              const response = await api.get("/lobbies/"+lobbyId)
 
-              setLobby(response.data);
 
-              console.log("request to:", response.request.responseURL);
-              console.log("status code:", response.status);
-              console.log("status text:", response.statusText);
-              console.log("requested data:", response.data);
-              console.log(response);
+    const handleLeaveLobby = async () => {
+        try {
+            const requestBody = JSON.stringify({userId});
+            await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
 
-          } catch (error){
-              console.error(
-                  `Something went wrong while fetching the lobby: \n${handleError(
-                      error
-                  )}`
-              );
-          }
-      };
-      fetchData()
-  }, [lobbyId])
+            history.push(`/Lobbies`);
 
-  return (
+
+        } catch (error) {
+            alert(`Something went wrong during the leave of the lobby: \n${handleError(error)}`);
+        }
+    };
+
+
+
+    return (
     <BaseContainer className="lobby">
       <div className="flex space-x-12">
-        <div className="w-[70%]">
+        <div className="w-[100%]">
       {time}
       <Schedule />
       <CountDownTimer initialSeconds={timeleft} />
@@ -163,25 +170,28 @@ const Lobby = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {users.map((user) => (
-              <TableRow key={user.playername}>
-                <TableCell>{user.playername}</TableCell>
+            {members.map((user) => (
+              <TableRow key={user.username}>
+                <TableCell>{user.username}</TableCell>
                 <TableCell>
                   {/*{user.sports}*/}
-                  {user.id === 1 ? <MultipleSelectChip /> :
+                  {user.userId == userId ? <MultipleSelectChip onSelectedSports={handleSelectedSports} memberId={user.memberId} /> :
 
-                     user.sports.map((sport) => (sport+", "))}
+                     user.selectedSports.map((sport) => (sport+", "))}
                 </TableCell>
                 <TableCell>
                   {/*{user.time}*/}
-                  <DateTimePicker />
+                  {/*<DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />*/}
+                  {user.userId == userId ?   <SelectDateAndTime></SelectDateAndTime> :
+
+                      user.selectedDates.map((time) => (time+", "))}
                 </TableCell>
                 <TableCell>
                   {" "}
                   <FormGroup>
                     {/*TO DO: check if the user.id I get from backend is the same id as in the local storage!
                     And then also check if it should be disabled or not depending on the choice of the user*/}
-                    {user.id === 1 ? <FormControlLabel
+                    {user.userId == userId ? <FormControlLabel
                         control={<Switch />}
                         label="Lock your choice"
                     /> : <FormControlLabel disabled control={ <Switch />} label="Disabled " />}
@@ -228,7 +238,7 @@ const Lobby = () => {
       <Button
         variant="contained"
         color="error"
-        onClick={() => history.push(`/Lobbies`)}
+        onClick={() => handleLeaveLobby() }
       >
         Leave Lobby
       </Button>
