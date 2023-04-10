@@ -32,6 +32,9 @@ import {useHistory, useParams} from "react-router-dom";
 import { Spinner } from "components/ui/Spinner";
 import "styles/views/Lobby.scss";
 import SelectDateAndTime from "../../helpers/SelectDateAndTime";
+import moment from "moment/moment";
+import IconButton from "@mui/material/IconButton";
+import ClearIcon from "@mui/icons-material/Clear";
 
 
 const generateTableData = (users) => {
@@ -182,9 +185,20 @@ const Lobby = () => {
                 <TableCell>
                   {/*{user.time}*/}
                   {/*<DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />*/}
-                  {user.userId == userId ?   <SelectDateAndTime></SelectDateAndTime> :
+                  {user.userId == userId ?   <SelectDateAndTime memberId={user.memberId}></SelectDateAndTime> :
 
-                      user.selectedDates.map((time) => (time+", "))}
+                      user.selectedDates.map((time) => (<p>{moment(time).format("MMMM DD, YYYY h:mm A")}</p>))}
+                  {/*{chosenDate.map((date) => (*/}
+                  {/*    <div key={date} className="flex items-center space-x-2">*/}
+                  {/*      <p className="flex-grow">{moment(date).format("MMMM DD, YYYY h:mm A")}</p>*/}
+                  {/*      <IconButton*/}
+                  {/*          aria-label="delete"*/}
+                  {/*          onClick={() => removeDate(date)}*/}
+                  {/*      >*/}
+                  {/*        <ClearIcon />*/}
+                  {/*      </IconButton>*/}
+                  {/*    </div>*/}
+                  {/*))}*/}
                 </TableCell>
                 <TableCell>
                   {" "}
