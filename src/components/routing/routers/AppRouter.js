@@ -15,6 +15,7 @@ import CreateLobby from "components/views/CreateLobby";
 import Test from "../../views/Test";
 import Lobby from "../../views/Lobby";
 import {CreateLobbyGuard} from "../routeProtectors/CreateLobbyGuard";
+import {HomeGuard} from "../routeProtectors/HomeGuard";
 import Event from "../../views/Event";
 
 /**
@@ -31,11 +32,6 @@ const AppRouter = () => {
     <BrowserRouter>
       <Header height="100" />
       <Switch>
-        <Route path="/game">
-          <GameGuard>
-            <GameRouter base="/game" />
-          </GameGuard>
-        </Route>
         <Route exact path="/login">
           <LoginGuard>
             <Login />
@@ -51,12 +47,14 @@ const AppRouter = () => {
           <Profile />
         </Route>
         <Route exact path="/">
-          <Redirect to="/home" />
+          <Redirect to="/register" />
         </Route>
 
         {/* New routes added for navbar */}
         <Route exact path="/Home">
+          <HomeGuard>
           <Home />
+        </HomeGuard>
         </Route>
 
         <Route exact path="/Lobbies">

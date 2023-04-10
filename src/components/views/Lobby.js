@@ -87,7 +87,7 @@ const Lobby = () => {
 
   const [time, setTime] = useState(false); // state for the pop-up
   const [members, setMembers] = useState([]); // state for the pop-up
-  const help = [{ username: "John", sports: ["Basketball"]}];
+
   useEffect(() => {
     async function fetchData() {
       try {

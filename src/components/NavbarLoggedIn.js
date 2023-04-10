@@ -35,8 +35,10 @@ const NavbarLoggedIn = () => {
     try {
       const response = await api.post(`/users/logout/${userId}`);
 
-      localStorage.removeItem("token");
-      localStorage.removeItem("userId");
+      // localStorage.removeItem("token");
+      // localStorage.removeItem("userId");
+      // localStorage.removeItem("lobbyId");
+      localStorage.clear();
 
       history.push("/login");
       console.log(response);

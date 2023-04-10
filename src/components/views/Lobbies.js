@@ -100,8 +100,10 @@ const Lobbies = () => {
         alert("Something went wrong while fetching the lobbies! See the console for details.");
       }
     }
+    fetchData(); // Make initial request immediately
+    const intervalId = setInterval(fetchData, 1000); // Update data every second
+    return () => clearInterval(intervalId); // Clear the interval when the component is unmounted
 
-    fetchData();
   }, []);
 
 

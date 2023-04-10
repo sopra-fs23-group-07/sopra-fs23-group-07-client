@@ -75,8 +75,8 @@ const Events = () => {
         alert("Something went wrong while fetching the events! See the console for details.");
       }
     }
-
-    fetchData();
+    const intervalId = setInterval(fetchData, 1000); // Update data every second
+    return () => clearInterval(intervalId); // Clear the interval when the component is unmounted
   }, []);
 
   const handleCopyClick = () => {
