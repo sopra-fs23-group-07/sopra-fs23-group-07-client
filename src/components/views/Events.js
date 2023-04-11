@@ -18,6 +18,7 @@ import AddLocation from "helpers/AddLocation";
 import {api, handleError} from 'helpers/api';
 import { async } from "q";
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import Grid from '@mui/material/Grid';
 
 const generateTableData = (events) => {
   const tableData = [];
@@ -105,9 +106,11 @@ const Events = () => {
 
   return (
     <BaseContainer className="lobby">
-      <h1>Events</h1>
-      <div className="flex space-x-12">
-        <div className="w-[60%]">
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant={"h3"}>Events</Typography>
+        </Grid>
+        <Grid item xs={12} md={7}>
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -160,11 +163,16 @@ const Events = () => {
               </TableBody>
             </Table>
           </TableContainer>
-        </div>
+        </Grid>
+        <Grid item xs={12} md={5}>
+          <AddLocation events_passed={events} />
+        </Grid>
+
         {/*<div className="w-[40%] ">*/}
         {/*  {events &&  <AddLocation events_passed={events} /> }*/}
         {/*</div>*/}
-      </div>
+
+      </Grid>
     </BaseContainer>
   );
 };

@@ -23,6 +23,7 @@ import {api, handleError} from "../../helpers/api";
 import {useHistory, useParams} from "react-router-dom";
 import { Spinner } from "components/ui/Spinner";
 import AddLocation from "../../helpers/AddLocation";
+import Grid from "@mui/material/Grid";
 
 
 const Event = () => {
@@ -71,9 +72,18 @@ const Event = () => {
 
     return (
         <BaseContainer className="event">
-            <h1>Event Details</h1>
-            <div className="flex space-x-12">
-                <div className="w-[50%]">
+            <Grid container
+                  spacing={2}
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+            >
+                <Grid item xs={12}>
+                    <Typography variant="h2">
+                        Event Details
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} md={7}>
                     <TableContainer className="table-container" component={Paper}>
                         <Table>
                             <TableHead>
@@ -131,59 +141,59 @@ const Event = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                </Grid>
+                <Grid item xs={12} md={5}>
+                    <AddLocation/>
+                </Grid>
 
-                </div>
+            <Grid container
+                  xs={7} md={7}
+                  direction="row"
+                  justifyContent={"center"}>
+                <Button variant="contained" color="success" size ="large" className="event button"
+                >
+                    Join
+                </Button>
+                <Button variant="contained" color="error" size ="large" className="event button" disabled
+                >
+                    Leave
+                </Button>
+            </Grid>
 
-                <div className="w-[40%]">
-                   <AddLocation/>
-                </div>
-            </div>
-            <div className="w-[100%]">
-                <div className="event button-container">
-                    <div>
-                    <Button variant="contained" color="success" size ="large" className="event button"
-                            >
-                        Join
-                    </Button>
-
-                    <Button variant="contained" color="error" size ="large" className="event button" disabled
-                        >
-                        Leave
-                    </Button>
-                    </div>
-
+            <Grid container xs={5} md={5} direction="row" justifyContent="center">
                 <Button variant="contained"
-                        onClick={() => setOpen(true)}>
+                        onClick={() => setOpen(true)}
+                >
                     Share Event with your Friends!
                 </Button>
-            </div>
-            </div>
-            {/* pop-up */}
-            <Dialog
-                maxWidth="md"
-                fullWidth
-                open={open}
-                onClose={() => setOpen(false)}
-            >
-                <DialogTitle>Copy Event URL</DialogTitle>
-                <DialogContent>
-                    <input
-                        type="text"
-                        value={window.location.href}
-                        ref={urlRef}
-                        readOnly
-                        style={{ width: "100%", padding: "8px" }}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button variant="contained" onClick={handleCopyClick}>
-                        Copy
-                    </Button>
-                    <Button variant="contained" onClick={() => setOpen(false)}>
-                        Close
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                {/* pop-up */}
+                <Dialog
+                    maxWidth="md"
+                    fullWidth
+                    open={open}
+                    onClose={() => setOpen(false)}
+                >
+                    <DialogTitle>Copy Event URL</DialogTitle>
+                    <DialogContent>
+                        <input
+                            type="text"
+                            value={window.location.href}
+                            ref={urlRef}
+                            readOnly
+                            style={{ width: "100%", padding: "8px" }}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant="contained" onClick={handleCopyClick}>
+                            Copy
+                        </Button>
+                        <Button variant="contained" onClick={() => setOpen(false)}>
+                            Close
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </Grid>
+            </Grid>
         </BaseContainer>
     );
 };

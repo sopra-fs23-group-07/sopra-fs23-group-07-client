@@ -27,7 +27,8 @@ const NavbarLoggedIn = () => {
 
   // needs to be adjusted when implementing Profile screen probably with userid and Guard
   const handleProfileClick = () => {
-    history.push("/Profile");
+    const userId = localStorage.getItem("userId");
+    history.push("/Profile/"+userId);
   };
 
   // TODO: Log out works for tokens but not for updating header

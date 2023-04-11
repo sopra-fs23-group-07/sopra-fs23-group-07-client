@@ -1,174 +1,128 @@
-import { useEffect, useState } from "react";
-import { api, handleError } from "helpers/api";
-import { Button } from "components/ui/Button";
-import { useHistory, useParams } from "react-router-dom";
-import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
-import "styles/views/Profile.scss";
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import ButtonBase from '@mui/material/ButtonBase';
+import BaseContainer from "../ui/BaseContainer";
+import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
+import {Badge, Box, Table, TableCell, TableContainer, TableRow, Avatar, Button} from "@mui/material";
+import {api, handleError} from "../../helpers/api";
+import {useState, useEffect} from "react";
+import {
+    useHistory,
+    useParams
+} from "react-router-dom";
+import EditIcon from '@mui/icons-material/Edit';
 
-const FormField = (props) => {
-  return (
-    <div className="title-field">
-      <input
-        className="title-field"
-        placeholder={props.placeholder}
-        value={props.value}
-        onChange={(e) => props.onChange(e.target.value)}
-      />
-    </div>
-  );
-};
 
-FormField.propTypes = {
-  placeholder: PropTypes.string,
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-};
+
+
+
 
 const Profile = () => {
-  // use react-router-dom's hook to access the history
-  const history = useHistory();
-  const userId = localStorage.getItem("userId");
+    const history = useHistory();
+    const userId = useParams().userId;
 
-  // define a state variable (using the state hook).
-  // if this variable changes, the component will re-render, but the variable will
-  // keep its value throughout render cycles.
-  // a component can have as many state variables as you like.
-  // more information can be found under https://reactjs.org/docs/hooks-state.html
-  const [user, setUser] = useState([]);
+    const [user, setUser] = useState([]);
 
-  const toGamePage = () => {
-    history.push("/game");
-  };
 
-  const editProfile = () => {
-    try {
-      if (localStorage.getItem("token") === user.token) {
-        history.push(`/game/profile/${user.userId}/edit`);
-      } else {
-        alert("You can't access this profile page");
-      }
-    } catch (error) {
-      console.error(
-        `Something went wrong while trying to edit the user: \n${handleError(
-          error
-        )}`
-      );
-      console.error("Details:", error);
-      alert(
-        "Something went wrong when trying to edit the profile! See the console for details."
-      );
-    }
-  };
+    useEffect(()=> {
+        const fetchData = async () => {
+            try{
+                const response = await api.get("/users/"+userId)
 
-  // the effect hook can be used to react to change in your component.
-  // in this case, the effect hook is only run once, the first time the component is mounted
-  // this can be achieved by leaving the second argument an empty array.
-  // for more information on the effect hook, please see https://reactjs.org/docs/hooks-effect.html
-  useEffect(() => {
-    // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
-    const fetchData = async () => {
-      try {
-        const response = await api.get("/users/" + userId);
+                setUser(response.data);
 
-        // delays continuous execution of an async operation for 1 second.
-        // This is just a fake async call, so that the spinner can be displayed
-        // feel free to remove it :)
-        //await new Promise(resolve => setTimeout(resolve, 1000));
+                console.log("request to:", response.request.responseURL);
+                console.log("status code:", response.status);
+                console.log("status text:", response.statusText);
+                console.log("requested data:", response.data);
+                console.log(response);
 
-        // Get the returned users and update the state.
-        setUser(response.data);
+            } catch (error){
+                console.error(
+                    `Something went wrong while fetching the user: \n${handleError(
+                        error
+                    )}`
+                );
+            }
+        };
+        fetchData()
+    }, [userId])
 
-        // This is just some data for you to see what is available.
-        // Feel free to remove it.
-        console.log("request to:", response.request.responseURL);
-        console.log("status code:", response.status);
-        console.log("status text:", response.statusText);
-        console.log("requested data:", response.data);
 
-        // See here to get more data.
-        console.log(response);
-      } catch (error) {
-        console.error(
-          `Something went wrong while fetching the user: \n${handleError(
-            error
-          )}`
-        );
-        console.error("Details:", error);
-        alert(
-          "Something went wrong while fetching the users! See the console for details."
-        );
-      }
-    };
+    let content = <Paper
+        sx={{
+            p: 4,
+            mt: 2,
+            maxWidth: 1200,
+            flexGrow: 1,
 
-    fetchData();
-  }, [userId]);
+        }}
+        elevation={3}
+        >
+        <Grid container spacing={2}
+              direction="row"
+              justifyContent="center"
+              alignItems="flex-start">
+            <Grid item xs={5}>
+                <Badge color="success"
+                       badgeContent={" "}
+                       overlap={"circular"}
+                       anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                        }}>
+                    <Avatar src={"src/avatar.png"} sx={{ width : 200, height : 200}}/>
+                </Badge>
+                <Grid item>
+                    <TableContainer>
+                        <Table sx={{ maxWidth: 100 }}>
+                            <TableRow>
+                                <TableCell  align="right">
+                                    <Typography variant={"h6"}>Username</Typography>
+                                </TableCell>
+                                <TableCell align="left">
+                                    <Typography>{user.username}</Typography>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell align="right">
+                                    <Typography variant={"h6"}>Email</Typography>
+                                </TableCell>
+                                <TableCell align="left">
+                                    <Typography>{user.email}</Typography>
+                                </TableCell>
+                            </TableRow>
+                        </Table>
+                    </TableContainer>
+                    <Button variant={"outlined"} size="lg" startIcon={<EditIcon/>} sx={{mt:2}}>
+                        Edit Profile
+                    </Button>
+                </Grid>
+            </Grid>
+            <Grid item xs={7}>
+                <Typography variant={"h5"}>
+                    Bio:
+                </Typography>
+                <Typography>
+                    Lorem ipsum dolor sit amet...
+                </Typography>
+            </Grid>
+        </Grid>
+    </Paper>
 
-  let editProfileButton = <div></div>;
-
-  let content = (
-    <div className="row">
-      <div className="profile user-list column">
-        <div className="profile user-item-left">
-          <h1>username: </h1>
-        </div>
-        <div className="profile user-item-left">
-          <h2>E-Mail: </h2>
-        </div>
-        <div className="profile user-item-left">
-          <h2>ID: </h2>
-        </div>
-        <div className="profile user-item-left">
-          <h2>creation date: </h2>
-        </div>
-        <div className="profile user-item-left">
-          <h2>status: </h2>
-        </div>
-        <div className="profile user-item-left">
-          <h2>birthdate: </h2>
-        </div>
-      </div>
-      <div className="profile user-list-right column">
-        <div className="profile user-item-right">
-          {user.username && user && (
-            <h1>
-              <span>{user.username}</span>{" "}
-            </h1>
-          )}
-        </div>
-        <div className="profile user-item-right">
-          {user.email && user && <h2>{user.email}</h2>}
-        </div>
-        <div className="profile user-item-right">
-        {user.userId && user && <h2>{user.userId}</h2>}
-      </div>
-        <div className="profile user-item-right">
-          {user.creationDate && user && <h2>{user.creationDate}</h2>}
-        </div>
-        <div className="profile user-item-right">
-          {user.status && user && <h2>{user.status}</h2>}
-        </div>
-        <div className="profile user-item-right">
-          {user.birthdate && user && <h2>{user.birthdate}</h2>}
-        </div>
-      </div>
-      <Button width="46%" onClick={() => editProfile()}>
-        &#128221; Edit Profile
-      </Button>
-      <Button width="46%" onClick={() => toGamePage()}>
-        &#x1F4CA; Dashboard
-      </Button>
-    </div>
-  );
-
-  return (
-    <BaseContainer className="game container">
-      <h2>User Profile</h2>
-      {editProfileButton}
-      <p className="game paragraph">Here you see your profile information:</p>
-      {content}
-    </BaseContainer>
-  );
+    return (
+        <BaseContainer className="profile">
+            <Grid item xs={12}>
+                <Typography variant={"h3"}>
+                    Profile
+                </Typography>
+            </Grid>
+            {content}
+        </BaseContainer>
+    );
 };
 
 export default Profile;

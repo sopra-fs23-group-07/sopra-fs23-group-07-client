@@ -69,7 +69,7 @@ const AppRouter = () => {
           <MyEvents />
         </Route>
 
-        <Route exact path="/Profile">
+        <Route exact path="/Profile/:userId">
           <Profile />
         </Route>
 

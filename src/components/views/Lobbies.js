@@ -19,6 +19,7 @@ import Schedule from "@mui/icons-material/Schedule"; // Alternative icons could 
 import HourglassTopOutlinedIcon from '@mui/icons-material/HourglassTopOutlined';
 import CountDownTimer from "helpers/CountDownTimer";
 import {api, handleError} from "../../helpers/api";
+import Grid from "@mui/material/Grid";
 
 // TODO: Can we delete this?
 // const generateTableData = (lobbies) => {
@@ -110,62 +111,73 @@ const Lobbies = () => {
 
   return (
     <BaseContainer>
-      <h1>Lobbies</h1>
-      <div align="right" style={{ marginBottom: "1em" }}>
-        <Button
-          variant="contained"
-          startIcon={<AddBoxOutlinedIcon />}
-          onClick={() => handleCreateLobbyClick()}
-        >
-          Create New Lobby
-        </Button>
-      </div>
-      <div className="lobbies-table-container">
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <Typography fontWeight="bold">Lobby name</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography fontWeight="bold">Canton</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography fontWeight="bold">Number of users</Typography>
-                </TableCell>
-                <TableCell>
-                  <HourglassTopOutlinedIcon />
-                </TableCell>
-                <TableCell/>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {lobbies && lobbies.map((lobby) => (
-                <TableRow key={lobby.lobbyName}>
-                  <TableCell>{lobby.lobbyName}</TableCell>
-                  <TableCell>{lobby.lobbyRegion}</TableCell>
-                  {/* Todo: wait for backend to give us number of users registered*/}
-                  <TableCell>{lobby.lobbyMembers}/{lobby.lobbyMaxMembers}</TableCell>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <Typography variant="h2">
+            Lobbies
+          </Typography>
+        </Grid>
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="center"
+          >
+          <Button
+              variant="contained"
+              startIcon={<AddBoxOutlinedIcon />}
+              onClick={() => handleCreateLobbyClick()}
+          >
+            Create New Lobby
+          </Button>
+        </Grid>
+        <Grid item xs={12}>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
                   <TableCell>
-                    <CountDownTimer initialSeconds={lobby.timeleft} />
+                    <Typography fontWeight="bold">Lobby name</Typography>
                   </TableCell>
                   <TableCell>
-
-                    <Button
-                        variant="outlined"
-                        endIcon={<PersonAddOutlinedIcon />}
-                        onClick={() => handleJoinLobby(lobby.lobbyId)}>
-                      Join
-
-                    </Button>
+                    <Typography fontWeight="bold">Canton</Typography>
                   </TableCell>
+                  <TableCell>
+                    <Typography fontWeight="bold">Number of users</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <HourglassTopOutlinedIcon />
+                  </TableCell>
+                  <TableCell/>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+              </TableHead>
+              <TableBody>
+                {lobbies && lobbies.map((lobby) => (
+                    <TableRow key={lobby.lobbyName}>
+                      <TableCell>{lobby.lobbyName}</TableCell>
+                      <TableCell>{lobby.lobbyRegion}</TableCell>
+                      {/* Todo: wait for backend to give us number of users registered*/}
+                      <TableCell>{lobby.lobbyMembers}/{lobby.lobbyMaxMembers}</TableCell>
+                      <TableCell>
+                        <CountDownTimer initialSeconds={lobby.timeleft} />
+                      </TableCell>
+                      <TableCell>
+
+                        <Button
+                            variant="outlined"
+                            endIcon={<PersonAddOutlinedIcon />}
+                            onClick={() => handleJoinLobby(lobby.lobbyId)}>
+                          Join
+
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
+      </Grid>
     </BaseContainer>
   );
 };
