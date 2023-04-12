@@ -1,76 +1,17 @@
 @import 'styles/theme';
 
 .editProfile {
-  background-color: $background;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-
   &.container {
-    position: absolute;
-    background-color: $background;
-    width: 40%;
-    height: auto;
-    left: 30%;
-    top: 20%;
+    background: $background;
+    padding: 1.5em;
     border-radius: $borderRadius;
-    padding: 10px;
     display: flex;
     flex-direction: column;
-
-  }
-  &.form {
-    background-color: $background;
-    text-align: right;
-    height: auto;
-    width: 100%;
-    gap: 10px;
-    margin-bottom: 10px;
-    align-self: flex-start;
-
-  }
-  &.list-item {
-    height: 35px;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: $background;
-
-    &.text {
-      padding-top: 10px;
-    }
-  }
-  &.field {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-  }
-  &.input {
-    height: 35px;
-    width: 300px;
-    padding-left: 15px;
-    margin-left: -4px;
-    border: none;
-    border-radius: $borderRadius;
-    margin-bottom: 10px;
-    background: transparentize(white, 0.85);
-    color: $textColor;
-    align-self: flex-start;
-  }
-  &.label {
-    color: $textColor;
-    padding: 10px;
-    border-radius: $borderRadius;
-    background: lighten($background, 5);
-
-  }
-  &.button-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 2em;
+    align-items: center;
+    box-shadow: $dropShadow;
   }
 
-
+  & p, h2 {
+    margin: 0.5em 0;
   }
+}

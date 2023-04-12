@@ -1,112 +1,134 @@
-import { useState, useEffect } from 'react';
-import {useHistory, useParams} from 'react-router-dom'
-import {api, handleError} from 'helpers/api';
-import {Button} from 'components/ui/Button';
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { api, handleError } from 'helpers/api';
+import { Button } from 'components/ui/Button';
 import 'styles/views/EditProfile.scss';
-import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
+import BaseContainer from 'components/ui/BaseContainer';
+import PropTypes from 'prop-types';
+import { Box, Grid, Paper, TextField, Typography } from '@mui/material';
+import React from 'react';
 
-//component for Editpage display, defining label,value and onchange as passable values
-const FormField = props => {
-    return (
-        <div className="editProfile field"> <h3><label className="editProfile label"> {props.label} </label></h3>
-            <input className="editProfile input" placeholder="enter here.." value={props.value} onChange={e => props.onChange(e.target.value)}/>
-        </div>);};
-
-//defining type of passable values to FormField
-FormField.propTypes = {
-    label: PropTypes.string,
-    value: PropTypes.string,
-    onChange: PropTypes.func
-};
-
-const EditProfile = () => { //setting start states of username and birthday
+const EditProfile = () => {
     const history = useHistory();
-    const userId = localStorage.getItem("userId");
-    const [user, setUser] = useState([]);
-    const [username, setUsername] = useState(null);
-    const [password, setPassword] = useState(null);
-    const [name, setName] = useState(null);
-    const [birthdate, setBirthdate] = useState(null);
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [repeatPassword, setRepeatPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [error, setError] = useState('');
 
+    const handleUsernameInputChange = (event) => {
+        setUsername(event.target.value);
+    };
 
+    const handlePasswordInputChange = (event) => {
+        setPassword(event.target.value);
+    };
 
+    const handleRepeatPasswordInputChange = (event) => {
+        setRepeatPassword(event.target.value);
+    };
 
-    const edit = async () => {
+    const handleEmailInputChange = (event) => {
+        setEmail(event.target.value);
+    };
 
-        try {
-            if(localStorage.getItem('token') === user.token){
-
-                const requestBody = JSON.stringify({
-                    "userId": userId,
-                    "name": name,
-                    "username": username,
-                    "password": password,
-                    "birthdate": birthdate
-
-                });
-                await api.put("/users/"+ userId, requestBody);
-                history.push(`/game/profile/` + userId);
-            }
-            else{
-
-                alert("You can't access this profile page");}
-
-        } catch (error) {
-            alert(`Something went wrong during the edit: \n${handleError(error)}`);}};
-
-
-    // the effect hook can be used to react to change in your component.
-    // in this case, the effect hook is only run once, the first time the component is mounted
-    // this can be achieved by leaving the second argument an empty array.
-    // for more information on the effect hook, please see https://reactjs.org/docs/hooks-effect.html
-    useEffect(() => {
-        // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
-        const fetchData = async () => {
-            try {
-                const response =  await api.get('/users/'+ userId );
-
-                setUser(response.data);
-
-                console.log('request to:', response.request.responseURL);
-                console.log('status code:', response.status);
-                console.log('status text:', response.statusText);
-                console.log('requested data:', response.data);
-            } catch (error) {
-                console.error(`Something went wrong while getting the data for the user: \n${handleError(error)}`);
-                console.error("Details:", error);
-                alert("Something went wrong while getting the data for the user! See the console for details.");
-            }
-
-
+    const handleUpdateProfile = async () => {
+        if (password !== repeatPassword) {
+            setError('Passwords do not match');
+            return;
         }
 
-        fetchData();
-    }, [userId]);
+        if (!validateInput()) {
+            return;
+        }
 
-    let content =(
+        try {
+            const requestBody = {
+                userId,
+                username,
+                password,
+                email,
+            };
+            await api.put(`/users/${userId}`, requestBody, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            history.push(`/profile/${userId}`);
+        } catch (error) {
+            setError(`Something went wrong during the edit: ${handleError(error)}`);
+        }
+    };
 
-            <div className="editProfile form">
-                <FormField label="Username" value={username} onChange={un => setUsername(un)}/>
-                <FormField label="Password" value={password} onChange={pa => setPassword(pa)}/>
-                <FormField label="Name" value={name} onChange={na => setName(na)}/>
-                <FormField label="Birthdate" value={birthdate} onChange={bd => setBirthdate(bd)}/>
+    const validateInput = () => {
+        if (!username || !email) {
+            setError('Please fill in all required fields');
+            return false;
+        }
 
-                <Button  width="100%" onClick={() => edit()}> &#x1F4BE; Save Profile</Button>
-            </div>
+        // Add more validation rules here
 
-    );
+        return true;
+    };
 
     return (
-        <BaseContainer className="editProfile container">
-            <h2>Edit Profile</h2>
-            <p className="editProfile paragraph">
-                Here you can edit your profile information:
-            </p>
-            {content}
-
+        <BaseContainer className="editProfile">
+            <Grid item xs={12}>
+                <Typography variant={'h3'}>Edit Profile</Typography>
+            </Grid>
+            <Paper
+                sx={{
+                    paddingY: 10,
+                    paddingX:4,
+                    mt: 2,
+                    maxWidth: 1200,
+                    flexGrow: 1,
+                }}
+            >
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <TextField
+                        label="Username"
+                        value={username}
+                        onChange={handleUsernameInputChange}
+                        sx={{ mt: 2 }}
+                    />
+                    <TextField
+                        label="Email"
+                        type="email"
+                        value={email}
+                        onChange={handleEmailInputChange}
+                        sx={{ mt: 2 }}
+                    />
+                    <TextField
+                        label="Password"
+                        type="password"
+                        value={password}
+                        onChange={handlePasswordInputChange}
+                        sx={{ mt: 2 }}
+                    />
+                    <TextField
+                        label="Repeat Password"
+                        type="password"
+                        value={repeatPassword}
+                        onChange={handleRepeatPasswordInputChange}
+                        sx={{ mt: 2 }}
+                    />
+                    {error && (
+                        <Typography color="error" sx={{ mt: 2 }}>
+                            {error}
+                        </Typography>
+                    )}
+                    <Button onClick={handleUpdateProfile} sx={{ mt: 2}}>
+                        &#x1F4BE; Save Changes
+                    </Button>
+                </Box>
+            </Paper>
         </BaseContainer>
     );
+};
+
+EditProfile.propTypes = {
+    history: PropTypes.object,
 };
 
 export default EditProfile;

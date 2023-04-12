@@ -51,6 +51,12 @@ const Profile = () => {
         fetchData()
     }, [userId])
 
+    const handleEditProfileClick = (userId) => {
+        if (userId == localStorage.getItem("userId")){
+            history.push("/profile/" + String(userId) +"/edit");
+        } else (alert(`You are not allowed to edit this profile`))
+
+    };
 
     let content = <Paper
         sx={{
@@ -97,7 +103,11 @@ const Profile = () => {
                             </TableRow>
                         </Table>
                     </TableContainer>
-                    <Button variant={"outlined"} size="lg" startIcon={<EditIcon/>} sx={{mt:2}}>
+                    <Button variant={"outlined"}
+                            size="lg"
+                            startIcon={<EditIcon/>}
+                            sx={{mt:2}}
+                            onClick={() => handleEditProfileClick(user.userId)}>
                         Edit Profile
                     </Button>
                 </Grid>

@@ -28,32 +28,6 @@
     align-items: center;
     box-shadow: $dropShadow;
   }
-  &.user-list {
-    list-style: none;
-    padding-left: 0;
-  }
-  &.user-item-right {
-    list-style: none;
-    padding-left: 5px;
-    text-align: left;
-    border-radius: $borderRadius;
-    background: lighten($background, 5);
-
-  }
-  &.user-item-left {
-    list-style: none;
-    padding-right: 5px;
-    text-align: right;
-    border-radius: $borderRadius;
-    background: lighten($background, 5);
-
-  }
-  &.user-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
   & p,h2 {
     margin: 0.5em 0;
   }
