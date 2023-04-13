@@ -3,7 +3,7 @@ import BaseContainer from "components/ui/BaseContainer";
 import { useHistory } from "react-router-dom";
 import { api, handleError } from "helpers/api";
 import InputLabel from '@mui/material/InputLabel';
-import {Button, Select, MenuItem, FormControl, Box} from "@mui/material";
+import {Button, Select, MenuItem, FormControl, Box, Typography, Grid, Paper, TextField} from "@mui/material";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import 'styles/views/CreateLobby.scss'
 
@@ -57,81 +57,87 @@ const CreateLobby = () => {
 
   // displays the three input fields
   return (
-    <BaseContainer className="createLobby container">
-      <h1>Create a new Lobby </h1>
-      <div className="createLobby label">
-        <h3>Select lobby name:</h3>
-        <input
-            className="createLobby input"
-            type="text"
-            id="lobbyName"
-            placeholder="Enter Lobby Name"
-            value={lobbyName}
-            onChange={(e) => setLobbyName(e.target.value)}
-        />
-      </div>
-      <div className="createLobby label">
-        <h3> Enter maximum number of participants:</h3>
-        <input
-            className="createLobby input"
-            type="text"
-            id="maxParticipants"
-              placeholder="Enter Maximum Number of Participants"
-
-              value={maxParticipants}
-            onChange={(e) => setMaxParticipants(e.target.value)}
-        />
-      </div>
-      <div className="createLobby label">
-        <h3>Choose Region:</h3>
-        <Box sx={{ minWidth: 240 }}>
-          <FormControl fullWidth>
-            <Select
-                className="createLobby input"
-                labelId="createLobby-select"
-                id="createLobby-select"
-                value={region}
-                label="Region"
-                onChange={(e) => setRegion(e.target.value)}
+    <BaseContainer className="createLobby">
+      <Grid item xs={12}>
+      <Typography variant={'h3'}>Create Lobby</Typography>
+      </Grid>
+        <Paper
+            sx={{
+              paddingY: 10,
+              paddingX:4,
+              mt: 2,
+              maxWidth: 1200,
+              flexGrow: 1,
+            }}
+        >
+          <Box sx={{ display: 'flex', flexDirection: 'column',width: '100%', margin: '0 auto'}}>
+            <Typography variant={'h5'}>Select Lobby Name:</Typography>
+            <TextField
+                sx={{mt:2, mb:4}}
+                id="lobbyName"
+                placeholder="Enter Lobby Name"
+                value={lobbyName}
+                onChange={(e) => setLobbyName(e.target.value)}
+            />
+            <Typography variant={'h5'}>Enter maximum number of participants:</Typography>
+            <TextField
+                type={"number"}
+                sx={{mt:2, mb:4}}
+                id="maxParticipants"
+                placeholder="Enter Maximum Number of Participants"
+                value={maxParticipants}
+                onChange={(e) => setMaxParticipants(e.target.value)}
+            />
+            <Typography variant={'h5'}>Choose Region:</Typography>
+            <Box sx={{ minWidth: 240 }}>
+              <FormControl fullWidth>
+                <Select
+                    sx={{mt:2, mb:4}}
+                    labelId="createLobby-select"
+                    id="createLobby-select"
+                    value={region}
+                    label="Region"
+                    onChange={(e) => setRegion(e.target.value)}
+                >
+                  <MenuItem value="AG">Aargau</MenuItem>
+                  <MenuItem value="AI">Appenzell Innerrhoden</MenuItem>
+                  <MenuItem value="AR">Appenzell Ausserrhoden</MenuItem>
+                  <MenuItem value="BE">Bern</MenuItem>
+                  <MenuItem value="BL">Basel-Landschaft</MenuItem>
+                  <MenuItem value="BS">Basel-Stadt</MenuItem>
+                  <MenuItem value="FR">Fribourg</MenuItem>
+                  <MenuItem value="GE">Geneva</MenuItem>
+                  <MenuItem value="GL">Glarus</MenuItem>
+                  <MenuItem value="GR">Graubünden</MenuItem>
+                  <MenuItem value="JU">Jura</MenuItem>
+                  <MenuItem value="LU">Luzern</MenuItem>
+                  <MenuItem value="NE">Neuchâtel</MenuItem>
+                  <MenuItem value="NW">Nidwalden</MenuItem>
+                  <MenuItem value="OW">Obwalden</MenuItem>
+                  <MenuItem value="SG">St. Gallen</MenuItem>
+                  <MenuItem value="SH">Schaffhausen</MenuItem>
+                  <MenuItem value="SO">Solothurn</MenuItem>
+                  <MenuItem value="SZ">Schwyz</MenuItem>
+                  <MenuItem value="TG">Thurgau</MenuItem>
+                  <MenuItem value="TI">Ticino</MenuItem>
+                  <MenuItem value="UR">Uri</MenuItem>
+                  <MenuItem value="VD">Vaud</MenuItem>
+                  <MenuItem value="VS">Valais</MenuItem>
+                  <MenuItem value="ZG">Zug</MenuItem>
+                  <MenuItem value="ZH">Zürich</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <Button
+              variant="contained"
+              sx={{ m: 2, p:2, justifySelf: 'center', alignSelf: 'center' }}
+              onClick={() => handleLobbyClick()}
+              startIcon={<AddBoxOutlinedIcon/>}
             >
-              <MenuItem value="AG">Aargau</MenuItem>
-              <MenuItem value="AI">Appenzell Innerrhoden</MenuItem>
-              <MenuItem value="AR">Appenzell Ausserrhoden</MenuItem>
-              <MenuItem value="BE">Bern</MenuItem>
-              <MenuItem value="BL">Basel-Landschaft</MenuItem>
-              <MenuItem value="BS">Basel-Stadt</MenuItem>
-              <MenuItem value="FR">Fribourg</MenuItem>
-              <MenuItem value="GE">Geneva</MenuItem>
-              <MenuItem value="GL">Glarus</MenuItem>
-              <MenuItem value="GR">Graubünden</MenuItem>
-              <MenuItem value="JU">Jura</MenuItem>
-              <MenuItem value="LU">Luzern</MenuItem>
-              <MenuItem value="NE">Neuchâtel</MenuItem>
-              <MenuItem value="NW">Nidwalden</MenuItem>
-              <MenuItem value="OW">Obwalden</MenuItem>
-              <MenuItem value="SG">St. Gallen</MenuItem>
-              <MenuItem value="SH">Schaffhausen</MenuItem>
-              <MenuItem value="SO">Solothurn</MenuItem>
-              <MenuItem value="SZ">Schwyz</MenuItem>
-              <MenuItem value="TG">Thurgau</MenuItem>
-              <MenuItem value="TI">Ticino</MenuItem>
-              <MenuItem value="UR">Uri</MenuItem>
-              <MenuItem value="VD">Vaud</MenuItem>
-              <MenuItem value="VS">Valais</MenuItem>
-              <MenuItem value="ZG">Zug</MenuItem>
-              <MenuItem value="ZH">Zürich</MenuItem>
-            </Select>
-          </FormControl>
+              Create Lobby
+            </Button>
         </Box>
-      </div>
-      <div className="createLobby button-container">
-      <Button
-          onClick={() => handleLobbyClick()}
-          variant="contained"
-      startIcon={<AddBoxOutlinedIcon/>}>
-        Create Lobby
-      </Button>
-      </div>
+      </Paper>
     </BaseContainer>
   );
 };

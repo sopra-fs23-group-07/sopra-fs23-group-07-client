@@ -3,6 +3,7 @@ import BaseContainer from "components/ui/BaseContainer";
 import { useHistory } from "react-router-dom";
 import {
   Button,
+  Grid,
   Table,
   TableBody,
   TableRow,
@@ -19,7 +20,7 @@ import Schedule from "@mui/icons-material/Schedule"; // Alternative icons could 
 import HourglassTopOutlinedIcon from '@mui/icons-material/HourglassTopOutlined';
 import CountDownTimer from "helpers/CountDownTimer";
 import {api, handleError} from "../../helpers/api";
-import Grid from "@mui/material/Grid";
+
 
 // TODO: Can we delete this?
 // const generateTableData = (lobbies) => {
@@ -113,7 +114,7 @@ const Lobbies = () => {
     <BaseContainer>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h2">
+          <Typography variant="h3">
             Lobbies
           </Typography>
         </Grid>
@@ -123,13 +124,14 @@ const Lobbies = () => {
           justifyContent="flex-end"
           alignItems="center"
           >
-          <Button
-              variant="contained"
-              startIcon={<AddBoxOutlinedIcon />}
-              onClick={() => handleCreateLobbyClick()}
-          >
-            Create New Lobby
-          </Button>
+            <Button
+                variant="contained"
+                startIcon={<AddBoxOutlinedIcon />}
+                onClick={() => handleCreateLobbyClick()}
+            >
+              Create New Lobby
+            </Button>
+
         </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper}>

@@ -4,7 +4,7 @@ import BaseContainer from "components/ui/BaseContainer";
 import 'mapbox-gl/dist/mapbox-gl.css'
 import "styles/ui/Map.scss";
 import AddLocation from "helpers/AddLocation";
-import {Button} from "@mui/material";
+import {Button, Grid, Typography} from "@mui/material";
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
 
@@ -50,8 +50,9 @@ const Home = () => {
 
   return (
     <BaseContainer className="lobby">
-      <h1>Home</h1>
-
+        <Grid item xs={12}>
+            <Typography variant={'h3'}>Home</Typography>
+        </Grid>
       <Button variant="contained"
               startIcon={<EventNoteOutlinedIcon/>}
               style={{ margin: '20px' }}

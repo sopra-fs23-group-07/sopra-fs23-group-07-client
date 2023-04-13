@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { api, handleError } from 'helpers/api';
-import { Button } from 'components/ui/Button';
 import 'styles/views/EditProfile.scss';
 import BaseContainer from 'components/ui/BaseContainer';
 import PropTypes from 'prop-types';
-import { Box, Grid, Paper, TextField, Typography } from '@mui/material';
+import {Button, Box, Grid, Paper, TextField, Typography } from '@mui/material';
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import React from 'react';
 
 const EditProfile = () => {
@@ -85,7 +85,7 @@ const EditProfile = () => {
                     flexGrow: 1,
                 }}
             >
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column',width: '60%', margin: '0 auto'}}>
                     <TextField
                         label="Username"
                         value={username}
@@ -118,8 +118,12 @@ const EditProfile = () => {
                             {error}
                         </Typography>
                     )}
-                    <Button onClick={handleUpdateProfile} sx={{ mt: 2}}>
-                        &#x1F4BE; Save Changes
+                    <Button variant="contained"
+                            startIcon={<SaveOutlinedIcon/>}
+                            onClick={handleUpdateProfile}
+                            sx={{ mt: 2, p:2, justifySelf: 'center', alignSelf: 'center' }}
+                    >
+                        Save Changes
                     </Button>
                 </Box>
             </Paper>
