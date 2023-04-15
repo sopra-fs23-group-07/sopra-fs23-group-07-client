@@ -23,12 +23,6 @@ const AddLocationForLobby = (props) => {
 
 
 
-
-
-
-
-
-
     return (
         <Box
             sx={{
