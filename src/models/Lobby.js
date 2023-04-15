@@ -15,6 +15,7 @@ class Lobby {
         this.lobbyDecidedSport = null;
         this.lobbyDecidedDate = null;
         this.lobbyLocations = null;
+        this.timeRemaining = null;
         Object.assign(this, data);
     }
 }

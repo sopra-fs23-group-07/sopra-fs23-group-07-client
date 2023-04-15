@@ -67,6 +67,7 @@ const SelectDateAndTime = (props) => {
             await api.put(`/lobbies/${lobbyId}/date`, requestBody);
 
 
+
         } catch (error) {
             alert(`Something went wrong when joining the lobby: \n${handleError(error)}`);
         }

@@ -55,7 +55,7 @@ const Events = () => {
   const history = useHistory();
 
   const urlRef = useRef(null); // ref for the URL input
-  const [events, setEvents] = useState(null);
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -76,9 +76,14 @@ const Events = () => {
         alert("Something went wrong while fetching the events! See the console for details.");
       }
     }
-    const intervalId = setInterval(fetchData, 1000); // Update data every second
+
+    fetchData(); // Make initial request immediately
+
+    const intervalId = setInterval(fetchData, 10000); // Update data every second
+
     return () => clearInterval(intervalId); // Clear the interval when the component is unmounted
   }, []);
+
 
   const handleCopyClick = () => {
     if (navigator.clipboard) {
@@ -165,7 +170,8 @@ const Events = () => {
           </TableContainer>
         </Grid>
         <Grid item xs={12} md={5}>
-          <AddLocation events_passed={events} />
+          <AddLocation events_passed={events && events} />
+
         </Grid>
 
         {/*<div className="w-[40%] ">*/}

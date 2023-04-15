@@ -90,6 +90,7 @@ const Lobby = () => {
 
   const [time, setTime] = useState(false); // state for the pop-up
   const [members, setMembers] = useState([]); // state for the pop-up
+  const [locationDTO, setLocationDTO] = useState([]); // state for the pop-up
 
   useEffect(() => {
     async function fetchData() {
@@ -97,6 +98,8 @@ const Lobby = () => {
         const response = await api.get("/lobbies/"+lobbyId)
         setLobby(response.data);
         setMembers(response.data.memberDTOs);
+        setLocationDTO(response.data.lobbyLocationDTOs);
+        console.log("locationDTO:",response.data.lobbyLocationDTOs);
         // console.log("request to:", response.request.responseURL);
         // console.log("status code:", response.status);
         // console.log("status text:", response.statusText);
@@ -155,7 +158,7 @@ const Lobby = () => {
         <div className="w-[100%]">
       {time}
       <Schedule />
-      <CountDownTimer initialSeconds={timeleft} />
+      <CountDownTimer initialSeconds={lobby.timeRemaining} />
 
       <TableContainer className="table-container" component={Paper}>
         <Table>
@@ -259,7 +262,13 @@ const Lobby = () => {
           </div>
 
         <div className="w-[40%]">
-          <AddLocationForLobby ></AddLocationForLobby>
+
+          {members.map((user) => (
+              user.userId == userId ? <AddLocationForLobby memberId={user.memberId} key={user.username} locationDTO={locationDTO} /> : null
+          ))}
+
+
+
           {locations.map((location) => (
               <div class="my-8" key={location}>
                 <Badge badgeContent={voting} color="primary"> <Button variant="contained" onClick={()=> handleVote(location)}> Vote</Button> </Badge>
