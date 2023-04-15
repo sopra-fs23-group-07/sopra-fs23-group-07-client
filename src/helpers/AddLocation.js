@@ -8,9 +8,21 @@ const AddLocation = (props) => {
     //const {state:{location:{lng, lat}}, dispatch} = useValue();
 
 
-
+    const [marker, setMarker] = useState(null);
     const [lng, setLng] = useState(8.541042);  //Longitude
     const [lat, setLat] = useState(47.374449);  //Latitude
+
+    const [lng2, setLng2] = useState(null);  //Longitude
+    const [lat2, setLat2] = useState(null);  //Latitude
+
+
+    const handleMapClick = (map, ) => {
+        const { lngLat } = map;
+        setLat2(lngLat.lat);
+        setLng2(lngLat.lng);
+    };
+
+
 
 
     const mapRef = useRef();
@@ -99,10 +111,19 @@ This is used to retrieve the city of the user with the help of the ip adress
                     zoom: 12,
                 }}
                 mapStyle="mapbox://styles/mapbox/streets-v11"
-
+                onClick={handleMapClick}
 
 
             >
+
+                {console.log("this is the lng", lng)}
+                {console.log("this is the lat", lat)}
+                    <Marker
+                        latitude={lat2}
+                        longitude={lng2}
+                    >
+
+                    </Marker>
 
                 {/*{location && (*/}
                 {/*    <Marker*/}

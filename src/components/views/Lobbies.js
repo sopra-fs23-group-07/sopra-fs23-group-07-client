@@ -158,8 +158,7 @@ const Lobbies = () => {
                     <TableRow key={lobby.lobbyName}>
                       <TableCell>{lobby.lobbyName}</TableCell>
                       <TableCell>{lobby.lobbyRegion}</TableCell>
-                      {/* Todo: wait for backend to give us number of users registered*/}
-                      <TableCell>{lobby.lobbyMembers}/{lobby.lobbyMaxMembers}</TableCell>
+                      <TableCell>{lobby.lobbyMembersCount}/{lobby.lobbyMaxMembers}</TableCell>
                       <TableCell>
                         <CountDownTimer initialSeconds={lobby.timeleft} />
                       </TableCell>

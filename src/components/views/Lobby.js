@@ -26,7 +26,6 @@ import Schedule from "@mui/icons-material/Schedule"; // Alternative icons could 
 import CountDownTimer from "helpers/CountDownTimer";
 import {api, handleError} from "../../helpers/api";
 import User from "../../models/User";
-import AddLocation from "../../helpers/AddLocation";
 
 import {useHistory, useParams} from "react-router-dom";
 import { Spinner } from "components/ui/Spinner";
@@ -35,6 +34,7 @@ import SelectDateAndTime from "../../helpers/SelectDateAndTime";
 import moment from "moment/moment";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
+import AddLocationForLobby from "../../helpers/AddLocationForLobby";
 
 
 const generateTableData = (users) => {
@@ -259,7 +259,7 @@ const Lobby = () => {
           </div>
 
         <div className="w-[40%]">
-          <AddLocation ></AddLocation>
+          <AddLocationForLobby ></AddLocationForLobby>
           {locations.map((location) => (
               <div class="my-8" key={location}>
                 <Badge badgeContent={voting} color="primary"> <Button variant="contained" onClick={()=> handleVote(location)}> Vote</Button> </Badge>
