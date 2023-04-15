@@ -1,42 +1,24 @@
 import React, { useState } from "react";
 import { api, handleError } from "helpers/api";
-//import User from 'models/User';
 import { useHistory } from "react-router-dom";
-import { Button } from "components/ui/Button";
 import "styles/views/Login.scss";
 import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
+import {Box, Grid, Paper, TextField, Typography, Button} from "@mui/material";
+import LoginIcon from '@mui/icons-material/Login';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 
-/*
-It is possible to add multiple components inside a single file,
-however be sure not to clutter your files with an endless amount!
-As a rule of thumb, use one file per component and only add small,
-specific components that belong to the main one in the same file.
- */
-const FormField = (props) => {
-  return (
-    <div className="login field">
-      <label className="login label">{props.label}</label>
-      <input
-        className="login input"
-        placeholder="enter here.."
-        value={props.value}
-        onChange={(e) => props.onChange(e.target.value)}
-      />
-    </div>
-  );
-};
-
-FormField.propTypes = {
-  label: PropTypes.string,
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-};
-
-const Login = (props) => {
+const Login = () =>{
   const history = useHistory();
-  const [username, setUsername] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleUsernameInputChange = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const handlePasswordInputChange = (event) => {
+    setPassword(event.target.value);
+  };
 
   const doLogin = async () => {
     try {
@@ -57,43 +39,59 @@ const Login = (props) => {
     }
   };
 
-  return (
-    <BaseContainer>
-      <div className="login container">
-        <div className="login form">
-          <FormField
-            label="Username"
-            value={username}
-            onChange={(un) => setUsername(un)}
-          />
-          <FormField
-            label="Password"
-            value={password}
-            onChange={(pw) => setPassword(pw)}
-          />
-          <div className="login button-container">
-            <Button
-              disabled={!username || !password}
-              width="100%"
-              onClick={() => doLogin()}
-            >
-              &#x1F513; Login
-            </Button>
-          </div>
-          <div>Not a user yet? Please go to the Register Page.</div>
-          <div className="login button-container">
-            <Button width="100%" onClick={() => history.push("/register")}>
-              &#x1F511; Register
-            </Button>
-          </div>
-        </div>
-      </div>
-    </BaseContainer>
-  );
-};
 
-/**
- * You can get access to the history object's properties via the withRouter.
- * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
- */
+  return (
+      <BaseContainer classNmae={"loginPage"}>
+        <Grid item xs={12} sx={{paddingY: 2, maxWidth: 800, m:'0 auto'}}>
+          <Typography variant={"h3"} >Login</Typography>
+        </Grid>
+        <Paper
+            sx={{
+              paddingY: 10,
+              paddingX:4,
+              mt: 2,
+              maxWidth: 800,
+              flexGrow: 1,
+              margin : '0 auto'
+            }}
+        >
+          <Box sx={{ display: 'flex', flexDirection: 'column',width: '60%', margin: '0 auto'}}>
+            <TextField
+              label={"Username"}
+              placeholder={"Enter your username"}
+              type={"text"}
+              value={username}
+              onChange={handleUsernameInputChange}
+              sx={{ mt : 2 }}
+              />
+            <TextField
+              label={"Password"}
+              placeholder={"Enter your password"}
+              type={"password"}
+              value={password}
+              onChange={handlePasswordInputChange}
+              sx={{ mt : 2 }}
+              />
+            <Button variant="contained"
+                    startIcon={<LoginIcon/>}
+                    onClick={() => doLogin()}
+                    sx={{ marginY: 2, paddingY:2, paddingX:4, justifySelf: 'center', alignSelf: 'center' }}
+            >
+              Login
+            </Button>
+              <div>Not a User yet? Please go to the Register Page.</div>
+
+              <Button variant={"contained"}
+                      startIcon={<AppRegistrationIcon/>}
+                      disabled={!username || !password}
+                      onClick={() => history.push("/register")}
+                      sx={{ mt: 2, paddingY:2, paddingX:4, justifySelf: 'center', alignSelf: 'center' }}
+              >
+                  Register
+              </Button>
+          </Box>
+        </Paper>
+      </BaseContainer>
+  )
+}
 export default Login;
