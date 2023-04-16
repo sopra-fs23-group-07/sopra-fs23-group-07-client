@@ -1,20 +1,13 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import BaseContainer from "../ui/BaseContainer";
-import {Badge, Table, TableCell, TableContainer, TableRow, Avatar, Button} from "@mui/material";
+import {Avatar, Badge, Button, Table, TableCell, TableContainer, TableRow} from "@mui/material";
 import {api, handleError} from "../../helpers/api";
-import {useState, useEffect} from "react";
-import {
-    useHistory,
-    useParams
-} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
-
-
-
-
 
 
 const Profile = () => {
@@ -24,10 +17,10 @@ const Profile = () => {
     const [user, setUser] = useState([]);
 
 
-    useEffect(()=> {
+    useEffect(() => {
         const fetchData = async () => {
-            try{
-                const response = await api.get("/users/"+userId)
+            try {
+                const response = await api.get("/users/" + userId)
 
                 setUser(response.data);
 
@@ -37,7 +30,7 @@ const Profile = () => {
                 console.log("requested data:", response.data);
                 console.log(response);
 
-            } catch (error){
+            } catch (error) {
                 console.error(
                     `Something went wrong while fetching the user: \n${handleError(
                         error
@@ -49,8 +42,8 @@ const Profile = () => {
     }, [userId])
 
     const handleEditProfileClick = (userId) => {
-        if (userId == localStorage.getItem("userId")){
-            history.push("/profile/" + String(userId) +"/edit");
+        if (userId == localStorage.getItem("userId")) {
+            history.push("/profile/" + String(userId) + "/edit");
         } else (alert(`You are not allowed to edit this profile`))
 
     };
@@ -63,26 +56,26 @@ const Profile = () => {
 
         }}
         elevation={3}
-        >
+    >
         <Grid container spacing={2}
               direction="row"
               justifyContent="center"
               alignItems="flex-start">
             <Grid item xs={5}>
-                <Badge color={user.status == 'OFFLINE' ? 'error':'success'}
+                <Badge color={user.status == 'OFFLINE' ? 'error' : 'success'}
                        badgeContent={" "}
                        overlap={"circular"}
                        anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'right',
-                        }}>
-                    <Avatar src={"src/avatar.png"} sx={{ width : 200, height : 200}}/>
+                           vertical: 'bottom',
+                           horizontal: 'right',
+                       }}>
+                    <Avatar src={"src/avatar.png"} sx={{width: 200, height: 200}}/>
                 </Badge>
                 <Grid item>
                     <TableContainer>
-                        <Table sx={{ maxWidth: 100 }}>
+                        <Table sx={{maxWidth: 100}}>
                             <TableRow>
-                                <TableCell  align="right">
+                                <TableCell align="right">
                                     <Typography variant={"h6"}>Username</Typography>
                                 </TableCell>
                                 <TableCell align="left">
@@ -102,7 +95,7 @@ const Profile = () => {
                     <Button variant={"outlined"}
                             size="lg"
                             startIcon={<EditIcon/>}
-                            sx={{mt:2}}
+                            sx={{mt: 2}}
                             onClick={() => handleEditProfileClick(user.userId)}
                             disabled={user.userId != localStorage.getItem("userId")}>
                         Edit Profile
@@ -118,6 +111,7 @@ const Profile = () => {
                 </Typography>
             </Grid>
         </Grid>
+
     </Paper>
 
     return (

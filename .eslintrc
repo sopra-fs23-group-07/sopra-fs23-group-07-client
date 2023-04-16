@@ -1,3 +1,9 @@
 #"rules": {
 #"import/no-webpack-loader-syntax": "off"
 #}
+
+{
+  "parserOptions": {
+    "sourceType": "module"
+  }
+}
