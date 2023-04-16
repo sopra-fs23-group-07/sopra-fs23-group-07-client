@@ -16,23 +16,23 @@ import {GlobalContext} from "../../helpers/GlobalState";
  * @FunctionalComponent
  */
 const Header = (props) => {
-  const {user} = useContext(GlobalContext)
-  // TODO: Update isLoggedIn whenever a token is removed or added. Now you need to reload page.
-  // Tried with eventlistener and useeffect both didn't work for me.
-  // Possible solution  globalvariable for loggedin or Libary React Context API
+    const {user} = useContext(GlobalContext)
+    // TODO: Update isLoggedIn whenever a token is removed or added. Now you need to reload page.
+    // Tried with eventlistener and useeffect both didn't work for me.
+    // Possible solution  globalvariable for loggedin or Libary React Context API
 
 
-  return (
-      <div className="header container" style={{height: props.height}}>
-        <h1 className="header title">SoPra FS23 Group 07</h1>
-        <img width="180px" src={Logo} alt="SpeetUp Logo"/>
-        {user ? <NavbarLoggedIn/> : <NavbarLoggedOut/>}
-      </div>
-  );
+    return (
+        <div className="header container" style={{height: props.height}}>
+            <h1 className="header title">SoPra FS23 Group 07</h1>
+            <img width="180px" src={Logo} alt="SpeetUp Logo"/>
+            {user ? <NavbarLoggedIn/> : <NavbarLoggedOut/>}
+        </div>
+    );
 };
 
 Header.propTypes = {
-  height: PropTypes.string,
+    height: PropTypes.string,
 };
 
 export default Header;

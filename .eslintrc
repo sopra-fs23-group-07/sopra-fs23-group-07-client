@@ -4,6 +4,11 @@
 
 {
   "parserOptions": {
+    "ecmaVersion": 2015,
     "sourceType": "module"
+  },
+
+  "rules": {
+             // Your ESLint rules go here
   }
 }

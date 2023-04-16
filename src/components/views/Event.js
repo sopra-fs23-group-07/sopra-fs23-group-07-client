@@ -1,27 +1,23 @@
 import React, {useEffect, useRef, useState} from "react";
 import BaseContainer from "components/ui/BaseContainer";
 import {
+    Button,
     Dialog,
-    DialogTitle,
-    DialogContent,
     DialogActions,
+    DialogContent,
+    DialogTitle,
+    Paper,
     Table,
     TableBody,
-    TableRow,
     TableCell,
     TableContainer,
-    Paper,
     TableHead,
-    Typography,
-    Switch,
-    FormControlLabel,
-    FormGroup, Button, Badge
+    TableRow,
+    Typography
 } from "@mui/material";
 import "styles/views/Event.scss";
-import Schedule from "@mui/icons-material/Schedule"; // Alternative icons could be AccessAlarm, Timer, Hourglass
 import {api, handleError} from "../../helpers/api";
 import {useHistory, useParams} from "react-router-dom";
-import { Spinner } from "components/ui/Spinner";
 import AddLocation from "../../helpers/AddLocation";
 import Grid from "@mui/material/Grid";
 
@@ -46,10 +42,10 @@ const Event = () => {
     };
 
 
-    useEffect(()=> {
+    useEffect(() => {
         const fetchData = async () => {
-            try{
-                const response = await api.get("/events/"+eventId)
+            try {
+                const response = await api.get("/events/" + eventId)
 
                 setEvent(response.data);
 
@@ -59,7 +55,7 @@ const Event = () => {
                 console.log("requested data:", response.data);
                 console.log(response);
 
-            } catch (error){
+            } catch (error) {
                 console.error(
                     `Something went wrong while fetching the event: \n${handleError(
                         error
@@ -146,53 +142,53 @@ const Event = () => {
                     <AddLocation/>
                 </Grid>
 
-            <Grid container
-                  xs={7} md={7}
-                  direction="row"
-                  justifyContent={"center"}>
-                <Button variant="contained" color="success" size ="large" className="event button"
-                >
-                    Join
-                </Button>
-                <Button variant="contained" color="error" size ="large" className="event button" disabled
-                >
-                    Leave
-                </Button>
-            </Grid>
+                <Grid container
+                      xs={7} md={7}
+                      direction="row"
+                      justifyContent={"center"}>
+                    <Button variant="contained" color="success" size="large" className="event button"
+                    >
+                        Join
+                    </Button>
+                    <Button variant="contained" color="error" size="large" className="event button" disabled
+                    >
+                        Leave
+                    </Button>
+                </Grid>
 
-            <Grid container xs={5} md={5} direction="row" justifyContent="center">
-                <Button variant="contained"
-                        onClick={() => setOpen(true)}
-                >
-                    Share Event with your Friends!
-                </Button>
-                {/* pop-up */}
-                <Dialog
-                    maxWidth="md"
-                    fullWidth
-                    open={open}
-                    onClose={() => setOpen(false)}
-                >
-                    <DialogTitle>Copy Event URL</DialogTitle>
-                    <DialogContent>
-                        <input
-                            type="text"
-                            value={window.location.href}
-                            ref={urlRef}
-                            readOnly
-                            style={{ width: "100%", padding: "8px" }}
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button variant="contained" onClick={handleCopyClick}>
-                            Copy
-                        </Button>
-                        <Button variant="contained" onClick={() => setOpen(false)}>
-                            Close
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            </Grid>
+                <Grid container xs={5} md={5} direction="row" justifyContent="center">
+                    <Button variant="contained"
+                            onClick={() => setOpen(true)}
+                    >
+                        Share Event with your Friends!
+                    </Button>
+                    {/* pop-up */}
+                    <Dialog
+                        maxWidth="md"
+                        fullWidth
+                        open={open}
+                        onClose={() => setOpen(false)}
+                    >
+                        <DialogTitle>Copy Event URL</DialogTitle>
+                        <DialogContent>
+                            <input
+                                type="text"
+                                value={window.location.href}
+                                ref={urlRef}
+                                readOnly
+                                style={{width: "100%", padding: "8px"}}
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button variant="contained" onClick={handleCopyClick}>
+                                Copy
+                            </Button>
+                            <Button variant="contained" onClick={() => setOpen(false)}>
+                                Close
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                </Grid>
             </Grid>
         </BaseContainer>
     );

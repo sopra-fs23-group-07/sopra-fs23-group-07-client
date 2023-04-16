@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState, useReducer} from "react";
-import { useHistory } from "react-router-dom";
+import React, {useRef, useState} from "react";
+import {useHistory} from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import 'mapbox-gl/dist/mapbox-gl.css'
 import "styles/ui/Map.scss";
@@ -9,17 +9,15 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
 
 
-
-
 const Home = () => {
-  const history = useHistory();
-  const handleLobbiesClick = () => {
-    history.push("/Lobbies");
-  };
+    const history = useHistory();
+    const handleLobbiesClick = () => {
+        history.push("/Lobbies");
+    };
 
-  const handleEventsClick = () => {
-    history.push("/Events");
-  };
+    const handleEventsClick = () => {
+        history.push("/Events");
+    };
 
     const mapContainer = useRef(null);       //MapBox Container
     const map = useRef(null);                //MapBox rendered element
@@ -48,28 +46,28 @@ const Home = () => {
     //
     // }, [map.current]);
 
-  return (
-    <BaseContainer className="lobby">
-        <Grid item xs={12}>
-            <Typography variant={'h3'}>Home</Typography>
-        </Grid>
-      <Button variant="contained"
-              startIcon={<EventNoteOutlinedIcon/>}
-              style={{ margin: '20px' }}
-              onClick={() => handleEventsClick()}>
-        Show all Events
-      </Button>
-      <Button variant="contained"
-              startIcon={<SearchOutlinedIcon/>}
-              style={{ margin: '20px' }}
-              onClick={() => handleLobbiesClick()}>
-        Find Lobby
-      </Button>
-        {/*<div id="map"></div>*/}
-        {/*<div ref={mapContainer} className="map-container" />*/}
-        <AddLocation></AddLocation>
-    </BaseContainer>
-  );
+    return (
+        <BaseContainer className="lobby">
+            <Grid item xs={12}>
+                <Typography variant={'h3'}>Home</Typography>
+            </Grid>
+            <Button variant="contained"
+                    startIcon={<EventNoteOutlinedIcon/>}
+                    style={{margin: '20px'}}
+                    onClick={() => handleEventsClick()}>
+                Show all Events
+            </Button>
+            <Button variant="contained"
+                    startIcon={<SearchOutlinedIcon/>}
+                    style={{margin: '20px'}}
+                    onClick={() => handleLobbiesClick()}>
+                Find Lobby
+            </Button>
+            {/*<div id="map"></div>*/}
+            {/*<div ref={mapContainer} className="map-container" />*/}
+            <AddLocation></AddLocation>
+        </BaseContainer>
+    );
 };
 
 export default Home;

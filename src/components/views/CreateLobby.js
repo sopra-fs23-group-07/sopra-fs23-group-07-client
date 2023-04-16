@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import BaseContainer from "components/ui/BaseContainer";
-import { useHistory } from "react-router-dom";
-import { api, handleError } from "helpers/api";
-import InputLabel from '@mui/material/InputLabel';
-import {Button, Select, MenuItem, FormControl, Box, Typography, Grid, Paper, TextField} from "@mui/material";
+import {useHistory} from "react-router-dom";
+import {api, handleError} from "helpers/api";
+import {Box, Button, FormControl, Grid, MenuItem, Paper, Select, TextField, Typography} from "@mui/material";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import 'styles/views/CreateLobby.scss'
 
@@ -44,36 +43,36 @@ const CreateLobby = () => {
       localStorage.setItem("lobbyId", response.data.lobbyId);
       // TODO: Make sure that always a new lobby with the correct Id is created. Probably get LobbyId from Backend response.
 
-        history.push(`/Lobby/${response.data.lobbyId}`);
+      history.push(`/Lobby/${response.data.lobbyId}`);
 
     } catch (error) {
       alert(
-        `Something went wrong during lobby creation (Check if you filled in all fields): \n${handleError(
-          error
-        )}`
+          `Something went wrong during lobby creation (Check if you filled in all fields): \n${handleError(
+              error
+          )}`
       );
     }
   };
 
   // displays the three input fields
   return (
-    <BaseContainer className="createLobby">
-      <Grid item xs={12}>
-      <Typography variant={'h3'}>Create Lobby</Typography>
-      </Grid>
+      <BaseContainer className="createLobby">
+        <Grid item xs={12}>
+          <Typography variant={'h3'}>Create Lobby</Typography>
+        </Grid>
         <Paper
             sx={{
               paddingY: 10,
-              paddingX:4,
+              paddingX: 4,
               mt: 2,
               maxWidth: 1200,
               flexGrow: 1,
             }}
         >
-          <Box sx={{ display: 'flex', flexDirection: 'column',width: '100%', margin: '0 auto'}}>
+          <Box sx={{display: 'flex', flexDirection: 'column', width: '100%', margin: '0 auto'}}>
             <Typography variant={'h5'}>Select Lobby Name:</Typography>
             <TextField
-                sx={{mt:2, mb:4}}
+                sx={{mt: 2, mb: 4}}
                 id="lobbyName"
                 placeholder="Enter Lobby Name"
                 value={lobbyName}
@@ -82,17 +81,17 @@ const CreateLobby = () => {
             <Typography variant={'h5'}>Enter maximum number of participants:</Typography>
             <TextField
                 type={"number"}
-                sx={{mt:2, mb:4}}
+                sx={{mt: 2, mb: 4}}
                 id="maxParticipants"
                 placeholder="Enter Maximum Number of Participants"
                 value={maxParticipants}
                 onChange={(e) => setMaxParticipants(e.target.value)}
             />
             <Typography variant={'h5'}>Choose Region:</Typography>
-            <Box sx={{ minWidth: 240 }}>
+            <Box sx={{minWidth: 240}}>
               <FormControl fullWidth>
                 <Select
-                    sx={{mt:2, mb:4}}
+                    sx={{mt: 2, mb: 4}}
                     labelId="createLobby-select"
                     id="createLobby-select"
                     value={region}
@@ -128,16 +127,16 @@ const CreateLobby = () => {
               </FormControl>
             </Box>
             <Button
-              variant="contained"
-              sx={{ m: 2, p:2, justifySelf: 'center', alignSelf: 'center' }}
-              onClick={() => handleLobbyClick()}
-              startIcon={<AddBoxOutlinedIcon/>}
+                variant="contained"
+                sx={{m: 2, p: 2, justifySelf: 'center', alignSelf: 'center'}}
+                onClick={() => handleLobbyClick()}
+                startIcon={<AddBoxOutlinedIcon/>}
             >
               Create Lobby
             </Button>
-        </Box>
-      </Paper>
-    </BaseContainer>
+          </Box>
+        </Paper>
+      </BaseContainer>
   );
 };
 

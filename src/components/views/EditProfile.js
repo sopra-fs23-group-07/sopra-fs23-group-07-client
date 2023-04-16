@@ -4,7 +4,7 @@ import {api, handleError} from 'helpers/api';
 import 'styles/views/EditProfile.scss';
 import BaseContainer from 'components/ui/BaseContainer';
 import PropTypes from 'prop-types';
-import {Button, Box, Grid, Paper, TextField, Typography} from '@mui/material';
+import {Box, Button, Grid, Paper, TextField, Typography} from '@mui/material';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 
 const EditProfile = () => {
@@ -51,7 +51,7 @@ const EditProfile = () => {
                 email,
             };
             await api.put(`/users/${userId}`, requestBody, {
-                headers: { Authorization: `Bearer ${token}` },
+                headers: {Authorization: `Bearer ${token}`},
             });
             history.push(`/profile/${userId}`);
         } catch (error) {
@@ -74,49 +74,49 @@ const EditProfile = () => {
             <Paper
                 sx={{
                     paddingY: 10,
-                    paddingX:4,
+                    paddingX: 4,
                     mt: 2,
                     maxWidth: 1200,
                     flexGrow: 1,
                 }}
             >
-                <Box sx={{ display: 'flex', flexDirection: 'column',width: '60%', margin: '0 auto'}}>
+                <Box sx={{display: 'flex', flexDirection: 'column', width: '60%', margin: '0 auto'}}>
                     <TextField
                         label="Username"
                         value={username}
                         onChange={handleUsernameInputChange}
-                        sx={{ mt: 2 }}
+                        sx={{mt: 2}}
                     />
                     <TextField
                         label="Email"
                         type="email"
                         value={email}
                         onChange={handleEmailInputChange}
-                        sx={{ mt: 2 }}
+                        sx={{mt: 2}}
                     />
                     <TextField
                         label="Password"
                         type="password"
                         value={password}
                         onChange={handlePasswordInputChange}
-                        sx={{ mt: 2 }}
+                        sx={{mt: 2}}
                     />
                     <TextField
                         label="Repeat Password"
                         type="password"
                         value={repeatPassword}
                         onChange={handleRepeatPasswordInputChange}
-                        sx={{ mt: 2 }}
+                        sx={{mt: 2}}
                     />
                     {error && (
-                        <Typography color="error" sx={{ mt: 2 }}>
+                        <Typography color="error" sx={{mt: 2}}>
                             {error}
                         </Typography>
                     )}
                     <Button variant="contained"
                             startIcon={<SaveOutlinedIcon/>}
                             onClick={handleUpdateProfile}
-                            sx={{ mt: 2, p:2, justifySelf: 'center', alignSelf: 'center' }}
+                            sx={{mt: 2, p: 2, justifySelf: 'center', alignSelf: 'center'}}
                     >
                         Save Changes
                     </Button>

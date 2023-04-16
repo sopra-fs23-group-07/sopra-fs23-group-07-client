@@ -1,23 +1,21 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, {useEffect, useRef, useState} from "react";
 import BaseContainer from "components/ui/BaseContainer";
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import {
   Button,
+  Paper,
   Table,
   TableBody,
-  TableRow,
   TableCell,
   TableContainer,
-  Paper,
   TableHead,
+  TableRow,
   Typography
 } from "@mui/material";
 import "styles/views/Events.scss";
 import Schedule from "@mui/icons-material/Schedule"; // Alternative icons could be AccessAlarm, Timer, Hourglass
 import AddLocation from "helpers/AddLocation";
 import {api, handleError} from 'helpers/api';
-import { async } from "q";
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import Grid from '@mui/material/Grid';
 
 const generateTableData = (events) => {
@@ -111,70 +109,70 @@ const Events = () => {
 
 
   return (
-    <BaseContainer className="lobby">
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography variant={"h3"}>Events</Typography>
-        </Grid>
-        <Grid item xs={12} md={7}>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <Typography fontWeight="bold">Event name</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography fontWeight="bold">Canton</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography fontWeight="bold">Sport</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography fontWeight="bold">Number of users</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography fontWeight="bold">Date</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Schedule/>
-                  </TableCell>
-                  <TableCell/>
-                </TableRow>
-              </TableHead>
-              <TableBody>
+      <BaseContainer className="lobby">
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant={"h3"}>Events</Typography>
+          </Grid>
+          <Grid item xs={12} md={7}>
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      <Typography fontWeight="bold">Event name</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography fontWeight="bold">Canton</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography fontWeight="bold">Sport</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography fontWeight="bold">Number of users</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography fontWeight="bold">Date</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Schedule/>
+                    </TableCell>
+                    <TableCell/>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
 
-                {events && events.map((event) => {
-                  const dateString = event.eventDate;
-                  const date = new Date(dateString);
-                  const formattedDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
-                  return (
-                      <TableRow key={event.eventName}>
-                        <TableCell>{event.eventName}</TableCell>
-                        <TableCell>{event.eventRegion}</TableCell>
-                        <TableCell>{event.eventSport}</TableCell>
-                        <TableCell>{event.eventMaxParticipants}</TableCell>
-                        <TableCell>{formattedDate}</TableCell>
-                        <TableCell>{"13min"}</TableCell>
-                        <TableCell>
-                          <Button
-                              onClick={() => handleViewEventClick(event.eventId)}
-                          >
-                            View
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                  {events && events.map((event) => {
+                    const dateString = event.eventDate;
+                    const date = new Date(dateString);
+                    const formattedDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+                    return (
+                        <TableRow key={event.eventName}>
+                          <TableCell>{event.eventName}</TableCell>
+                          <TableCell>{event.eventRegion}</TableCell>
+                          <TableCell>{event.eventSport}</TableCell>
+                          <TableCell>{event.eventMaxParticipants}</TableCell>
+                          <TableCell>{formattedDate}</TableCell>
+                          <TableCell>{"13min"}</TableCell>
+                          <TableCell>
+                            <Button
+                                onClick={() => handleViewEventClick(event.eventId)}
+                            >
+                              View
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Grid>
+          <Grid item xs={12} md={5}>
+            <AddLocation events_passed={events}/>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={5}>
-          <AddLocation events_passed={events} />
-        </Grid>
-      </Grid>
-    </BaseContainer>
+      </BaseContainer>
   );
 };
 
