@@ -1,39 +1,32 @@
 import React, {useEffect, useRef, useState} from "react";
 import BaseContainer from "components/ui/BaseContainer";
 import {
+  Button,
   Dialog,
-  DialogTitle,
-  DialogContent,
   DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControlLabel,
+  FormGroup,
+  Paper,
+  Switch,
   Table,
   TableBody,
-  TableRow,
   TableCell,
   TableContainer,
-  Paper,
   TableHead,
-  Typography,
-  Switch,
-  FormControlLabel,
-  FormGroup, Button, Badge
+  TableRow,
+  Typography
 } from "@mui/material";
 import "styles/views/TestLobby.scss";
 import MultipleSelectChip from "helpers/SelectSport";
-import DateRangePicker from "helpers/SelectTime";
-import { DatePicker } from "@mui/x-date-pickers";
-import DateTimePicker from "helpers/SelectTime";
 import Schedule from "@mui/icons-material/Schedule"; // Alternative icons could be AccessAlarm, Timer, Hourglass
-import CountDownTimer from "helpers/CountDownTimer";
 import {api, handleError} from "../../helpers/api";
-import User from "../../models/User";
 
-import {useHistory, useParams} from "react-router-dom";
-import { Spinner } from "components/ui/Spinner";
+import {useHistory} from "react-router-dom";
 import "styles/views/Lobby.scss";
 import SelectDateAndTime from "../../helpers/SelectDateAndTime";
 import moment from "moment/moment";
-import IconButton from "@mui/material/IconButton";
-import ClearIcon from "@mui/icons-material/Clear";
 import AddLocationForLobby from "../../helpers/AddLocationForLobby";
 import VotingForLocations from "../../helpers/VotingForLocations";
 
@@ -80,7 +73,6 @@ const Lobby = () => {
   const urlRef = useRef(null); // ref for the URL input
 
 
-
   const handleCopyClick = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(urlRef.current.value);
@@ -94,8 +86,7 @@ const Lobby = () => {
     if (ChoiceLocked) {
       setChoiceLocked(false);
       unlockChoice(memberId);
-    }
-    else{
+    } else {
       setChoiceLocked(true);
       lockChoice(memberId);
     }
@@ -140,7 +131,7 @@ const Lobby = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await api.get("/lobbies/"+lobbyId)
+        const response = await api.get("/lobbies/" + lobbyId)
         setLobby(response.data);
         setMembers(response.data.memberDTOs);
         setLocationDTO(response.data.lobbyLocationDTOs);
@@ -163,6 +154,7 @@ const Lobby = () => {
         alert(`Something went wrong during the login: \n${handleError(error)}`);
       }
     }
+
     fetchData(); // Make initial request immediately
     const intervalId = setInterval(fetchData, 1000); // Update data every second
     return () => clearInterval(intervalId); // Clear the interval when the component is unmounted
@@ -170,10 +162,10 @@ const Lobby = () => {
 
 
   const users = [
-    { id: 1, playername: "John", sports: ["Basketball"], time: "15:30" },
-    { id: 2, playername: "Alice", sports: ["Soccer", "Help"], time: "10:00" },
-    { id: 3, playername: "Bob", sports: ["Tennis"], time: "12:45" },
-    { id: 4, playername: "Jane", sports: ["Swimming"], time: "18:00" },
+    {id: 1, playername: "John", sports: ["Basketball"], time: "15:30"},
+    {id: 2, playername: "Alice", sports: ["Soccer", "Help"], time: "10:00"},
+    {id: 3, playername: "Bob", sports: ["Tennis"], time: "12:45"},
+    {id: 4, playername: "Jane", sports: ["Swimming"], time: "18:00"},
   ];
 
   const locations = ["Jurastrasse 10, 2558 Aegerten", "Luegislandstrasse 10, 8051 Zürich"];
@@ -183,178 +175,179 @@ const Lobby = () => {
   //TODO: when you vote then the value for that location should be increased by 1
 
 
+  const handleLeaveLobby = async () => {
+    try {
+      const requestBody = JSON.stringify({userId});
+      await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
+
+      history.push(`/Lobbies`);
 
 
-    const handleLeaveLobby = async () => {
-        try {
-            const requestBody = JSON.stringify({userId});
-            await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
-
-            history.push(`/Lobbies`);
+    } catch (error) {
+      alert(`Something went wrong during the leave of the lobby: \n${handleError(error)}`);
+    }
+  };
 
 
-        } catch (error) {
-            alert(`Something went wrong during the leave of the lobby: \n${handleError(error)}`);
-        }
-    };
+  return (
+      <BaseContainer className="lobby">
+        <div className="flex space-x-10">
+          <div className="w-[80%]">
+            <Schedule/>
+            {/*<CountDownTimer initialSeconds={lobby.timeRemaining} />*/}
+            <div>{Math.floor(lobby.timeRemaining / 60000)}:{Math.floor((lobby.timeRemaining % 60000) / 1000)}</div>
 
 
+            <TableContainer className="table-container" component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      <Typography fontWeight="bold">Players</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography fontWeight="bold">Sports</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography fontWeight="bold">Time</Typography>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {members.map((user) => (
+                      <TableRow key={user.username}>
+                        <TableCell><Typography
+                            onClick={() => history.push("/Profile/" + String(user.userId))}>{user.username}</Typography></TableCell>
+                        <TableCell>
+                          {/*{user.sports}*/}
+                          {user.userId == userId ?
+                              <MultipleSelectChip onSelectedSports={handleSelectedSports} memberId={user.memberId}/> :
 
-    return (
-    <BaseContainer className="lobby">
-      <div className="flex space-x-10">
-        <div className="w-[80%]">
-      <Schedule />
-      {/*<CountDownTimer initialSeconds={lobby.timeRemaining} />*/}
-      <div>{Math.floor(lobby.timeRemaining / 60000)}:{Math.floor((lobby.timeRemaining % 60000) / 1000)}</div>
-
-
-      <TableContainer className="table-container" component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <Typography fontWeight="bold">Players</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography fontWeight="bold">Sports</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography fontWeight="bold">Time</Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {members.map((user) => (
-              <TableRow key={user.username}>
-                <TableCell><Typography onClick={() => history.push("/Profile/"+String(user.userId))}>{user.username}</Typography></TableCell>
-                <TableCell>
-                  {/*{user.sports}*/}
-                  {user.userId == userId ? <MultipleSelectChip onSelectedSports={handleSelectedSports} memberId={user.memberId} /> :
-
-                      user.selectedSports.map((sport) => (
-                          <span style={{display: 'block', color: lobby.lobbyDecidedSport.includes(sport) ? 'blue' : 'black'}}>
+                              user.selectedSports.map((sport) => (
+                                  <span style={{
+                                    display: 'block',
+                                    color: lobby.lobbyDecidedSport.includes(sport) ? 'blue' : 'black'
+                                  }}>
                           {sport}
                           </span>
-                      ))
-                  }
-                </TableCell>
-                <TableCell>
-                  {/*{user.time}*/}
-                  {/*<DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />*/}
-                  {user.userId == userId ?   <SelectDateAndTime memberId={user.memberId}></SelectDateAndTime> :
+                              ))
+                          }
+                        </TableCell>
+                        <TableCell>
+                          {/*{user.time}*/}
+                          {/*<DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />*/}
+                          {user.userId == userId ? <SelectDateAndTime memberId={user.memberId}></SelectDateAndTime> :
 
-                      user.selectedDates.map((time) => (<p>{moment(time).format("MMMM DD, YYYY h:mm A")}</p>))}
-                  {/*{chosenDate.map((date) => (*/}
-                  {/*    <div key={date} className="flex items-center space-x-2">*/}
-                  {/*      <p className="flex-grow">{moment(date).format("MMMM DD, YYYY h:mm A")}</p>*/}
-                  {/*      <IconButton*/}
-                  {/*          aria-label="delete"*/}
-                  {/*          onClick={() => removeDate(date)}*/}
-                  {/*      >*/}
-                  {/*        <ClearIcon />*/}
-                  {/*      </IconButton>*/}
-                  {/*    </div>*/}
-                  {/*))}*/}
-                </TableCell>
-                <TableCell>
-                  {" "}
-                  <FormGroup>
-                    {/*TO DO: check if the user.id I get from backend is the same id as in the local storage!
+                              user.selectedDates.map((time) => (<p>{moment(time).format("MMMM DD, YYYY h:mm A")}</p>))}
+                          {/*{chosenDate.map((date) => (*/}
+                          {/*    <div key={date} className="flex items-center space-x-2">*/}
+                          {/*      <p className="flex-grow">{moment(date).format("MMMM DD, YYYY h:mm A")}</p>*/}
+                          {/*      <IconButton*/}
+                          {/*          aria-label="delete"*/}
+                          {/*          onClick={() => removeDate(date)}*/}
+                          {/*      >*/}
+                          {/*        <ClearIcon />*/}
+                          {/*      </IconButton>*/}
+                          {/*    </div>*/}
+                          {/*))}*/}
+                        </TableCell>
+                        <TableCell>
+                          {" "}
+                          <FormGroup>
+                            {/*TO DO: check if the user.id I get from backend is the same id as in the local storage!
                     And then also check if it should be disabled or not depending on the choice of the user*/}
-                    {user.userId == userId ? (
-                        <FormControlLabel
-                            control={<Switch />}
-                            label="Lock your choice"
-                            onChange={() => handleLock(user.memberId)}
-                        />
-                    ) : (
-                        <FormControlLabel
-                            disabled
-                            control={<Switch />}
-                            label={user.hasLockedSelections ? "User is ready" : "User is not ready"}
-                            checked={user.hasLockedSelections}
-                        />
-                    )}
+                            {user.userId == userId ? (
+                                <FormControlLabel
+                                    control={<Switch/>}
+                                    label="Lock your choice"
+                                    onChange={() => handleLock(user.memberId)}
+                                />
+                            ) : (
+                                <FormControlLabel
+                                    disabled
+                                    control={<Switch/>}
+                                    label={user.hasLockedSelections ? "User is ready" : "User is not ready"}
+                                    checked={user.hasLockedSelections}
+                                />
+                            )}
 
 
+                          </FormGroup>
+                        </TableCell>
+                      </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
 
-                  </FormGroup>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            <Button variant="contained" onClick={() => setOpen(true)}>
+              Invite friends to lobby
+            </Button>
 
-      <Button variant="contained" onClick={() => setOpen(true)}>
-        Invite friends to lobby
-      </Button>
-
-      {/* pop-up */}
-      <Dialog
-        maxWidth="md"
-        fullWidth
-        open={open}
-        onClose={() => setOpen(false)}
-      >
-        <DialogTitle>Copy Lobby URL</DialogTitle>
-        <DialogContent>
-          <input
-            type="text"
-            value={window.location.href}
-            ref={urlRef}
-            readOnly
-            style={{ width: "100%", padding: "8px" }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" onClick={handleCopyClick}>
-            Copy
-          </Button>
-          <Button variant="contained" onClick={() => setOpen(false)}>
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Button
-        variant="contained"
-        color="error"
-        onClick={() => handleLeaveLobby() }
-      >
-        Leave Lobby
-      </Button>
+            {/* pop-up */}
+            <Dialog
+                maxWidth="md"
+                fullWidth
+                open={open}
+                onClose={() => setOpen(false)}
+            >
+              <DialogTitle>Copy Lobby URL</DialogTitle>
+              <DialogContent>
+                <input
+                    type="text"
+                    value={window.location.href}
+                    ref={urlRef}
+                    readOnly
+                    style={{width: "100%", padding: "8px"}}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button variant="contained" onClick={handleCopyClick}>
+                  Copy
+                </Button>
+                <Button variant="contained" onClick={() => setOpen(false)}>
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Button
+                variant="contained"
+                color="error"
+                onClick={() => handleLeaveLobby()}
+            >
+              Leave Lobby
+            </Button>
           </div>
 
-        <div className="w-[30%]">
+          <div className="w-[30%]">
 
-          {members.map((user) => (
-              user.userId == userId ? <AddLocationForLobby memberId={user.memberId} key={user.username} locationDTO={locationDTO} /> : null
-          ))}
+            {members.map((user) => (
+                user.userId == userId ?
+                    <AddLocationForLobby memberId={user.memberId} key={user.username} locationDTO={locationDTO}/> : null
+            ))}
 
 
+            {locationDTO.map((location) => (
+                <React.Fragment key={location.id}>
+                  {members.map((user) => (
+                      user.userId == userId && (
+                          <div className="my-12" key={`${location.id}-${user.username}`}>
+                            <VotingForLocations
+                                memberId={user.memberId}
+                                address={location.address}
+                                locationId={location.locationId}
+                                memberVotes={location.memberVotes}
+                                key={location.id}
+                            />
+                          </div>
+                      )
+                  ))}
+                </React.Fragment>
+            ))}
 
-          {locationDTO.map((location) => (
-              <React.Fragment key={location.id}>
-                {members.map((user) => (
-                    user.userId == userId && (
-                        <div  className="my-12" key={`${location.id}-${user.username}`}>
-                          <VotingForLocations
-                              memberId={user.memberId}
-                              address={location.address}
-                              locationId={location.locationId}
-                              memberVotes={location.memberVotes}
-                              key={location.id}
-                          />
-                        </div>
-                    )
-                ))}
-              </React.Fragment>
-          ))}
-
+          </div>
         </div>
-      </div>
-    </BaseContainer>
+      </BaseContainer>
   );
 };
 
