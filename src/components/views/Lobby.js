@@ -227,7 +227,7 @@ const Lobby = () => {
           <TableBody>
             {members.map((user) => (
               <TableRow key={user.username}>
-                <TableCell>{user.username}</TableCell>
+                <TableCell><Typography onClick={() => history.push("/Profile/"+String(user.userId))}>{user.username}</Typography></TableCell>
                 <TableCell>
                   {/*{user.sports}*/}
                   {user.userId == userId ? <MultipleSelectChip onSelectedSports={handleSelectedSports} memberId={user.memberId} /> :

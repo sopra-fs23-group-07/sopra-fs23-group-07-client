@@ -57,6 +57,7 @@ const Events = () => {
   const urlRef = useRef(null); // ref for the URL input
   const [events, setEvents] = useState([]);
 
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -170,14 +171,8 @@ const Events = () => {
           </TableContainer>
         </Grid>
         <Grid item xs={12} md={5}>
-          <AddLocation events_passed={events && events} />
-
+          <AddLocation events_passed={events} />
         </Grid>
-
-        {/*<div className="w-[40%] ">*/}
-        {/*  {events &&  <AddLocation events_passed={events} /> }*/}
-        {/*</div>*/}
-
       </Grid>
     </BaseContainer>
   );

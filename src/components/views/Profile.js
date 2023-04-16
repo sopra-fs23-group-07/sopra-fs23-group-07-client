@@ -1,12 +1,9 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import ButtonBase from '@mui/material/ButtonBase';
 import BaseContainer from "../ui/BaseContainer";
-import Person2OutlinedIcon from '@mui/icons-material/Person2Outlined';
-import {Badge, Box, Table, TableCell, TableContainer, TableRow, Avatar, Button} from "@mui/material";
+import {Badge, Table, TableCell, TableContainer, TableRow, Avatar, Button} from "@mui/material";
 import {api, handleError} from "../../helpers/api";
 import {useState, useEffect} from "react";
 import {
@@ -57,7 +54,6 @@ const Profile = () => {
         } else (alert(`You are not allowed to edit this profile`))
 
     };
-
     let content = <Paper
         sx={{
             p: 4,
@@ -73,7 +69,7 @@ const Profile = () => {
               justifyContent="center"
               alignItems="flex-start">
             <Grid item xs={5}>
-                <Badge color="success"
+                <Badge color={user.status == 'OFFLINE' ? 'error':'success'}
                        badgeContent={" "}
                        overlap={"circular"}
                        anchorOrigin={{
@@ -107,7 +103,8 @@ const Profile = () => {
                             size="lg"
                             startIcon={<EditIcon/>}
                             sx={{mt:2}}
-                            onClick={() => handleEditProfileClick(user.userId)}>
+                            onClick={() => handleEditProfileClick(user.userId)}
+                            disabled={user.userId != localStorage.getItem("userId")}>
                         Edit Profile
                     </Button>
                 </Grid>

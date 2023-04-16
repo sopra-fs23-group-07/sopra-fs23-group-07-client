@@ -96,7 +96,6 @@ const CreateLobby = () => {
                     labelId="createLobby-select"
                     id="createLobby-select"
                     value={region}
-                    label="Region"
                     onChange={(e) => setRegion(e.target.value)}
                 >
                   <MenuItem value="AG">Aargau</MenuItem>

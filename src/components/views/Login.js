@@ -43,58 +43,58 @@ const Login = () => {
     };
 
 
-    return (
-        <BaseContainer classNmae={"loginPage"}>
-            <Grid item xs={12} sx={{paddingY: 2, maxWidth: 800, m: '0 auto'}}>
-                <Typography variant={"h3"}>Login</Typography>
-            </Grid>
-            <Paper
-                sx={{
-                    paddingY: 10,
-                    paddingX: 4,
-                    mt: 2,
-                    maxWidth: 800,
-                    flexGrow: 1,
-                    margin: '0 auto'
-                }}
+  return (
+      <BaseContainer classNmae={"loginPage"}>
+        <Grid item xs={12} sx={{paddingY: 2, maxWidth: 800, m:'0 auto'}}>
+          <Typography variant={"h3"} >Login</Typography>
+        </Grid>
+        <Paper
+            sx={{
+              paddingY: 10,
+              paddingX:4,
+              mt: 2,
+              maxWidth: 800,
+              flexGrow: 1,
+              margin : '0 auto'
+            }}
+        >
+          <Box sx={{ display: 'flex', flexDirection: 'column',width: '60%', margin: '0 auto'}}>
+            <TextField
+              label={"Username"}
+              placeholder={"Enter your username"}
+              type={"text"}
+              value={username}
+              onChange={handleUsernameInputChange}
+              sx={{ mt : 2 }}
+              />
+            <TextField
+              label={"Password"}
+              placeholder={"Enter your password"}
+              type={"password"}
+              value={password}
+              onChange={handlePasswordInputChange}
+              sx={{ mt : 2 }}
+              />
+            <Button variant="contained"
+                    startIcon={<LoginIcon/>}
+                    onClick={() => doLogin()}
+                    disabled={!username || !password}
+                    sx={{ marginY: 2, paddingY:2, paddingX:4, justifySelf: 'center', alignSelf: 'center' }}
             >
-                <Box sx={{display: 'flex', flexDirection: 'column', width: '60%', margin: '0 auto'}}>
-                    <TextField
-                        label={"Username"}
-                        placeholder={"Enter your username"}
-                        type={"text"}
-                        value={username}
-                        onChange={handleUsernameInputChange}
-                        sx={{mt: 2}}
-                    />
-                    <TextField
-                        label={"Password"}
-                        placeholder={"Enter your password"}
-                        type={"password"}
-                        value={password}
-                        onChange={handlePasswordInputChange}
-                        sx={{mt: 2}}
-                    />
-                    <Button variant="contained"
-                            startIcon={<LoginIcon/>}
-                            onClick={() => doLogin()}
-                            sx={{marginY: 2, paddingY: 2, paddingX: 4, justifySelf: 'center', alignSelf: 'center'}}
-                    >
-                        Login
-                    </Button>
-                    <div>Not a User yet? Please go to the Register Page.</div>
+              Login
+            </Button>
+              <div>Not a User yet? Please go to the Register Page.</div>
 
-                    <Button variant={"contained"}
-                            startIcon={<AppRegistrationIcon/>}
-                            disabled={!username || !password}
-                            onClick={() => history.push("/register")}
-                            sx={{mt: 2, paddingY: 2, paddingX: 4, justifySelf: 'center', alignSelf: 'center'}}
-                    >
-                        Register
-                    </Button>
-                </Box>
-            </Paper>
-        </BaseContainer>
-    )
+              <Button variant={"contained"}
+                      startIcon={<AppRegistrationIcon/>}
+                      onClick={() => history.push("/register")}
+                      sx={{ mt: 2, paddingY:2, paddingX:4, justifySelf: 'center', alignSelf: 'center' }}
+              >
+                  Register
+              </Button>
+          </Box>
+        </Paper>
+      </BaseContainer>
+  )
 }
 export default Login;

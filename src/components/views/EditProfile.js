@@ -1,12 +1,11 @@
-import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { api, handleError } from 'helpers/api';
+import React, {useState} from 'react';
+import {useHistory} from 'react-router-dom';
+import {api, handleError} from 'helpers/api';
 import 'styles/views/EditProfile.scss';
 import BaseContainer from 'components/ui/BaseContainer';
 import PropTypes from 'prop-types';
-import {Button, Box, Grid, Paper, TextField, Typography } from '@mui/material';
+import {Button, Box, Grid, Paper, TextField, Typography} from '@mui/material';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
-import React from 'react';
 
 const EditProfile = () => {
     const history = useHistory();
@@ -61,12 +60,8 @@ const EditProfile = () => {
     };
 
     const validateInput = () => {
-        if (!username || !email) {
-            setError('Please fill in all required fields');
-            return false;
-        }
 
-        // Add more validation rules here
+        // ToDo: Add some validation rules here
 
         return true;
     };
