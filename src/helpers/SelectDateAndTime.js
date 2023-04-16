@@ -30,7 +30,7 @@ const SelectDateAndTime = (props) => {
 
     useEffect(() => {
         UpdateSelectedTime(chosenDate);
-        console.log(chosenDate);
+        // console.log(chosenDate);
     }, [chosenDate]);
 
     const handleClick = () => {

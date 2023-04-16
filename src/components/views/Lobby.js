@@ -35,7 +35,7 @@ import moment from "moment/moment";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
 import AddLocationForLobby from "../../helpers/AddLocationForLobby";
-
+import VotingForLocations from "../../helpers/VotingForLocations";
 
 const generateTableData = (users) => {
   const tableData = [];
@@ -68,6 +68,7 @@ const Lobby = () => {
   const userId = localStorage.getItem("userId");
 
   const [lobby, setLobby] = useState([]);
+  const [ChoiceLocked, setChoiceLocked] = useState(false);
   const [selectedSports, setSelectedSports] = React.useState([]);
   const handleSelectedSports = (sports) => {
     setSelectedSports(sports);
@@ -78,6 +79,8 @@ const Lobby = () => {
   const [open, setOpen] = useState(false); // state for the pop-up
   const urlRef = useRef(null); // ref for the URL input
 
+
+
   const handleCopyClick = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(urlRef.current.value);
@@ -85,6 +88,48 @@ const Lobby = () => {
       urlRef.current.select();
       document.execCommand("copy");
     }
+  };
+
+  const handleLock = (memberId) => {
+    if (ChoiceLocked) {
+      setChoiceLocked(false);
+      unlockChoice(memberId);
+    }
+    else{
+      setChoiceLocked(true);
+      lockChoice(memberId);
+    }
+  }
+
+
+  const lockChoice = async (memberId) => {
+    try {
+
+      const requestBody = JSON.stringify({
+        "memberId": memberId,
+      });
+      await api.put(`/lobbies/${lobbyId}/lock`, requestBody);
+      console.log("Choice locked was sent to the backend");
+
+    } catch (error) {
+      alert(`Something went wrong when locking your choice: \n${handleError(error)}`);
+    }
+
+  };
+
+  const unlockChoice = async (memberId) => {
+    try {
+
+      const requestBody = JSON.stringify({
+        "memberId": memberId,
+      });
+      await api.put(`/lobbies/${lobbyId}/unlock`, requestBody);
+      console.log("Choice unlocked was sent to the backend");
+
+    } catch (error) {
+      alert(`Something went wrong when locking your choice: \n${handleError(error)}`);
+    }
+
   };
 
 
@@ -99,7 +144,14 @@ const Lobby = () => {
         setLobby(response.data);
         setMembers(response.data.memberDTOs);
         setLocationDTO(response.data.lobbyLocationDTOs);
-        console.log("locationDTO:",response.data.lobbyLocationDTOs);
+        // const member = members.find(member => member.userId === parseInt(userId));
+        //
+        // if (member) {
+        //   console.log('Found member:', member);
+        // } else {
+        //   console.log('Member not found');
+        // }
+        //console.log("locationDTO:",response.data.lobbyLocationDTOs);
         // console.log("request to:", response.request.responseURL);
         // console.log("status code:", response.status);
         // console.log("status text:", response.statusText);
@@ -129,11 +181,7 @@ const Lobby = () => {
   const [voting, setVoting] = useState(0);
 
   //TODO: when you vote then the value for that location should be increased by 1
-  function handleVote(location) {
-    // TODO: send the data to the backend
-    setVoting(voting + 1);
-    console.log(voting);
-  }
+
 
 
 
@@ -154,11 +202,12 @@ const Lobby = () => {
 
     return (
     <BaseContainer className="lobby">
-      <div className="flex space-x-12">
-        <div className="w-[100%]">
-      {time}
+      <div className="flex space-x-10">
+        <div className="w-[80%]">
       <Schedule />
-      <CountDownTimer initialSeconds={lobby.timeRemaining} />
+      {/*<CountDownTimer initialSeconds={lobby.timeRemaining} />*/}
+      <div>{Math.floor(lobby.timeRemaining / 60000)}:{Math.floor((lobby.timeRemaining % 60000) / 1000)}</div>
+
 
       <TableContainer className="table-container" component={Paper}>
         <Table>
@@ -183,7 +232,12 @@ const Lobby = () => {
                   {/*{user.sports}*/}
                   {user.userId == userId ? <MultipleSelectChip onSelectedSports={handleSelectedSports} memberId={user.memberId} /> :
 
-                     user.selectedSports.map((sport) => (sport+", "))}
+                      user.selectedSports.map((sport) => (
+                          <span style={{display: 'block', color: lobby.lobbyDecidedSport.includes(sport) ? 'blue' : 'black'}}>
+                          {sport}
+                          </span>
+                      ))
+                  }
                 </TableCell>
                 <TableCell>
                   {/*{user.time}*/}
@@ -208,10 +262,21 @@ const Lobby = () => {
                   <FormGroup>
                     {/*TO DO: check if the user.id I get from backend is the same id as in the local storage!
                     And then also check if it should be disabled or not depending on the choice of the user*/}
-                    {user.userId == userId ? <FormControlLabel
-                        control={<Switch />}
-                        label="Lock your choice"
-                    /> : <FormControlLabel disabled control={ <Switch />} label="Disabled " />}
+                    {user.userId == userId ? (
+                        <FormControlLabel
+                            control={<Switch />}
+                            label="Lock your choice"
+                            onChange={() => handleLock(user.memberId)}
+                        />
+                    ) : (
+                        <FormControlLabel
+                            disabled
+                            control={<Switch />}
+                            label={user.hasLockedSelections ? "User is ready" : "User is not ready"}
+                            checked={user.hasLockedSelections}
+                        />
+                    )}
+
 
 
                   </FormGroup>
@@ -261,7 +326,7 @@ const Lobby = () => {
       </Button>
           </div>
 
-        <div className="w-[40%]">
+        <div className="w-[30%]">
 
           {members.map((user) => (
               user.userId == userId ? <AddLocationForLobby memberId={user.memberId} key={user.username} locationDTO={locationDTO} /> : null
@@ -269,11 +334,24 @@ const Lobby = () => {
 
 
 
-          {locations.map((location) => (
-              <div class="my-8" key={location}>
-                <Badge badgeContent={voting} color="primary"> <Button variant="contained" onClick={()=> handleVote(location)}> Vote</Button> </Badge>
-                &nbsp;&nbsp;{location} </div>
+          {locationDTO.map((location) => (
+              <React.Fragment key={location.id}>
+                {members.map((user) => (
+                    user.userId == userId && (
+                        <div  className="my-12" key={`${location.id}-${user.username}`}>
+                          <VotingForLocations
+                              memberId={user.memberId}
+                              address={location.address}
+                              locationId={location.locationId}
+                              memberVotes={location.memberVotes}
+                              key={location.id}
+                          />
+                        </div>
+                    )
+                ))}
+              </React.Fragment>
           ))}
+
         </div>
       </div>
     </BaseContainer>

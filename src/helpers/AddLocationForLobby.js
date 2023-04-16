@@ -6,7 +6,9 @@ import Home from "../components/views/Home";
 import {api, handleError} from "./api";
 
 const AddLocationForLobby = (props) => {
-    console.log("this are the props", props.locationDTO);
+
+    const TOKEN = process.env.REACT_APP_MAP_TOKEN;
+    //console.log("this are the props", props.locationDTO);
     //const {state:{location:{lng, lat}}, dispatch} = useValue();
     const [lng, setLng] = useState(8.541042);  //Longitude
     const [lat, setLat] = useState(47.374449);  //Latitude
@@ -14,6 +16,8 @@ const AddLocationForLobby = (props) => {
     const [lng2, setLng2] = useState(null);  //Longitude
     const [lat2, setLat2] = useState(null);  //Latitude
     const [LngLat, setLngLat] = useState(null);  //Latitude
+
+    const [Address, setAddress] = useState(null);
 
     const [UserConfirmedLocation, SetUserConfirmedLocation] = useState(false);
 
@@ -38,18 +42,59 @@ const AddLocationForLobby = (props) => {
 
     };
 
+    const transformCoordinatesToAddress = async (lngLat) => {
+        try {
+            const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat.lng},${lngLat.lat}.json?access_token=${TOKEN}`);
+            const data = await response.json();
+            // Handle the data returned by the server
+            await setAddress(data.features[0].place_name);
+
+
+            SendLocationToServer(lngLat);
+
+
+            console.log("this is the data for mapbox coordinates into adress", data.features[0].place_name);
+
+        } catch (error) {
+            // Handle any errors that occurred during the request
+            console.error(error);
+        }
+    }
+
+
+
+    // const exportImage = async (latitude, longitude) => {
+    //     try {
+    //         let url = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${longitude},${latitude},${viewport?.zoom},0/400x280?access_token=${TOKEN}`
+    //         let url2 = `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${process.env.REACT_APP_TOKEN}`
+    //         const response = await axios.get(url, {
+    //             responseType: "blob",
+    //         });
+    //         if (response) {
+    //             var reader = new window.FileReader();
+    //             reader.readAsDataURL(response.data);
+    //             reader.onload = function () {
+    //                 var imageDataUrl = reader.result;
+    //                 setImages(imageDataUrl);
+    //             };
+    //         }
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // };
+
     const SendLocationToServer = async (lngLat) => {
+
         try {
 
             if (UserConfirmedLocation === false) {
 
                 const requestBody = JSON.stringify({
                     "memberId": props.memberId,
-                    "address": "test",
+                    "address": Address,
                     "longitude": lngLat.lng,
-                    "latidude": lngLat.lat
+                    "latitude": lngLat.lat
                 });
-                // console.log(requestBody);
                 await api.post(`/lobbies/${lobbyId}/locations`, requestBody);
                 SetUserConfirmedLocation(true);
             }
@@ -57,12 +102,12 @@ const AddLocationForLobby = (props) => {
                 alert("You already confirmed your location!")
             }
 
-
         } catch (error) {
             alert(`Something went wrong when joining the lobby: \n${handleError(error)}`);
         }
 
     };
+
     //
     // if(props.locationDTO !== undefined) {
     //
@@ -107,7 +152,6 @@ const AddLocationForLobby = (props) => {
                 </Marker>)}
 
                 {props.locationDTO.map((coordinate, index) => (
-                    console.log("this is the new list of coordinates", list_of_coordinates),
                         <Marker
                             key={index}
                             latitude={coordinate.latitude}
@@ -131,10 +175,11 @@ const AddLocationForLobby = (props) => {
 
 
             </ReactMapGL>
-            <Button variant="contained" onClick={() => SendLocationToServer(LngLat)}>
-                Confirm Location
-            </Button>
-
+            <div className="my-1">
+                <Button variant="contained" onClick={() => transformCoordinatesToAddress(LngLat)}>
+                    Confirm Location
+                </Button>
+            </div>
 
         </Box>
     )

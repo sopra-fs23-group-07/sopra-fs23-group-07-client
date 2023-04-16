@@ -160,7 +160,7 @@ const Lobbies = () => {
                       <TableCell>{lobby.lobbyRegion}</TableCell>
                       <TableCell>{lobby.lobbyMembersCount}/{lobby.lobbyMaxMembers}</TableCell>
                       <TableCell>
-                        <CountDownTimer initialSeconds={lobby.timeleft} />
+                        <div>{Math.floor(lobby.timeRemaining / 60000)}:{Math.floor((lobby.timeRemaining % 60000) / 1000)}</div>
                       </TableCell>
                       <TableCell>
 
