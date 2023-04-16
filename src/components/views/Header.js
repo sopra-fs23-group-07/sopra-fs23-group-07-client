@@ -1,11 +1,10 @@
 import PropTypes from "prop-types";
 import "styles/views/Header.scss";
-import { NavbarLoggedOut } from "../NavbarLoggedOut.js";
-import { NavbarLoggedIn } from "../NavbarLoggedIn.js";
+import {NavbarLoggedOut} from "../NavbarLoggedOut.js";
+import {NavbarLoggedIn} from "../NavbarLoggedIn.js";
 import Logo from "../../speetup-high-resolution-color-logo.png";
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { api, handleError } from "helpers/api";
+import React, {useContext} from "react";
+import {GlobalContext} from "../../helpers/GlobalState";
 //TODO: organize imports after fixing isLoggedIn Issue below
 
 /**
@@ -17,35 +16,18 @@ import { api, handleError } from "helpers/api";
  * @FunctionalComponent
  */
 const Header = (props) => {
+  const {user} = useContext(GlobalContext)
   // TODO: Update isLoggedIn whenever a token is removed or added. Now you need to reload page.
   // Tried with eventlistener and useeffect both didn't work for me.
   // Possible solution  globalvariable for loggedin or Libary React Context API
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, [localStorage.getItem("token")]);
 
   return (
-    <div className="header container" style={{ height: props.height }}>
-      <h1 className="header title">SoPra FS23 Group 07</h1>
-      <img width="180px" src={Logo} alt="SpeetUp Logo" />
-      {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
-    </div>
+      <div className="header container" style={{height: props.height}}>
+        <h1 className="header title">SoPra FS23 Group 07</h1>
+        <img width="180px" src={Logo} alt="SpeetUp Logo"/>
+        {user ? <NavbarLoggedIn/> : <NavbarLoggedOut/>}
+      </div>
   );
 };
 

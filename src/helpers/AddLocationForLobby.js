@@ -50,9 +50,6 @@ const AddLocationForLobby = (props) => {
             await setAddress(data.features[0].place_name);
 
 
-            SendLocationToServer(lngLat);
-
-
             console.log("this is the data for mapbox coordinates into adress", data.features[0].place_name);
 
         } catch (error) {
@@ -60,6 +57,11 @@ const AddLocationForLobby = (props) => {
             console.error(error);
         }
     }
+
+    useEffect(()=>{
+        if(Address && LngLat)
+        SendLocationToServer(LngLat);
+    },[Address])
 
 
 
