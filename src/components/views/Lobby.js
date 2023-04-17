@@ -1,22 +1,22 @@
 import React, {useEffect, useRef, useState} from "react";
 import BaseContainer from "components/ui/BaseContainer";
 import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControlLabel,
-  FormGroup,
-  Paper,
-  Switch,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    FormControlLabel,
+    FormGroup,
+    Paper,
+    Switch,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography
 } from "@mui/material";
 import "styles/views/TestLobby.scss";
 import MultipleSelectChip from "helpers/SelectSport";
@@ -128,28 +128,27 @@ const Lobby = () => {
     const [members, setMembers] = useState([]); // state for the pop-up
     const [locationDTO, setLocationDTO] = useState([]); // state for the pop-up
 
+    const [eventId, setEventId] = useState(null);
+    const [hasExecuted, setHasExecuted] = useState(false);
+    const [timerStarted, setTimerStarted] = useState(false);
+
     useEffect(() => {
+
+
         async function fetchData() {
             try {
-                const response = await api.get("/lobbies/" + lobbyId)
-                setLobby(response.data);
-                setMembers(response.data.memberDTOs);
-                setLocationDTO(response.data.lobbyLocationDTOs);
-                // const member = members.find(member => member.userId === parseInt(userId));
-                //
-                // if (member) {
-                //   console.log('Found member:', member);
-                // } else {
-                //   console.log('Member not found');
-                // }
-                //console.log("locationDTO:",response.data.lobbyLocationDTOs);
-                // console.log("request to:", response.request.responseURL);
-                // console.log("status code:", response.status);
-                // console.log("status text:", response.statusText);
-                // console.log("requested data:", response.data);
-                // console.log("memberDTO array:", response.data.memberDTOs[0].username);
-                // console.log("members:",members);
-                // console.log("lobby:",lobby);
+                if (eventId !== null && !hasExecuted) {
+                    console.log("if condition was met");
+                    const LobbyState = true;
+                    setHasExecuted(true);
+                    handleLeaveLobby(LobbyState);
+                } else {
+                    const response = await api.get("/lobbies/" + lobbyId);
+                    setLobby(response.data);
+                    setMembers(response.data.memberDTOs);
+                    setLocationDTO(response.data.lobbyLocationDTOs);
+                    setEventId(response.data.createdEventId || null);
+                }
             } catch (error) {
                 alert(`Something went wrong during the login: \n${handleError(error)}`);
             }
@@ -158,31 +157,20 @@ const Lobby = () => {
         fetchData(); // Make initial request immediately
         const intervalId = setInterval(fetchData, 1000); // Update data every second
         return () => clearInterval(intervalId); // Clear the interval when the component is unmounted
-    }, []);
+    }, [eventId]); // Add eventId as a dependency
 
-
-    const users = [
-        {id: 1, playername: "John", sports: ["Basketball"], time: "15:30"},
-        {id: 2, playername: "Alice", sports: ["Soccer", "Help"], time: "10:00"},
-        {id: 3, playername: "Bob", sports: ["Tennis"], time: "12:45"},
-        {id: 4, playername: "Jane", sports: ["Swimming"], time: "18:00"},
-    ];
-
-    const locations = ["Jurastrasse 10, 2558 Aegerten", "Luegislandstrasse 10, 8051 Zürich"];
-
-    const [voting, setVoting] = useState(0);
-
-    //TODO: when you vote then the value for that location should be increased by 1
-
-
-    const handleLeaveLobby = async () => {
+    const handleLeaveLobby = async (LobbyState) => {
         try {
-            const requestBody = JSON.stringify({userId});
-            await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
-
-            history.push(`/Lobbies`);
-
-
+            if (LobbyState) {
+                console.log("handleLeaveLobby was called");
+                const requestBody = JSON.stringify({userId});
+                await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
+                history.push("/Events/" + eventId);
+            } else {
+                const requestBody = JSON.stringify({userId});
+                await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
+                history.push(`/Lobbies`);
+            }
         } catch (error) {
             alert(`Something went wrong during the leave of the lobby: \n${handleError(error)}`);
         }
