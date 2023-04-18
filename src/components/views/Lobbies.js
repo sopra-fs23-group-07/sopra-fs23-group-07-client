@@ -2,16 +2,16 @@ import React, {useEffect, useState} from "react";
 import BaseContainer from "components/ui/BaseContainer";
 import {useHistory} from "react-router-dom";
 import {
-  Button,
-  Grid,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
+    Button,
+    Grid,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
 } from "@mui/material";
 import "styles/views/Lobbies.scss";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
@@ -99,7 +99,7 @@ const Lobbies = () => {
         }
 
         fetchData(); // Make initial request immediately
-        const intervalId = setInterval(fetchData, 1000); // Update data every second
+        const intervalId = setInterval(fetchData, 800); // Update data every second
         return () => clearInterval(intervalId); // Clear the interval when the component is unmounted
 
     }, []);
