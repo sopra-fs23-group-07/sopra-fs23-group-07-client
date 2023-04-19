@@ -154,8 +154,7 @@ const Lobbies = () => {
                             <TableBody>
                                 {lobbies && lobbies.map((lobby) => (
                                     <TableRow key={lobby.lobbyName}>
-                                        <TableCell><Typography
-                                            onClick={() => history.push("/Lobby/" + String(lobby.lobbyId))}>{lobby.lobbyName}</Typography></TableCell>
+                                        <TableCell>{lobby.lobbyName}</TableCell>
                                         <TableCell>{lobby.lobbyRegion}</TableCell>
                                         <TableCell>{lobby.lobbyMembersCount}/{lobby.lobbyMaxMembers}</TableCell>
                                         <TableCell>
