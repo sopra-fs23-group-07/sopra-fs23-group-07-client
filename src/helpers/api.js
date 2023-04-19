@@ -24,7 +24,7 @@ export const handleError = error => {
     }
 
     console.log('The request was made and answered but was unsuccessful.', error.response);
-    return info;
+    return response.data;
   } else {
     if (error.message.match(/Network Error/)) {
       return (

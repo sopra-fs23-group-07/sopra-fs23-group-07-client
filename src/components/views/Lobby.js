@@ -185,12 +185,10 @@ const Lobby = () => {
     return (
         <BaseContainer className="lobby">
             <div className="flex space-x-10">
-                <ErrorMessage error={error} onClose={() => setError(null)} />
                 <div className="w-[80%]">
                     <Schedule/>
                     {/*<CountDownTimer initialSeconds={lobby.timeRemaining} />*/}
-                    <div>{Math.floor(lobby.timeRemaining / 60000)}:{Math.floor((lobby.timeRemaining % 60000) / 1000)}</div>
-
+                    <div>{Math.floor(lobby.timeRemaining / 60000)}:{Math.floor((lobby.timeRemaining % 60000) / 1000)} </div>
 
                     <TableContainer className="table-container" component={Paper}>
                         <Table>
@@ -275,6 +273,7 @@ const Lobby = () => {
                                 ))}
                             </TableBody>
                         </Table>
+                        <ErrorMessage error={error} onClose={() => setError(null)} />
                     </TableContainer>
 
                     <Button variant="contained" onClick={() => setOpen(true)}>
