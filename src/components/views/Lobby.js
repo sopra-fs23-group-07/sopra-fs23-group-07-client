@@ -7,7 +7,7 @@ import {
     DialogContent,
     DialogTitle,
     FormControlLabel,
-    FormGroup,
+    FormGroup, Link,
     Paper,
     Switch,
     Table,
@@ -30,6 +30,9 @@ import moment from "moment/moment";
 import AddLocationForLobby from "../../helpers/AddLocationForLobby";
 import VotingForLocations from "../../helpers/VotingForLocations";
 import ErrorMessage from "../ui/ErrorMessage";
+import LaunchIcon from '@mui/icons-material/Launch';
+import {getDomain} from "../../helpers/getDomain";
+import {isProduction} from "../../helpers/isProduction";
 
 
 const generateTableData = (users) => {
@@ -164,6 +167,7 @@ const Lobby = () => {
         return () => clearInterval(intervalId); // Clear the interval when the component is unmounted
     }, [eventId]); // Add eventId as a dependency
 
+
     const handleLeaveLobby = async (LobbyState) => {
         try {
             if (LobbyState) {
@@ -208,8 +212,11 @@ const Lobby = () => {
                             <TableBody>
                                 {members.map((user) => (
                                     <TableRow key={user.username}>
-                                        <TableCell><Typography
-                                            onClick={() => history.push("/Profile/" + String(user.userId))}>{user.username}</Typography></TableCell>
+                                        <TableCell>
+                                            <Link href={`/Profile/${user.userId}`} target="_blank" title={"This opens the profile page in a new tab"}>
+                                                <LaunchIcon fontSize={"inherit"}/> {user.username}
+                                            </Link>
+                                        </TableCell>
                                         <TableCell>
                                             {/*{user.sports}*/}
                                             {user.userId == userId ?
