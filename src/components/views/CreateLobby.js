@@ -5,6 +5,10 @@ import {api, handleError} from "helpers/api";
 import {Box, Button, FormControl, Grid, MenuItem, Paper, Select, TextField, Typography} from "@mui/material";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import 'styles/views/CreateLobby.scss'
+import ErrorMessage from "../ui/ErrorMessage";
+import { Alert, AlertTitle } from '@mui/material';
+
+
 
 
 // On this page the host chooses different attributes of his lobby
@@ -16,12 +20,13 @@ const CreateLobby = () => {
   const [maxParticipants, setMaxParticipants] = useState("");
   const [region, setRegion] = useState("");
   const [lobby, setLobby] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleLobbyClick = async () => {
     try {
       // Validate the input fields.
       if (!lobbyName || !maxParticipants || isNaN(maxParticipants) || !region) {
-        alert("Please fill in all fields with valid data.");
+        setError('Please fill in all fields with valid data.');;
         return;
       }
 
@@ -46,11 +51,7 @@ const CreateLobby = () => {
       history.push(`/Lobby/${response.data.lobbyId}`);
 
     } catch (error) {
-      alert(
-          `Something went wrong during lobby creation (Check if you filled in all fields): \n${handleError(
-              error
-          )}`
-      );
+      setError(handleError(error));
     }
   };
 
@@ -70,6 +71,7 @@ const CreateLobby = () => {
             }}
         >
           <Box sx={{display: 'flex', flexDirection: 'column', width: '100%', margin: '0 auto'}}>
+            <ErrorMessage error={error} onClose={() => setError(null)} />
             <Typography variant={'h5'}>Select Lobby Name:</Typography>
             <TextField
                 sx={{mt: 2, mb: 4}}

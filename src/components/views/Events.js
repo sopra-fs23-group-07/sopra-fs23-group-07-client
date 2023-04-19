@@ -53,6 +53,7 @@ const Events = () => {
 
     const urlRef = useRef(null); // ref for the URL input
     const [events, setEvents] = useState([]);
+    const [error, setError] = useState(null);
 
 
     useEffect(() => {

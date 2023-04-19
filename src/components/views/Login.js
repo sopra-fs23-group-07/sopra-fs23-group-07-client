@@ -1,18 +1,21 @@
-import React, {useContext, useState} from "react";
-import {api, handleError} from "helpers/api";
-import {useHistory} from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { api, handleError } from "helpers/api";
+import { useHistory } from "react-router-dom";
 import "styles/views/Login.scss";
 import BaseContainer from "components/ui/BaseContainer";
-import {Box, Button, Grid, Paper, TextField, Typography} from "@mui/material";
+import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
-import {GlobalContext} from "../../helpers/GlobalState";
+import { GlobalContext } from "../../helpers/GlobalState";
+import ErrorMessage from "../ui/ErrorMessage";
+
 
 const Login = () => {
-    const {setUser} = useContext(GlobalContext)
+    const { setUser } = useContext(GlobalContext)
     const history = useHistory();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
 
     const handleUsernameInputChange = (event) => {
         setUsername(event.target.value);
@@ -24,7 +27,7 @@ const Login = () => {
 
     const doLogin = async () => {
         try {
-            const requestBody = JSON.stringify({username, password});
+            const requestBody = JSON.stringify({ username, password });
             const response = await api.post("/users/login", requestBody);
 
             // Get the returned user and update a new object.
@@ -38,14 +41,14 @@ const Login = () => {
             // Login successfully worked --> navigate to the route /game in the GameRouter
             history.push(`/Home`);
         } catch (error) {
-            alert(`Something went wrong during the login: \n${handleError(error)}`);
+            setError(handleError(error));
         }
     };
 
 
     return (
-        <BaseContainer classNmae={"loginPage"}>
-            <Grid item xs={12} sx={{paddingY: 2, maxWidth: 800, m: '0 auto'}}>
+        <BaseContainer>
+            <Grid item xs={12} sx={{ paddingY: 2, maxWidth: 800, m: '0 auto' }}>
                 <Typography variant={"h3"}>Login</Typography>
             </Grid>
             <Paper
@@ -58,14 +61,15 @@ const Login = () => {
                     margin: '0 auto'
                 }}
             >
-                <Box sx={{display: 'flex', flexDirection: 'column', width: '60%', margin: '0 auto'}}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', width: '60%', margin: '0 auto' }}>
+                    <ErrorMessage error={error} onClose={() => setError(null)} />
                     <TextField
                         label={"Username"}
                         placeholder={"Enter your username"}
                         type={"text"}
                         value={username}
                         onChange={handleUsernameInputChange}
-                        sx={{mt: 2}}
+                        sx={{ mt: 2 }}
                     />
                     <TextField
                         label={"Password"}
@@ -73,22 +77,35 @@ const Login = () => {
                         type={"password"}
                         value={password}
                         onChange={handlePasswordInputChange}
-                        sx={{mt: 2}}
+                        sx={{ mt: 2 }}
                     />
-                    <Button variant="contained"
-                            startIcon={<LoginIcon/>}
-                            onClick={() => doLogin()}
-                            disabled={!username || !password}
-                            sx={{marginY: 2, paddingY: 2, paddingX: 4, justifySelf: 'center', alignSelf: 'center'}}
+                    <Button
+                        variant="contained"
+                        startIcon={<LoginIcon />}
+                        onClick={() => doLogin()}
+                        disabled={!username || !password}
+                        sx={{
+                            marginY: 2,
+                            paddingY: 2,
+                            paddingX: 4,
+                            justifySelf: 'center',
+                            alignSelf: 'center'
+                        }}
                     >
                         Login
                     </Button>
                     <div>Not a User yet? Please go to the Register Page.</div>
 
-                    <Button variant={"contained"}
-                            startIcon={<AppRegistrationIcon/>}
-                            onClick={() => history.push("/register")}
-                            sx={{mt: 2, paddingY: 2, paddingX: 4, justifySelf: 'center', alignSelf: 'center'}}
+                    <Button
+                        variant={"contained"}
+                        startIcon={<AppRegistrationIcon />}
+                        onClick={() => history.push("/register")}
+                        sx={{
+                            mt: 2,
+                            paddingY: 2,
+                            paddingX: 4,
+                            justifySelf: 'center',
+                            alignSelf: 'center'}}
                     >
                         Register
                     </Button>

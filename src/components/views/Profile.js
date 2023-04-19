@@ -8,13 +8,14 @@ import {Avatar, Badge, Button, Table, TableCell, TableContainer, TableRow} from 
 import {api, handleError} from "../../helpers/api";
 import {useHistory, useParams} from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
+import ErrorMessage from "../ui/ErrorMessage";
 
 
 const Profile = () => {
     const history = useHistory();
     const userId = useParams().userId;
-
     const [user, setUser] = useState([]);
+    const [error, setError] = useState(null);
 
 
     useEffect(() => {
@@ -31,11 +32,7 @@ const Profile = () => {
                 console.log(response);
 
             } catch (error) {
-                console.error(
-                    `Something went wrong while fetching the user: \n${handleError(
-                        error
-                    )}`
-                );
+                setError(handleError(error));
             }
         };
         fetchData()
@@ -109,6 +106,8 @@ const Profile = () => {
                 <Typography>
                     Lorem ipsum dolor sit amet...
                 </Typography>
+                <ErrorMessage error={error} onClose={() => setError(null)} />
+
             </Grid>
         </Grid>
 

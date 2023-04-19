@@ -29,6 +29,8 @@ import SelectDateAndTime from "../../helpers/SelectDateAndTime";
 import moment from "moment/moment";
 import AddLocationForLobby from "../../helpers/AddLocationForLobby";
 import VotingForLocations from "../../helpers/VotingForLocations";
+import ErrorMessage from "../ui/ErrorMessage";
+
 
 const generateTableData = (users) => {
     const tableData = [];
@@ -63,6 +65,9 @@ const Lobby = () => {
     const [lobby, setLobby] = useState([]);
     const [ChoiceLocked, setChoiceLocked] = useState(false);
     const [selectedSports, setSelectedSports] = React.useState([]);
+    const [error, setError] = useState(null);
+
+
     const handleSelectedSports = (sports) => {
         setSelectedSports(sports);
     };
@@ -103,7 +108,7 @@ const Lobby = () => {
             console.log("Choice locked was sent to the backend");
 
         } catch (error) {
-            alert(`Something went wrong when locking your choice: \n${handleError(error)}`);
+            setError(handleError(error));
         }
 
     };
@@ -118,7 +123,7 @@ const Lobby = () => {
             console.log("Choice unlocked was sent to the backend");
 
         } catch (error) {
-            alert(`Something went wrong when locking your choice: \n${handleError(error)}`);
+            setError(handleError(error));
         }
 
     };
@@ -150,7 +155,7 @@ const Lobby = () => {
                     setEventId(response.data.createdEventId || null);
                 }
             } catch (error) {
-                alert(`Something went wrong during the login: \n${handleError(error)}`);
+                setError(handleError(error));
             }
         }
 
@@ -172,7 +177,7 @@ const Lobby = () => {
                 history.push(`/Lobbies`);
             }
         } catch (error) {
-            alert(`Something went wrong during the leave of the lobby: \n${handleError(error)}`);
+            setError(handleError(error));
         }
     };
 
@@ -180,6 +185,7 @@ const Lobby = () => {
     return (
         <BaseContainer className="lobby">
             <div className="flex space-x-10">
+                <ErrorMessage error={error} onClose={() => setError(null)} />
                 <div className="w-[80%]">
                     <Schedule/>
                     {/*<CountDownTimer initialSeconds={lobby.timeRemaining} />*/}

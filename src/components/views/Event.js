@@ -20,6 +20,7 @@ import {api, handleError} from "../../helpers/api";
 import {useHistory, useParams} from "react-router-dom";
 import AddLocation from "../../helpers/AddLocation";
 import Grid from "@mui/material/Grid";
+import ErrorMessage from "../ui/ErrorMessage";
 
 
 const Event = () => {
@@ -28,6 +29,7 @@ const Event = () => {
     const eventId = useParams().eventId;
 
     const [event, setEvent] = useState([]);
+    const [error, setError] = useState(null);
 
     const [open, setOpen] = useState(false); // state for the pop-up
     const urlRef = useRef(null); // ref for the URL input
@@ -55,12 +57,8 @@ const Event = () => {
                 console.log("requested data:", response.data);
                 console.log(response);
 
-            } catch (error) {
-                console.error(
-                    `Something went wrong while fetching the event: \n${handleError(
-                        error
-                    )}`
-                );
+            } catch (error) {            $
+                setError(handleError(error));
             }
         };
         fetchData()
@@ -68,6 +66,7 @@ const Event = () => {
 
     return (
         <BaseContainer className="event">
+            <ErrorMessage error={error} onClose={() => setError(null)} />
             <Grid container
                   spacing={2}
                   direction="row"

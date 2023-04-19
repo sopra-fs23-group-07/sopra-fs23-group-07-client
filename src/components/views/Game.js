@@ -6,6 +6,9 @@ import {useHistory} from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
+import ErrorMessage from "../ui/ErrorMessage";
+import React from "@types/react";
+
 
 const Player = ({user}) => {
     const history = useHistory();
@@ -41,6 +44,8 @@ const Game = () => {
     // a component can have as many state variables as you like.
     // more information can be found under https://reactjs.org/docs/hooks-state.html
     const [users, setUsers] = useState(null);
+    const [error, setError] = useState(null);
+
     const userId = localStorage.getItem("userId");
 
     const doLogout = async () => {
@@ -53,7 +58,7 @@ const Game = () => {
             history.push("/login");
             console.log(response);
         } catch (error) {
-            alert(`Something went wrong during the logout: \n${handleError(error)}`);
+            setError(handleError(error));
         }
     };
 
@@ -91,9 +96,8 @@ const Game = () => {
                     )}`
                 );
                 console.error("Details:", error);
-                alert(
-                    "Something went wrong while fetching the users! See the console for details."
-                );
+                setError(handleError(error));
+
             }
         }
 
@@ -105,6 +109,8 @@ const Game = () => {
     if (users) {
         content = (
             <div className="game">
+                <ErrorMessage error={error} onClose={() => setError(null)} />
+
                 <ul className="game user-list">
                     {users.map((user) => (
                         <Player user={user} key={user.userId}/>

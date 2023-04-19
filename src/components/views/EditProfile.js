@@ -6,6 +6,7 @@ import BaseContainer from 'components/ui/BaseContainer';
 import PropTypes from 'prop-types';
 import {Box, Button, Grid, Paper, TextField, Typography} from '@mui/material';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
+import ErrorMessage from "../ui/ErrorMessage";
 
 const EditProfile = () => {
     const history = useHistory();
@@ -15,7 +16,7 @@ const EditProfile = () => {
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [error, setError] = useState('');
+    const [error, setError] = useState(null);
 
     const handleUsernameInputChange = (event) => {
         setUsername(event.target.value);
@@ -55,7 +56,7 @@ const EditProfile = () => {
             });
             history.push(`/profile/${userId}`);
         } catch (error) {
-            setError(`Something went wrong during the edit: ${handleError(error)}`);
+            setError(handleError(error));
         }
     };
 
@@ -81,6 +82,7 @@ const EditProfile = () => {
                 }}
             >
                 <Box sx={{display: 'flex', flexDirection: 'column', width: '60%', margin: '0 auto'}}>
+                    <ErrorMessage error={error} onClose={() => setError(null)} />
                     <TextField
                         label="Username"
                         value={username}

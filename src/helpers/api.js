@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { getDomain } from 'helpers/getDomain';
+import React from 'react';
+import Alert from '@mui/material/Alert';
 
 export const api = axios.create({
   baseURL: getDomain(),
   headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
 });
-
 export const handleError = error => {
   const response = error.response;
 
@@ -26,10 +27,20 @@ export const handleError = error => {
     return info;
   } else {
     if (error.message.match(/Network Error/)) {
-      alert('The server cannot be reached.\nDid you start it?');
+      return (
+          <Alert severity="error">
+            The server cannot be reached.
+            <br />
+            Did you start it?
+          </Alert>
+      );
     }
 
     console.log('Something else happened.', error);
-    return error.message;
+    return (
+        <Alert severity="error">
+          {error.message}
+        </Alert>
+    );
   }
 };

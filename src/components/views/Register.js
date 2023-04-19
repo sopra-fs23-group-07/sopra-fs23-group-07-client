@@ -8,6 +8,7 @@ import {Box, Button, Grid, Paper, TextField, Typography} from "@mui/material";
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import LoginIcon from '@mui/icons-material/Login';
 import {GlobalContext} from "../../helpers/GlobalState";
+import ErrorMessage from "../ui/ErrorMessage";
 
 /*
 It is possible to add multiple components inside a single file,
@@ -22,6 +23,7 @@ const Register = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
+    const [error, setError] = useState(null);
 
     const handleUsernameInputChange = (event) => {
         setUsername(event.target.value);
@@ -51,7 +53,7 @@ const Register = () => {
             // Login successfully worked --> navigate to the route /game in the GameRouter
             history.push(`/Home`);
         } catch (error) {
-            alert(`Something went wrong during the login: \n${handleError(error)}`);
+            setError(handleError(error));
         }
     };
 
@@ -72,6 +74,7 @@ const Register = () => {
                 }}
             >
                 <Box sx={{display: 'flex', flexDirection: 'column', width: '60%', margin: '0 auto'}}>
+                    <ErrorMessage error={error} onClose={() => setError(null)} />
                     <TextField
                         label={"Username"}
                         placeholder={"Enter your username"}
@@ -100,7 +103,12 @@ const Register = () => {
                             startIcon={<AppRegistrationIcon/>}
                             disabled={!username || !email || !password}
                             onClick={() => doRegister()}
-                            sx={{marginY: 2, paddingY: 2, paddingX: 4, justifySelf: 'center', alignSelf: 'center'}}
+                            sx={{
+                                marginY: 2,
+                                paddingY: 2,
+                                paddingX: 4,
+                                justifySelf: 'center',
+                                alignSelf: 'center'}}
                     >
                         Register
                     </Button>
@@ -110,7 +118,12 @@ const Register = () => {
                     <Button variant={"contained"}
                             startIcon={<LoginIcon/>}
                             onClick={() => history.push("/login")}
-                            sx={{mt: 2, paddingY: 2, paddingX: 4, justifySelf: 'center', alignSelf: 'center'}}
+                            sx={{
+                                mt: 2,
+                                paddingY: 2,
+                                paddingX: 4,
+                                justifySelf: 'center',
+                                alignSelf: 'center'}}
                     >
                         Login
                     </Button>

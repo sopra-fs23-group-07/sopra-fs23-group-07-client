@@ -18,6 +18,7 @@ import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
 import HourglassTopOutlinedIcon from '@mui/icons-material/HourglassTopOutlined';
 import {api, handleError} from "../../helpers/api";
+import ErrorMessage from "../ui/ErrorMessage";
 
 
 // TODO: Can we delete this?
@@ -51,6 +52,7 @@ import {api, handleError} from "../../helpers/api";
 const Lobbies = () => {
     const history = useHistory();
     const userId = localStorage.getItem("userId");
+    const [error, setError] = useState(null);
 
     const handleCreateLobbyClick = () => {
         history.push("/CreateLobby");
@@ -70,7 +72,7 @@ const Lobbies = () => {
             history.push("/Lobby/" + String(lobbyId));
 
         } catch (error) {
-            alert(`Something went wrong when joining the lobby: \n${handleError(error)}`);
+            setError(handleError(error));
         }
 
     };
@@ -94,7 +96,7 @@ const Lobbies = () => {
             } catch (error) {
                 console.error(`Something went wrong while fetching the lobby: \n${handleError(error)}`);
                 console.error("Details:", error);
-                alert("Something went wrong while fetching the lobbies! See the console for details.");
+                setError("Something went wrong while fetching the lobbies! See the console for details.");
             }
         }
 
@@ -129,6 +131,7 @@ const Lobbies = () => {
 
                 </Grid>
                 <Grid item xs={12}>
+                    <ErrorMessage error={error} onClose={() => setError(null)} />
                     <TableContainer component={Paper}>
                         <Table>
                             <TableHead>

@@ -7,10 +7,13 @@ import AddLocation from "helpers/AddLocation";
 import {Button, Grid, Typography} from "@mui/material";
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import EventNoteOutlinedIcon from '@mui/icons-material/EventNoteOutlined';
+import ErrorMessage from "../ui/ErrorMessage";
 
 
 const Home = () => {
     const history = useHistory();
+    const [error, setError] = useState(null);
+
     const handleLobbiesClick = () => {
         history.push("/Lobbies");
     };
@@ -51,6 +54,7 @@ const Home = () => {
             <Grid item xs={12}>
                 <Typography variant={'h3'}>Home</Typography>
             </Grid>
+            <ErrorMessage error={error} onClose={() => setError(null)} />
             <Button variant="contained"
                     startIcon={<EventNoteOutlinedIcon/>}
                     style={{margin: '20px'}}
