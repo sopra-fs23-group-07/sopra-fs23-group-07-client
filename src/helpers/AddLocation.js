@@ -41,6 +41,7 @@ const AddLocation = (props) => {
 
 
         console.log("list of coordinates", list_of_coordinates);
+        console.log("props.eventLocationDTO", props.eventLocationDTO);
 
 
     }
@@ -61,20 +62,21 @@ const AddLocation = (props) => {
                     latitude: props.EventPage === true ? lat : props.eventLocationDTO.latitude,
                     zoom: props.EventPage ? 6 : 12,
                 }}
+
                 mapStyle="mapbox://styles/mapbox/streets-v11"
             >
 
+                {props.events_passed && list_of_coordinates.map((coordinate, index) => (
+                    // console.log("this is the new list of coordinates", list_of_coordinates),
+                    coordinate && <Marker
+                        key={index}
+                        latitude={coordinate.latitude}
+                        longitude={coordinate.longitude}
+                    >
 
-                {list_of_coordinates.map((coordinate, index) => (
-                    console.log("this is the new list of coordinates", list_of_coordinates),
-                        <Marker
-                            key={index}
-                            latitude={coordinate.latitude}
-                            longitude={coordinate.longitude}
-                        >
-
-                        </Marker>
+                    </Marker>
                 ))}
+
 
                 {props.eventLocationDTO && <Marker
                     latitude={props.eventLocationDTO.latitude}

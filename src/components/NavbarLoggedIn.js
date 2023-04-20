@@ -36,6 +36,8 @@ const NavbarLoggedIn = () => {
             history.push(pushTo);
         } catch (error) {
             setError(handleError(error));
+            history.push(pushTo);
+
         }
     };
 

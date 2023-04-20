@@ -53,7 +53,7 @@ const Events = () => {
     const history = useHistory();
 
     const urlRef = useRef(null); // ref for the URL input
-    const [events, setEvents] = useState([]);
+    const [events, setEvents] = useState(null);
     const [error, setError] = useState(null);
 
 
@@ -170,7 +170,7 @@ const Events = () => {
                     </TableContainer>
                 </Grid>
                 <Grid item xs={12} md={5}>
-                    <AddLocation events_passed={events} EventPage={true}/>
+                    {events && <AddLocation events_passed={events} EventPage={true}/>}
                 </Grid>
             </Grid>
         </BaseContainer>
