@@ -7,7 +7,8 @@ import {
     DialogContent,
     DialogTitle,
     FormControlLabel,
-    FormGroup, Link,
+    FormGroup,
+    Link,
     Paper,
     Switch,
     Table,
@@ -31,8 +32,6 @@ import AddLocationForLobby from "../../helpers/AddLocationForLobby";
 import VotingForLocations from "../../helpers/VotingForLocations";
 import ErrorMessage from "../ui/ErrorMessage";
 import LaunchIcon from '@mui/icons-material/Launch';
-import {getDomain} from "../../helpers/getDomain";
-import {isProduction} from "../../helpers/isProduction";
 
 
 const generateTableData = (users) => {
@@ -174,10 +173,12 @@ const Lobby = () => {
                 console.log("handleLeaveLobby was called");
                 const requestBody = JSON.stringify({userId});
                 await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
+                localStorage.removeItem("lobbyId");
                 history.push("/Events/" + eventId);
             } else {
                 const requestBody = JSON.stringify({userId});
                 await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
+                localStorage.removeItem("lobbyId");
                 history.push(`/Lobbies`);
             }
         } catch (error) {
@@ -213,7 +214,8 @@ const Lobby = () => {
                                 {members.map((user) => (
                                     <TableRow key={user.username}>
                                         <TableCell>
-                                            <Link href={`/Profile/${user.userId}`} target="_blank" title={"This opens the profile page in a new tab"}>
+                                            <Link href={`/Profile/${user.userId}`} target="_blank"
+                                                  title={"This opens the profile page in a new tab"}>
                                                 <LaunchIcon fontSize={"inherit"}/> {user.username}
                                             </Link>
                                         </TableCell>
@@ -280,7 +282,7 @@ const Lobby = () => {
                                 ))}
                             </TableBody>
                         </Table>
-                        <ErrorMessage error={error} onClose={() => setError(null)} />
+                        <ErrorMessage error={error} onClose={() => setError(null)}/>
                     </TableContainer>
 
                     <Button variant="contained" onClick={() => setOpen(true)}>

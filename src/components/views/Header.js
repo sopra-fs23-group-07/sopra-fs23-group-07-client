@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import "styles/views/Header.scss";
-import { NavbarLoggedOut } from "../NavbarLoggedOut.js";
-import { NavbarLoggedIn } from "../NavbarLoggedIn.js";
+import {NavbarLoggedOut} from "../NavbarLoggedOut.js";
+import {NavbarLoggedIn} from "../NavbarLoggedIn.js";
 import Logo from "../../speetup-high-resolution-color-logo.png";
-import React, { useContext } from "react";
-import { GlobalContext } from "../../helpers/GlobalState";
+import React, {useContext} from "react";
+import {GlobalContext} from "../../helpers/GlobalState";
 //TODO: organize imports after fixing isLoggedIn Issue below
 
 /**
@@ -16,39 +16,36 @@ import { GlobalContext } from "../../helpers/GlobalState";
  * @FunctionalComponent
  */
 const Header = (props) => {
-  const { user } = useContext(GlobalContext);
-  // TODO: Update isLoggedIn whenever a token is removed or added. Now you need to reload page.
-  // Tried with eventlistener and useeffect both didn't work for me.
-  // Possible solution  globalvariable for loggedin or Libary React Context API
+    const {user} = useContext(GlobalContext);
 
-  return (
-    <div className="header container" style={{ height: props.height }}>
-      <div
-        style={{
-          //   fontSize: "24px",
-          //   color: "#333",
-          //   textAlign: "right",
-          //   padding: "20px",
-          //   backgroundColor: "#eee",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          fontSize: "24px",
-          color: "#333",
-          padding: "20px",
-          marginLeft: "0px",
-          marginRight: "140px",
-        }}
-      >
-        {user ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
-        <img width="180px" src={Logo} alt="SpeetUp Logo" />
-      </div>
-    </div>
-  );
+    return (
+        <div className="header container" style={{height: props.height}}>
+            <div
+                style={{
+                    //   fontSize: "24px",
+                    //   color: "#333",
+                    //   textAlign: "right",
+                    //   padding: "20px",
+                    //   backgroundColor: "#eee",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    fontSize: "24px",
+                    color: "#333",
+                    padding: "20px",
+                    marginLeft: "0px",
+                    marginRight: "140px",
+                }}
+            >
+                {user ? <NavbarLoggedIn/> : <NavbarLoggedOut/>}
+                <img width="180px" src={Logo} alt="SpeetUp Logo"/>
+            </div>
+        </div>
+    );
 };
 
 Header.propTypes = {
-  height: PropTypes.string,
+    height: PropTypes.string,
 };
 
 export default Header;
