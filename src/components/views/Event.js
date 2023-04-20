@@ -30,6 +30,7 @@ const Event = () => {
 
     const [event, setEvent] = useState([]);
     const [error, setError] = useState(null);
+    const [eventLocationDTO, setEventLocationDTO] = useState(null);
 
     const [open, setOpen] = useState(false); // state for the pop-up
     const urlRef = useRef(null); // ref for the URL input
@@ -47,26 +48,31 @@ const Event = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await api.get("/events/" + eventId)
-
+                const response = await api.get("/events/" + eventId);
                 setEvent(response.data);
-
+                setEventLocationDTO(response.data.eventLocationDTO);
+                console.log("eventLocationDTO: ", eventLocationDTO); // This will log the old value
                 console.log("request to:", response.request.responseURL);
                 console.log("status code:", response.status);
                 console.log("status text:", response.statusText);
                 console.log("requested data:", response.data);
                 console.log(response);
 
-            } catch (error) {            $
+                // Log the updated value of eventLocationDTO
+                console.log("updated eventLocationDTO: ", response.data.eventLocationDTO);
+
+            } catch (error) {
                 setError(handleError(error));
             }
         };
-        fetchData()
-    }, [eventId])
+        fetchData();
+    }, [eventId]);
+
 
     return (
         <BaseContainer className="event">
-            <ErrorMessage error={error} onClose={() => setError(null)} />
+            <Button onClick={() => console.log("Event", eventLocationDTO)}>Please click</Button>
+            <ErrorMessage error={error} onClose={() => setError(null)}/>
             <Grid container
                   spacing={2}
                   direction="row"
@@ -119,7 +125,9 @@ const Event = () => {
                                         <Typography fontWeight="bold">Location</Typography>
                                     </TableCell>
                                     <TableCell>
-                                        <Typography>{event.eventLocation}</Typography>
+                                        {event && event.eventLocationDTO &&
+                                            <Typography>{event.eventLocationDTO.address}</Typography>}
+
                                     </TableCell>
                                 </TableRow>
                                 <TableRow>
@@ -138,7 +146,8 @@ const Event = () => {
                     </TableContainer>
                 </Grid>
                 <Grid item xs={12} md={5}>
-                    <AddLocation/>
+                    {eventLocationDTO && <AddLocation eventLocationDTO={eventLocationDTO}/>}
+
                 </Grid>
 
                 <Grid container

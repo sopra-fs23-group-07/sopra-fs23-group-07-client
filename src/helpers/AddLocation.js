@@ -7,13 +7,14 @@ const AddLocation = (props) => {
     //const {state:{location:{lng, lat}}, dispatch} = useValue();
 
     console.log("this are the props", props.events_passed);
+    console.log("this is the event", props.eventLocationDTO);
 
     const [marker, setMarker] = useState(null);
     const [lng, setLng] = useState(8.541042);  //Longitude zurich
     const [lat, setLat] = useState(47.374449);  //Latitude zurich
 
-    const [lng2, setLng2] = useState(null);  //Longitude
-    const [lat2, setLat2] = useState(null);  //Latitude
+    const [lngEvent, setLngEvent] = useState(null);  //Longitude
+    const [latEvent, setLatEvent] = useState(null);  //Latitude
 
     const [completeLocation, setCompleteLocation] = useState(null);  //Latitude
 
@@ -26,6 +27,12 @@ const AddLocation = (props) => {
 // TODO: It should be enough to have two lists here instead of one
 // this code will use the events it got from the events scren and then save the lng and lat in two lists and then put them back in one
     //list
+
+
+    // setLngEvent(props.eventLocationDTO.longitude);
+    // setLatEvent(props.eventLocationDTO.latitude);
+    //
+
     if (props.events_passed !== undefined) {
 
         const events_for_location = props.events_passed;
@@ -33,6 +40,7 @@ const AddLocation = (props) => {
         for (let i = 0; i < events_for_location.length; i++) {
             list_of_coordinates.push(events_for_location[i].eventLocationDTO);
         }
+
 
         console.log("list of coordinates", list_of_coordinates);
 
@@ -156,6 +164,13 @@ This is used to retrieve the city of the user with the help of the ip adress
 
                         </Marker>
                 ))}
+
+                {props.eventLocationDTO && <Marker
+                    latitude={props.eventLocationDTO.latitude}
+                    longitude={props.eventLocationDTO.longitude}
+                >
+
+                </Marker>}
 
 
                 {/*// <Marker*/}
