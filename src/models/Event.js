@@ -10,7 +10,9 @@ class Event {
         this.eventRegion = null;
         this.eventMaxParticipants = null;
         this.participantsDTOs = null;
+        this.eventParticipantsCount = null;
         Object.assign(this, data);
     }
 }
+
 export default Event;

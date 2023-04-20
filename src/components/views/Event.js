@@ -21,6 +21,7 @@ import {useHistory, useParams} from "react-router-dom";
 import AddLocation from "../../helpers/AddLocation";
 import Grid from "@mui/material/Grid";
 import ErrorMessage from "../ui/ErrorMessage";
+import moment from "moment";
 
 
 const Event = () => {
@@ -71,7 +72,6 @@ const Event = () => {
 
     return (
         <BaseContainer className="event">
-            <Button onClick={() => console.log("Event", eventLocationDTO)}>Please click</Button>
             <ErrorMessage error={error} onClose={() => setError(null)}/>
             <Grid container
                   spacing={2}
@@ -109,7 +109,9 @@ const Event = () => {
                                         <Typography fontWeight="bold">Date</Typography>
                                     </TableCell>
                                     <TableCell>
-                                        <Typography>{event.eventDate}</Typography>
+                                        <Typography>
+                                            {moment(event.eventDate).format("MMMM DD, YYYY h:mm A")}
+                                        </Typography>
                                     </TableCell>
                                 </TableRow>
                                 <TableRow>
@@ -135,7 +137,7 @@ const Event = () => {
                                         <Typography fontWeight="bold">Participants</Typography>
                                     </TableCell>
                                     <TableCell>
-                                        <Typography>1/{event.eventMaxParticipants}</Typography>
+                                        <Typography>{event.eventParticipantsCount}/{event.eventMaxParticipants}</Typography>
                                     </TableCell>
                                 </TableRow>
                             </TableHead>

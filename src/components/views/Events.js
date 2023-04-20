@@ -2,20 +2,21 @@ import React, {useEffect, useRef, useState} from "react";
 import BaseContainer from "components/ui/BaseContainer";
 import {useHistory} from "react-router-dom";
 import {
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography
+    Button,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography
 } from "@mui/material";
 import "styles/views/Events.scss";
 import AddLocation from "helpers/AddLocation";
 import {api, handleError} from 'helpers/api';
 import Grid from '@mui/material/Grid';
+import moment from "moment/moment";
 
 const generateTableData = (events) => {
     const tableData = [];
@@ -143,16 +144,15 @@ const Events = () => {
                             <TableBody>
 
                                 {events && events.map((event) => {
-                                    const dateString = event.eventDate;
-                                    const date = new Date(dateString);
-                                    const formattedDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
                                     return (
                                         <TableRow key={event.eventName}>
                                             <TableCell>{event.eventName}</TableCell>
                                             <TableCell>{event.eventRegion}</TableCell>
                                             <TableCell>{event.eventSport}</TableCell>
-                                            <TableCell>{event.eventMaxParticipants}</TableCell>
-                                            <TableCell>{formattedDate}</TableCell>
+                                            <TableCell>{event.eventParticipantsCount}/{event.eventMaxParticipants}</TableCell>
+                                            <TableCell>
+                                                {moment(event.eventDate).format("MMMM DD, YYYY h:mm A")}
+                                            </TableCell>
                                             {/*<TableCell>{event.eventLocationDTO.address}</TableCell>*/}
                                             <TableCell>
                                                 <Button
