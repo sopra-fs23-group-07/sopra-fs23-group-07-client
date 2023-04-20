@@ -148,7 +148,7 @@ const Event = () => {
                     </TableContainer>
                 </Grid>
                 <Grid item xs={12} md={5}>
-                    {eventLocationDTO && <AddLocation eventLocationDTO={eventLocationDTO}/>}
+                    {eventLocationDTO && <AddLocation eventLocationDTO={eventLocationDTO} EventPage={false}/>}
 
                 </Grid>
 

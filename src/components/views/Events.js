@@ -160,6 +160,7 @@ const Events = () => {
                                                 >
                                                     View
                                                 </Button>
+
                                             </TableCell>
                                         </TableRow>
                                     );
@@ -169,7 +170,7 @@ const Events = () => {
                     </TableContainer>
                 </Grid>
                 <Grid item xs={12} md={5}>
-                    <AddLocation events_passed={events}/>
+                    <AddLocation events_passed={events} EventPage={true}/>
                 </Grid>
             </Grid>
         </BaseContainer>

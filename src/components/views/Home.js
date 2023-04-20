@@ -54,7 +54,7 @@ const Home = () => {
             <Grid item xs={12}>
                 <Typography variant={'h3'}>Home</Typography>
             </Grid>
-            <ErrorMessage error={error} onClose={() => setError(null)} />
+            <ErrorMessage error={error} onClose={() => setError(null)}/>
             <Button variant="contained"
                     startIcon={<EventNoteOutlinedIcon/>}
                     style={{margin: '20px'}}
@@ -69,7 +69,7 @@ const Home = () => {
             </Button>
             {/*<div id="map"></div>*/}
             {/*<div ref={mapContainer} className="map-container" />*/}
-            <AddLocation></AddLocation>
+            <AddLocation EventPage={true}></AddLocation>
         </BaseContainer>
     );
 };
