@@ -9,6 +9,8 @@ import {GlobalProvider} from "./helpers/GlobalState";
  * Overhauled by Kyrill Hux
  */
 const App = () => {
+
+
     return (
         <GlobalProvider>
             <LocalizationProvider dateAdapter={AdapterDayjs}>

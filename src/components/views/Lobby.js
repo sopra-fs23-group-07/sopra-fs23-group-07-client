@@ -214,10 +214,16 @@ const Lobby = () => {
                                 {members.map((user) => (
                                     <TableRow key={user.username}>
                                         <TableCell>
-                                            <Link href={`/Profile/${user.userId}`} target="_blank"
-                                                  title={"This opens the profile page in a new tab"}>
-                                                <LaunchIcon fontSize={"inherit"}/> {user.username}
-                                            </Link>
+
+                                            {user.userId == userId ?
+                                                <p>{user.username}</p> :
+
+                                                <Link href={`/Profile/${user.userId}`} target="_blank"
+                                                      title={"This opens the profile page in a new tab"}>
+                                                    <LaunchIcon fontSize={"inherit"}/> {user.username}
+                                                </Link>
+                                            }
+
                                         </TableCell>
                                         <TableCell>
                                             {/*{user.sports}*/}
