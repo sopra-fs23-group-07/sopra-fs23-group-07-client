@@ -10,8 +10,12 @@ const AddLocation = (props) => {
     console.log("this is the event", props.eventLocationDTO);
 
     const [marker, setMarker] = useState(null);
-    const [lng, setLng] = useState(8.541042);  //Longitude zurich
-    const [lat, setLat] = useState(47.374449);  //Latitude zurich
+    // const [lng, setLng] = useState(8.541042);  //Longitude zurich
+    // const [lat, setLat] = useState(47.374449);  //Latitude zurich
+
+
+    const [lng, setLng] = useState(8.232271068252828);  //Longitude Switzerland
+    const [lat, setLat] = useState(46.78526040913516);  //Latitude Switzerland
 
     const [lngEvent, setLngEvent] = useState(null);  //Longitude
     const [latEvent, setLatEvent] = useState(null);  //Latitude
@@ -115,7 +119,7 @@ This is used to retrieve the city of the user with the help of the ip adress
                 initialViewState={{
                     longitude: lng,
                     latitude: lat,
-                    zoom: 12,
+                    zoom: 6,
                 }}
                 mapStyle="mapbox://styles/mapbox/streets-v11"
 
