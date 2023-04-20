@@ -14,10 +14,8 @@ export const RegisterGuard = props => {
             try {
                 await api.get(`/users/${userId}`);
                 setTokenServer(true);
-                console.log("success", TokenServer);
             } catch (error) {
                 setTokenServer(false);
-                console.log("error", TokenServer);
             }
         };
         fetchData();
