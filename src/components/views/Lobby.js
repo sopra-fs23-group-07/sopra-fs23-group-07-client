@@ -188,178 +188,181 @@ const Lobby = () => {
 
 
     return (
-        <BaseContainer className="lobby">
-            <div className="flex space-x-10">
-                <div className="w-[80%]">
-                    <Schedule/>
-                    {/*<CountDownTimer initialSeconds={lobby.timeRemaining} />*/}
-                    <div>{Math.floor(lobby.timeRemaining / 60000)}:{Math.floor((lobby.timeRemaining % 60000) / 1000)} </div>
+        <>
+            <BaseContainer className="lobby">
+                <div className="flex space-x-10">
+                    <div className="w-[80%]">
+                        <Schedule/>
+                        {/*<CountDownTimer initialSeconds={lobby.timeRemaining} />*/}
+                        <div>{Math.floor(lobby.timeRemaining / 60000)}:{Math.floor((lobby.timeRemaining % 60000) / 1000)} </div>
 
-                    <TableContainer className="table-container" component={Paper}>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>
-                                        <Typography fontWeight="bold">Players</Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography fontWeight="bold">Sports</Typography>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Typography fontWeight="bold">Time</Typography>
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {members.map((user) => (
-                                    <TableRow key={user.username}>
+                        <TableContainer className="table-container" component={Paper}>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
                                         <TableCell>
-
-                                            {user.userId == userId ?
-                                                <p>{user.username}</p> :
-
-                                                <Link href={`/Profile/${user.userId}`} target="_blank"
-                                                      title={"This opens the profile page in a new tab"}>
-                                                    <LaunchIcon fontSize={"inherit"}/> {user.username}
-                                                </Link>
-                                            }
-
+                                            <Typography fontWeight="bold">Players</Typography>
                                         </TableCell>
                                         <TableCell>
-                                            {/*{user.sports}*/}
-                                            {user.userId == userId ?
-                                                <MultipleSelectChip onSelectedSports={handleSelectedSports}
-                                                                    memberId={user.memberId}/> :
-
-                                                user.selectedSports.map((sport) => (
-                                                    <span style={{
-                                                        display: 'block',
-                                                        color: lobby.lobbyDecidedSport.includes(sport) ? 'blue' : 'black'
-                                                    }}>
-                          {sport}
-                          </span>
-                                                ))
-                                            }
+                                            <Typography fontWeight="bold">Sports</Typography>
                                         </TableCell>
                                         <TableCell>
-                                            {/*{user.time}*/}
-                                            {/*<DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />*/}
-                                            {user.userId == userId ?
-                                                <SelectDateAndTime memberId={user.memberId}></SelectDateAndTime> :
-
-                                                user.selectedDates.map((time) => (
-                                                    <p>{moment(time).format("MMMM DD, YYYY h:mm A")}</p>))}
-                                            {/*{chosenDate.map((date) => (*/}
-                                            {/*    <div key={date} className="flex items-center space-x-2">*/}
-                                            {/*      <p className="flex-grow">{moment(date).format("MMMM DD, YYYY h:mm A")}</p>*/}
-                                            {/*      <IconButton*/}
-                                            {/*          aria-label="delete"*/}
-                                            {/*          onClick={() => removeDate(date)}*/}
-                                            {/*      >*/}
-                                            {/*        <ClearIcon />*/}
-                                            {/*      </IconButton>*/}
-                                            {/*    </div>*/}
-                                            {/*))}*/}
-                                        </TableCell>
-                                        <TableCell>
-                                            {" "}
-                                            <FormGroup>
-                                                {/*TO DO: check if the user.id I get from backend is the same id as in the local storage!
-                    And then also check if it should be disabled or not depending on the choice of the user*/}
-                                                {user.userId == userId ? (
-                                                    <FormControlLabel
-                                                        control={<Switch/>}
-                                                        label="Lock your choice"
-                                                        onChange={() => handleLock(user.memberId)}
-                                                    />
-                                                ) : (
-                                                    <FormControlLabel
-                                                        disabled
-                                                        control={<Switch/>}
-                                                        label={user.hasLockedSelections ? "User is ready" : "User is not ready"}
-                                                        checked={user.hasLockedSelections}
-                                                    />
-                                                )}
-
-
-                                            </FormGroup>
+                                            <Typography fontWeight="bold">Time</Typography>
                                         </TableCell>
                                     </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {members.map((user) => (
+                                        <TableRow key={user.username}>
+                                            <TableCell>
+
+                                                {user.userId == userId ?
+                                                    <p>{user.username}</p> :
+
+                                                    <Link href={`/Profile/${user.userId}`} target="_blank"
+                                                          title={"This opens the profile page in a new tab"}>
+                                                        <LaunchIcon fontSize={"inherit"}/> {user.username}
+                                                    </Link>
+                                                }
+
+                                            </TableCell>
+                                            <TableCell>
+                                                {/*{user.sports}*/}
+                                                {user.userId == userId ?
+                                                    <MultipleSelectChip onSelectedSports={handleSelectedSports}
+                                                                        memberId={user.memberId}/> :
+
+                                                    user.selectedSports.map((sport) => (
+                                                        <span style={{
+                                                            display: 'block',
+                                                            color: lobby.lobbyDecidedSport.includes(sport) ? 'blue' : 'black'
+                                                        }}>
+                              {sport}
+                              </span>
+                                                    ))
+                                                }
+                                            </TableCell>
+                                            <TableCell>
+                                                {/*{user.time}*/}
+                                                {/*<DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />*/}
+                                                {user.userId == userId ?
+                                                    <SelectDateAndTime memberId={user.memberId}></SelectDateAndTime> :
+
+                                                    user.selectedDates.map((time) => (
+                                                        <p>{moment(time).format("MMMM DD, YYYY h:mm A")}</p>))}
+                                                {/*{chosenDate.map((date) => (*/}
+                                                {/*    <div key={date} className="flex items-center space-x-2">*/}
+                                                {/*      <p className="flex-grow">{moment(date).format("MMMM DD, YYYY h:mm A")}</p>*/}
+                                                {/*      <IconButton*/}
+                                                {/*          aria-label="delete"*/}
+                                                {/*          onClick={() => removeDate(date)}*/}
+                                                {/*      >*/}
+                                                {/*        <ClearIcon />*/}
+                                                {/*      </IconButton>*/}
+                                                {/*    </div>*/}
+                                                {/*))}*/}
+                                            </TableCell>
+                                            <TableCell>
+                                                {" "}
+                                                <FormGroup>
+                                                    {/*TO DO: check if the user.id I get from backend is the same id as in the local storage!
+                        And then also check if it should be disabled or not depending on the choice of the user*/}
+                                                    {user.userId == userId ? (
+                                                        <FormControlLabel
+                                                            control={<Switch/>}
+                                                            label="Lock your choice"
+                                                            onChange={() => handleLock(user.memberId)}
+                                                        />
+                                                    ) : (
+                                                        <FormControlLabel
+                                                            disabled
+                                                            control={<Switch/>}
+                                                            label={user.hasLockedSelections ? "User is ready" : "User is not ready"}
+                                                            checked={user.hasLockedSelections}
+                                                        />
+                                                    )}
+
+
+                                                </FormGroup>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+
+                        <Button variant="contained" onClick={() => setOpen(true)}>
+                            Invite friends to lobby
+                        </Button>
+
+                        {/* pop-up */}
+                        <Dialog
+                            maxWidth="md"
+                            fullWidth
+                            open={open}
+                            onClose={() => setOpen(false)}
+                        >
+                            <DialogTitle>Copy Lobby URL</DialogTitle>
+                            <DialogContent>
+                                <input
+                                    type="text"
+                                    value={window.location.href}
+                                    ref={urlRef}
+                                    readOnly
+                                    style={{width: "100%", padding: "8px"}}
+                                />
+                            </DialogContent>
+                            <DialogActions>
+                                <Button variant="contained" onClick={handleCopyClick}>
+                                    Copy
+                                </Button>
+                                <Button variant="contained" onClick={() => setOpen(false)}>
+                                    Close
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
+                        <Button
+                            variant="contained"
+                            color="error"
+                            onClick={() => handleLeaveLobby()}
+                        >
+                            Leave Lobby
+                        </Button>
+                    </div>
+
+                    <div className="w-[30%]">
+
+                        {members.map((user) => (
+                            user.userId == userId ?
+                                <AddLocationForLobby memberId={user.memberId} key={user.username}
+                                                     locationDTO={locationDTO}/> : null
+                        ))}
+
+
+                        {locationDTO.map((location) => (
+                            <React.Fragment key={location.id}>
+                                {members.map((user) => (
+                                    user.userId == userId && (
+                                        <div className="my-12" key={`${location.id}-${user.username}`}>
+                                            <VotingForLocations
+                                                memberId={user.memberId}
+                                                address={location.address}
+                                                locationId={location.locationId}
+                                                memberVotes={location.memberVotes}
+                                                key={location.id}
+                                            />
+                                        </div>
+                                    )
                                 ))}
-                            </TableBody>
-                        </Table>
-                        <ErrorMessage error={error} onClose={() => setError(null)}/>
-                    </TableContainer>
+                            </React.Fragment>
+                        ))}
 
-                    <Button variant="contained" onClick={() => setOpen(true)}>
-                        Invite friends to lobby
-                    </Button>
-
-                    {/* pop-up */}
-                    <Dialog
-                        maxWidth="md"
-                        fullWidth
-                        open={open}
-                        onClose={() => setOpen(false)}
-                    >
-                        <DialogTitle>Copy Lobby URL</DialogTitle>
-                        <DialogContent>
-                            <input
-                                type="text"
-                                value={window.location.href}
-                                ref={urlRef}
-                                readOnly
-                                style={{width: "100%", padding: "8px"}}
-                            />
-                        </DialogContent>
-                        <DialogActions>
-                            <Button variant="contained" onClick={handleCopyClick}>
-                                Copy
-                            </Button>
-                            <Button variant="contained" onClick={() => setOpen(false)}>
-                                Close
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
-                    <Button
-                        variant="contained"
-                        color="error"
-                        onClick={() => handleLeaveLobby()}
-                    >
-                        Leave Lobby
-                    </Button>
+                    </div>
                 </div>
 
-                <div className="w-[30%]">
-
-                    {members.map((user) => (
-                        user.userId == userId ?
-                            <AddLocationForLobby memberId={user.memberId} key={user.username}
-                                                 locationDTO={locationDTO}/> : null
-                    ))}
-
-
-                    {locationDTO.map((location) => (
-                        <React.Fragment key={location.id}>
-                            {members.map((user) => (
-                                user.userId == userId && (
-                                    <div className="my-12" key={`${location.id}-${user.username}`}>
-                                        <VotingForLocations
-                                            memberId={user.memberId}
-                                            address={location.address}
-                                            locationId={location.locationId}
-                                            memberVotes={location.memberVotes}
-                                            key={location.id}
-                                        />
-                                    </div>
-                                )
-                            ))}
-                        </React.Fragment>
-                    ))}
-
-                </div>
-            </div>
-        </BaseContainer>
+            </BaseContainer>
+        <ErrorMessage error={error} onClose={() => setError(null)}/>
+    </>
     );
 };
 

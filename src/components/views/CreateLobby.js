@@ -6,8 +6,6 @@ import {Box, Button, FormControl, Grid, MenuItem, Paper, Select, TextField, Typo
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import 'styles/views/CreateLobby.scss'
 import ErrorMessage from "../ui/ErrorMessage";
-import { Alert, AlertTitle } from '@mui/material';
-
 
 
 
@@ -57,6 +55,7 @@ const CreateLobby = () => {
 
   // displays the three input fields
   return (
+      <>
       <BaseContainer className="createLobby">
         <Grid item xs={12}>
           <Typography variant={'h3'}>Create Lobby</Typography>
@@ -71,7 +70,7 @@ const CreateLobby = () => {
             }}
         >
           <Box sx={{display: 'flex', flexDirection: 'column', width: '100%', margin: '0 auto'}}>
-            <ErrorMessage error={error} onClose={() => setError(null)} />
+
             <Typography variant={'h5'}>Select Lobby Name:</Typography>
             <TextField
                 sx={{mt: 2, mb: 4}}
@@ -137,8 +136,14 @@ const CreateLobby = () => {
               Create Lobby
             </Button>
           </Box>
+          <ErrorMessage error={error} onClose={() => setError(null)} />
+
         </Paper>
+
       </BaseContainer>
+
+
+      </>
   );
 };
 

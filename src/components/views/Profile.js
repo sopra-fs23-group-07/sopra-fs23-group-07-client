@@ -41,7 +41,9 @@ const Profile = () => {
     const handleEditProfileClick = (userId) => {
         if (userId == localStorage.getItem("userId")) {
             history.push("/profile/" + String(userId) + "/edit");
-        } else (alert(`You are not allowed to edit this profile`))
+        } else (
+            setError("You are not allowed to edit this profile")
+        )
 
     };
     let content = <Paper

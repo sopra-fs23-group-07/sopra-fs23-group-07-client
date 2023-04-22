@@ -18,6 +18,7 @@ import AddLocation from "helpers/AddLocation";
 import { api, handleError } from "helpers/api";
 import Grid from "@mui/material/Grid";
 import moment from "moment/moment";
+import ErrorMessage from "../ui/ErrorMessage";
 
 const Events = () => {
   const history = useHistory();
@@ -40,15 +41,8 @@ const Events = () => {
 
         console.log(response);
       } catch (error) {
-        console.error(
-          `Something went wrong while fetching the event: \n${handleError(
-            error
-          )}`
-        );
-        console.error("Details:", error);
-        alert(
-          "Something went wrong while fetching the events! See the console for details."
-        );
+        console.error(`Something went wrong while fetching the event.`);
+        setError(handleError(error));
       }
     }
 
@@ -150,6 +144,7 @@ const Events = () => {
           {events && <AddLocation events_passed={events} EventPage={true} />}
         </Grid>
       </Grid>
+      <ErrorMessage error={error} onClose={() => setError(null)}/>
     </BaseContainer>
   );
 };

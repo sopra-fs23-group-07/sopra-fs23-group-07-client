@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getDomain } from 'helpers/getDomain';
 import React from 'react';
-import Alert from '@mui/material/Alert';
+import ErrorMessage from "../components/ui/ErrorMessage";
 
 export const api = axios.create({
   baseURL: getDomain(),
@@ -28,19 +28,13 @@ export const handleError = error => {
   } else {
     if (error.message.match(/Network Error/)) {
       return (
-          <Alert severity="error">
-            The server cannot be reached.
-            <br />
-            Did you start it?
-          </Alert>
+          <ErrorMessage error={"The server cannot be reached. Please start the server and reload the page."}  />
       );
     }
 
     console.log('Something else happened.', error);
     return (
-        <Alert severity="error">
-          {error.message}
-        </Alert>
+        <ErrorMessage error={error.message}/>
     );
   }
 };

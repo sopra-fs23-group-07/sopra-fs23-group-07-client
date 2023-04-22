@@ -62,15 +62,10 @@ const Lobbies = () => {
 
         console.log(response);
       } catch (error) {
-        console.error(
-          `Something went wrong while fetching the lobby: \n${handleError(
-            error
-          )}`
-        );
-        console.error("Details:", error);
-        setError(
-          "Something went wrong while fetching the lobbies! See the console for details."
-        );
+          console.error(`Something went wrong while fetching the lobbies`);
+          console.error("Details:", error);
+
+          setError(handleError(error));
       }
     }
 
