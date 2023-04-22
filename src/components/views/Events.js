@@ -65,7 +65,7 @@ const Events = () => {
 
   let noEventsDisclaimer = <Spinner />;
   // if no event exist display disclaimer
-  if (events.length === 0) {
+  if (!events || events.length === 0) {
     noEventsDisclaimer = (
       <p
         style={{
