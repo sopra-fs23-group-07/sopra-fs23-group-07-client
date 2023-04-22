@@ -16,6 +16,7 @@ const EditProfile = () => {
     const [password, setPassword] = useState('');
     const [repeatPassword, setRepeatPassword] = useState('');
     const [email, setEmail] = useState('');
+    const [bio, setBio] = useState('');
     const [error, setError] = useState(null);
 
     const handleUsernameInputChange = (event) => {
@@ -34,6 +35,10 @@ const EditProfile = () => {
         setEmail(event.target.value);
     };
 
+    const handleBioInputChange = (event) => {
+        setBio(event.target.value);
+    }
+
     const handleUpdateProfile = async () => {
         if (password !== repeatPassword) {
             setError('Passwords do not match');
@@ -50,6 +55,7 @@ const EditProfile = () => {
                 username,
                 password,
                 email,
+                bio
             };
             await api.put(`/users/${userId}`, requestBody, {
                 headers: {Authorization: `Bearer ${token}`},
@@ -109,6 +115,14 @@ const EditProfile = () => {
                         value={repeatPassword}
                         onChange={handleRepeatPasswordInputChange}
                         sx={{mt: 2}}
+                    />
+                    <TextField
+                        label={"Bio"}
+                        type={"text"}
+                        placeholder={"Tell the world something about you!"}
+                        value={bio}
+                        onChange={handleBioInputChange}
+                        sx={{mt:2}}
                     />
                     {error && (
                         <Typography color="error" sx={{mt: 2}}>

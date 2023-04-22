@@ -106,7 +106,7 @@ const Profile = () => {
                     Bio:
                 </Typography>
                 <Typography>
-                    Lorem ipsum dolor sit amet...
+                    {user.bio}
                 </Typography>
                 <ErrorMessage error={error} onClose={() => setError(null)} />
 
