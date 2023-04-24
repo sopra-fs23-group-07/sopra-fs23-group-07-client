@@ -90,13 +90,15 @@ const Events = () => {
                     <Typography fontWeight="bold">Event name</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography fontWeight="bold">Canton</Typography>
+                    <Typography fontWeight="bold">Region</Typography>
                   </TableCell>
                   <TableCell>
                     <Typography fontWeight="bold">Sport</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography fontWeight="bold">Number of users</Typography>
+                    <Typography fontWeight="bold">
+                      Number of participants
+                    </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography fontWeight="bold">Date</Typography>
@@ -144,7 +146,7 @@ const Events = () => {
           {events && <AddLocation events_passed={events} EventPage={true} />}
         </Grid>
       </Grid>
-      <ErrorMessage error={error} onClose={() => setError(null)}/>
+      <ErrorMessage error={error} onClose={() => setError(null)} />
     </BaseContainer>
   );
 };
