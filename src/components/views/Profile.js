@@ -103,7 +103,7 @@ const Profile = () => {
             </Grid>
             <Grid item xs={7}>
                 <Typography variant={"h5"}>
-                    Bio:
+                    Bio
                 </Typography>
                 <Typography>
                     {user.bio}

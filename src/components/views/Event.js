@@ -5,7 +5,7 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle,
+    DialogTitle, Link,
     Paper,
     Table,
     TableBody,
@@ -17,21 +17,24 @@ import {
 } from "@mui/material";
 import "styles/views/Event.scss";
 import {api, handleError} from "../../helpers/api";
-import {useHistory, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import AddLocation from "../../helpers/AddLocation";
 import Grid from "@mui/material/Grid";
 import ErrorMessage from "../ui/ErrorMessage";
 import moment from "moment";
+import LaunchIcon from '@mui/icons-material/Launch';
 
 
 const Event = () => {
 
-    const history = useHistory(); // needed for linking
     const eventId = useParams().eventId;
+    const userId = localStorage.getItem("userId");
+
 
     const [event, setEvent] = useState([]);
     const [error, setError] = useState(null);
     const [eventLocationDTO, setEventLocationDTO] = useState(null);
+    const [isParticipant, setIsParticipant] = useState(false);
 
     const [open, setOpen] = useState(false); // state for the pop-up
     const urlRef = useRef(null); // ref for the URL input
@@ -45,6 +48,29 @@ const Event = () => {
         }
     };
 
+    const handleJoinEvent = async () => {
+        try {
+            const requestBody = JSON.stringify({
+                userId: userId,
+            });
+            await api.put(`/events/${eventId}/join`, requestBody);
+            setIsParticipant(true);
+        } catch (error){
+            setError(handleError(error));
+        }
+    };
+
+    const handleLeaveEvent = async () => {
+        try {
+        const requestBody = JSON.stringify({
+            userId: userId,
+        });
+        await api.put(`/events/${eventId}/leave`, requestBody);
+        setIsParticipant(false);
+        } catch (error) {
+            setError(handleError(error));
+        }
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -52,6 +78,7 @@ const Event = () => {
                 const response = await api.get("/events/" + eventId);
                 setEvent(response.data);
                 setEventLocationDTO(response.data.eventLocationDTO);
+
                 console.log("eventLocationDTO: ", eventLocationDTO); // This will log the old value
                 console.log("request to:", response.request.responseURL);
                 console.log("status code:", response.status);
@@ -61,6 +88,9 @@ const Event = () => {
 
                 // Log the updated value of eventLocationDTO
                 console.log("updated eventLocationDTO: ", response.data.eventLocationDTO);
+                const userIds = response.data.participantDTOs.map(participant => participant.userId);
+                console.log(userIds);
+                setIsParticipant(userIds.includes(String(userId)));
 
             } catch (error) {
                 setError(handleError(error));
@@ -137,7 +167,20 @@ const Event = () => {
                                         <Typography fontWeight="bold">Participants</Typography>
                                     </TableCell>
                                     <TableCell>
-                                        <Typography>{event.eventParticipantsCount}/{event.eventMaxParticipants}</Typography>
+                                        <Typography fontWeight={"bold"}>{event.eventParticipantsCount}/{event.eventMaxParticipants}</Typography>
+                                        {event.participantDTOs &&
+                                            event.participantDTOs.map((participantDTO) =>(
+                                                <Typography>
+                                                    <Link href={`/Profile/${participantDTO.userId}`}
+                                                      target={"_blank"}
+                                                      title={"This opens the profile page in a new tab"}
+                                                    >
+                                                        <LaunchIcon fontSize={"inherit"}/>
+                                                        {participantDTO.username}
+                                                    </Link>
+                                                </Typography>
+                                            ))
+                                        }
                                     </TableCell>
                                 </TableRow>
                             </TableHead>
@@ -156,11 +199,21 @@ const Event = () => {
                       xs={7} md={7}
                       direction="row"
                       justifyContent={"center"}>
-                    <Button variant="contained" color="success" size="large" className="event button"
+                    <Button variant="contained"
+                            color="success"
+                            size="large"
+                            className="event button"
+                            onClick={() => handleJoinEvent()}
+                            // disabled={isParticipant || event.eventParticipantsCount === event.eventMaxParticipants}
                     >
                         Join
                     </Button>
-                    <Button variant="contained" color="error" size="large" className="event button" disabled
+                    <Button variant="contained"
+                            color="error"
+                            size="large"
+                            className="event button"
+                            onClick={() => handleLeaveEvent()}
+                            // disabled={!isParticipant}
                     >
                         Leave
                     </Button>

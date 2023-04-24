@@ -9,7 +9,7 @@ class Event {
         this.eventSport = null;
         this.eventRegion = null;
         this.eventMaxParticipants = null;
-        this.participantsDTOs = null;
+        this.participantDTOs = null;
         this.eventParticipantsCount = null;
         Object.assign(this, data);
     }

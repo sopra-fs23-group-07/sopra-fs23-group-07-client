@@ -220,7 +220,8 @@ const Lobby = () => {
                                                     <p>{user.username}</p> :
 
                                                     <Link href={`/Profile/${user.userId}`} target="_blank"
-                                                          title={"This opens the profile page in a new tab"}>
+                                                          title={"This opens the profile page in a new tab"}
+                                                    >
                                                         <LaunchIcon fontSize={"inherit"}/> {user.username}
                                                     </Link>
                                                 }
