@@ -6,6 +6,7 @@ import BaseContainer from 'components/ui/BaseContainer';
 import PropTypes from 'prop-types';
 import {Box, Button, Grid, Paper, TextField, Typography} from '@mui/material';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
+import CancelIcon from '@mui/icons-material/Cancel';
 import ErrorMessage from "../ui/ErrorMessage";
 
 const EditProfile = () => {
@@ -50,15 +51,18 @@ const EditProfile = () => {
         }
 
         try {
-            const requestBody = {
-                userId,
-                username,
-                password,
-                email,
-                bio
-            };
-            await api.put(`/users/${userId}`, requestBody, {
-                headers: {Authorization: `Bearer ${token}`},
+            const filteredRequestBody = Object.fromEntries(
+                Object.entries({
+                    userId,
+                    username,
+                    password,
+                    email,
+                    bio,
+                }).filter(([_, value]) => value !== '')
+            );
+
+            await api.put(`/users/${userId}`, filteredRequestBody, {
+                headers: { Authorization: `Bearer ${token}` },
             });
             history.push(`/profile/${userId}`);
         } catch (error) {
@@ -83,7 +87,7 @@ const EditProfile = () => {
                     paddingY: 10,
                     paddingX: 4,
                     mt: 2,
-                    maxWidth: 1200,
+                    maxWidth: 800,
                     flexGrow: 1,
                 }}
             >
@@ -121,6 +125,8 @@ const EditProfile = () => {
                         type={"text"}
                         placeholder={"Tell the world something about you!"}
                         value={bio}
+                        multiline
+                        rows={3}
                         onChange={handleBioInputChange}
                         sx={{mt:2}}
                     />
@@ -129,13 +135,32 @@ const EditProfile = () => {
                             {error}
                         </Typography>
                     )}
-                    <Button variant="contained"
-                            startIcon={<SaveOutlinedIcon/>}
-                            onClick={handleUpdateProfile}
-                            sx={{mt: 2, p: 2, justifySelf: 'center', alignSelf: 'center'}}
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            width: '80%',
+                            margin: '0 auto',
+                            mt: 3
+                        }}
                     >
-                        Save Changes
-                    </Button>
+                        <Button variant="contained"
+                                startIcon={<SaveOutlinedIcon/>}
+                                onClick={handleUpdateProfile}
+                                sx={{mt: 2, p: 2, marginX: "5%"}}
+                        >
+                            Save Changes
+                        </Button>
+                        <Button variant="contained"
+                                color={"error"}
+                                startIcon={<CancelIcon/>}
+                                onClick={() => history.push(`/Profile/${userId}`)}
+                                sx={{mt: 2, p: 2, marginX: "5%" }}
+                        >
+                            Cancel
+                        </Button>
+                    </Box>
                 </Box>
             </Paper>
         </BaseContainer>
