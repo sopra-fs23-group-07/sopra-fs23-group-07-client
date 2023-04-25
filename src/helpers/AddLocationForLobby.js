@@ -25,7 +25,7 @@ const AddLocationForLobby = (props) => {
     const list_of_coordinates = [];
 
 
-    const handleMapClick = (map,) => {
+    const handleMapClick = (map) => {
 
         if (UserConfirmedLocation === false) {
             const {lngLat} = map;
@@ -139,7 +139,7 @@ const AddLocationForLobby = (props) => {
                     zoom: 12,
                 }}
                 mapStyle="mapbox://styles/mapbox/streets-v11"
-                onClick={handleMapClick}
+                onClick={props.hasLockedSelections ? null : handleMapClick}
             >
                 {lat2 && lng2 && (
                     <Marker
