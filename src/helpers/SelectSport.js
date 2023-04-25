@@ -103,7 +103,7 @@ export default function MultipleSelectChip(props) {
                             value={name}
                             style={{
                                 ...getStyles(name, MainUserSelectedSports, theme),
-                                color: props.chosenSportServer.includes(name) ? 'blue' : 'black',
+                                color: props.chosenSportServer.includes(name) ? 'black' : 'black',
                             }}
                         >
                             {name}

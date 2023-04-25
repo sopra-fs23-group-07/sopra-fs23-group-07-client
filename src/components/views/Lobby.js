@@ -21,7 +21,6 @@ import {
 } from "@mui/material";
 import "styles/views/TestLobby.scss";
 import MultipleSelectChip from "helpers/SelectSport";
-import Schedule from "@mui/icons-material/Schedule"; // Alternative icons could be AccessAlarm, Timer, Hourglass
 import {api, handleError} from "../../helpers/api";
 
 import {useHistory} from "react-router-dom";
@@ -196,11 +195,11 @@ const Lobby = () => {
             <BaseContainer className="lobby">
                 <div className="flex space-x-10">
                     <div className="w-[80%]">
-                        <Schedule/>
-                        {/*<CountDownTimer initialSeconds={lobby.timeRemaining} />*/}
-                        <div>{Math.floor(lobby.timeRemaining / 60000)}:{Math.floor((lobby.timeRemaining % 60000) / 1000)} </div>
+                        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                            <p style={{margin: 0}}>Lobby: {lobby.lobbyName}</p>
+                            <div>{Math.floor(lobby.timeRemaining / 60000)}:{Math.floor((lobby.timeRemaining % 60000) / 1000)}</div>
+                        </div>
 
-                        <p>Lobby: {lobby.lobbyName}</p>
 
                         <TableContainer className="table-container" component={Paper}>
                             <Table>
