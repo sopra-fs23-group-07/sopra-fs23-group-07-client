@@ -27,11 +27,11 @@ import {api, handleError} from "../../helpers/api";
 import {useHistory} from "react-router-dom";
 import "styles/views/Lobby.scss";
 import SelectDateAndTime from "../../helpers/SelectDateAndTime";
-import moment from "moment/moment";
 import AddLocationForLobby from "../../helpers/AddLocationForLobby";
 import VotingForLocations from "../../helpers/VotingForLocations";
 import ErrorMessage from "../ui/ErrorMessage";
 import LaunchIcon from '@mui/icons-material/Launch';
+import moment from "moment/moment";
 
 
 const generateTableData = (users) => {
@@ -65,11 +65,18 @@ const Lobby = () => {
     const userId = localStorage.getItem("userId");
 
     const [lobby, setLobby] = useState([]);
-    const [ChoiceLocked, setChoiceLocked] = useState(false);
+
     const [selectedSports, setSelectedSports] = React.useState([]);
     const [error, setError] = useState(null);
+    const [members, setMembers] = useState([]); // state for the pop-up
 
-
+    //
+    // members.map((user) => {
+    //     if (user.userId === parseInt(userId)) {
+    //         setChoiceLocked(user.hasLockedSelections)
+    //
+    //     }
+    // });
     const handleSelectedSports = (sports) => {
         setSelectedSports(sports);
     };
@@ -89,12 +96,10 @@ const Lobby = () => {
         }
     };
 
-    const handleLock = (memberId) => {
-        if (ChoiceLocked) {
-            setChoiceLocked(false);
+    const handleLock = (memberId, hasLockedSelections) => {
+        if (hasLockedSelections) {
             unlockChoice(memberId);
         } else {
-            setChoiceLocked(true);
             lockChoice(memberId);
         }
     }
@@ -132,7 +137,6 @@ const Lobby = () => {
 
 
     const [time, setTime] = useState(false); // state for the pop-up
-    const [members, setMembers] = useState([]); // state for the pop-up
     const [locationDTO, setLocationDTO] = useState([]); // state for the pop-up
 
     const [eventId, setEventId] = useState(null);
@@ -196,6 +200,8 @@ const Lobby = () => {
                         {/*<CountDownTimer initialSeconds={lobby.timeRemaining} />*/}
                         <div>{Math.floor(lobby.timeRemaining / 60000)}:{Math.floor((lobby.timeRemaining % 60000) / 1000)} </div>
 
+                        <p>Lobby: {lobby.lobbyName}</p>
+
                         <TableContainer className="table-container" component={Paper}>
                             <Table>
                                 <TableHead>
@@ -216,7 +222,7 @@ const Lobby = () => {
                                         <TableRow key={user.username}>
                                             <TableCell>
 
-                                                {user.userId == userId ?
+                                                {user.userId === parseInt(userId) ?
                                                     <p>{user.username}</p> :
 
                                                     <Link href={`/Profile/${user.userId}`} target="_blank"
@@ -229,9 +235,18 @@ const Lobby = () => {
                                             </TableCell>
                                             <TableCell>
                                                 {/*{user.sports}*/}
-                                                {user.userId == userId ?
+                                                {user.userId === parseInt(userId) ?
+
                                                     <MultipleSelectChip onSelectedSports={handleSelectedSports}
-                                                                        memberId={user.memberId}/> :
+                                                                        memberId={user.memberId}
+                                                                        selectedSportsServer={user.selectedSports}
+                                                                        chosenSportServer={lobby.lobbyDecidedSport}
+                                                                        hasLockedSelections={user.hasLockedSelections}
+
+                                                    />
+
+
+                                                    :
 
                                                     user.selectedSports.map((sport) => (
                                                         <span style={{
@@ -247,10 +262,32 @@ const Lobby = () => {
                                                 {/*{user.time}*/}
                                                 {/*<DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />*/}
                                                 {user.userId == userId ?
-                                                    <SelectDateAndTime memberId={user.memberId}></SelectDateAndTime> :
+
+
+                                                    <SelectDateAndTime selectedDatesServer={user.selectedDates}
+                                                                       chosenDateServer={lobby.lobbyDecidedDate}
+                                                                       memberId={user.memberId}
+                                                                       hasLockedSelections={user.hasLockedSelections}
+
+                                                    >
+
+
+                                                    </SelectDateAndTime>
+
+                                                    :
+
 
                                                     user.selectedDates.map((time) => (
-                                                        <p>{moment(time).format("MMMM DD, YYYY h:mm A")}</p>))}
+                                                        <span style={{
+                                                            display: 'block',
+                                                            color: lobby.lobbyDecidedDate.includes(time) ? 'blue' : 'black'
+                                                        }}>
+                              {<p>{moment(time).format("MMMM DD, YYYY h:mm A")}</p>}
+                              </span>
+                                                    ))}
+                                                {/*<p>{moment(time).format("MMMM DD, YYYY h:mm A")}</p>*/}
+                                                {/*// user.selectedDates.map((time) => (*/}
+                                                {/*//     <p>{moment(time).format("MMMM DD, YYYY h:mm A")}</p>))}*/}
                                                 {/*{chosenDate.map((date) => (*/}
                                                 {/*    <div key={date} className="flex items-center space-x-2">*/}
                                                 {/*      <p className="flex-grow">{moment(date).format("MMMM DD, YYYY h:mm A")}</p>*/}
@@ -268,11 +305,12 @@ const Lobby = () => {
                                                 <FormGroup>
                                                     {/*TO DO: check if the user.id I get from backend is the same id as in the local storage!
                         And then also check if it should be disabled or not depending on the choice of the user*/}
-                                                    {user.userId == userId ? (
+                                                    {user.userId === parseInt(userId) ? (
                                                         <FormControlLabel
                                                             control={<Switch/>}
                                                             label="Lock your choice"
-                                                            onChange={() => handleLock(user.memberId)}
+                                                            onChange={() => handleLock(user.memberId, user.hasLockedSelections)}
+                                                            checked={user.hasLockedSelections}
                                                         />
                                                     ) : (
                                                         <FormControlLabel
@@ -334,18 +372,22 @@ const Lobby = () => {
                     <div className="w-[30%]">
 
                         {members.map((user) => (
-                            user.userId == userId ?
+                            user.userId === parseInt(userId) ?
                                 <AddLocationForLobby memberId={user.memberId} key={user.username}
-                                                     locationDTO={locationDTO}/> : null
+                                                     locationDTO={locationDTO}
+                                                     hasLockedSelections={user.hasLockedSelections}
+
+                                /> : null
                         ))}
 
 
                         {locationDTO.map((location) => (
                             <React.Fragment key={location.id}>
                                 {members.map((user) => (
-                                    user.userId == userId && (
+                                    user.userId === parseInt(userId) && (
                                         <div className="my-12" key={`${location.id}-${user.username}`}>
                                             <VotingForLocations
+                                                hasLockedSelections={user.hasLockedSelections}
                                                 memberId={user.memberId}
                                                 address={location.address}
                                                 locationId={location.locationId}
@@ -362,8 +404,8 @@ const Lobby = () => {
                 </div>
 
             </BaseContainer>
-        <ErrorMessage error={error} onClose={() => setError(null)}/>
-    </>
+            <ErrorMessage error={error} onClose={() => setError(null)}/>
+        </>
     );
 };
 

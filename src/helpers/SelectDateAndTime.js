@@ -1,20 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
-import { setHours, setMinutes } from 'date-fns';
 import IconButton from '@mui/material/IconButton';
 import CheckIcon from '@mui/icons-material/Check';
-import {Button} from "@mui/material";
 import ClearIcon from '@mui/icons-material/Clear';
 import moment from 'moment';
 import {api, handleError} from "./api";
 
 
-
 const today = new Date();
 const SelectDateAndTime = (props) => {
+
     const [startDate, setStartDate] = useState();
-    const [chosenDate, setChosenDate] = useState([]);
+    const [chosenDate, setChosenDate] = useState(props.selectedDatesServer);
     const removeDate = (dateToRemove) => {
         setChosenDate(chosenDate.filter((date) => date !== dateToRemove));
         // UpdateSelectedTime(chosenDate);
@@ -67,7 +65,6 @@ const SelectDateAndTime = (props) => {
             await api.put(`/lobbies/${lobbyId}/date`, requestBody);
 
 
-
         } catch (error) {
             alert(`Something went wrong when joining the lobby: \n${handleError(error)}`);
         }
@@ -75,42 +72,53 @@ const SelectDateAndTime = (props) => {
     };
 
 
-
     return (
         <div>
-        <div className="flex">
-            <div className="w-[100%]">
-        <DatePicker
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
-            showTimeSelect
-            timeIntervals={30}
-            maxDate={new Date(today.setDate(today.getDate() + 5))} // 5 days from now
-            filterTime={filterPassedTime}
-            dateFormat="MMMM d, yyyy h:mm aa"
-            placeholderText="Select a date and time"
-            isClearable={true}
+            <div className="flex">
+                <div className="w-[100%]">
+                    <DatePicker
+                        disabled={props.hasLockedSelections}
+                        selected={startDate}
+                        onChange={(date) => setStartDate(date)}
+                        showTimeSelect
+                        timeIntervals={30}
+                        maxDate={new Date(today.setDate(today.getDate() + 5))} // 5 days from now
+                        filterTime={filterPassedTime}
+                        dateFormat="MMMM d, yyyy h:mm aa"
+                        placeholderText="Select a date and time"
+                        isClearable={true}
 
-        />
+                    />
                 </div>
                 <div className="w-[40%]">
-            <IconButton
-                aria-label="delete"
-                onClick={handleClick}
-            >
-                <CheckIcon />
-            </IconButton>
+                    <IconButton
+                        disabled={props.hasLockedSelections}
+                        aria-label="delete"
+                        onClick={handleClick}
+                    >
+                        <CheckIcon/>
+                    </IconButton>
                 </div>
-        </div>
+            </div>
             <div className="flex flex-wrap gap-x-2 gap-y-0 my-0.1">
                 {chosenDate.map((date) => (
                     <div key={date} className="flex items-center space-x-2">
-                        <p className="flex-grow">{moment(date).format("MMMM DD, YYYY h:mm A")}</p>
+
+
+                            <span style={{
+                                display: 'block',
+                                color: props.chosenDateServer.includes(date) ? 'blue' : 'black'
+                            }}>
+                              {<p>{moment(date).format("MMMM DD, YYYY h:mm A")}</p>}
+                              </span>
+
+                        {/*<p className="flex-grow">{moment(date).format("MMMM DD, YYYY h:mm A")}</p>*/}
                         <IconButton
+                            disabled={props.hasLockedSelections}
                             aria-label="delete"
                             onClick={() => removeDate(date)}
                         >
-                            <ClearIcon />
+                            <ClearIcon/>
                         </IconButton>
                     </div>
                 ))}

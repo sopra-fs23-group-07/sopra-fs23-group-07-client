@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from "react";
 import {Box, Button} from "@mui/material";
 import ReactMapGL, {GeolocateControl, Marker, NavigationControl} from "react-map-gl";
 import Geocoder from "./Geocoder";
-import Home from "../components/views/Home";
 import {api, handleError} from "./api";
 
 const AddLocationForLobby = (props) => {
@@ -26,16 +25,15 @@ const AddLocationForLobby = (props) => {
     const list_of_coordinates = [];
 
 
-    const handleMapClick = (map, ) => {
+    const handleMapClick = (map,) => {
 
-        if(UserConfirmedLocation === false) {
-        const { lngLat } = map;
-        setLat2(lngLat.lat);
-        setLng2(lngLat.lng);
-        setLngLat(lngLat);
+        if (UserConfirmedLocation === false) {
+            const {lngLat} = map;
+            setLat2(lngLat.lat);
+            setLng2(lngLat.lng);
+            setLngLat(lngLat);
 
-    }
-        else {
+        } else {
             console.log("User already confirmed location");
             alert("You already confirmed your location!")
         }
@@ -58,11 +56,10 @@ const AddLocationForLobby = (props) => {
         }
     }
 
-    useEffect(()=>{
-        if(Address && LngLat)
-        SendLocationToServer(LngLat);
-    },[Address])
-
+    useEffect(() => {
+        if (Address && LngLat)
+            SendLocationToServer(LngLat);
+    }, [Address])
 
 
     // const exportImage = async (latitude, longitude) => {
@@ -99,8 +96,7 @@ const AddLocationForLobby = (props) => {
                 });
                 await api.post(`/lobbies/${lobbyId}/locations`, requestBody);
                 SetUserConfirmedLocation(true);
-            }
-            else {
+            } else {
                 alert("You already confirmed your location!")
             }
 
@@ -128,12 +124,11 @@ const AddLocationForLobby = (props) => {
     const mapRef = useRef();
 
 
-
     return (
         <Box
             sx={{
-                height:350,
-                position:'relative'
+                height: 350,
+                position: 'relative'
             }}>
             <ReactMapGL
                 ref={mapRef}
@@ -147,23 +142,21 @@ const AddLocationForLobby = (props) => {
                 onClick={handleMapClick}
             >
                 {lat2 && lng2 && (
-                <Marker
-                    latitude={lat2}
-                    longitude={lng2}
-                >
-                </Marker>)}
+                    <Marker
+                        latitude={lat2}
+                        longitude={lng2}
+                    >
+                    </Marker>)}
 
                 {props.locationDTO.map((coordinate, index) => (
-                        <Marker
-                            key={index}
-                            latitude={coordinate.latitude}
-                            longitude={coordinate.longitude}
-                        >
+                    <Marker
+                        key={index}
+                        latitude={coordinate.latitude}
+                        longitude={coordinate.longitude}
+                    >
 
-                        </Marker>
+                    </Marker>
                 ))}
-
-
 
 
                 <NavigationControl position="bottom-right"/>
@@ -172,13 +165,13 @@ const AddLocationForLobby = (props) => {
                     trackUserLocation
 
                 />
-                <Geocoder />
-
+                <Geocoder/>
 
 
             </ReactMapGL>
             <div className="my-1">
-                <Button variant="contained" onClick={() => transformCoordinatesToAddress(LngLat)}>
+                <Button variant="contained" disabled={props.hasLockedSelections}
+                        onClick={() => transformCoordinatesToAddress(LngLat)}>
                     Confirm Location
                 </Button>
             </div>

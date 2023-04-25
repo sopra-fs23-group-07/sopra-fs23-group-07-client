@@ -1,6 +1,5 @@
 import {Badge, Button} from "@mui/material";
 import React, {useState} from "react";
-import SelectDateAndTime from "./SelectDateAndTime";
 import {api, handleError} from "./api";
 
 
@@ -30,7 +29,11 @@ const VotingForLocations = (props) => {
 
     };
 
-
+    React.useEffect(() => {
+        return () => {
+            setUserAlreadyVoted(false);
+        };
+    }, []);
 
     const UnVoteForLocation = async () => {
         try {
@@ -51,11 +54,18 @@ const VotingForLocations = (props) => {
     const {location} = props;
 
     return (
-        <div >
-            {UserAlreadyVoted ? <Badge badgeContent={memberVotes} color="error"> <Button variant="contained" onClick={()=> UnVoteForLocation(location)} > Unvote</Button> </Badge> :
-                <Badge badgeContent={memberVotes} color="primary"> <Button variant="contained" onClick={()=> VoteForLocation(location)}> Vote</Button> </Badge>}
-        {/*<Badge badgeContent={memberVotes} color="primary"> <Button variant="contained" onClick={()=> handleVote(location)}> Vote</Button> </Badge>*/}
-        &nbsp;&nbsp;{address}
+        <div>
+            {UserAlreadyVoted ?
+                <Badge badgeContent={memberVotes} color="error"> <Button disabled={props.hasLockedSelections}
+                                                                         variant="contained"
+                                                                         onClick={() => UnVoteForLocation(location)}> Unvote</Button>
+                </Badge> :
+                <Badge badgeContent={memberVotes} color="primary"> <Button disabled={props.hasLockedSelections}
+                                                                           variant="contained"
+                                                                           onClick={() => VoteForLocation(location)}> Vote</Button>
+                </Badge>}
+            {/*<Badge badgeContent={memberVotes} color="primary"> <Button variant="contained" onClick={()=> handleVote(location)}> Vote</Button> </Badge>*/}
+            &nbsp;&nbsp;{address}
         </div>
     );
 }
