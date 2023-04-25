@@ -18,6 +18,7 @@ import {CreateLobbyGuard} from "../routeProtectors/CreateLobbyGuard";
 import {HomeGuard} from "../routeProtectors/HomeGuard";
 import Event from "../../views/Event";
 import EditProfile from "../../views/EditProfile";
+import {ProfileGuard} from "../routeProtectors/ProfileGuard";
 
 /**
  * Main router of your application.
@@ -45,7 +46,9 @@ const AppRouter = () => {
           </RegisterGuard>
         </Route>
         <Route exact path={`/Profile/`}>
-          <Profile />
+          <ProfileGuard>
+            <Profile />
+          </ProfileGuard>
         </Route>
         <Route exact path="/">
           <Redirect to="/register" />
@@ -71,10 +74,14 @@ const AppRouter = () => {
         </Route>
 
         <Route exact path="/Profile/:userId">
-          <Profile />
+          <ProfileGuard>
+            <Profile />
+          </ProfileGuard>
         </Route>
         <Route exact path={"/Profile/:userId/Edit"}>
-          <EditProfile/>
+          <ProfileGuard>
+            <EditProfile/>
+          </ProfileGuard>
         </Route>
 
         {/* DONE: Add a Guard to make sure only logged in users can create Lobby */}
