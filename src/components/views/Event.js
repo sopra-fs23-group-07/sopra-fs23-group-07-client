@@ -5,7 +5,8 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle, Link,
+    DialogTitle,
+    Link,
     Paper,
     Table,
     TableBody,
@@ -55,18 +56,18 @@ const Event = () => {
             });
             await api.put(`/events/${eventId}/join`, requestBody);
             setIsParticipant(true);
-        } catch (error){
+        } catch (error) {
             setError(handleError(error));
         }
     };
 
     const handleLeaveEvent = async () => {
         try {
-        const requestBody = JSON.stringify({
-            userId: userId,
-        });
-        await api.put(`/events/${eventId}/leave`, requestBody);
-        setIsParticipant(false);
+            const requestBody = JSON.stringify({
+                userId: userId,
+            });
+            await api.put(`/events/${eventId}/leave`, requestBody);
+            setIsParticipant(false);
         } catch (error) {
             setError(handleError(error));
         }
@@ -97,6 +98,10 @@ const Event = () => {
             }
         };
         fetchData();
+
+        const intervalId = setInterval(fetchData, 1000); // Update data every second
+
+        return () => clearInterval(intervalId); // Clear the interval when the component is unmounted
     }, [eventId]);
 
 
@@ -167,13 +172,14 @@ const Event = () => {
                                         <Typography fontWeight="bold">Participants</Typography>
                                     </TableCell>
                                     <TableCell>
-                                        <Typography fontWeight={"bold"}>{event.eventParticipantsCount}/{event.eventMaxParticipants}</Typography>
+                                        <Typography
+                                            fontWeight={"bold"}>{event.eventParticipantsCount}/{event.eventMaxParticipants}</Typography>
                                         {event.participantDTOs &&
-                                            event.participantDTOs.map((participantDTO) =>(
+                                            event.participantDTOs.map((participantDTO) => (
                                                 <Typography>
                                                     <Link href={`/Profile/${participantDTO.userId}`}
-                                                      target={"_blank"}
-                                                      title={"This opens the profile page in a new tab"}
+                                                          target={"_blank"}
+                                                          title={"This opens the profile page in a new tab"}
                                                     >
                                                         <LaunchIcon fontSize={"inherit"}/>
                                                         {participantDTO.username}
@@ -204,7 +210,7 @@ const Event = () => {
                             size="large"
                             className="event button"
                             onClick={() => handleJoinEvent()}
-                            // disabled={isParticipant || event.eventParticipantsCount === event.eventMaxParticipants}
+                        // disabled={isParticipant || event.eventParticipantsCount === event.eventMaxParticipants}
                     >
                         Join
                     </Button>
@@ -213,7 +219,7 @@ const Event = () => {
                             size="large"
                             className="event button"
                             onClick={() => handleLeaveEvent()}
-                            // disabled={!isParticipant}
+                        // disabled={!isParticipant}
                     >
                         Leave
                     </Button>
