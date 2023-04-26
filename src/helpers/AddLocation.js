@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Box} from "@mui/material";
 import ReactMapGL, {GeolocateControl, Marker, NavigationControl} from "react-map-gl";
 import Geocoder from "./Geocoder";
@@ -45,6 +45,20 @@ const AddLocation = (props) => {
 
 
     }
+
+    const flyToLocation = props.flyToLocation;
+
+    useEffect(() => {
+        if (flyToLocation) {
+            mapRef.current.getMap().flyTo({
+                center: [flyToLocation.longitude, flyToLocation.latitude],
+                zoom: 12,
+                essential: true // this animation is considered essential with respect to prefers-reduced-motion
+            });
+        }
+
+
+    }, [flyToLocation])
 
 
     return (

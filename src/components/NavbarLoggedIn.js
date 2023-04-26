@@ -16,6 +16,7 @@ const NavbarLoggedIn = () => {
     const lobbyId = localStorage.getItem("lobbyId");
     const [open, setOpen] = useState(false);
     const [pushTo, setPushTo] = useState("");
+    const [isLogOut, setIsLogOut] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -34,6 +35,9 @@ const NavbarLoggedIn = () => {
             localStorage.removeItem("lobbyId");
             handleClose(); // Close the dialog
             history.push(pushTo);
+            if (isLogOut) {
+                handleLogOut();
+            }
         } catch (error) {
             setError(handleError(error));
             history.push(pushTo);
@@ -92,21 +96,42 @@ const NavbarLoggedIn = () => {
 
     // TODO: Log out works for tokens but not for updating header
     const handleLogoutClick = async () => {
+        if (localStorage.getItem("lobbyId")) {
+            console.log("handleLogoutClick was called inside if");
+            setPushTo("/login");
+            setIsLogOut(true);
+            handleClickOpen();
+        } else {
+            try {
+                const response = await api.post(`/users/logout/${userId}`);
+                localStorage.clear();
+                setUser(null);
+                history.push("/login");
+                console.log(response);
+            } catch (error) {
+                alert(`Something went wrong during the logout: \n${handleError(error)}`);
+            }
+        }
+    };
+
+
+    const handleLogOut = async () => {
+
         try {
-            const response = await api.post(`/users/logout/${userId}`);
+            await api.post(`/users/logout/${userId}`);
 
             // localStorage.removeItem("token");
             // localStorage.removeItem("userId");
             // localStorage.removeItem("lobbyId");
+
             localStorage.clear();
             setUser(null);
 
-            history.push("/login");
-            console.log(response);
+            console.log("handleLogoutClick was called inside try");
         } catch (error) {
             alert(`Something went wrong during the logout: \n${handleError(error)}`);
         }
-    };
+    }
 
     const LeaveLobbyConfirmation = ({open, handleClose, handleLeaveLobby}) => {
         return (

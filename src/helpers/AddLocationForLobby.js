@@ -9,8 +9,8 @@ const AddLocationForLobby = (props) => {
     const TOKEN = process.env.REACT_APP_MAP_TOKEN;
     //console.log("this are the props", props.locationDTO);
     //const {state:{location:{lng, lat}}, dispatch} = useValue();
-    const [lng, setLng] = useState(8.541042);  //Longitude
-    const [lat, setLat] = useState(47.374449);  //Latitude
+    const [lng, setLng] = useState(8.232271068252828);  //Longitude Switzerland
+    const [lat, setLat] = useState(46.78526040913516);
 
     const [lng2, setLng2] = useState(null);  //Longitude
     const [lat2, setLat2] = useState(null);  //Latitude
@@ -23,6 +23,19 @@ const AddLocationForLobby = (props) => {
     const lobbyId = localStorage.getItem("lobbyId");
 
     const list_of_coordinates = [];
+    const flyToLocation = props.flyToLocation;
+
+    useEffect(() => {
+        if (flyToLocation) {
+            mapRef.current.getMap().flyTo({
+                center: [flyToLocation.longitude, flyToLocation.latitude],
+                zoom: 12,
+                essential: true // this animation is considered essential with respect to prefers-reduced-motion
+            });
+        }
+
+
+    }, [flyToLocation])
 
 
     const handleMapClick = (map) => {
@@ -136,7 +149,7 @@ const AddLocationForLobby = (props) => {
                 initialViewState={{
                     longitude: lng,
                     latitude: lat,
-                    zoom: 12,
+                    zoom: 6,
                 }}
                 mapStyle="mapbox://styles/mapbox/streets-v11"
                 onClick={props.hasLockedSelections ? null : handleMapClick}

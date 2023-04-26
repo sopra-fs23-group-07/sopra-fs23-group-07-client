@@ -11,6 +11,9 @@ const VotingForLocations = (props) => {
     const lobbyId = localStorage.getItem("lobbyId");
     const locationId = props.locationId;
     const memberVotes = props.memberVotes;
+    const latitude = props.latitude;
+    const longitude = props.longitude;
+    const setFlyToLocation = props.setFlyToLocation;
 
 
     const VoteForLocation = async () => {
@@ -56,16 +59,26 @@ const VotingForLocations = (props) => {
     return (
         <div>
             {UserAlreadyVoted ?
+
                 <Badge badgeContent={memberVotes} color="error"> <Button disabled={props.hasLockedSelections}
                                                                          variant="contained"
                                                                          onClick={() => UnVoteForLocation(location)}> Unvote</Button>
-                </Badge> :
+                </Badge>
+
+
+                :
                 <Badge badgeContent={memberVotes} color="primary"> <Button disabled={props.hasLockedSelections}
                                                                            variant="contained"
                                                                            onClick={() => VoteForLocation(location)}> Vote</Button>
                 </Badge>}
             {/*<Badge badgeContent={memberVotes} color="primary"> <Button variant="contained" onClick={()=> handleVote(location)}> Vote</Button> </Badge>*/}
             &nbsp;&nbsp;{address}
+            <Button
+                // fly to the location
+                onClick={() => {
+                    setFlyToLocation({latitude, longitude});
+                }
+                }> Show on Map </Button>
         </div>
     );
 }
