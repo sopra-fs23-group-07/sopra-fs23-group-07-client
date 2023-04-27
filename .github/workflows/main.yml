@@ -34,8 +34,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18.x"
+          
       - run: npm install
-      - run: CI=false npm run build
+      - run: npm run build
 
       - name: Deploy to App Engine
         uses: google-github-actions/deploy-appengine@v0.2.0
@@ -43,7 +44,7 @@ jobs:
           deliverables: app.yaml
           version: v1
           credentials: ${{ secrets.GCP_SERVICE_CREDENTIALS }}
-
+          
         # the steps below will be run if the deploy-appengine action succeeds
       - name: Test
         run: curl "${{ steps.deploy.outputs.url }}"
