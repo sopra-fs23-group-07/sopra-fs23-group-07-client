@@ -45,6 +45,5 @@ jobs:
           credentials: ${{ secrets.GCP_SERVICE_CREDENTIALS }}
 
         # the steps below will be run if the deploy-appengine action succeeds
-        steps:
-          - name: "Test"
-            run: curl "${{ steps.deploy.outputs.url }}"
+      - name: Test
+        run: curl "${{ steps.deploy.outputs.url }}"
