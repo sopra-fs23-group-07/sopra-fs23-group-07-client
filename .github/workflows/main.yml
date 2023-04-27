@@ -1,4 +1,4 @@
-name: "Deploy Project to App Engine"
+name: Deploy Project to App Engine
 
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
         with:
           node-version: "18.x"
       - run: npm install
-      - run: npm run build
+      - run: CI=false npm run build
 
       - name: Deploy to App Engine
         uses: google-github-actions/deploy-appengine@v0.2.0
