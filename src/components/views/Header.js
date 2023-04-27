@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import "styles/views/Header.scss";
 import {NavbarLoggedOut} from "../NavbarLoggedOut.js";
 import {NavbarLoggedIn} from "../NavbarLoggedIn.js";
-import Logo from "../../speetup-high-resolution-color-logo.png";
 import React, {useContext} from "react";
 import {GlobalContext} from "../../helpers/GlobalState";
+import Logo from "../../speetup-high-resolution-color-logo.png";
 //TODO: organize imports after fixing isLoggedIn Issue below
 
 /**
@@ -39,6 +39,7 @@ const Header = (props) => {
             >
                 {user ? <NavbarLoggedIn/> : <NavbarLoggedOut/>}
                 <img width="180px" src={Logo} alt="SpeetUp Logo"/>
+                {/*<p>SpeetUp</p>*/}
             </div>
         </div>
     );
