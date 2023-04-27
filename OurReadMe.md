@@ -45,3 +45,9 @@ The license under which the project is released, including any restrictions on u
 - [Yannic](https://github.com/cinnayre)
 - [Suleman](https://github.com/SuleKhan)
 - [Raffael](https://github.com/theraffael)
+
+## Credits
+
+<a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a><br>
+<a href="https://www.flaticon.com/free-icons/charity" title="charity icons">Charity icons created by Freepik - Flaticon</a><br>
+<a href="https://www.flaticon.com/free-icons/schedule" title="schedule icons">Schedule icons created by Freepik - Flaticon</a><br>
