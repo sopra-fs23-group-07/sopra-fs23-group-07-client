@@ -27,7 +27,14 @@ const Lobbies = () => {
   const [error, setError] = useState(null);
 
   const handleCreateLobbyClick = () => {
-    history.push("/CreateLobby");
+    if (
+      !(localStorage.getItem("token") === "null") &&
+      localStorage.getItem("token")
+    ) {
+      history.push("/CreateLobby");
+    } else {
+      setError("You need to be logged in to create a lobby");
+    }
   };
 
   const handleJoinLobby = async (lobbyId) => {
@@ -62,10 +69,10 @@ const Lobbies = () => {
 
         console.log(response);
       } catch (error) {
-          console.error(`Something went wrong while fetching the lobbies`);
-          console.error("Details:", error);
+        console.error(`Something went wrong while fetching the lobbies`);
+        console.error("Details:", error);
 
-          setError(handleError(error));
+        setError(handleError(error));
       }
     }
 
