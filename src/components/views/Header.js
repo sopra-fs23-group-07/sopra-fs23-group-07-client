@@ -18,6 +18,7 @@ import {GlobalContext} from "../../helpers/GlobalState";
 const Header = (props) => {
     const {user} = useContext(GlobalContext);
 
+    
     return (
         <div className="header container" style={{height: props.height}}>
             <div
