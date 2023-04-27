@@ -18,6 +18,7 @@ import Logo from "../../speetup-high-resolution-color-logo.png";
 const Header = (props) => {
     const {user} = useContext(GlobalContext);
 
+    
     return (
         <div className="header container" style={{height: props.height}}>
             <div
