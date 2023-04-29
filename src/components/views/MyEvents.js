@@ -2,6 +2,7 @@ import React from "react";
 import BaseContainer from "components/ui/BaseContainer";
 import { Grid, Typography } from "@mui/material";
 
+// Get users/{userid} mapping to get all events form one user
 const MyEvents = () => {
   return (
     <BaseContainer className="lobby">
