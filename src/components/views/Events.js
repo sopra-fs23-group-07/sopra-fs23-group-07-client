@@ -19,6 +19,7 @@ import { api, handleError } from "helpers/api";
 import Grid from "@mui/material/Grid";
 import moment from "moment/moment";
 import ErrorMessage from "../ui/ErrorMessage";
+import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 
 // page where all events are listed
 const Events = () => {
@@ -27,6 +28,39 @@ const Events = () => {
   const [events, setEvents] = useState(null);
   const [error, setError] = useState(null);
   const [flyToLocation, setFlyToLocation] = useState(null);
+
+  const handleCreateEventClick = () => {
+    if (
+      !(localStorage.getItem("token") === "null") &&
+      localStorage.getItem("token")
+    ) {
+      history.push("/CreateEvent");
+    } else {
+      setError("You need to be logged in to create an event");
+    }
+  };
+
+  const handleViewEventClick = (eventId) => {
+    history.push("/Events/" + String(eventId));
+  };
+
+  // if no event exist display disclaimer
+  let noEventsDisclaimer = <Spinner />;
+  if (!events || events.length === 0) {
+    noEventsDisclaimer = (
+      <p
+        style={{
+          fontWeight: "bold",
+          textAlign: "center",
+          fontSize: "1.2rem",
+          color: "black",
+        }}
+      >
+        Currently no events available! <br /> Go to Lobbies to start creating
+        one.
+      </p>
+    );
+  }
 
   // fetch data from backend (each second) and save all events
   useEffect(() => {
@@ -55,34 +89,27 @@ const Events = () => {
     return () => clearInterval(intervalId); // Clear the interval when the component is unmounted
   }, []);
 
-  const handleViewEventClick = (eventId) => {
-    history.push("/Events/" + String(eventId));
-  };
-
-  // if no event exist display disclaimer
-  let noEventsDisclaimer = <Spinner />;
-  if (!events || events.length === 0) {
-    noEventsDisclaimer = (
-      <p
-        style={{
-          fontWeight: "bold",
-          textAlign: "center",
-          fontSize: "1.2rem",
-          color: "black",
-        }}
-      >
-        Currently no events available! <br /> Go to Lobbies to start creating
-        one.
-      </p>
-    );
-  }
-
   return (
     <BaseContainer className="lobby">
       <Grid container spacing={2}>
         {/* Header */}
         <Grid item xs={12}>
           <Typography variant={"h3"}>Events</Typography>
+        </Grid>
+        {/* Create Event Button */}
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="center"
+        >
+          <Button
+            variant="contained"
+            startIcon={<AddBoxOutlinedIcon />}
+            onClick={() => handleCreateEventClick()}
+          >
+            Create New Event
+          </Button>
         </Grid>
         <Grid item xs={12} md={7}>
           {/* Table */}
