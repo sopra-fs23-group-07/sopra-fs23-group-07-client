@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
  */
 export const CreateEventGuard = (props) => {
   if (
-    !(localStorage.getItem("token") === "null") &&
+    localStorage.getItem("token") !== "null" &&
     localStorage.getItem("token")
   ) {
     return props.children;
