@@ -44,13 +44,13 @@ const AddLocationForEvent = (props) => {
         try {
             const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat.lng},${lngLat.lat}.json?access_token=${TOKEN}`);
             const data = await response.json();
-            const canton = data.features[0].context.find(context => context.id.startsWith('region')).text;
+            // const canton = data.features[0].context.find(context => context.id.startsWith('region')).text;
 
 
             const shortCode = data.features[0].context[2].short_code.split("-")[1];
             console.log("shortCode in send call to mapbox", shortCode); // "SO"
 
-            if (shortCode !== props.canton) {
+            if (shortCode !== props.canton || data.features[0].context[2].short_code === undefined) {
                 alert("You are in the wrong canton");
             } else {
                 setCorrectAddress(true);
@@ -63,6 +63,10 @@ const AddLocationForEvent = (props) => {
             // console.log("this is the canton:", canton); // log the canton variable
         } catch (error) {
             console.error(error);
+            if (error instanceof TypeError) {
+                alert("You are in the wrong canton");
+
+            }
         }
     }
 
