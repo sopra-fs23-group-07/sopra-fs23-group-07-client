@@ -94,6 +94,10 @@ const NavbarLoggedIn = () => {
         }
     };
 
+    const handleFAQClick = () => {
+        history.push("/FAQ");
+    }
+
     // TODO: Log out works for tokens but not for updating header
     const handleLogoutClick = async () => {
         if (localStorage.getItem("lobbyId")) {
@@ -175,6 +179,7 @@ const NavbarLoggedIn = () => {
                 <Button onClick={() => handleEventsClick()}>Events</Button>
                 <Button onClick={() => handleMyEventsClick()}>My Events</Button>
                 <Button onClick={() => handleProfileClick()}>Profile</Button>
+                <Button onClick={() => handleFAQClick()}>FAQ</Button>
                 <Button onClick={() => handleLogoutClick()}>Logout</Button>
 
             </div>

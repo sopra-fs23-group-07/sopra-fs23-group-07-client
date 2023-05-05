@@ -26,14 +26,20 @@ const NavbarLoggedOut = () => {
     history.push("/Login");
   };
 
+  const handleFAQClick = () => {
+      history.push("/FAQ");
+  }
+
   // displays all buttons you should see in the navbar when you are logged out
   return (
     <div className="login button-container">
       <Button onClick={() => handleHomeClick()}>Home</Button>
       <Button onClick={() => handleLobbiesClick()}>Lobbies</Button>
       <Button onClick={() => handleEventsClick()}>Events</Button>
+      <Button onClick={() => handleFAQClick()}>FAQ</Button>
       <Button onClick={() => handleRegisterClick()}>Register</Button>
       <Button onClick={() => handleLoginClick()}>Login</Button>
+
     </div>
   );
 };
