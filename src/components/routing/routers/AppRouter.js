@@ -10,14 +10,16 @@ import Home from "components/views/Home";
 import Lobbies from "components/views/Lobbies";
 import Header from "components/views/Header";
 import CreateLobby from "components/views/CreateLobby";
+import CreateEvent from "components/views/CreateEvent";
 import Test from "../../views/Test";
 import Lobby from "../../views/Lobby";
-import {CreateLobbyGuard} from "../routeProtectors/CreateLobbyGuard";
-import {HomeGuard} from "../routeProtectors/HomeGuard";
+import { CreateLobbyGuard } from "../routeProtectors/CreateLobbyGuard";
+import { CreateEventGuard } from "../routeProtectors/CreateEventGuard";
+import { HomeGuard } from "../routeProtectors/HomeGuard";
 import Event from "../../views/Event";
 import FAQ from "../../views/FAQ";
 import EditProfile from "../../views/EditProfile";
-import {ProfileGuard} from "../routeProtectors/ProfileGuard";
+import { ProfileGuard } from "../routeProtectors/ProfileGuard";
 
 /**
  * Main router of your application.
@@ -56,8 +58,8 @@ const AppRouter = () => {
         {/* New routes added for navbar */}
         <Route exact path="/Home">
           <HomeGuard>
-          <Home />
-        </HomeGuard>
+            <Home />
+          </HomeGuard>
         </Route>
 
         <Route exact path="/Lobbies">
@@ -79,7 +81,7 @@ const AppRouter = () => {
         </Route>
         <Route exact path={"/Profile/:userId/Edit"}>
           <ProfileGuard>
-            <EditProfile/>
+            <EditProfile />
           </ProfileGuard>
         </Route>
 
@@ -90,7 +92,13 @@ const AppRouter = () => {
           </CreateLobbyGuard>
         </Route>
 
-        <Route path="/Lobby/:id"  render={() => <Lobby/>}/>
+        <Route exact path="/CreateEvent">
+          <CreateEventGuard>
+            <CreateEvent />
+          </CreateEventGuard>
+        </Route>
+
+        <Route path="/Lobby/:id" render={() => <Lobby />} />
 
         <Route exact path="/Test">
           <Test />
@@ -99,7 +107,7 @@ const AppRouter = () => {
           <Lobby />
         </Route>
         <Route exact path="/Lobby">
-          <Lobby/>
+          <Lobby />
         </Route>
         {/* <Route exact path="/Lobby/:id">
           <Lobby />

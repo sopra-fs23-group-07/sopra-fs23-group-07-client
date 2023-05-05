@@ -19,6 +19,7 @@ import {
   TableRow,
   Tooltip,
   Typography,
+  TextField,
 } from "@mui/material";
 import "styles/views/TestLobby.scss";
 import MultipleSelectChip from "helpers/SelectSport";
@@ -72,6 +73,8 @@ const Lobby = () => {
   const [selectedSports, setSelectedSports] = React.useState([]);
   const [error, setError] = useState(null);
   const [members, setMembers] = useState([]); // state for the pop-up
+  const [chat, setChat] =  useState([]);
+  const [message, setMessage] = useState(null);
   const [flyToLocation, setFlyToLocation] = useState(null);
 
   //
@@ -131,6 +134,23 @@ const Lobby = () => {
     }
   };
 
+  const handleSendMessage = async (message) => {
+    try {
+          const requestBody = JSON.stringify({
+            message: message,
+          });
+          await api.post(`/lobbies/${lobbyId}/users/${localStorage.getItem("userId")}/messages`, requestBody);
+          console.log("Chat Message was sent to the backend");
+        } catch (error) {
+          setError(handleError(error));
+        }
+  }
+
+  const updateScroll = async () => {
+    var element = document.getElementById("ChatBox")
+    element.scrollTop = element.scrollHeight;
+  }
+
   const [time, setTime] = useState(false); // state for the pop-up
   const [locationDTO, setLocationDTO] = useState([]); // state for the pop-up
 
@@ -152,6 +172,12 @@ const Lobby = () => {
           setMembers(response.data.memberDTOs);
           setLocationDTO(response.data.lobbyLocationDTOs);
           setEventId(response.data.createdEventId || null);
+
+          const oldChat = JSON.stringify(chat);
+          setChat(response.data.lobbyMessageDTOs);
+
+          updateScroll()
+
         }
       } catch (error) {
         setError(handleError(error));
@@ -389,6 +415,49 @@ const Lobby = () => {
             >
               Leave Lobby
             </Button>
+            <div
+                id="ChatBox"
+                className="ChatBox"
+                style={{
+                border: "3px solid #333",
+                width: "50%",
+                height: "200px",
+                padding: "10px",
+                marginBottom: "0px",
+                backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
+                position: "relative",
+                overflow: "auto",
+                }}
+                >
+                {chat.map((message) =>
+                    <h1 align="left" style={{color: "#000000", fontSize: "16px"}}>{message.username}: {message.message}</h1>
+                    )}
+             </div>
+             <div className="EnterMessageBox"
+                style={{
+                border: "3px solid #333",
+                width: "50%",
+                padding: "10px",
+                marginBottom: "0px",
+                backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
+                position: "relative",
+                }}>
+                <TextField
+                  type={"string"}
+                  id="message"
+                  placeholder="Enter Message..."
+                  value = {message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  style={{width: "300px",}}
+                  />
+                 <Button
+                    variant="contained"
+                    onClick={() => handleSendMessage(message)}
+                    style={{height: "55px"}}
+                    >
+                        Send
+                 </Button>
+             </div>
 
             <div style={{ padding: "5px" }}>
               <Accordion>

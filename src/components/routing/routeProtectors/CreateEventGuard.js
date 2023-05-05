@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
  *
  * Another way to export directly your functional component.
  */
-export const CreateLobbyGuard = (props) => {
+export const CreateEventGuard = (props) => {
   if (
     localStorage.getItem("token") !== "null" &&
     localStorage.getItem("token")
@@ -13,9 +13,9 @@ export const CreateLobbyGuard = (props) => {
     return props.children;
   }
   // if user is already logged in, redirects to the main /app
-  return <Redirect to="/Lobbies" />;
+  return <Redirect to="/Events" />;
 };
 
-CreateLobbyGuard.propTypes = {
+CreateEventGuard.propTypes = {
   children: PropTypes.node,
 };

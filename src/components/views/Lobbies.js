@@ -21,10 +21,13 @@ import HourglassTopOutlinedIcon from "@mui/icons-material/HourglassTopOutlined";
 import { api, handleError } from "../../helpers/api";
 import ErrorMessage from "../ui/ErrorMessage";
 
+// page where all lobbies are listed
 const Lobbies = () => {
+  // initializing variables and hooks need
   const history = useHistory();
   const userId = localStorage.getItem("userId");
   const [error, setError] = useState(null);
+  const [lobbies, setLobbies] = useState();
 
   const handleCreateLobbyClick = () => {
     if (
@@ -53,36 +56,8 @@ const Lobbies = () => {
     }
   };
 
-  const [lobbies, setLobbies] = useState();
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await api.get(`/lobbies`);
-
-        setLobbies(response.data);
-
-        console.log("request to:", response.request.responseURL);
-        console.log("status code:", response.status);
-        console.log("status text:", response.statusText);
-        console.log("requested data:", response.data);
-
-        console.log(response);
-      } catch (error) {
-        console.error(`Something went wrong while fetching the lobbies`);
-        console.error("Details:", error);
-
-        setError(handleError(error));
-      }
-    }
-
-    fetchData(); // Make initial request immediately
-    const intervalId = setInterval(fetchData, 800); // Update data every second
-    return () => clearInterval(intervalId); // Clear the interval when the component is unmounted
-  }, []);
-
-  let noLobbiesDisclaimer = <Spinner />;
   // if no lobby exist display disclaimer
+  let noLobbiesDisclaimer = <Spinner />;
   if (!lobbies || lobbies.length === 0) {
     noLobbiesDisclaimer = (
       <p
@@ -99,12 +74,43 @@ const Lobbies = () => {
     );
   }
 
+  // fetch data from backend (each second) and save all lobbies
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await api.get(`/lobbies`);
+
+        setLobbies(response.data);
+
+        // logs for debugging can be deleted after proper testing
+        // console.log("request to:", response.request.responseURL);
+        // console.log("status code:", response.status);
+        // console.log("status text:", response.statusText);
+        // console.log("requested data:", response.data);
+        // console.log(response);
+      } catch (error) {
+        console.error(`Something went wrong while fetching the lobbies`);
+        console.error("Details:", error);
+
+        setError(handleError(error));
+      }
+    }
+
+    fetchData(); // Make initial request immediately
+
+    const intervalId = setInterval(fetchData, 800); // Update data every second
+
+    return () => clearInterval(intervalId); // Clear the interval when the component is unmounted
+  }, []);
+
   return (
     <BaseContainer>
       <Grid container spacing={2}>
+        {/* Header */}
         <Grid item xs={12}>
           <Typography variant="h3">Lobbies</Typography>
         </Grid>
+        {/* Create Lobby Button */}
         <Grid
           container
           direction="row"
@@ -120,6 +126,7 @@ const Lobbies = () => {
           </Button>
         </Grid>
         <Grid item xs={12}>
+          {/* Table */}
           <ErrorMessage error={error} onClose={() => setError(null)} />
           <TableContainer component={Paper}>
             <Table>
