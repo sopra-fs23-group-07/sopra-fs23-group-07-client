@@ -228,36 +228,32 @@ const CreateEvent = () => {
                                     value={region}
                                     onChange={(e) => setRegion(e.target.value)}
                                 >
-                                    <MenuItem value="Aargau">Aargau</MenuItem>
-                                    <MenuItem value="Appenzell Innerrhoden">
-                                        Appenzell Innerrhoden
-                                    </MenuItem>
-                                    <MenuItem value="Appenzell Ausserrhoden">
-                                        Appenzell Ausserrhoden
-                                    </MenuItem>
-                                    <MenuItem value="Bern">Bern</MenuItem>
-                                    <MenuItem value="Basel-Landschaft">Basel-Landschaft</MenuItem>
-                                    <MenuItem value="Basel-Stadt">Basel-Stadt</MenuItem>
-                                    <MenuItem value="Fribourg">Fribourg</MenuItem>
-                                    <MenuItem value="Geneva">Geneva</MenuItem>
-                                    <MenuItem value="Glarus">Glarus</MenuItem>
-                                    <MenuItem value="Graubünden">Graubünden</MenuItem>
-                                    <MenuItem value="Jura">Jura</MenuItem>
-                                    <MenuItem value="Luzern">Luzern</MenuItem>
-                                    <MenuItem value="Neuchâtel">Neuchâtel</MenuItem>
-                                    <MenuItem value="Nidwalden">Nidwalden</MenuItem>
-                                    <MenuItem value="Obwalden">Obwalden</MenuItem>
-                                    <MenuItem value="St. Gallen">St. Gallen</MenuItem>
-                                    <MenuItem value="Schaffhausen">Schaffhausen</MenuItem>
-                                    <MenuItem value="Solothurn">Solothurn</MenuItem>
-                                    <MenuItem value="Schwyz">Schwyz</MenuItem>
-                                    <MenuItem value="Thurgau">Thurgau</MenuItem>
-                                    <MenuItem value="Ticino">Ticino</MenuItem>
-                                    <MenuItem value="Uri">Uri</MenuItem>
-                                    <MenuItem value="Vaud">Vaud</MenuItem>
-                                    <MenuItem value="Valais">Valais</MenuItem>
-                                    <MenuItem value="Zug">Zug</MenuItem>
-                                    <MenuItem value="Zürich">Zürich</MenuItem>
+                                    <MenuItem value="AG">Aargau</MenuItem>
+                                    <MenuItem value="AI">Appenzell Innerrhoden</MenuItem>
+                                    <MenuItem value="AR">Appenzell Ausserrhoden</MenuItem>
+                                    <MenuItem value="BE">Bern</MenuItem>
+                                    <MenuItem value="BL">Basel-Landschaft</MenuItem>
+                                    <MenuItem value="BS">Basel-Stadt</MenuItem>
+                                    <MenuItem value="FR">Fribourg</MenuItem>
+                                    <MenuItem value="GE">Geneva</MenuItem>
+                                    <MenuItem value="GL">Glarus</MenuItem>
+                                    <MenuItem value="GR">Graubünden</MenuItem>
+                                    <MenuItem value="JU">Jura</MenuItem>
+                                    <MenuItem value="LU">Luzern</MenuItem>
+                                    <MenuItem value="NE">Neuchâtel</MenuItem>
+                                    <MenuItem value="NW">Nidwalden</MenuItem>
+                                    <MenuItem value="OW">Obwalden</MenuItem>
+                                    <MenuItem value="SG">St. Gallen</MenuItem>
+                                    <MenuItem value="SH">Schaffhausen</MenuItem>
+                                    <MenuItem value="SO">Solothurn</MenuItem>
+                                    <MenuItem value="SZ">Schwyz</MenuItem>
+                                    <MenuItem value="TG">Thurgau</MenuItem>
+                                    <MenuItem value="TI">Ticino</MenuItem>
+                                    <MenuItem value="UR">Uri</MenuItem>
+                                    <MenuItem value="VD">Vaud</MenuItem>
+                                    <MenuItem value="VS">Valais</MenuItem>
+                                    <MenuItem value="ZG">Zug</MenuItem>
+                                    <MenuItem value="ZH">Zürich</MenuItem>
                                 </Select>
                             </FormControl>
                         </Box>
@@ -278,7 +274,8 @@ const CreateEvent = () => {
                         {/* TODO: Add Choose Location */}
                         <Typography variant={"h5"}>Select Location:</Typography>
                         {/* Map to put location */}
-                        <AddLocationForEvent handleLocationChange={handleLocationChange}></AddLocationForEvent>
+                        <AddLocationForEvent handleLocationChange={handleLocationChange}
+                                             canton={region}></AddLocationForEvent>
 
                         {/* Button to create event */}
                         <Button

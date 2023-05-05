@@ -14,10 +14,14 @@ const AddLocationForEvent = (props) => {
     const [lng2, setLng2] = useState(null);  //Longitude
     const [lat2, setLat2] = useState(null);  //Latitude
     const [LngLat, setLngLat] = useState(null);  //Latitude
+    const [shortCode, setShortCode] = useState(null);
+    const [CorrectAddress, setCorrectAddress] = useState(false);
 
     const [Address, setAddress] = useState(null);
 
     const [UserConfirmedLocation, SetUserConfirmedLocation] = useState(false);
+
+    const canton = props.canton;
 
 
     const handleMapClick = (map) => {
@@ -27,6 +31,7 @@ const AddLocationForEvent = (props) => {
             setLat2(lngLat.lat);
             setLng2(lngLat.lng);
             setLngLat(lngLat);
+            console.log("this is the canton:", canton); // log the canton variable
 
         } else {
             console.log("User already confirmed location");
@@ -39,22 +44,42 @@ const AddLocationForEvent = (props) => {
         try {
             const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat.lng},${lngLat.lat}.json?access_token=${TOKEN}`);
             const data = await response.json();
-            // Handle the data returned by the server
-            await setAddress(data.features[0].place_name);
+            const canton = data.features[0].context.find(context => context.id.startsWith('region')).text;
 
 
-            console.log("this is the data for mapbox coordinates into adress", data.features[0].place_name);
+            const shortCode = data.features[0].context[2].short_code.split("-")[1];
+            console.log("shortCode in send call to mapbox", shortCode); // "SO"
 
+            if (shortCode !== props.canton) {
+                alert("You are in the wrong canton");
+            } else {
+                setCorrectAddress(true);
+                await setAddress(data.features[0].place_name);
+                alert("You successfully confirmed the location");
+            }
+
+            // console.log("Canton shortcode:", cantonShortCode);
+            // console.log("this is the data for mapbox coordinates into adress", data.features[0].place_name);
+            // console.log("this is the canton:", canton); // log the canton variable
         } catch (error) {
-            // Handle any errors that occurred during the request
             console.error(error);
         }
     }
 
+
     useEffect(() => {
         if (Address && LngLat)
             SendLocationToServer(LngLat);
-    }, [Address])
+        // if (shortCode) {
+        //     console.log("this is the shortCode in UseEffect:", shortCode);
+        //     if (shortCode !== props.canton) {
+        //         alert("You are in the wrong canton");
+        //     } else {
+        //         setCorrectAddress(true);
+        //         console.log("setCorrectAddress value is ", CorrectAddress)
+        //     }
+        // }
+    }, [Address, shortCode])
 
 
     const SendLocationToServer = (lngLat) => {
