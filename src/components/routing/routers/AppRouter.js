@@ -17,6 +17,7 @@ import { CreateLobbyGuard } from "../routeProtectors/CreateLobbyGuard";
 import { CreateEventGuard } from "../routeProtectors/CreateEventGuard";
 import { HomeGuard } from "../routeProtectors/HomeGuard";
 import Event from "../../views/Event";
+import FAQ from "../../views/FAQ";
 import EditProfile from "../../views/EditProfile";
 import { ProfileGuard } from "../routeProtectors/ProfileGuard";
 
@@ -114,6 +115,10 @@ const AppRouter = () => {
 
         <Route exact path="/Events/:eventId">
           <Event />
+        </Route>
+
+        <Route exact path={"/FAQ"}>
+          <FAQ/>
         </Route>
       </Switch>
     </BrowserRouter>
