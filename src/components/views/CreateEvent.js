@@ -25,9 +25,10 @@ import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import "styles/views/CreateLobby.scss";
 import ErrorMessage from "../ui/ErrorMessage";
 import SelectDateAndTime from "../../helpers/SelectDateAndTime";
-import DateTimePicker from "../../helpers/SelectTime";
-import DatePicker from "react-datepicker";
+import { DateTimePicker } from "@mui/x-date-pickers";
 import AddLocation from "helpers/AddLocation";
+import moment from "moment";
+import dayjs from "dayjs";
 
 const CreateEvent = () => {
   // Set up state variables for each input field.
@@ -48,12 +49,13 @@ const CreateEvent = () => {
       if (
         !eventName ||
         !selectedSport ||
-        !eventDate ||
-        !location ||
+        // !eventDate ||
+        // !location ||
         !region ||
         !maxParticipants ||
         isNaN(maxParticipants)
       ) {
+        // console.log(JSON.stringify(eventDate)); // delete when done
         setError("Please fill in all fields with valid data.");
         return;
       }
@@ -61,12 +63,19 @@ const CreateEvent = () => {
       // send event to backend (TODO: Make sure all are strings )
       const requestBody = JSON.stringify({
         eventName: eventName,
-        eventLocation: location,
+        // eventLocation: location,
+
+        eventLocationDTO: {
+          address: "Bakerstreet 1, 8000 Zürich",
+          longitude: 8.5483395,
+          latitude: 47.368919500000004,
+        },
         eventDate: eventDate,
+        // eventDate: "2023-04-01T15:30:00",
         eventSport: selectedSport,
         eventRegion: region,
-        eventCreator: userId, // long
         eventMaxParticipants: maxParticipants, // integer
+        eventCreator: userId, // long
       });
 
       const response = await api.post("/events", requestBody);
@@ -75,7 +84,7 @@ const CreateEvent = () => {
       console.log(response.data);
 
       // after event is generated bring user to event page.
-      history.push(`/Event/${response.data.eventId}`);
+      history.push(`/Events/${response.data.eventId}`);
     } catch (error) {
       setError(handleError(error));
     }
@@ -92,6 +101,32 @@ const CreateEvent = () => {
     "Rugby",
     "Hockey",
   ];
+
+  const handleDateChange = (date) => {
+    if (date !== null) {
+      // Convert the date to the desired format
+      // const formattedDate = date.toISOString().slice(0, 16);
+
+      // const formattedDate = date;
+
+      const formattedDate = moment(date).format("YYYY-MM-DDTHH:mm:ss");
+
+      // const formattedDate = dayjs(date).format("YYYY-MM-DDTHH:mm:ss");
+      console.log("Reached this POINT", formattedDate);
+
+      // const year = date.getFullYear();
+      // const month = (date.getMonth() + 1).toString().padStart(2, "0");
+      // const day = date.getDate().toString().padStart(2, "0");
+      // const hour = date.getHours().toString().padStart(2, "0");
+      // const minute = date.getMinutes().toString().padStart(2, "0");
+      // const formattedDate = `${year}-${month}-${day}T${hour}:${minute}`;
+
+      // Store the formatted date in the eventDate state
+      setEventDate(formattedDate);
+    } else {
+      setEventDate(null);
+    }
+  };
 
   return (
     <>
@@ -146,7 +181,25 @@ const CreateEvent = () => {
             {/* Select Time */}
             {/* TODO: Implement time picking */}
             <Typography variant={"h5"}>Select Time:</Typography>
-            <DateTimePicker />
+            {/* <DateTimePicker
+              label="Select date and time"
+              value={eventDate}
+              onChange={handleDateChange}
+
+              // onChange={(date) => setEventDate(date)}
+              // dateFormat="MMMM d, yyyy h:mm aa"
+              // renderInput={(params) => <TextField {...params} />}
+            /> */}
+            <DateTimePicker
+              label="Select event date and time"
+              // inputVariant="outlined"
+              // ampm={false}
+              // disablePast={true}
+              // format="yyyy-MM-dd HH:mm"
+              value={dayjs(eventDate)}
+              onChange={handleDateChange}
+              // onChange={(date) => setEventDate(date)}
+            />
 
             {/* Region */}
             <Typography variant={"h5"}>Choose Region:</Typography>

@@ -83,6 +83,9 @@ const MyEvents = () => {
           <Typography variant={"h3"}>My Events</Typography>
         </Grid>
         <Grid item xs={12} md={7}>
+          <Typography>
+            You are currently part of {events ? events.length : 0} events
+          </Typography>
           {/* Table */}
           <TableContainer component={Paper}>
             <Table>

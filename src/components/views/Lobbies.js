@@ -31,7 +31,7 @@ const Lobbies = () => {
 
   const handleCreateLobbyClick = () => {
     if (
-      !(localStorage.getItem("token") === "null") &&
+      localStorage.getItem("token") !== "null" &&
       localStorage.getItem("token")
     ) {
       history.push("/CreateLobby");
