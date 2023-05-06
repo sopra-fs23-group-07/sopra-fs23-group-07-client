@@ -1,20 +1,36 @@
 import React from 'react';
-import Alert from '@mui/material/Alert';
-import {AlertTitle, Portal} from "@mui/material";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const ErrorMessage = ({error, onClose}) => {
+const ErrorMessage = ({ error, onClose }) => {
     if (!error) return null;
 
-    return (
-        <Portal>
-            <div style={{position: 'fixed', top: 0, padding: '8%', width: '100%', zIndex: 999}}>
-                <Alert severity="error" onClose={onClose}>
-                    <AlertTitle>Error</AlertTitle>
-                    {error.message || error}
-                </Alert>
-            </div>
-        </Portal>
+    // Call toast with the error message or object
+    toast.error(error.message || error, {
+        position: "top-right",
+        autoClose: 15000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
 
+    return (
+
+            <ToastContainer
+                position="top-right"
+                autoClose={10000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
     );
 };
 
