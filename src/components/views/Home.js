@@ -29,9 +29,11 @@ import IconButton from "@mui/material/IconButton";
 
 
 
+
 const Home = () => {
     const history = useHistory();
     const [error, setError] = useState(null);
+
 
 
 
@@ -278,7 +280,6 @@ const Home = () => {
                 </Grid>
 
             </Grid>
-
             <ErrorMessage error={error} onClose={() => setError(null)}/>
 
         </BaseContainer>

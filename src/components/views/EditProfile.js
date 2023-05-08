@@ -8,6 +8,10 @@ import {Box, Button, Grid, Paper, TextField, Typography} from '@mui/material';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ErrorMessage from "../ui/ErrorMessage";
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const EditProfile = () => {
     const history = useHistory();
@@ -18,8 +22,14 @@ const EditProfile = () => {
     const [repeatPassword, setRepeatPassword] = useState('');
     const [email, setEmail] = useState('');
     const [bio, setBio] = useState('');
+    const [birthdate, setBirthdate] = useState(dayjs('1977-03-21'));
     const [error, setError] = useState(null);
 
+    function validateEmail(email){
+        // const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        // return emailRegex.test(email);
+        return true;
+    }
     const handleUsernameInputChange = (event) => {
         setUsername(event.target.value);
     };
@@ -33,22 +43,25 @@ const EditProfile = () => {
     };
 
     const handleEmailInputChange = (event) => {
-        setEmail(event.target.value);
+            setEmail(event.target.value);
     };
 
     const handleBioInputChange = (event) => {
         setBio(event.target.value);
     }
-
+    const handleBirthdateInputChange = (event) => {
+        setBirthdate(event.target.value);
+    }
     const handleUpdateProfile = async () => {
         if (password !== repeatPassword) {
             setError('Passwords do not match');
             return;
         }
 
-        if (!validateInput()) {
-            return;
-        }
+        // if (!validateEmail()) {
+        //     setError("The email address you provided is invalid. Please enter a valid email address.")
+        //     return;
+        // }
 
         try {
             const filteredRequestBody = Object.fromEntries(
@@ -58,6 +71,7 @@ const EditProfile = () => {
                     password,
                     email,
                     bio,
+                    birthdate,
                 }).filter(([_, value]) => value !== '')
             );
 
@@ -70,12 +84,6 @@ const EditProfile = () => {
         }
     };
 
-    const validateInput = () => {
-
-        // ToDo: Add some validation rules here
-
-        return true;
-    };
 
     return (
         <BaseContainer className="editProfile">
@@ -120,6 +128,18 @@ const EditProfile = () => {
                         onChange={handleRepeatPasswordInputChange}
                         sx={{mt: 2}}
                     />
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                label="Birthdate"
+                                value={birthdate}
+                                onChange={handleBirthdateInputChange}
+                                sx={{mt:2}}
+                                maxDate={dayjs("2022-05-05").toDate()}
+                                minDate={dayjs("1900-01-01").toDate()}
+                            />
+                    </LocalizationProvider>
+
                     <TextField
                         label={"Bio"}
                         type={"text"}

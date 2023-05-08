@@ -38,6 +38,7 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const generateTableData = (users) => {
   const tableData = [];
@@ -76,6 +77,7 @@ const Lobby = () => {
   const [chat, setChat] =  useState([]);
   const [message, setMessage] = useState(null);
   const [flyToLocation, setFlyToLocation] = useState(null);
+  const [isCopied, setIsCopied] = useState(false);
 
   //
   // members.map((user) => {
@@ -96,9 +98,13 @@ const Lobby = () => {
   const handleCopyClick = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(urlRef.current.value);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 5000); // Reset message after 5 seconds
     } else {
       urlRef.current.select();
       document.execCommand("copy");
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 5000); // Reset message after 5 seconds
     }
   };
 
@@ -389,6 +395,7 @@ const Lobby = () => {
               open={open}
               onClose={() => setOpen(false)}
             >
+
               <DialogTitle>Copy Lobby URL</DialogTitle>
               <DialogContent>
                 <input
@@ -400,8 +407,13 @@ const Lobby = () => {
                 />
               </DialogContent>
               <DialogActions>
-                <Button variant="contained" onClick={handleCopyClick}>
-                  Copy
+                <Button
+                    variant="contained"
+                    onClick={handleCopyClick}
+                    color={isCopied ? "success":"primary"}
+                    startIcon={isCopied ? <ContentCopyIcon/> : null}
+                >
+                  {isCopied ? "Copied" : "Copy"}
                 </Button>
                 <Button variant="contained" onClick={() => setOpen(false)}>
                   Close

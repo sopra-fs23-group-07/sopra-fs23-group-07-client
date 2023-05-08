@@ -20,6 +20,7 @@ import Event from "../../views/Event";
 import FAQ from "../../views/FAQ";
 import EditProfile from "../../views/EditProfile";
 import { ProfileGuard } from "../routeProtectors/ProfileGuard";
+import {LobbyRoute} from "../routeProtectors/LobbyGuard";
 
 /**
  * Main router of your application.
@@ -98,7 +99,8 @@ const AppRouter = () => {
           </CreateEventGuard>
         </Route>
 
-        <Route path="/Lobby/:id" render={() => <Lobby />} />
+        //TODO: user still has to be redirected to lobby after registration instead of Home
+        <LobbyRoute path="/Lobby/:id" component={Lobby}/>
 
         <Route exact path="/Test">
           <Test />

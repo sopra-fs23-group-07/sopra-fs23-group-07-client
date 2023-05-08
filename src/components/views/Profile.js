@@ -68,7 +68,7 @@ const Profile = () => {
                            vertical: 'bottom',
                            horizontal: 'right',
                        }}>
-                    <Avatar src={"src/avatar.png"} sx={{width: 200, height: 200}}/>
+                    <Avatar src="src/volleyball_w.jpg" sx={{width: 200, height: 200}}/>
                 </Badge>
                 <Grid item>
                     <TableContainer>
@@ -87,6 +87,22 @@ const Profile = () => {
                                 </TableCell>
                                 <TableCell align="left">
                                     <Typography>{user.email}</Typography>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell align="right">
+                                    <Typography variant={"h6"}>Birthdate</Typography>
+                                </TableCell>
+                                <TableCell align="left">
+                                    <Typography>{user.birthdate}</Typography>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell align="right">
+                                    <Typography variant={"h6"}>Member since</Typography>
+                                </TableCell>
+                                <TableCell align="left">
+                                    <Typography>{user.creationDate}</Typography>
                                 </TableCell>
                             </TableRow>
                         </Table>

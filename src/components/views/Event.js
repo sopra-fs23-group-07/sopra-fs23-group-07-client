@@ -24,6 +24,7 @@ import Grid from "@mui/material/Grid";
 import ErrorMessage from "../ui/ErrorMessage";
 import moment from "moment";
 import LaunchIcon from "@mui/icons-material/Launch";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const Event = () => {
   const eventId = useParams().eventId;
@@ -36,13 +37,18 @@ const Event = () => {
 
   const [open, setOpen] = useState(false); // state for the pop-up
   const urlRef = useRef(null); // ref for the URL input
+  const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyClick = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(urlRef.current.value);
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 5000); // Reset message after 5 seconds
     } else {
       urlRef.current.select();
       document.execCommand("copy");
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 5000); // Reset message after 5 seconds
     }
   };
 
@@ -266,8 +272,13 @@ const Event = () => {
               />
             </DialogContent>
             <DialogActions>
-              <Button variant="contained" onClick={handleCopyClick}>
-                Copy
+              <Button
+                  variant="contained"
+                  onClick={handleCopyClick}
+                  color={isCopied ? "success":"primary"}
+                  startIcon={isCopied ? <ContentCopyIcon/> : null}
+              >
+                {isCopied ? "Copied" : "Copy"}
               </Button>
               <Button variant="contained" onClick={() => setOpen(false)}>
                 Close

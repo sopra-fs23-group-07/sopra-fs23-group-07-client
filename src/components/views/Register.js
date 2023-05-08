@@ -50,7 +50,7 @@ const Register = () => {
             localStorage.setItem("userId", user.userId);
             setUser(user);
 
-            // Login successfully worked --> navigate to the route /game in the GameRouter
+            // Login successfully worked --> navigate to the route /home in the AppRouter
             history.push(`/Home`);
         } catch (error) {
             setError(handleError(error));
