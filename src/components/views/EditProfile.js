@@ -7,11 +7,11 @@ import PropTypes from 'prop-types';
 import {Box, Button, Grid, Paper, TextField, Typography} from '@mui/material';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CancelIcon from '@mui/icons-material/Cancel';
-import ErrorMessage from "../ui/ErrorMessage";
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {toast} from "react-toastify";
 
 const EditProfile = () => {
     const history = useHistory();
@@ -23,7 +23,7 @@ const EditProfile = () => {
     const [email, setEmail] = useState('');
     const [bio, setBio] = useState('');
     const [birthdate, setBirthdate] = useState(dayjs('1977-03-21'));
-    const [error, setError] = useState(null);
+    const [passwordError, setPasswordError] = useState(false);
 
     function validateEmail(email){
         // const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -54,7 +54,8 @@ const EditProfile = () => {
     }
     const handleUpdateProfile = async () => {
         if (password !== repeatPassword) {
-            setError('Passwords do not match');
+            toast.error('Passwords do not match');
+            setPasswordError(true);
             return;
         }
 
@@ -80,7 +81,7 @@ const EditProfile = () => {
             });
             history.push(`/profile/${userId}`);
         } catch (error) {
-            setError(handleError(error));
+            toast.error(handleError(error));
         }
     };
 
@@ -100,7 +101,6 @@ const EditProfile = () => {
                 }}
             >
                 <Box sx={{display: 'flex', flexDirection: 'column', width: '60%', margin: '0 auto'}}>
-                    <ErrorMessage error={error} onClose={() => setError(null)} />
                     <TextField
                         label="Username"
                         value={username}
@@ -120,6 +120,7 @@ const EditProfile = () => {
                         value={password}
                         onChange={handlePasswordInputChange}
                         sx={{mt: 2}}
+                        error={passwordError}
                     />
                     <TextField
                         label="Repeat Password"
@@ -127,6 +128,7 @@ const EditProfile = () => {
                         value={repeatPassword}
                         onChange={handleRepeatPasswordInputChange}
                         sx={{mt: 2}}
+                        error={passwordError}
                     />
 
                     <LocalizationProvider dateAdapter={AdapterDayjs}>

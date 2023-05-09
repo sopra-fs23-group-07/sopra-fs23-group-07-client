@@ -16,15 +16,14 @@ import {
   Grid,
 } from "@mui/material";
 import AddLocation from "helpers/AddLocation";
-import ErrorMessage from "../ui/ErrorMessage";
 import moment from "moment/moment";
+import {toast} from "react-toastify";
 
 const MyEvents = () => {
   // initializing variables and hooks need
   const history = useHistory();
   const userId = localStorage.getItem(`userId`);
   const [events, setEvents] = useState(null);
-  const [error, setError] = useState(null);
   const [flyToLocation, setFlyToLocation] = useState(null);
 
   // fetch data from backend and save events in which the user is participating of in events
@@ -45,7 +44,7 @@ const MyEvents = () => {
         // console.log(response);
       } catch (error) {
         console.error(`Something went wrong while fetching the events.`);
-        setError(handleError(error));
+        toast.error(handleError(error));
       }
     }
 
@@ -168,7 +167,6 @@ const MyEvents = () => {
           )}
         </Grid>
       </Grid>
-      <ErrorMessage error={error} onClose={() => setError(null)} />
     </BaseContainer>
   );
 };

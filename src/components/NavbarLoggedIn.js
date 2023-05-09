@@ -3,8 +3,8 @@ import {useHistory} from "react-router-dom";
 import {api, handleError} from "helpers/api";
 import {Button} from "components/ui/Button";
 import {GlobalContext} from "../helpers/GlobalState";
-import ErrorMessage from "./ui/ErrorMessage";
-import {Dialog, DialogActions, DialogContent, DialogTitle, Portal} from "@material-ui/core";
+import {Dialog, DialogActions, DialogContent, DialogTitle} from "@material-ui/core";
+import {toast} from "react-toastify";
 
 
 // Shows all the buttons on the top of the page
@@ -12,7 +12,6 @@ const NavbarLoggedIn = () => {
     const history = useHistory();
     const userId = localStorage.getItem("userId");
     const {setUser} = useContext(GlobalContext)
-    const [error, setError] = useState(null);
     const lobbyId = localStorage.getItem("lobbyId");
     const [open, setOpen] = useState(false);
     const [pushTo, setPushTo] = useState("");
@@ -39,7 +38,7 @@ const NavbarLoggedIn = () => {
                 handleLogOut();
             }
         } catch (error) {
-            setError(handleError(error));
+            toast.error(handleError(error));
             history.push(pushTo);
 
         }
@@ -113,7 +112,7 @@ const NavbarLoggedIn = () => {
                 history.push("/login");
                 console.log(response);
             } catch (error) {
-                alert(`Something went wrong during the logout: \n${handleError(error)}`);
+                toast.error(`Something went wrong during the logout: \n${handleError(error)}`);
             }
         }
     };
@@ -133,7 +132,7 @@ const NavbarLoggedIn = () => {
 
             console.log("handleLogoutClick was called inside try");
         } catch (error) {
-            alert(`Something went wrong during the logout: \n${handleError(error)}`);
+            toast.error(`Something went wrong during the logout: \n${handleError(error)}`);
         }
     }
 
@@ -183,12 +182,6 @@ const NavbarLoggedIn = () => {
                 <Button onClick={() => handleLogoutClick()}>Logout</Button>
 
             </div>
-            <Portal>
-                <div style={{position: 'fixed', top: 100, width: '75%', zIndex: 999}}>
-                    {/* Render the Alert component here */}
-                    <ErrorMessage error={error} onClose={() => setError(null)}/>
-                </div>
-            </Portal>
         </>
 
     );

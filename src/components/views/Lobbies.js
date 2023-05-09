@@ -19,24 +19,26 @@ import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import HourglassTopOutlinedIcon from "@mui/icons-material/HourglassTopOutlined";
 import { api, handleError } from "../../helpers/api";
-import ErrorMessage from "../ui/ErrorMessage";
+import {toast} from "react-toastify";
+
 
 // page where all lobbies are listed
 const Lobbies = () => {
+
   // initializing variables and hooks need
   const history = useHistory();
   const userId = localStorage.getItem("userId");
-  const [error, setError] = useState(null);
   const [lobbies, setLobbies] = useState();
 
   const handleCreateLobbyClick = () => {
+
     if (
       localStorage.getItem("token") !== "null" &&
       localStorage.getItem("token")
     ) {
       history.push("/CreateLobby");
     } else {
-      setError("You need to be logged in to create a lobby");
+      toast.error("You need to be logged in to create a lobby");
     }
   };
 
@@ -52,7 +54,7 @@ const Lobbies = () => {
       localStorage.setItem("lobbyId", lobbyId);
       history.push("/Lobby/" + String(lobbyId));
     } catch (error) {
-      setError(handleError(error));
+      toast.error(handleError(error));
     }
   };
 
@@ -92,7 +94,7 @@ const Lobbies = () => {
         console.error(`Something went wrong while fetching the lobbies`);
         console.error("Details:", error);
 
-        setError(handleError(error));
+        toast.error(handleError(error));
       }
     }
 
@@ -127,7 +129,6 @@ const Lobbies = () => {
         </Grid>
         <Grid item xs={12}>
           {/* Table */}
-          <ErrorMessage error={error} onClose={() => setError(null)} />
           <TableContainer component={Paper}>
             <Table>
               <TableHead>

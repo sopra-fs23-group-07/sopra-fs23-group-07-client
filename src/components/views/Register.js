@@ -8,7 +8,7 @@ import {Box, Button, Grid, Paper, TextField, Typography} from "@mui/material";
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import LoginIcon from '@mui/icons-material/Login';
 import {GlobalContext} from "../../helpers/GlobalState";
-import ErrorMessage from "../ui/ErrorMessage";
+import {toast} from "react-toastify";
 
 /*
 It is possible to add multiple components inside a single file,
@@ -23,7 +23,7 @@ const Register = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-    const [error, setError] = useState(null);
+    const [usernameError, setUsernameError] =useState(false);
 
     const handleUsernameInputChange = (event) => {
         setUsername(event.target.value);
@@ -53,7 +53,8 @@ const Register = () => {
             // Login successfully worked --> navigate to the route /home in the AppRouter
             history.push(`/Home`);
         } catch (error) {
-            setError(handleError(error));
+            toast.error(handleError(error));
+            setUsernameError(true);
         }
     };
 
@@ -74,7 +75,6 @@ const Register = () => {
                 }}
             >
                 <Box sx={{display: 'flex', flexDirection: 'column', width: '60%', margin: '0 auto'}}>
-                    <ErrorMessage error={error} onClose={() => setError(null)} />
                     <TextField
                         label={"Username"}
                         placeholder={"Enter your username"}
@@ -82,6 +82,7 @@ const Register = () => {
                         value={username}
                         onChange={handleUsernameInputChange}
                         sx={{mt: 2}}
+                        error={usernameError}
                     />
                     <TextField
                         label={"Email"}
@@ -130,7 +131,7 @@ const Register = () => {
                 </Box>
             </Paper>
         </BaseContainer>
-    );
+);
 };
 
 export default Register;

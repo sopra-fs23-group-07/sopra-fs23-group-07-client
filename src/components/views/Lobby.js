@@ -29,7 +29,6 @@ import "styles/views/Lobby.scss";
 import SelectDateAndTime from "../../helpers/SelectDateAndTime";
 import AddLocationForLobby from "../../helpers/AddLocationForLobby";
 import VotingForLocations from "../../helpers/VotingForLocations";
-import ErrorMessage from "../ui/ErrorMessage";
 import LaunchIcon from "@mui/icons-material/Launch";
 import Schedule from "@mui/icons-material/Schedule";
 import moment from "moment/moment";
@@ -39,6 +38,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import {toast} from "react-toastify";
 
 const generateTableData = (users) => {
   const tableData = [];
@@ -72,7 +72,6 @@ const Lobby = () => {
   const [lobby, setLobby] = useState([]);
 
   const [selectedSports, setSelectedSports] = React.useState([]);
-  const [error, setError] = useState(null);
   const [members, setMembers] = useState([]); // state for the pop-up
   const [chat, setChat] =  useState([]);
   const [message, setMessage] = useState(null);
@@ -98,11 +97,13 @@ const Lobby = () => {
   const handleCopyClick = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(urlRef.current.value);
+      toast.success("Link copied.")
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 5000); // Reset message after 5 seconds
     } else {
       urlRef.current.select();
       document.execCommand("copy");
+      toast.success("Link copied.")
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 5000); // Reset message after 5 seconds
     }
@@ -124,7 +125,7 @@ const Lobby = () => {
       await api.put(`/lobbies/${lobbyId}/lock`, requestBody);
       console.log("Choice locked was sent to the backend");
     } catch (error) {
-      setError(handleError(error));
+      toast.error(handleError(error));
     }
   };
 
@@ -136,7 +137,7 @@ const Lobby = () => {
       await api.put(`/lobbies/${lobbyId}/unlock`, requestBody);
       console.log("Choice unlocked was sent to the backend");
     } catch (error) {
-      setError(handleError(error));
+      toast.error(handleError(error));
     }
   };
 
@@ -148,7 +149,7 @@ const Lobby = () => {
           await api.post(`/lobbies/${lobbyId}/users/${localStorage.getItem("userId")}/messages`, requestBody);
           console.log("Chat Message was sent to the backend");
         } catch (error) {
-          setError(handleError(error));
+          toast.error(handleError(error));
         }
   }
 
@@ -186,7 +187,7 @@ const Lobby = () => {
 
         }
       } catch (error) {
-        setError(handleError(error));
+        toast.error(handleError(error));
       }
     }
 
@@ -210,7 +211,7 @@ const Lobby = () => {
         history.push(`/Lobbies`);
       }
     } catch (error) {
-      setError(handleError(error));
+      toast.error(handleError(error));
     }
   };
 
@@ -647,7 +648,6 @@ const Lobby = () => {
           </div>
         </div>
       </BaseContainer>
-      <ErrorMessage error={error} onClose={() => setError(null)} />
     </>
   );
 };

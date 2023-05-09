@@ -23,11 +23,11 @@ import {
 } from "@mui/material";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import "styles/views/CreateLobby.scss";
-import ErrorMessage from "../ui/ErrorMessage";
 import {DateTimePicker} from "@mui/x-date-pickers";
 import moment from "moment";
 import dayjs from "dayjs";
 import AddLocationForEvent from "../../helpers/AddLocationForEvent";
+import {toast} from "react-toastify";
 
 const CreateEvent = () => {
     // Set up state variables for each input field.
@@ -39,7 +39,6 @@ const CreateEvent = () => {
     const [maxParticipants, setMaxParticipants] = useState("");
     // Set up other variables
     const history = useHistory();
-    const [error, setError] = useState(null);
     const userId = localStorage.getItem("userId");
 
 //method to handle the location change inside the AddLocationForEvent component
@@ -71,7 +70,7 @@ const CreateEvent = () => {
                 isNaN(maxParticipants)
             ) {
                 // console.log(JSON.stringify(eventDate)); // delete when done
-                setError("Please fill in all fields with valid data.");
+                toast.error("Please fill in all fields with valid data.");
                 return;
             }
 
@@ -102,7 +101,7 @@ const CreateEvent = () => {
             // after event is generated braing user to event page.
             history.push(`/Events/${response.data.eventId}`);
         } catch (error) {
-            setError(handleError(error));
+            toast.error(handleError(error));
         }
     };
 
@@ -287,8 +286,6 @@ const CreateEvent = () => {
                             Create Lobby
                         </Button>
                     </Box>
-
-                    <ErrorMessage error={error} onClose={() => setError(null)}/>
                 </Paper>
             </BaseContainer>
         </>

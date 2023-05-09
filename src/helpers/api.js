@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { getDomain } from 'helpers/getDomain';
 import React from 'react';
-import ErrorMessage from "../components/ui/ErrorMessage";
 
 export const api = axios.create({
   baseURL: getDomain(),
@@ -26,13 +25,13 @@ export const handleError = error => {
   } else {
     if (error.message.match(/Network Error/)) {
       return (
-          <ErrorMessage error={"The server cannot be reached. Please start the server and reload the page."}  />
+          "The server cannot be reached. Please start the server and reload the page."
       );
     }
 
     console.log('Something else happened.', error);
     return (
-        <ErrorMessage error={error.message}/>
+        error.message
     );
   }
 };

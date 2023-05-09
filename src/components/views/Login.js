@@ -7,7 +7,7 @@ import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { GlobalContext } from "../../helpers/GlobalState";
-import ErrorMessage from "../ui/ErrorMessage";
+import {toast} from "react-toastify";
 
 
 const Login = () => {
@@ -15,7 +15,8 @@ const Login = () => {
     const history = useHistory();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(null);
+    const [passwordError, setPasswordError] = useState(false);
+    const [usernameError, setUsernameError] = useState(false);
 
     const handleUsernameInputChange = (event) => {
         setUsername(event.target.value);
@@ -26,6 +27,8 @@ const Login = () => {
     };
 
     const doLogin = async () => {
+        setUsernameError(false);
+        setPasswordError(false);
         try {
             const requestBody = JSON.stringify({ username, password });
             const response = await api.post("/users/login", requestBody);
@@ -41,7 +44,13 @@ const Login = () => {
             // Login successfully worked --> navigate to the route /game in the GameRouter
             history.push(`/Home`);
         } catch (error) {
-            setError(handleError(error));
+            toast.error(handleError(error));
+            if (error.response.data.includes("username")){
+                setUsernameError(true);
+            }
+            if (error.response.data.includes("password")){
+                setPasswordError(true);
+            }
         }
     };
 
@@ -62,7 +71,6 @@ const Login = () => {
                 }}
             >
                 <Box sx={{ display: 'flex', flexDirection: 'column', width: '60%', margin: '0 auto' }}>
-                    <ErrorMessage error={error} onClose={() => setError(null)} />
                     <TextField
                         label={"Username"}
                         placeholder={"Enter your username"}
@@ -70,6 +78,7 @@ const Login = () => {
                         value={username}
                         onChange={handleUsernameInputChange}
                         sx={{ mt: 2 }}
+                        error={usernameError}
                     />
                     <TextField
                         label={"Password"}
@@ -78,6 +87,7 @@ const Login = () => {
                         value={password}
                         onChange={handlePasswordInputChange}
                         sx={{ mt: 2 }}
+                        error={passwordError}
                     />
                     <Button
                         variant="contained"

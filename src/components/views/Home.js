@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {useHistory} from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -12,7 +12,6 @@ import {
     Typography
 } from "@mui/material";
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import ErrorMessage from "../ui/ErrorMessage";
 import soccer from '../../soccer.jpg';
 import {Add} from "@mui/icons-material";
 import CardHeader from "@mui/material/CardHeader";
@@ -26,16 +25,8 @@ import Collapse from "@mui/material/Collapse";
 import {styled} from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 
-
-
-
-
 const Home = () => {
     const history = useHistory();
-    const [error, setError] = useState(null);
-
-
-
 
     const ExpandMore = styled((props) => {
         const { expand, ...other } = props;
@@ -276,12 +267,8 @@ const Home = () => {
                             </CardContent>
                         </Collapse>
                     </Card>
-
                 </Grid>
-
             </Grid>
-            <ErrorMessage error={error} onClose={() => setError(null)}/>
-
         </BaseContainer>
     );
 };

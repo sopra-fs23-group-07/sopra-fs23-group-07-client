@@ -21,17 +21,16 @@ import { api, handleError } from "../../helpers/api";
 import { useParams } from "react-router-dom";
 import AddLocation from "../../helpers/AddLocation";
 import Grid from "@mui/material/Grid";
-import ErrorMessage from "../ui/ErrorMessage";
 import moment from "moment";
 import LaunchIcon from "@mui/icons-material/Launch";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import {toast} from "react-toastify";
 
 const Event = () => {
   const eventId = useParams().eventId;
   const userId = localStorage.getItem("userId");
 
   const [event, setEvent] = useState([]);
-  const [error, setError] = useState(null);
   const [eventLocationDTO, setEventLocationDTO] = useState(null);
   const [isParticipant, setIsParticipant] = useState(false);
 
@@ -42,11 +41,13 @@ const Event = () => {
   const handleCopyClick = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(urlRef.current.value);
+      toast.success("Link copied");
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 5000); // Reset message after 5 seconds
     } else {
       urlRef.current.select();
       document.execCommand("copy");
+      toast.success("Link copied");
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 5000); // Reset message after 5 seconds
     }
@@ -64,11 +65,11 @@ const Event = () => {
       //   console.log(error);
 
       if (error.response.status === 500) {
-        setError("Please log in before you join an event.");
+        toast.error("Please log in before you join an event.");
       } else if (error.response.status === 404) {
-        setError("You already joined this event.");
+        toast.error("You already joined this event.");
       } else {
-        setError("Something went wrong.");
+        toast.error("Something went wrong.");
       }
     }
   };
@@ -84,11 +85,11 @@ const Event = () => {
       // setError(handleError(error));
       //   console.log(error);
       if (error.response.status === 500) {
-        setError("Please log in before you leave an event.");
+        toast.error("Please log in before you leave an event.");
       } else if (error.response.status === 404) {
-        setError("You already left this event.");
+        toast.error("You already left this event.");
       } else {
-        setError("Something went wrong.");
+        toast.error("Something went wrong.");
       }
     }
   };
@@ -118,7 +119,7 @@ const Event = () => {
         console.log(userIds);
         setIsParticipant(userIds.includes(String(userId)));
       } catch (error) {
-        setError(handleError(error));
+        toast.error(handleError(error));
       }
     };
     fetchData();
@@ -130,7 +131,6 @@ const Event = () => {
 
   return (
     <BaseContainer className="event">
-      <ErrorMessage error={error} onClose={() => setError(null)} />
       <Grid
         container
         spacing={2}

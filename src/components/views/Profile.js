@@ -8,15 +8,13 @@ import {Avatar, Badge, Button, Table, TableCell, TableContainer, TableRow} from 
 import {api, handleError} from "../../helpers/api";
 import {useHistory, useParams} from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
-import ErrorMessage from "../ui/ErrorMessage";
+import {toast} from "react-toastify";
 
 
 const Profile = () => {
     const history = useHistory();
     const userId = useParams().userId;
     const [user, setUser] = useState([]);
-    const [error, setError] = useState(null);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,7 +30,7 @@ const Profile = () => {
                 console.log(response);
 
             } catch (error) {
-                setError(handleError(error));
+                toast.error(handleError(error));
             }
         };
         fetchData()
@@ -42,7 +40,7 @@ const Profile = () => {
         if (userId == localStorage.getItem("userId")) {
             history.push("/Profile/" + String(userId) + "/edit");
         } else (
-            setError("You are not allowed to edit this profile")
+            toast.error("You are not allowed to edit this profile")
         )
 
     };
@@ -124,8 +122,6 @@ const Profile = () => {
                 <Typography>
                     {user.bio}
                 </Typography>
-                <ErrorMessage error={error} onClose={() => setError(null)} />
-
             </Grid>
         </Grid>
 

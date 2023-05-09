@@ -18,25 +18,24 @@ import AddLocation from "helpers/AddLocation";
 import { api, handleError } from "helpers/api";
 import Grid from "@mui/material/Grid";
 import moment from "moment/moment";
-import ErrorMessage from "../ui/ErrorMessage";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
+import {toast} from "react-toastify";
 
 // page where all events are listed
 const Events = () => {
   // initializing variables and hooks need
   const history = useHistory();
   const [events, setEvents] = useState(null);
-  const [error, setError] = useState(null);
   const [flyToLocation, setFlyToLocation] = useState(null);
 
   const handleCreateEventClick = () => {
     if (
-      !(localStorage.getItem("token") === "null") &&
+      (localStorage.getItem("token") !== "null") &&
       localStorage.getItem("token")
     ) {
       history.push("/CreateEvent");
     } else {
-      setError("You need to be logged in to create an event");
+      toast.error("You need to be logged in to create an event");
     }
   };
 
@@ -78,7 +77,7 @@ const Events = () => {
         // console.log(response);
       } catch (error) {
         console.error(`Something went wrong while fetching the event.`);
-        setError(handleError(error));
+        toast.error(handleError(error));
       }
     }
 
@@ -191,7 +190,6 @@ const Events = () => {
           )}
         </Grid>
       </Grid>
-      <ErrorMessage error={error} onClose={() => setError(null)} />
     </BaseContainer>
   );
 };

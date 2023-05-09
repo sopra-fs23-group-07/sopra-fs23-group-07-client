@@ -1,5 +1,6 @@
 import 'styles/ui/BaseContainer.scss';
 import PropTypes from "prop-types";
+import React from "react";
 
 const BaseContainer = props => (
   <div {...props} className={`base-container ${props.className ?? ''}`}>

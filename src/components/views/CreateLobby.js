@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import "styles/views/CreateLobby.scss";
-import ErrorMessage from "../ui/ErrorMessage";
+import {toast} from "react-toastify";
 
 // On this page the host chooses different attributes of his lobby
 // TODO: Make sure that only loggedin users can open this page. (Guard)
@@ -26,13 +26,27 @@ const CreateLobby = () => {
   const [maxParticipants, setMaxParticipants] = useState("");
   const [region, setRegion] = useState("");
   const [lobby, setLobby] = useState(null);
-  const [error, setError] = useState(null);
+  const [lobbyNameError, setLobbyNameError] = useState(false);
+  const [maxPartError, setMaxPartError] = useState(false);
+  const [regionError, setRegionError] = useState(false);
 
   const handleLobbyClick = async () => {
     try {
+      setLobbyNameError(false);
+      setMaxPartError(false);
+      setRegionError(false);
+      if (!lobbyName){
+        setLobbyNameError(true);
+      }
+      if (!maxParticipants || isNaN(maxParticipants)){
+        setMaxPartError(true);
+      }
+      if (!region){
+        setRegionError(true);
+      }
       // Validate the input fields.
       if (!lobbyName || !maxParticipants || isNaN(maxParticipants) || !region) {
-        setError("Please fill in all fields with valid data.");
+        toast.error("Please fill in all fields with valid data.");
         return;
       }
 
@@ -56,7 +70,7 @@ const CreateLobby = () => {
 
       history.push(`/Lobby/${response.data.lobbyId}`);
     } catch (error) {
-      setError(handleError(error));
+      toast.error(handleError(error));
     }
   };
 
@@ -91,6 +105,7 @@ const CreateLobby = () => {
               placeholder="Enter Lobby Name"
               value={lobbyName}
               onChange={(e) => setLobbyName(e.target.value)}
+              error={lobbyNameError}
             />
             <Typography variant={"h5"}>
               Enter maximum number of participants:
@@ -102,6 +117,7 @@ const CreateLobby = () => {
               placeholder="Enter Maximum Number of Participants"
               value={maxParticipants}
               onChange={(e) => setMaxParticipants(e.target.value)}
+              error={maxPartError}
             />
             <Typography variant={"h5"}>Choose Region:</Typography>
             <Box sx={{ minWidth: 240 }}>
@@ -112,6 +128,7 @@ const CreateLobby = () => {
                   id="createLobby-select"
                   value={region}
                   onChange={(e) => setRegion(e.target.value)}
+                  error={regionError}
                 >
                   <MenuItem value="Aargau">Aargau</MenuItem>
                   <MenuItem value="Appenzell Innerrhoden">
@@ -155,7 +172,6 @@ const CreateLobby = () => {
               Create Lobby
             </Button>
           </Box>
-          <ErrorMessage error={error} onClose={() => setError(null)} />
         </Paper>
       </BaseContainer>
     </>
