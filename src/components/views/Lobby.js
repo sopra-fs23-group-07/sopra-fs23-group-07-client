@@ -153,6 +153,14 @@ const Lobby = () => {
         }
   }
 
+  const handleMinimizeChat = () => {
+    document.getElementById("ChatWindow").style.display = "none";
+  }
+
+  const handleMaximizeChat = () => {
+      document.getElementById("ChatWindow").style.display = "block";
+    }
+
   const updateScroll = async () => {
     var element = document.getElementById("ChatBox")
     element.scrollTop = element.scrollHeight;
@@ -428,49 +436,7 @@ const Lobby = () => {
             >
               Leave Lobby
             </Button>
-            <div
-                id="ChatBox"
-                className="ChatBox"
-                style={{
-                border: "3px solid #333",
-                width: "50%",
-                height: "200px",
-                padding: "10px",
-                marginBottom: "0px",
-                backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
-                position: "relative",
-                overflow: "auto",
-                }}
-                >
-                {chat.map((message) =>
-                    <h1 align="left" style={{color: "#000000", fontSize: "16px"}}>{message.username}: {message.message}</h1>
-                    )}
-             </div>
-             <div className="EnterMessageBox"
-                style={{
-                border: "3px solid #333",
-                width: "50%",
-                padding: "10px",
-                marginBottom: "0px",
-                backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
-                position: "relative",
-                }}>
-                <TextField
-                  type={"string"}
-                  id="message"
-                  placeholder="Enter Message..."
-                  value = {message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  style={{width: "300px",}}
-                  />
-                 <Button
-                    variant="contained"
-                    onClick={() => handleSendMessage(message)}
-                    style={{height: "55px"}}
-                    >
-                        Send
-                 </Button>
-             </div>
+
 
             <div style={{ padding: "5px" }}>
               <Accordion>
@@ -646,7 +612,97 @@ const Lobby = () => {
               </React.Fragment>
             ))}
           </div>
+
+          <Button
+              onClick={() => handleMaximizeChat()}
+              style={{
+              cursor:"pointer",
+              width: "10px",
+              height: "auto",
+              backgroundColor: "#00A8EA",
+              color: "#fff",
+              border: "solid 1px #0095cc",
+              textAlign: "center",
+              position: "fixed",
+              right: "30px",
+              top: "650px",
+              padding: "0px",
+              borderRadius: "3px",
+              }}
+          >
+              Open Chat
+          </Button>
+
+          <div
+                id="ChatWindow"
+                className="ChatWindow"
+                style={{
+                    border: "3px solid #333",
+                    width: "25%",
+                    height: "200px",
+                    padding: "10px",
+                    marginBottom: "0px",
+                    backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
+                    position: "absolute",
+                    bottom: "10px",
+                    right: "10px",
+                    overflow: "auto",
+                    display: "block",
+                    }}
+                >
+                <Button
+                    onClick={() => handleMinimizeChat()}
+                    style={{
+                      cursor:"pointer",
+                      width: "10px",
+                      height: "auto",
+                      backgroundColor: "#00A8EA",
+                      color: "#fff",
+                      border: "solid 1px #0095cc",
+                      textAlign: "center",
+                      position: "fixed",
+                      right: "30px",
+                      top: "510px",
+                      padding: "0px",
+                      borderRadius: "3px",
+                    }}
+                >
+                    X
+                </Button>
+                <div
+                    id="ChatBox"
+                    className="ChatBox"
+
+                    >
+                    {chat.map((message) =>
+                        <h1 align="left" style={{color: "#000000", fontSize: "16px"}}>{message.username}: {message.message}</h1>
+                        )}
+                 </div>
+                 <div className="EnterMessageBox"
+                    style={{
+                    backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
+                    position: "relative",
+                    }}>
+                    <TextField
+                      type={"string"}
+                      id="message"
+                      placeholder="Enter Message..."
+                      value = {message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      size="small"
+                      style={{width: "80%"}}
+                      />
+                     <Button
+                        variant="contained"
+                        onClick={() => handleSendMessage(message)}
+                        style={{height: "39px", width: "20%"}}
+                        >
+                            Send
+                     </Button>
+                 </div>
+             </div>
         </div>
+
       </BaseContainer>
     </>
   );
