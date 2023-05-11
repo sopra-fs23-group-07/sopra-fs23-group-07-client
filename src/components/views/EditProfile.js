@@ -8,9 +8,9 @@ import {Box, Button, Grid, Paper, TextField, Typography} from '@mui/material';
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import CancelIcon from '@mui/icons-material/Cancel';
 import dayjs from 'dayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {toast} from "react-toastify";
 
 const EditProfile = () => {
@@ -25,11 +25,12 @@ const EditProfile = () => {
     const [birthdate, setBirthdate] = useState(dayjs('1977-03-21'));
     const [passwordError, setPasswordError] = useState(false);
 
-    function validateEmail(email){
+    function validateEmail(email) {
         // const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         // return emailRegex.test(email);
         return true;
     }
+
     const handleUsernameInputChange = (event) => {
         setUsername(event.target.value);
     };
@@ -43,7 +44,7 @@ const EditProfile = () => {
     };
 
     const handleEmailInputChange = (event) => {
-            setEmail(event.target.value);
+        setEmail(event.target.value);
     };
 
     const handleBioInputChange = (event) => {
@@ -77,7 +78,7 @@ const EditProfile = () => {
             );
 
             await api.put(`/users/${userId}`, filteredRequestBody, {
-                headers: { Authorization: `Bearer ${token}` },
+                headers: {Authorization: `Bearer ${token}`},
             });
             history.push(`/profile/${userId}`);
         } catch (error) {
@@ -132,14 +133,14 @@ const EditProfile = () => {
                     />
 
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DatePicker
-                                label="Birthdate"
-                                value={birthdate}
-                                onChange={handleBirthdateInputChange}
-                                sx={{mt:2}}
-                                maxDate={dayjs("2022-05-05").toDate()}
-                                minDate={dayjs("1900-01-01").toDate()}
-                            />
+                        <DatePicker
+                            label="Birthdate"
+                            value={birthdate}
+                            onChange={handleBirthdateInputChange}
+                            sx={{mt: 2}}
+                            maxDate={dayjs("2022-05-05").toDate()}
+                            minDate={dayjs("1900-01-01").toDate()}
+                        />
                     </LocalizationProvider>
 
                     <TextField
@@ -150,7 +151,7 @@ const EditProfile = () => {
                         multiline
                         rows={3}
                         onChange={handleBioInputChange}
-                        sx={{mt:2}}
+                        sx={{mt: 2}}
                     />
                     {error && (
                         <Typography color="error" sx={{mt: 2}}>
@@ -178,7 +179,7 @@ const EditProfile = () => {
                                 color={"error"}
                                 startIcon={<CancelIcon/>}
                                 onClick={() => history.push(`/Profile/${userId}`)}
-                                sx={{mt: 2, p: 2, marginX: "5%" }}
+                                sx={{mt: 2, p: 2, marginX: "5%"}}
                         >
                             Cancel
                         </Button>
