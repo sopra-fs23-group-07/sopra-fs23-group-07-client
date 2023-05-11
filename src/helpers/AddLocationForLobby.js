@@ -3,7 +3,6 @@ import {Box, Button} from "@mui/material";
 import ReactMapGL, {GeolocateControl, Marker, NavigationControl} from "react-map-gl";
 import Geocoder from "./Geocoder";
 import {api, handleError} from "./api";
-import {toast} from "react-toastify";
 
 const AddLocationForLobby = (props) => {
 
@@ -18,12 +17,8 @@ const AddLocationForLobby = (props) => {
     const [LngLat, setLngLat] = useState(null);  //Latitude
 
     const [Address, setAddress] = useState(null);
-    const [CorrectAddress, setCorrectAddress] = useState(false);
 
     const [UserConfirmedLocation, SetUserConfirmedLocation] = useState(false);
-
-    const canton = props.canton;
-    const canton_Full_name = props.cantonFullName;
 
     const lobbyId = localStorage.getItem("lobbyId");
 
@@ -50,12 +45,10 @@ const AddLocationForLobby = (props) => {
             setLat2(lngLat.lat);
             setLng2(lngLat.lng);
             setLngLat(lngLat);
-            console.log("this is the canton:", canton); // log the canton variable
-            console.log("this is the canton full name new:", canton_Full_name); // log the canton variable
 
         } else {
             console.log("User already confirmed location");
-            toast.warn("You already confirmed your location!")
+            alert("You already confirmed your location!")
         }
 
     };
@@ -65,38 +58,10 @@ const AddLocationForLobby = (props) => {
             const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat.lng},${lngLat.lat}.json?access_token=${TOKEN}`);
             const data = await response.json();
             // Handle the data returned by the server
-            // await setAddress(data.features[0].place_name);
+            await setAddress(data.features[0].place_name);
 
 
             console.log("this is the data for mapbox coordinates into adress", data.features[0].place_name);
-
-
-            if (data.features[0].context[2].short_code) {
-                const shortCode = data.features[0].context[2].short_code.split("-")[1];
-                console.log("there is a shortcode here", shortCode); // "SO"}
-
-                if (shortCode !== props.canton) {
-                    console.log("the short code is not the same as the canton code given")
-                    toast.error("You are in the wrong canton");
-                } else {
-                    console.log("there is a short code and it is correct");
-                    setCorrectAddress(true);
-                    await setAddress(data.features[0].place_name);
-                    toast.success("You successfully confirmed the location");
-                }
-            } else {
-                console.log("there is no short code here only text with region");
-                if (data.features[0].context[2].text === props.cantonFullName) {
-                    console.log("the text is the same as the canton full name");
-                    setCorrectAddress(true);
-                    await setAddress(data.features[0].place_name);
-                    toast.success("You successfully confirmed the location");
-                } else {
-                    console.log("the text is not the same as the canton full name");
-                    toast.error("You are in the wrong canton");
-                }
-            }
-
 
         } catch (error) {
             // Handle any errors that occurred during the request
