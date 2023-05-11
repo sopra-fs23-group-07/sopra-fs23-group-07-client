@@ -161,8 +161,15 @@ const Lobby = () => {
       document.getElementById("ChatWindow").style.display = "block";
     }
 
+  const setEnterMessageBoxRelative = () => {
+          var el = document.getElementById("EnterMessageBox");
+          el.style.position = "relative";
+          el.style.left = "0";
+          el.style.right = "0";
+        }
+
   const updateScroll = async () => {
-    var element = document.getElementById("ChatBox")
+    var element = document.getElementById("ChatWindow");
     element.scrollTop = element.scrollHeight;
   }
 
@@ -172,6 +179,7 @@ const Lobby = () => {
   const [eventId, setEventId] = useState(null);
   const [hasExecuted, setHasExecuted] = useState(false);
   const [timerStarted, setTimerStarted] = useState(false);
+  var oldChatLength = 0;
 
   useEffect(() => {
     async function fetchData() {
@@ -188,10 +196,12 @@ const Lobby = () => {
           setLocationDTO(response.data.lobbyLocationDTOs);
           setEventId(response.data.createdEventId || null);
 
-          const oldChat = JSON.stringify(chat);
           setChat(response.data.lobbyMessageDTOs);
 
-          updateScroll()
+          if(response.data.lobbyMessageDTOs.length >= 4) { setEnterMessageBoxRelative(); }
+
+          if(response.data.lobbyMessageDTOs.length != oldChatLength) { updateScroll(); }
+          oldChatLength = response.data.lobbyMessageDTOs.length;
 
         }
       } catch (error) {
@@ -678,10 +688,14 @@ const Lobby = () => {
                         <h1 align="left" style={{color: "#000000", fontSize: "16px"}}>{message.username}: {message.message}</h1>
                         )}
                  </div>
-                 <div className="EnterMessageBox"
+                 <div
+                    id="EnterMessageBox"
+                    className="EnterMessageBox"
                     style={{
                     backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
-                    position: "relative",
+                    position: "absolute",
+                    bottom: "10px",
+                    left: "10px",
                     }}>
                     <TextField
                       type={"string"}
@@ -690,12 +704,12 @@ const Lobby = () => {
                       value = {message}
                       onChange={(e) => setMessage(e.target.value)}
                       size="small"
-                      style={{width: "80%"}}
+                      style={{width: "78%"}}
                       />
                      <Button
                         variant="contained"
                         onClick={() => handleSendMessage(message)}
-                        style={{height: "39px", width: "20%"}}
+                        style={{height: "39px", width: "15%"}}
                         >
                             Send
                      </Button>
