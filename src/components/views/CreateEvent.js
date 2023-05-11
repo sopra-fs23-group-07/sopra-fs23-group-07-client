@@ -36,10 +36,12 @@ const CreateEvent = () => {
     const [eventDate, setEventDate] = useState("");
     const [location, setLocation] = useState("");
     const [region, setRegion] = useState("");
+    const [canton_Full_name, setCanton_Full_name] = useState("");
     const [maxParticipants, setMaxParticipants] = useState("");
     // Set up other variables
     const history = useHistory();
     const userId = localStorage.getItem("userId");
+    const [shortCodeForRegion, setShortCodeForRegion] = useState("");
 
 //method to handle the location change inside the AddLocationForEvent component
     const handleLocationChange = (lng, lat, address) => {
@@ -65,7 +67,7 @@ const CreateEvent = () => {
                 !selectedSport ||
                 // !eventDate ||
                 // !location ||
-                !region ||
+                !canton_Full_name ||
                 !maxParticipants ||
                 isNaN(maxParticipants)
             ) {
@@ -87,7 +89,7 @@ const CreateEvent = () => {
                 eventDate: eventDate,
                 // eventDate: "2023-04-01T15:30:00",
                 eventSport: selectedSport,
-                eventRegion: region,
+                eventRegion: canton_Full_name,
                 eventMaxParticipants: maxParticipants, // integer
                 eventCreator: userId, // long
             });
@@ -116,6 +118,11 @@ const CreateEvent = () => {
         "Rugby",
         "Hockey",
     ];
+
+    // useEffect(() => {
+    //     console.log("this is the shortCodeForRegion", shortCodeForRegion);
+    // }, [shortCodeForRegion])
+    //
 
     const handleDateChange = (date) => {
         if (date !== null) {
@@ -225,34 +232,43 @@ const CreateEvent = () => {
                                     sx={{mt: 2, mb: 4}}
                                     label="Select a region"
                                     value={region}
-                                    onChange={(e) => setRegion(e.target.value)}
+                                    onChange={(e) => {
+                                        const canton_Full_name2 = e.target.value.split(',')[0];
+                                        const shortCode1 = e.target.value.split(',')[1];
+                                        setRegion(e.target.value); // Set the entire value
+                                        setCanton_Full_name(canton_Full_name2);
+                                        setShortCodeForRegion(shortCode1);
+                                        console.log("shortCode:", shortCodeForRegion);
+                                        console.log("canton_Full_name:", canton_Full_name2);
+                                    }}
                                 >
-                                    <MenuItem value="AG">Aargau</MenuItem>
-                                    <MenuItem value="AI">Appenzell Innerrhoden</MenuItem>
-                                    <MenuItem value="AR">Appenzell Ausserrhoden</MenuItem>
-                                    <MenuItem value="BE">Bern</MenuItem>
-                                    <MenuItem value="BL">Basel-Landschaft</MenuItem>
-                                    <MenuItem value="BS">Basel-Stadt</MenuItem>
-                                    <MenuItem value="FR">Fribourg</MenuItem>
-                                    <MenuItem value="GE">Geneva</MenuItem>
-                                    <MenuItem value="GL">Glarus</MenuItem>
-                                    <MenuItem value="GR">Graubünden</MenuItem>
-                                    <MenuItem value="JU">Jura</MenuItem>
-                                    <MenuItem value="LU">Luzern</MenuItem>
-                                    <MenuItem value="NE">Neuchâtel</MenuItem>
-                                    <MenuItem value="NW">Nidwalden</MenuItem>
-                                    <MenuItem value="OW">Obwalden</MenuItem>
-                                    <MenuItem value="SG">St. Gallen</MenuItem>
-                                    <MenuItem value="SH">Schaffhausen</MenuItem>
-                                    <MenuItem value="SO">Solothurn</MenuItem>
-                                    <MenuItem value="SZ">Schwyz</MenuItem>
-                                    <MenuItem value="TG">Thurgau</MenuItem>
-                                    <MenuItem value="TI">Ticino</MenuItem>
-                                    <MenuItem value="UR">Uri</MenuItem>
-                                    <MenuItem value="VD">Vaud</MenuItem>
-                                    <MenuItem value="VS">Valais</MenuItem>
-                                    <MenuItem value="ZG">Zug</MenuItem>
-                                    <MenuItem value="ZH">Zürich</MenuItem>
+                                    <MenuItem value="Aargau,AG">Aargau</MenuItem>
+                                    <MenuItem value="Appenzell Innerrhoden,AI">Appenzell Innerrhoden</MenuItem>
+                                    <MenuItem value="Appenzell Ausserrhoden,AR">Appenzell Ausserrhoden</MenuItem>
+                                    <MenuItem value="Bern,BE">Bern</MenuItem>
+                                    <MenuItem value="Basel-Landschaft,BL">Basel-Landschaft</MenuItem>
+                                    <MenuItem value="Basel,BS">Basel-Stadt</MenuItem>
+                                    <MenuItem value="Fribourg,FR">Fribourg</MenuItem>
+                                    <MenuItem value="Geneva,GE">Geneva</MenuItem>
+                                    <MenuItem value="Glarus,GL">Glarus</MenuItem>
+                                    <MenuItem value="Graubünden,GR">Graubünden</MenuItem>
+                                    <MenuItem value="Jura,JU">Jura</MenuItem>
+                                    <MenuItem value="Luzern,LU">Luzern</MenuItem>
+                                    <MenuItem value="Neuchâtel,NE">Neuchâtel</MenuItem>
+                                    <MenuItem value="Nidwalden,NW">Nidwalden</MenuItem>
+                                    <MenuItem value="Obwalden,OW">Obwalden</MenuItem>
+                                    <MenuItem value="St. Gallen,SG">St. Gallen</MenuItem>
+                                    <MenuItem value="Schaffhausen,SH">Schaffhausen</MenuItem>
+                                    <MenuItem value="Solothurn,SO">Solothurn</MenuItem>
+                                    <MenuItem value="Schwyz,SZ">Schwyz</MenuItem>
+                                    <MenuItem value="Thurgau,TG">Thurgau</MenuItem>
+                                    <MenuItem value="Ticino,TI">Ticino</MenuItem>
+                                    <MenuItem value="Uri,UR">Uri</MenuItem>
+                                    <MenuItem value="Vaud,VD">Vaud</MenuItem>
+                                    <MenuItem value="Valais,VS">Valais</MenuItem>
+                                    <MenuItem value="Zug,ZG">Zug</MenuItem>
+                                    <MenuItem value="Zürich,ZH">Zürich</MenuItem>
+
                                 </Select>
                             </FormControl>
                         </Box>
@@ -274,7 +290,11 @@ const CreateEvent = () => {
                         <Typography variant={"h5"}>Select Location:</Typography>
                         {/* Map to put location */}
                         <AddLocationForEvent handleLocationChange={handleLocationChange}
-                                             canton={region}></AddLocationForEvent>
+                                             canton={shortCodeForRegion}
+                                             cantonFullName={canton_Full_name}
+                        >
+
+                        </AddLocationForEvent>
 
                         {/* Button to create event */}
                         <Button
@@ -285,6 +305,8 @@ const CreateEvent = () => {
                         >
                             Create Lobby
                         </Button>
+
+
                     </Box>
                 </Paper>
             </BaseContainer>
