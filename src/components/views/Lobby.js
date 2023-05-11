@@ -162,16 +162,9 @@ const Lobby = () => {
     }
 
   const updateScroll = async () => {
-    var element = document.getElementById("ChatBox");
+    var element = document.getElementById("ChatBox")
     element.scrollTop = element.scrollHeight;
   }
-
-  const setEnterMessageBoxRelative = () => {
-        var el = document.getElementById("EnterMessageBox");
-        el.style.position = "relative";
-        el.style.left = "0";
-        el.style.right = "0";
-      }
 
   const [time, setTime] = useState(false); // state for the pop-up
   const [locationDTO, setLocationDTO] = useState([]); // state for the pop-up
@@ -197,8 +190,6 @@ const Lobby = () => {
 
           const oldChat = JSON.stringify(chat);
           setChat(response.data.lobbyMessageDTOs);
-          console.log(response.data.lobbyMessageDTOs.length);
-          if(response.data.lobbyMessageDTOs.length >= 4) { setEnterMessageBoxRelative(); }
 
           updateScroll()
 
@@ -687,15 +678,10 @@ const Lobby = () => {
                         <h1 align="left" style={{color: "#000000", fontSize: "16px"}}>{message.username}: {message.message}</h1>
                         )}
                  </div>
-                 <div
-                    id="EnterMessageBox"
-                    className="EnterMessageBox"
+                 <div className="EnterMessageBox"
                     style={{
                     backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
-                    position: "absolute",
-                    bottom: "10px",
-                    left: "10px",
-
+                    position: "relative",
                     }}>
                     <TextField
                       type={"string"}
@@ -704,12 +690,12 @@ const Lobby = () => {
                       value = {message}
                       onChange={(e) => setMessage(e.target.value)}
                       size="small"
-                      style={{width: "78%"}}
+                      style={{width: "80%"}}
                       />
                      <Button
                         variant="contained"
                         onClick={() => handleSendMessage(message)}
-                        style={{height: "39px", width: "15%"}}
+                        style={{height: "39px", width: "20%"}}
                         >
                             Send
                      </Button>
