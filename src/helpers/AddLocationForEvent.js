@@ -49,7 +49,7 @@ const AddLocationForEvent = (props) => {
             const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat.lng},${lngLat.lat}.json?access_token=${TOKEN}`);
             const data = await response.json();
             // const canton = data.features[0].context.find(context => context.id.startsWith('region')).text;
-            console.log("this is the canton full name:", canton_Full_name); // log the canton variable
+
 
             if (canton === "") {
                 // alert("Please select a canton first");
