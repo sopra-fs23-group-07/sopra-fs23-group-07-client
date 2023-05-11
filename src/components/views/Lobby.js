@@ -162,7 +162,7 @@ const Lobby = () => {
     }
 
   const updateScroll = async () => {
-    var element = document.getElementById("ChatBox");
+    var element = document.getElementById("ChatWindow");
     element.scrollTop = element.scrollHeight;
   }
 
@@ -179,6 +179,7 @@ const Lobby = () => {
   const [eventId, setEventId] = useState(null);
   const [hasExecuted, setHasExecuted] = useState(false);
   const [timerStarted, setTimerStarted] = useState(false);
+  var oldChatLength = 0;
 
   useEffect(() => {
     async function fetchData() {
@@ -195,12 +196,14 @@ const Lobby = () => {
           setLocationDTO(response.data.lobbyLocationDTOs);
           setEventId(response.data.createdEventId || null);
 
-          const oldChat = JSON.stringify(chat);
+
           setChat(response.data.lobbyMessageDTOs);
-          console.log(response.data.lobbyMessageDTOs.length);
           if(response.data.lobbyMessageDTOs.length >= 4) { setEnterMessageBoxRelative(); }
 
-          updateScroll()
+          if(response.data.lobbyMessageDTOs.length != oldChatLength) { updateScroll(); }
+
+          oldChatLength = response.data.lobbyMessageDTOs.length;
+
 
         }
       } catch (error) {
