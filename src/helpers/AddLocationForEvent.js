@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {Box, Button} from "@mui/material";
 import ReactMapGL, {GeolocateControl, Marker, NavigationControl} from "react-map-gl";
 import Geocoder from "./Geocoder";
+import {toast} from "react-toastify";
 
 const AddLocationForEvent = (props) => {
 
@@ -37,7 +38,8 @@ const AddLocationForEvent = (props) => {
 
         } else {
             console.log("User already confirmed location");
-            alert("You already confirmed your location!")
+            toast.warn("You already confirmed your location!")
+
         }
 
     };
@@ -50,7 +52,8 @@ const AddLocationForEvent = (props) => {
             console.log("this is the canton full name:", canton_Full_name); // log the canton variable
 
             if (canton === "") {
-                alert("Please select a canton first");
+                // alert("Please select a canton first");
+                toast.error('Please select a canton first');
             } else {
 
                 if (data.features[0].context[2].short_code) {
@@ -59,12 +62,12 @@ const AddLocationForEvent = (props) => {
 
                     if (shortCode !== props.canton) {
                         console.log("the short code is not the same as the canton code given")
-                        alert("You are in the wrong canton");
+                        toast.error("You are in the wrong canton");
                     } else {
                         console.log("there is a short code and it is correct");
                         setCorrectAddress(true);
                         await setAddress(data.features[0].place_name);
-                        alert("You successfully confirmed the location");
+                        toast.success("You successfully confirmed the location");
                     }
                 } else {
                     console.log("there is no short code here only text with region");
@@ -72,10 +75,10 @@ const AddLocationForEvent = (props) => {
                         console.log("the text is the same as the canton full name");
                         setCorrectAddress(true);
                         await setAddress(data.features[0].place_name);
-                        alert("You successfully confirmed the location");
+                        toast.success("You successfully confirmed the location");
                     } else {
                         console.log("the text is not the same as the canton full name");
-                        alert("You are in the wrong canton");
+                        toast.error("You are in the wrong canton");
                     }
                 }
 
@@ -116,7 +119,7 @@ const AddLocationForEvent = (props) => {
             props.handleLocationChange(lngLat.lng, lngLat.lat, Address);
             SetUserConfirmedLocation(true);
         } else {
-            alert("You already confirmed your location!")
+            toast.warn("You already confirmed your location!")
         }
 
 
