@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "styles/index.scss";
 import App from "App.js";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,20 +11,20 @@ import "react-toastify/dist/ReactToastify.css";
  * More: https://reactjs.org/docs/rendering-elements.html
  */
 ReactDOM.render(
-    <>
-        <App />
-        <ToastContainer
-            position="top-right"
-            autoClose={15000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-        />
-    </>,
-    document.getElementById("root")
+  <>
+    <App />
+    <ToastContainer
+      position="top-right"
+      autoClose={15000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light"
+    />
+  </>,
+  document.getElementById("root")
 );

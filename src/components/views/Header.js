@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
-import "styles/views/Header.scss";
-import {NavbarLoggedOut} from "../NavbarLoggedOut.js";
-import {NavbarLoggedIn} from "../NavbarLoggedIn.js";
-import React, {useContext} from "react";
-import {GlobalContext} from "../../helpers/GlobalState";
+import { NavbarLoggedOut } from "../NavbarLoggedOut.js";
+import { NavbarLoggedIn } from "../NavbarLoggedIn.js";
+import React, { useContext } from "react";
+import { GlobalContext } from "../../helpers/GlobalState";
 import Logo from "../../speetup-high-resolution-color-logo.png";
-//TODO: organize imports after fixing isLoggedIn Issue below
+import { AppBar, Toolbar } from "@mui/material";
+import { palette } from "@mui/system";
 
 /**
  * This is an example of a Functional and stateless component (View) in React. Functional components are not classes and thus don't handle internal state changes.
@@ -16,38 +16,20 @@ import Logo from "../../speetup-high-resolution-color-logo.png";
  * @FunctionalComponent
  */
 const Header = (props) => {
-    const {user} = useContext(GlobalContext);
+  const { user } = useContext(GlobalContext);
 
-    
-    return (
-        <div className="header container" style={{height: props.height}}>
-            <div
-                style={{
-                    //   fontSize: "24px",
-                    //   color: "#333",
-                    //   textAlign: "right",
-                    //   padding: "20px",
-                    //   backgroundColor: "#eee",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    fontSize: "24px",
-                    color: "#333",
-                    padding: "20px",
-                    marginLeft: "0px",
-                    marginRight: "140px",
-                }}
-            >
-                {user ? <NavbarLoggedIn/> : <NavbarLoggedOut/>}
-                <img width="180px" src={Logo} alt="SpeetUp Logo"/>
-                {/*<p>SpeetUp</p>*/}
-            </div>
-        </div>
-    );
+  return (
+    <AppBar position="static" >
+      <Toolbar>
+        <img width="180px" src={Logo} alt="SpeetUp Logo" style={{padding: "10px"}}/>
+        {user ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
+      </Toolbar>
+    </AppBar>
+  );
 };
 
 Header.propTypes = {
-    height: PropTypes.string,
+  height: PropTypes.string,
 };
 
 export default Header;

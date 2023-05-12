@@ -2,7 +2,6 @@ import React, {useContext, useState} from "react";
 import {api, handleError} from "helpers/api";
 import User from "models/User";
 import {useHistory} from "react-router-dom";
-import "styles/views/Register.scss";
 import BaseContainer from "components/ui/BaseContainer";
 import {Box, Button, Grid, Paper, TextField, Typography} from "@mui/material";
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';

@@ -4,7 +4,6 @@ import {useHistory} from "react-router-dom";
 import {api, handleError} from "helpers/api";
 import {Box, Button, FormControl, Grid, MenuItem, Paper, Select, TextField, Typography,} from "@mui/material";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
-import "styles/views/CreateLobby.scss";
 import {toast} from "react-toastify";
 
 // On this page the host chooses different attributes of his lobby

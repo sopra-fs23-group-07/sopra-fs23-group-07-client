@@ -1,5 +1,5 @@
 // Shows all the buttons on the top of the page
-import { Button } from "components/ui/Button";
+import { Button } from "@mui/material";
 import React from "react";
 import { useHistory } from "react-router-dom";
 
@@ -32,7 +32,7 @@ const NavbarLoggedOut = () => {
 
   // displays all buttons you should see in the navbar when you are logged out
   return (
-    <div className="login button-container">
+    <div >
       <Button onClick={() => handleHomeClick()}>Home</Button>
       <Button onClick={() => handleLobbiesClick()}>Lobbies</Button>
       <Button onClick={() => handleEventsClick()}>Events</Button>

@@ -21,11 +21,9 @@ import {
     Tooltip,
     Typography,
 } from "@mui/material";
-import "styles/views/TestLobby.scss";
 import MultipleSelectChip from "helpers/SelectSport";
 import {api, handleError} from "../../helpers/api";
 import {useHistory} from "react-router-dom";
-import "styles/views/Lobby.scss";
 import SelectDateAndTime from "../../helpers/SelectDateAndTime";
 import AddLocationForLobby from "../../helpers/AddLocationForLobby";
 import VotingForLocations from "../../helpers/VotingForLocations";

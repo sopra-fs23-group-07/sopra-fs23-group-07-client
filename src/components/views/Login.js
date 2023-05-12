@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { api, handleError } from "helpers/api";
 import { useHistory } from "react-router-dom";
-import "styles/views/Login.scss";
 import BaseContainer from "components/ui/BaseContainer";
 import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import LoginIcon from '@mui/icons-material/Login';

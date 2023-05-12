@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {api, handleError} from "helpers/api";
-import {Button} from "components/ui/Button";
+import {Button} from "@mui/material";
 import {GlobalContext} from "../helpers/GlobalState";
 import {Dialog, DialogActions, DialogContent, DialogTitle} from "@material-ui/core";
 import {toast} from "react-toastify";
@@ -171,7 +171,7 @@ const NavbarLoggedIn = () => {
             />
 
 
-            <div className="login button-container">
+            <div >
 
                 <Button onClick={() => handleHomeClick()}>Home</Button>
                 <Button onClick={() => handleLobbiesClick()}>Lobbies</Button>

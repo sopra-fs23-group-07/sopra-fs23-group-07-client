@@ -14,7 +14,6 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import "styles/views/Lobbies.scss";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import HourglassTopOutlinedIcon from "@mui/icons-material/HourglassTopOutlined";

@@ -16,7 +16,6 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import "styles/views/Event.scss";
 import { api, handleError } from "../../helpers/api";
 import { useParams } from "react-router-dom";
 import AddLocation from "../../helpers/AddLocation";

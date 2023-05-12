@@ -15,7 +15,6 @@ import {
     Typography,
 } from "@mui/material";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
-import "styles/views/CreateLobby.scss";
 import {DateTimePicker} from "@mui/x-date-pickers";
 import moment from "moment";
 import dayjs from "dayjs";
