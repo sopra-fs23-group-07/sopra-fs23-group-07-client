@@ -1,5 +1,5 @@
 /**
- * User model
+ * Event model
  */
 class Event {
     constructor(data = {}) {

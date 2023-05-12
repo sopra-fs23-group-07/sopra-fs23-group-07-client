@@ -1,5 +1,5 @@
 /**
- * User model
+ * Lobby model
  */
 class Lobby {
     constructor(data = {}) {

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {api, handleError} from 'helpers/api';
-import 'styles/views/EditProfile.scss';
 import BaseContainer from 'components/ui/BaseContainer';
 import PropTypes from 'prop-types';
 import {Box, Button, Grid, Paper, TextField, Typography} from '@mui/material';
@@ -153,11 +152,7 @@ const EditProfile = () => {
                         onChange={handleBioInputChange}
                         sx={{mt: 2}}
                     />
-                    {error && (
-                        <Typography color="error" sx={{mt: 2}}>
-                            {error}
-                        </Typography>
-                    )}
+
                     <Box
                         sx={{
                             display: 'flex',

@@ -1,10 +1,3 @@
-// EventName
-// Sport
-// DateTime
-// Location
-// Region
-// MaxNumberOfParticipants
-
 import React, {useEffect, useState} from "react";
 import BaseContainer from "components/ui/BaseContainer";
 import {useHistory} from "react-router-dom";
@@ -303,7 +296,7 @@ const CreateEvent = () => {
                             onClick={() => handleCreateEventClick()}
                             startIcon={<AddBoxOutlinedIcon/>}
                         >
-                            Create Lobby
+                            Create Event
                         </Button>
 
 
