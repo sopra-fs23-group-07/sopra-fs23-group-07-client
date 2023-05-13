@@ -125,6 +125,10 @@ const AppRouter = () => {
         <Route exact path={"/FAQ"}>
           <FAQ/>
         </Route>
+
+        <Route path="*">
+            <Redirect to="/Home" />
+        </Route>
       </Switch>
     </BrowserRouter>
   );
