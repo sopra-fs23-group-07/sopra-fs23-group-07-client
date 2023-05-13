@@ -23,12 +23,19 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [usernameError, setUsernameError] =useState(false);
+    const [emailError, setEmailError] = useState(false);
 
+    function validateEmail(email) {
+        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        return (emailRegex.test(email) || email === '');
+    }
     const handleUsernameInputChange = (event) => {
+        setUsernameError(false);
         setUsername(event.target.value);
     };
 
     const handleEmailInputChange = (event) => {
+        setEmailError(false);
         setEmail(event.target.value);
     };
 
@@ -37,6 +44,12 @@ const Register = () => {
     };
 
     const doRegister = async () => {
+
+        if (!validateEmail(email)) {
+            toast.error("The email address you provided is invalid. Please enter a valid email address.");
+            setEmailError(true);
+            return;
+        }
         try {
             const requestBody = JSON.stringify({username, password, email});
             const response = await api.post("/users", requestBody);
@@ -90,6 +103,7 @@ const Register = () => {
                         value={email}
                         onChange={handleEmailInputChange}
                         sx={{mt: 2}}
+                        error={emailError}
                     />
                     <TextField
                         label={"Password"}
