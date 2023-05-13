@@ -17,20 +17,19 @@ import {
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
 import HourglassTopOutlinedIcon from "@mui/icons-material/HourglassTopOutlined";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import { api, handleError } from "../../helpers/api";
-import {toast} from "react-toastify";
-
+import { toast } from "react-toastify";
+import { letterSpacing, sizeHeight, width } from "@mui/system";
 
 // page where all lobbies are listed
 const Lobbies = () => {
-
   // initializing variables and hooks need
   const history = useHistory();
   const userId = localStorage.getItem("userId");
   const [lobbies, setLobbies] = useState();
 
   const handleCreateLobbyClick = () => {
-
     if (
       localStorage.getItem("token") !== "null" &&
       localStorage.getItem("token")
@@ -62,7 +61,7 @@ const Lobbies = () => {
   if (!lobbies || lobbies.length === 0) {
     noLobbiesDisclaimer = (
       <p
-        style={{
+        sx={{
           fontWeight: "bold",
           textAlign: "center",
           fontSize: "1.2rem",
@@ -108,15 +107,25 @@ const Lobbies = () => {
     <BaseContainer>
       <Grid container spacing={2}>
         {/* Header */}
-        <Grid item xs={12}>
-          <Typography variant="h3">Lobbies</Typography>
+        <Grid item xs={12} sm={8}>
+          <Typography
+            variant="h3" /* </Grid>sx={{ color: 'yellow', writingMode: "vertical-rl", letterSpacing: "0.2em"}}*/
+          >
+            Lobbies
+          </Typography>
         </Grid>
+
         {/* Create Lobby Button */}
         <Grid
-          container
-          direction="row"
-          justifyContent="flex-end"
-          alignItems="center"
+          item
+          xs={12}
+          sm={4}
+          sx={{
+            direction: "row",
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
         >
           <Button
             variant="contained"
@@ -126,20 +135,21 @@ const Lobbies = () => {
             Create New Lobby
           </Button>
         </Grid>
+
+        {/* Table */}
         <Grid item xs={12}>
-          {/* Table */}
-          <TableContainer component={Paper}>
+          <TableContainer>
             <Table>
               <TableHead>
-                <TableRow>
+                <TableRow sx={{ justifyContent: "flex-start" }}>
                   <TableCell>
                     <Typography fontWeight="bold">Lobby name</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography fontWeight="bold">Canton</Typography>
+                    <Typography fontWeight="bold">Region</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography fontWeight="bold">Number of users</Typography>
+                    <PeopleAltIcon sx={{ sizeHeight: "1.5em" }} />
                   </TableCell>
                   <TableCell>
                     <HourglassTopOutlinedIcon />
@@ -147,10 +157,24 @@ const Lobbies = () => {
                   <TableCell />
                 </TableRow>
               </TableHead>
-              <TableBody>
+              <TableBody
+                sx={{
+                  "& > .MuiTableRow-root": {
+                    border: "2px solid black",
+                    background: "rgba(0, 0, 0, 0.1)",
+                  },
+                }}
+              >
                 {lobbies &&
                   lobbies.map((lobby) => (
-                    <TableRow key={lobby.lobbyName}>
+                    <TableRow
+                      key={lobby.lobbyName}
+                      sx={{
+                        "& td, & th": {
+                          padding: "8px",
+                        },
+                      }}
+                    >
                       <TableCell>{lobby.lobbyName}</TableCell>
                       <TableCell>{lobby.lobbyRegion}</TableCell>
                       <TableCell>
@@ -158,13 +182,18 @@ const Lobbies = () => {
                       </TableCell>
                       <TableCell>
                         <div>
-                          {Math.floor(lobby.timeRemaining / 60000)}:
-                          {Math.floor((lobby.timeRemaining % 60000) / 1000)}
+                          {String(
+                            Math.floor(lobby.timeRemaining / 60000)
+                          ).padStart(2, "0")}
+                          :
+                          {String(
+                            Math.floor((lobby.timeRemaining % 60000) / 1000)
+                          ).padStart(2, "0")}
                         </div>
                       </TableCell>
                       <TableCell>
                         <Button
-                          variant="outlined"
+                          variant="contained"
                           endIcon={<PersonAddOutlinedIcon />}
                           onClick={() => handleJoinLobby(lobby.lobbyId)}
                         >

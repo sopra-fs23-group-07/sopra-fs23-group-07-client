@@ -130,13 +130,6 @@ const CreateLobby = () => {
                                     }}
                                     error={regionError}
                                 >
-                                    <MenuItem value="Aargau">Aargau</MenuItem>
-                                    <MenuItem value="Appenzell Innerrhoden">
-                                        Appenzell Innerrhoden
-                                    </MenuItem>
-                                    <MenuItem value="Appenzell Ausserrhoden">
-                                        Appenzell Ausserrhoden
-                                    </MenuItem>
                                     <MenuItem value="Aargau,AG">Aargau</MenuItem>
                                     <MenuItem value="Appenzell Innerrhoden,AI">Appenzell Innerrhoden</MenuItem>
                                     <MenuItem value="Appenzell Ausserrhoden,AR">Appenzell Ausserrhoden</MenuItem>
