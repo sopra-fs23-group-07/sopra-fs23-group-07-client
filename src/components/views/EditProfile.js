@@ -21,20 +21,23 @@ const EditProfile = () => {
     const [repeatPassword, setRepeatPassword] = useState('');
     const [email, setEmail] = useState('');
     const [bio, setBio] = useState('');
-    const [birthdate, setBirthdate] = useState(dayjs('1977-03-21'));
+    const [birthdate, setBirthdate] = useState(null);
+    const [usernameError, setUsernameError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+    const [emailError, setEmailError] = useState(false);
 
     function validateEmail(email) {
-        // const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        // return emailRegex.test(email);
-        return true;
+        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        return (emailRegex.test(email) || email === '');
     }
 
     const handleUsernameInputChange = (event) => {
+        setUsernameError(false);
         setUsername(event.target.value);
     };
 
     const handlePasswordInputChange = (event) => {
+        setPasswordError(false);
         setPassword(event.target.value);
     };
 
@@ -43,14 +46,16 @@ const EditProfile = () => {
     };
 
     const handleEmailInputChange = (event) => {
+        setEmailError(false);
         setEmail(event.target.value);
     };
 
     const handleBioInputChange = (event) => {
         setBio(event.target.value);
     }
-    const handleBirthdateInputChange = (event) => {
-        setBirthdate(event.target.value);
+    const handleBirthdateInputChange = (value) => {
+        const newBirthdate = dayjs(value);
+        setBirthdate(newBirthdate);
     }
     const handleUpdateProfile = async () => {
         if (password !== repeatPassword) {
@@ -59,10 +64,11 @@ const EditProfile = () => {
             return;
         }
 
-        // if (!validateEmail()) {
-        //     setError("The email address you provided is invalid. Please enter a valid email address.")
-        //     return;
-        // }
+        if (!validateEmail(email)) {
+            toast.error("The email address you provided is invalid. Please enter a valid email address.");
+            setEmailError(true);
+            return;
+        }
 
         try {
             const filteredRequestBody = Object.fromEntries(
@@ -82,6 +88,9 @@ const EditProfile = () => {
             history.push(`/profile/${userId}`);
         } catch (error) {
             toast.error(handleError(error));
+            if (error.response.data.includes("username")){
+                setUsernameError(true);
+            }
         }
     };
 
@@ -106,6 +115,7 @@ const EditProfile = () => {
                         value={username}
                         onChange={handleUsernameInputChange}
                         sx={{mt: 2}}
+                        error={usernameError}
                     />
                     <TextField
                         label="Email"
@@ -113,6 +123,7 @@ const EditProfile = () => {
                         value={email}
                         onChange={handleEmailInputChange}
                         sx={{mt: 2}}
+                        error={emailError}
                     />
                     <TextField
                         label="Password"
@@ -135,10 +146,10 @@ const EditProfile = () => {
                         <DatePicker
                             label="Birthdate"
                             value={birthdate}
-                            onChange={handleBirthdateInputChange}
+                            onChange={(value) => handleBirthdateInputChange(value)}
                             sx={{mt: 2}}
-                            maxDate={dayjs("2022-05-05").toDate()}
-                            minDate={dayjs("1900-01-01").toDate()}
+                            // maxDate={dayjs("2022-05-05").toDate()}
+                            // minDate={dayjs("1900-01-01").toDate()}
                         />
                     </LocalizationProvider>
 
