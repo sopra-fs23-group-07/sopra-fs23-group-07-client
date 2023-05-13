@@ -148,8 +148,15 @@ const Lobby = () => {
             });
             await api.post(`/lobbies/${lobbyId}/users/${localStorage.getItem("userId")}/messages`, requestBody);
             console.log("Chat Message was sent to the backend");
+            setMessage("");
         } catch (error) {
             toast.error(handleError(error));
+        }
+    }
+
+    const handleMessageKeyPress = (e) => {
+        if(e.key === "Enter") {
+            handleSendMessage(message);
         }
     }
 
@@ -715,6 +722,7 @@ const Lobby = () => {
                                 placeholder="Enter Message..."
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
+                                onKeyPress = { (e) => {handleMessageKeyPress(e)} }
                                 size="small"
                                 style={{width: "78%"}}
                             />
