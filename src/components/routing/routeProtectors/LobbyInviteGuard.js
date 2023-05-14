@@ -1,7 +1,7 @@
 import {Redirect} from "react-router-dom";
 import PropTypes from "prop-types";
 import { api, handleError } from "helpers/api.js";
-import { Routes, Route, useParams } from 'react-router-dom';
+import { Routes, Route, useParams, useHistory } from 'react-router-dom';
 import React, {useEffect, useRef, useState} from "react";
 
 /**
@@ -10,16 +10,25 @@ import React, {useEffect, useRef, useState} from "react";
  */
 export const LobbyInviteGuard = props => {
 
+      if(localStorage.getItem("lobbyId")) {
+                                  return props.children; }
+
       let { lobbyId } = useParams();
       console.log("this is lobby id: " + lobbyId);
       const userId = localStorage.getItem("userId");
+      const token = localStorage.getItem("token");
       console.log(userId);
+      const history = useHistory();
 
       if(!localStorage.getItem("userId")) {return <Redirect to="/login"/>;}
 
       useEffect( () => {
               async function fetchData() {
                   try {
+
+                      const response = await api.get(`/users/${userId}`);
+                      if(token != response.data.token) { return <Redirect to="/login"/>;}
+
                       console.log("this is lobby id: " + lobbyId);
                       const requestBody = JSON.stringify({
                         userId: userId,
@@ -28,7 +37,7 @@ export const LobbyInviteGuard = props => {
 
                       localStorage.setItem("lobbyId", lobbyId);
                       //history.push("/Lobby/" + String(props.lobbyId));
-                      return <Lobby />;
+                      history.push("/Lobby/" + String(lobbyId));
 
                   } catch (err) {
                       console.log(err);
@@ -39,10 +48,9 @@ export const LobbyInviteGuard = props => {
 
           }, []);
 
-        if(localStorage.getItem("lobbyId")) {
-                            return props.children; }
-        else {
-        return <Redirect to="/register"/>;}
+
+
+        return <Redirect to="/register"/>;
 
 };
 
