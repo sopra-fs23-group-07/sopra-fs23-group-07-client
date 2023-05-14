@@ -1,15 +1,19 @@
 import { createTheme } from "@mui/material";
 import { darken } from "@mui/material";
+import background1 from "../../background1.jpg";
 
 const colors5 = {
   // primary & secondary dark MUI
-  // primary: "#ce93d8",
-  // secondary: "#90caf9",
+  primary: "#ce93d8",
+  secondary: "#90caf9",
   // primary & secondary YouTube Tutorial
   // primary: "#00adb5",
   // secondary: "#95defb",
-  primary: "rgba(2,0,36,1)",
-  secondary: "rgba(0,212,255,1)",
+  // primary: "rgba(2,0,36,1)",
+  // secondary: "rgba(0,212,255,1)",
+  blueone: "rgba(2,0,36,1)",
+  bluetwo: "rgba(9,9,121,1)",
+  bluethree: "rgba(0,212,255,1)",
   sucess: "#4CAF50",
   info: "#00a2ff",
   danger: "#FF5722",
@@ -27,18 +31,19 @@ const colors5 = {
 };
 
 // dynamic colors
-colors5.bluegradient = "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 36%, rgba(0,212,255,1) 100%)";
-// colors5.bluegradient = "linear-gradient(90deg, rgba(2,0,36,0.5) 0%, rgba(9,9,121,0.5) 36%, rgba(0,212,255,0.5) 100%)";
-colors5.containedButtonBackground = colors5.primary;
-colors5.containedButtonBackgroundHover = colors5.secondary;
+colors5.bluegradient =
+  "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 36%, rgba(0,212,255,1) 100%)";
+colors5.containedButtonBackground = colors5.bluetwo;
+colors5.containedButtonBackgroundHover = colors5.blueone;
 colors5.containedButtonText = colors5.white;
 
 colors5.textButtonText = colors5.white;
 
-colors5.headerColor= colors5.bluegradient;
+colors5.headerColor = colors5.bluegradient;
 
-colors5.containerBackground = colors5.secondary;
-colors5.background = colors5.secondary;
+colors5.containerBackground = colors5.bluethree;
+colors5.background = colors5.bluethree;
+colors5.backgroundPicture = background1;
 
 export const themeTwo = createTheme({
   // colors
@@ -163,16 +168,18 @@ export const themeSix = createTheme({
     background: {
       default: colors5.background,
     },
+    blueone: colors5.blueone,
+    bluetwo: colors5.bluetwo,
+    bluethree: colors5.bluetwo,
   },
   components: {
     MuiAppBar: {
       styleOverrides: {
         root: {
           background: colors5.headerColor,
-        }
-      }
+        },
+      },
     },
-
 
     MuiContainer: {
       styleOverrides: {
@@ -181,7 +188,7 @@ export const themeSix = createTheme({
           minWidth: "90%",
           // minHeight: "2000px",
           // height: "4000px",
-          background: colors5.containerBackground,
+          // background: colors5.containerBackground,
           marginTop: "25px",
         },
       },
@@ -196,7 +203,7 @@ export const themeSix = createTheme({
     // buttons
     MuiButton: {
       styleOverrides: {
-        // make sure only contained buttons are 
+        // make sure only contained buttons are
         root: ({ ownerState }) => ({
           ...(ownerState.variant === "contained" && {
             // styling contained buttons
@@ -206,9 +213,7 @@ export const themeSix = createTheme({
             "&:hover": {
               background: colors5.containedButtonBackgroundHover,
             },
-            }),
-        }),
-        root: ({ ownerState }) => ({
+          }),
           ...(ownerState.variant === "text" && {
             // styling text buttons
             // background: colors5.textButtonBackground,
@@ -218,24 +223,43 @@ export const themeSix = createTheme({
               // background: colors5.textButtonBackgroundHover,
               fontSize: "1.25rem",
             },
-            }),
+          }),
         }),
-          
       },
     },
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          backgroundImage: `url(${colors5.backgroundPicture})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+
+        }
+      }
+    }
   },
   overrides: {
     MuiCssBaseline: {
-      '@global': {
-        // Global CSS styles here
+      // global CSS style
+      "@global": {
         body: {
           margin: 0,
           padding: 0,
-          minWidth: '100vw',
-          minHeight: '100vh',
-          
+          minWidth: "100vw",
+          minHeight: "100vh",
+          backgroundColor: "yellow",
+          backgroundImage: `url(${background1})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         },
       },
+      // body: { // background image doesn't work
+      // backgroundImage: `url(${background1})`,
+      // url('src/background1.jpg'),
+      // "url(https://designshack.net/wp-content/uploads/gradient-background.jpg)"
+      // backgroundRepeat: "no-repeat",
+      // backgroundSize: "cover",
+      // },
     },
   },
 });
