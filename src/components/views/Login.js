@@ -9,7 +9,7 @@ import { GlobalContext } from "../../helpers/GlobalState";
 import {toast} from "react-toastify";
 
 
-const Login = () => {
+const Login = (props) => {
     const { setUser } = useContext(GlobalContext)
     const history = useHistory();
     const [username, setUsername] = useState('');
@@ -24,6 +24,9 @@ const Login = () => {
     const handlePasswordInputChange = (event) => {
         setPassword(event.target.value);
     };
+
+    console.log(props.lobby);
+    console.log(props.lobbyId);
 
     const doLogin = async () => {
         setUsernameError(false);
@@ -41,6 +44,8 @@ const Login = () => {
             setUser(user);
 
             // Login successfully worked --> navigate to the route /game in the GameRouter
+
+            if(props.lobby) { history.push("/Lobby/" + String(props.lobbyId)); }
             history.push(`/Home`);
         } catch (error) {
             toast.error(handleError(error));
