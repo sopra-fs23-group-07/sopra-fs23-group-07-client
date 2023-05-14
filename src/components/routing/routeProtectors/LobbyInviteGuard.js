@@ -4,6 +4,7 @@ import { api, handleError } from "helpers/api.js";
 import { Routes, Route, useParams, useHistory } from 'react-router-dom';
 import React, {useEffect, useRef, useState} from "react";
 import { toast } from "react-toastify";
+import Login from "components/views/Login";
 
 /**
  *
@@ -21,7 +22,8 @@ export const LobbyInviteGuard = props => {
       console.log(userId);
       const history = useHistory();
 
-      if(!localStorage.getItem("userId")) {return <Redirect to="/login"/>;}
+      //if(!localStorage.getItem("userId")) {return <Redirect to="/login"/>;}
+      if(!localStorage.getItem("userId")) {return <Login lobby="true" lobbyId={lobbyId} />;}
 
       useEffect( () => {
               async function fetchData() {
@@ -32,7 +34,8 @@ export const LobbyInviteGuard = props => {
                       console.log(response.data.token);
                       if(token != response.data.token) {
                         console.log("LOl");
-                        history.push("/Login");
+                        //history.push("/Login");
+                        return <Login lobby="true" lobbyId={lobbyId} />;
                         }
                        else {
 

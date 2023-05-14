@@ -1,7 +1,7 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import {api, handleError} from "helpers/api";
 import User from "models/User";
-import {useHistory} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import {Box, Button, Grid, Paper, TextField, Typography} from "@mui/material";
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
@@ -16,7 +16,7 @@ As a rule of thumb, use one file per component and only add small,
 specific components that belong to the main one in the same file.
  */
 
-const Register = () => {
+const Register = (props) => {
     const {setUser} = useContext(GlobalContext)
     const history = useHistory();
     const [username, setUsername] = useState("");
@@ -43,7 +43,25 @@ const Register = () => {
         setPassword(event.target.value);
     };
 
+    var lobby = false;
+    var lobbyId = 0;
+
+
+    try {
+        const location = useLocation();
+
+        lobby = location.state.lobby;
+        //console.log(lobby);
+        lobbyId = location.state.lobbyId;
+
+        }
+    catch {}
+
+
+
+
     const doRegister = async () => {
+
 
         if (!validateEmail(email)) {
             toast.error("The email address you provided is invalid. Please enter a valid email address.");
@@ -63,6 +81,12 @@ const Register = () => {
             setUser(user);
 
             // Login successfully worked --> navigate to the route /home in the AppRouter
+            console.log(lobby);
+            try {
+                if(lobby) { history.push("/Lobby/" + String(lobbyId)); }
+            }
+            catch {}
+
             history.push(`/Home`);
         } catch (error) {
             toast.error(handleError(error));
@@ -131,7 +155,7 @@ const Register = () => {
 
                     <Button variant={"contained"}
                             startIcon={<LoginIcon/>}
-                            onClick={() => history.push("/login")}
+                            onClick={() => history.push({pathname: "/login", state: {lobby: lobby, lobbyId: lobbyId}})}
                             sx={{
                                 mt: 2,
                                 paddingY: 2,
@@ -139,7 +163,7 @@ const Register = () => {
                                 justifySelf: 'center',
                                 alignSelf: 'center'}}
                     >
-                        Login
+                        Login + {lobby}
                     </Button>
                 </Box>
             </Paper>

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { api, handleError } from "helpers/api";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import LoginIcon from '@mui/icons-material/Login';
@@ -9,7 +9,7 @@ import { GlobalContext } from "../../helpers/GlobalState";
 import {toast} from "react-toastify";
 
 
-const Login = () => {
+const Login = (props) => {
     const { setUser } = useContext(GlobalContext)
     const history = useHistory();
     const [username, setUsername] = useState('');
@@ -24,6 +24,22 @@ const Login = () => {
     const handlePasswordInputChange = (event) => {
         setPassword(event.target.value);
     };
+
+    var lobby = false;
+    var lobbyId = 0;
+
+
+    try {
+        const location = useLocation();
+
+        lobby = location.state.lobby;
+        //console.log(lobby);
+        lobbyId = location.state.lobbyId;
+
+        }
+    catch {}
+
+
 
     const doLogin = async () => {
         setUsernameError(false);
@@ -41,6 +57,13 @@ const Login = () => {
             setUser(user);
 
             // Login successfully worked --> navigate to the route /game in the GameRouter
+
+            if(props.lobby) { history.push("/Lobby/" + String(props.lobbyId)); }
+            try {
+                if(lobby) { history.push("/Lobby/" + String(lobbyId)); }
+            }
+            catch {}
+
             history.push(`/Home`);
         } catch (error) {
             toast.error(handleError(error));
@@ -108,7 +131,7 @@ const Login = () => {
                     <Button
                         variant={"contained"}
                         startIcon={<AppRegistrationIcon />}
-                        onClick={() => history.push("/register")}
+                        onClick={() => history.push({pathname: "/register", state: {lobby: props.lobby, lobbyId: props.lobbyId}})}
                         sx={{
                             mt: 2,
                             paddingY: 2,
@@ -116,7 +139,7 @@ const Login = () => {
                             justifySelf: 'center',
                             alignSelf: 'center'}}
                     >
-                        Register
+                        Register + {lobby}
                     </Button>
                 </Box>
             </Paper>
