@@ -27,6 +27,7 @@ const Lobbies = () => {
   // initializing variables and hooks need
   const history = useHistory();
   const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
   const [lobbies, setLobbies] = useState();
 
   const handleCreateLobbyClick = () => {
@@ -46,6 +47,7 @@ const Lobbies = () => {
       console.log("this is lobby id: " + lobbyId);
       const requestBody = JSON.stringify({
         userId: userId,
+        token: token,
       });
       await api.put(`/lobbies/${lobbyId}/join`, requestBody);
 

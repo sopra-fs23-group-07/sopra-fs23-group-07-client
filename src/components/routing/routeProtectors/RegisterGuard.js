@@ -6,33 +6,29 @@ import { Spinner } from "../../ui/Spinner";
 
 export const RegisterGuard = (props) => {
   const userId = localStorage.getItem("userId");
-  const [TokenServer, setTokenServer] = useState(null);
+    const token = localStorage.getItem("token");
+    const [loggedIn, setLoggedIn] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await api.get(`/users/${userId}`);
-        setTokenServer(true);
-      } catch (error) {
-        setTokenServer(false);
-      }
-    };
-    fetchData();
-  }, []);
+    useEffect( () => {
+                  async function fetchData() {
+                      try {
 
-  if (!localStorage.getItem("token")) {
-    return props.children;
-  }
+                          const response = await api.get(`/users/${userId}`);
+                          if(token != response.data.token) { setLoggedIn(false); }
 
-  if (localStorage.getItem("token")) {
-    if (TokenServer === true) {
-      return <Redirect to="/Home" />;
-    } else if (TokenServer === false) {
-      localStorage.clear();
-      return props.children;
-    }
-    return <Spinner></Spinner>;
-  }
+                      } catch (err) {
+                          console.log(err);
+                      }
+                  }
+                  fetchData();
+
+
+              }, []);
+
+    // if user is already logged in, redirects to the main /app
+    if(!loggedIn) {return props.children;}
+    else {return <Redirect to="/Home"/>;}
+
 };
 
 RegisterGuard.propTypes = {

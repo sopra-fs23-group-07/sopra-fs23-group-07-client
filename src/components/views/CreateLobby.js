@@ -52,6 +52,8 @@ const CreateLobby = () => {
       }
 
       const userId = localStorage.getItem("userId");
+      const token = localStorage.getItem("token");
+      console.log(token);
 
       // send lobby to backend
       const requestBody = JSON.stringify({
@@ -60,6 +62,7 @@ const CreateLobby = () => {
         lobbyMaxMembers: maxParticipants,
         lobbyTimeLimit: "100",
         hostMemberId: userId,
+        hostMemberToken: token,
         lobbyRegionShortCode: shortCodeForRegion,
       });
 
