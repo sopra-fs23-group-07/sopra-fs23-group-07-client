@@ -22,8 +22,10 @@ const GameRouter = props => {
               <EditProfile/>
           </Route>
 
-        <Route exact path={`${props.base}/lobbies/:lobbyId`}>
-            <Lobby/>
+        <Route exact path={`${props.base}/Lobby/:lobbyId`} component={LobbyInviteGuard}>
+//            <LobbyInviteGuard >
+//                <Lobby />
+//            </LobbyInviteGuard>
         </Route>
 
 

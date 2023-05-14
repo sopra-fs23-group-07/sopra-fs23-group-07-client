@@ -111,6 +111,7 @@ const Events = () => {
       headerName: 'Actions',
       width: 100,
       renderCell: RenderActions,
+
     },
   ];
   let rows;
@@ -162,7 +163,6 @@ const Events = () => {
         </Grid>
         <Grid item xs={12} md={8}>
           <Paper>
-            //TODO: flyToLocation not working yet
             <DataGrid
               rows={rows}
               columns={columns}

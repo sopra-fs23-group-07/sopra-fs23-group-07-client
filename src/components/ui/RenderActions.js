@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 
 export const RenderActions = (props) => {
     const history = useHistory();
-    const [flyToLocation, setFlyToLocation] = React.useState(null);
+    const [flyToLocation, setFlyToLocation] = React.useState(null); //TODO: flyToLocation not working yet
 
     const { hasFocus, id, eventLocationLatitude, eventLocationLongitude } = props;
     const buttonElement1 = React.useRef(null);
@@ -59,7 +59,7 @@ export const RenderActions = (props) => {
                         event.stopPropagation();
                     }
                 }}
-                onClick={handleViewEventClick(id)}
+                onClick={() => handleViewEventClick(id)}
             >
                 <PreviewIcon />
             </IconButton>
@@ -79,7 +79,7 @@ export const RenderActions = (props) => {
                         event.stopPropagation();
                     }
                 }}
-                onClick={handleFlyToLocationClick(eventLocationLatitude, eventLocationLongitude )}
+                onClick={() => handleFlyToLocationClick(eventLocationLatitude, eventLocationLongitude )}
             >
                 <LocationOnIcon />
             </IconButton>

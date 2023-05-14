@@ -21,6 +21,7 @@ import FAQ from "../../views/FAQ";
 import EditProfile from "../../views/EditProfile";
 import { ProfileGuard } from "../routeProtectors/ProfileGuard";
 import {LobbyRoute} from "../routeProtectors/LobbyGuard";
+import {LobbyInviteGuard} from "../routeProtectors/LobbyInviteGuard";
 
 /**
  * Main router of your application.
@@ -98,22 +99,24 @@ const AppRouter = () => {
             <CreateEvent />
           </CreateEventGuard>
         </Route>
-
+        {/*
         //TODO: user still has to be redirected to lobby after registration instead of Home
-        <LobbyRoute path="/Lobby/:id" component={Lobby}/>
+        //<LobbyRoute path="/Lobby/:id" component={Lobby}/>
 
         <Route exact path="/Test">
           <Test />
         </Route>
+//        <Route exact path="/Lobby">
+//          <Lobby />
+//        </Route>
         <Route exact path="/Lobby">
-          <Lobby />
-        </Route>
-        <Route exact path="/Lobby">
-          <Lobby />
-        </Route>
-        {/* <Route exact path="/Lobby/:id">
-          <Lobby />
+          <Login />
         </Route> */}
+        <Route exact path="/Lobby/:lobbyId">
+          <LobbyInviteGuard >
+            <Lobby />
+          </LobbyInviteGuard>
+        </Route>
 
         <Route exact path="/Events/:eventId">
           <Event />
@@ -121,6 +124,10 @@ const AppRouter = () => {
 
         <Route exact path={"/FAQ"}>
           <FAQ/>
+        </Route>
+
+        <Route path="*">
+            <Redirect to="/Home" />
         </Route>
       </Switch>
     </BrowserRouter>
