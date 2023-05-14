@@ -14,18 +14,36 @@ const SelectDateAndTime = (props) => {
     const [chosenDate, setChosenDate] = useState(props.selectedDatesServer);
 
     const [previousTime, setPreviousTime] = useState(null);
+    const [previousDate, setPreviousDate] = useState(null);
+    const [onlyDateChanged, setOnlyDateChanged] = useState(false);
+
+    const handleOnSelect = (e) => {
+        console.log(e)
+        console.log("handleOnSelect is called");
+        setOnlyDateChanged(true);
+
+    }
     const handleDateChange = (date) => {
+        console.log(date)
         console.log("handleDateChange is called");
         setStartDate(date);
-
+//&& onlyDateChanged === false
         // Check if the time changed
         const selectedTime = moment(date).format('h:mm A');
-        if (selectedTime !== previousTime || previousTime === null) {
+        // const selectedDate = moment(date).format('YYYY-MM-DD');
+        // console.log(selectedDate);
+        // console.log(previousDate);
+
+        if (((selectedTime !== previousTime) && (previousTime !== null))) {
+            // console.log(selectedDate !== previousDate);
+            setOnlyDateChanged(false);
+            // if (selectedDate == previousDate)
             handleClick(date); // Pass the selected date as a parameter
         }
+        setPreviousTime(selectedTime);
+        // setPreviousDate(selectedDate);
 
         // Update the previous time
-        setPreviousTime(selectedTime);
     };
     const removeDate = (dateToRemove) => {
         setChosenDate(chosenDate.filter((date) => date !== dateToRemove));
@@ -53,8 +71,6 @@ const SelectDateAndTime = (props) => {
 
     const handleClick = (date) => {
         if (date) {
-            console.log("startDate", date); // Use the date parameter instead of startDate
-            console.log("chosenDate", chosenDate);
             const formattedDate = moment(date).format('YYYY-MM-DDTHH:mm:ss');
             if (!chosenDate.includes(formattedDate)) {
                 setChosenDate(prevState => [...prevState, formattedDate]);
@@ -105,7 +121,7 @@ const SelectDateAndTime = (props) => {
                         disabled={props.hasLockedSelections}
                         selected={startDate}
                         onChange={handleDateChange}
-                        // onSelect={() => console.log("selected")}
+                        onSelect={handleOnSelect}
                         showTimeSelect
                         timeIntervals={30}
                         filterTime={filterPassedTime}

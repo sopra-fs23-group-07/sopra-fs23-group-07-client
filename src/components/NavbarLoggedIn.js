@@ -38,6 +38,7 @@ const NavbarLoggedIn = () => {
                 handleLogOut();
             }
         } catch (error) {
+
             toast.error(handleError(error));
             history.push(pushTo);
 
@@ -113,6 +114,7 @@ const NavbarLoggedIn = () => {
                 console.log(response);
             } catch (error) {
                 toast.error(`Something went wrong during the logout: \n${handleError(error)}`);
+                history.push("/login");
             }
         }
     };
@@ -171,7 +173,7 @@ const NavbarLoggedIn = () => {
             />
 
 
-            <div >
+            <div>
 
                 <Button onClick={() => handleHomeClick()}>Home</Button>
                 <Button onClick={() => handleLobbiesClick()}>Lobbies</Button>
