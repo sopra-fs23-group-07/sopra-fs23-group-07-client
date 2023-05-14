@@ -20,7 +20,7 @@ const SelectDateAndTime = (props) => {
 
         // Check if the time changed
         const selectedTime = moment(date).format('h:mm A');
-        if (selectedTime !== previousTime && previousTime !== null) {
+        if (selectedTime !== previousTime || previousTime === null) {
             handleClick(date); // Pass the selected date as a parameter
         }
 
