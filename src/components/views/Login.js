@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { api, handleError } from "helpers/api";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
 import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
 import LoginIcon from '@mui/icons-material/Login';
@@ -25,8 +25,21 @@ const Login = (props) => {
         setPassword(event.target.value);
     };
 
-    console.log(props.lobby);
-    console.log(props.lobbyId);
+    var lobby = false;
+    var lobbyId = 0;
+
+
+    try {
+        const location = useLocation();
+
+        lobby = location.state.lobby;
+        //console.log(lobby);
+        lobbyId = location.state.lobbyId;
+
+        }
+    catch {}
+
+
 
     const doLogin = async () => {
         setUsernameError(false);
@@ -46,6 +59,11 @@ const Login = (props) => {
             // Login successfully worked --> navigate to the route /game in the GameRouter
 
             if(props.lobby) { history.push("/Lobby/" + String(props.lobbyId)); }
+            try {
+                if(lobby) { history.push("/Lobby/" + String(lobbyId)); }
+            }
+            catch {}
+
             history.push(`/Home`);
         } catch (error) {
             toast.error(handleError(error));
@@ -113,7 +131,7 @@ const Login = (props) => {
                     <Button
                         variant={"contained"}
                         startIcon={<AppRegistrationIcon />}
-                        onClick={() => history.push("/register")}
+                        onClick={() => history.push({pathname: "/register", state: {lobby: props.lobby, lobbyId: props.lobbyId}})}
                         sx={{
                             mt: 2,
                             paddingY: 2,
@@ -121,7 +139,7 @@ const Login = (props) => {
                             justifySelf: 'center',
                             alignSelf: 'center'}}
                     >
-                        Register
+                        Register + {lobby}
                     </Button>
                 </Box>
             </Paper>
