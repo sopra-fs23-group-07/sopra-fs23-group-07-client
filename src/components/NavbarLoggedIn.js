@@ -40,6 +40,7 @@ const NavbarLoggedIn = () => {
         } catch (error) {
 
             toast.error(handleError(error));
+            localStorage.removeItem("lobbyId");
             history.push(pushTo);
 
         }
