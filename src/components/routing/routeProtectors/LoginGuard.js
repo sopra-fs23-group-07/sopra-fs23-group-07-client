@@ -1,7 +1,7 @@
 import {Redirect} from "react-router-dom";
 import PropTypes from "prop-types";
-import React, {useEffect, useRef, useState} from "react";
-import { api, handleError } from "helpers/api.js";
+import React, {useEffect, useState} from "react";
+import {api} from "helpers/api.js";
 
 /**
  *
@@ -9,32 +9,40 @@ import { api, handleError } from "helpers/api.js";
  */
 export const LoginGuard = props => {
 
-  const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
-  const [loggedIn, setLoggedIn] = useState(null);
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+    const [loggedIn, setLoggedIn] = useState(null);
 
-  useEffect( () => {
-                async function fetchData() {
-                    try {
+    useEffect(() => {
+        async function fetchData() {
+            try {
 
-                        const response = await api.get(`/users/${userId}`);
-                        if(token != response.data.token) { setLoggedIn(false); }
-
-                    } catch (err) {
-                        console.log(err);
-                    }
+                const response = await api.get(`/users/${userId}`);
+                if (token != response.data.token) {
+                    setLoggedIn(false);
                 }
-                fetchData();
+
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        fetchData();
 
 
-            }, []);
+    }, []);
 
-  // if user is already logged in, redirects to the main /app
-  if(!loggedIn) {return props.children;}
-  else {return <Redirect to="/Home"/>;}
+    // if user is already logged in, redirects to the main /app
+    if (!loggedIn) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        return props.children;
+    } else {
+        return <Redirect to="/Home"/>;
+    }
 
 };
 
 LoginGuard.propTypes = {
-  children: PropTypes.node
+    children: PropTypes.node
 }
