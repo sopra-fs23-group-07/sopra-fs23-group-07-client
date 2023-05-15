@@ -1,8 +1,12 @@
 import { Typography, styled } from "@mui/material";
 
 export const CustomHeading = styled(Typography)(({ theme }) => ({
-    background: "orange",
-    variant:"h3",
+    // variant needs to be applied directly
+    // variant:"h3",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     color: "white",
-    
+    //   letterSpacing: "0.4em"
 }));
+

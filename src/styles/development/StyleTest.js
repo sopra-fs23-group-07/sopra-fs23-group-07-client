@@ -1,140 +1,194 @@
 import { Grid, Box, Paper, Button, Typography } from "@mui/material";
 import BaseContainer from "components/ui/BaseContainer";
+import { CustomHeading } from "./CustomHeading";
+import { CustomGrid } from "./CustomGrid";
 
 
-// This is the Layout for the Lobby
+// Layout test for Custom Components
 const Layout = () => {
   return (
     <BaseContainer>
-      <Grid container>
-        <Grid item xs={6} sx={{ backgroundColor: "red" }}>
-          Lobby Name
+      {/* Container of all content */}
+      <Grid container direction="column" sx={{ alignItems: "center" }}>
+        {/* title */}
+        <Grid item xs={12}>
+          <CustomHeading variant="h3">Create Lobby</CustomHeading>
         </Grid>
+        {/* Visible Box */}
         <Grid
           item
-          xs={6}
           sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            backgroundColor: "green",
+            paddingY: 10,
+            //   paddingX: 4,
+            paddingX: 8,
+            mt: 2,
+            maxWidth: 600,
+            flexGrow: 1,
+            background: "rgba(255, 255, 255, 0.7)",
+            borderRadius: "20px",
           }}
         >
-          Inivte Button
+          <Button variant={"contained"}>Hello World</Button>
+          <Typography>Content</Typography>
+          <Typography>
+            very very very very very very very long long Content
+          </Typography>
+          <Typography>Content</Typography>
+          <Typography>Content</Typography>
+          <Typography>Content</Typography>
+          <Typography>Content</Typography>
         </Grid>
-      </Grid>
-
-      <Box sx={{ backgroundColor: "blue", padding: "20px" }}>
-        <Grid container>
-          {/* Table */}
-          <Grid
-            item
-            xs={8}
-            sx={{ alignItems: "center", backgroundColor: "yellow" }}
-          >
-            Table
-          </Grid>
-          {/* Location */}
-          <Grid item xs={4} sx={{ backgroundColor: "orange" }}>
-            {/* padding for all children? */}
-            <Grid
-              item
-              sx={{
-                marginBottom: "20px",
-                padding: "5px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "purple",
-              }}
-            >
-              <Typography>Location (Centered)</Typography>
-            </Grid>
-            <Grid
-              item
-              sx={{
-                display: "flex",
-                justifyContent: "left",
-                backgroundColor: "pink",
-              }}
-            >
-              Region (Aligned Left)
-            </Grid>
-            <Grid
-              item
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                height: "300px",
-                backgroundColor: "lightblue",
-              }}
-            >
-              Map (Centered)
-            </Grid>
-            <Grid
-              item
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                height: "100px",
-                backgroundColor: "lightgreen",
-              }}
-            >
-              Confirm Location (Centered)
-            </Grid>
-            <Grid
-              item
-              xs={4}
-              sx={{
-                display: "flex",
-                justifyContent: "left",
-                height: "50px",
-                backgroundColor: "lightpink",
-              }}
-            >
-              Vote (Aligned Left)
-            </Grid>
-          </Grid>
-        </Grid>
-      </Box>
-
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        sx={{ backgroundColor: "lightgray" }}
-      >
-        <Grid
-          item
-          xs={4}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            backgroundColor: "teal",
-          }}
-        >
-          <Button variant="contained" sx={{ width: "fit-content" }}>
-            Leave (Centered)
-          </Button>
-        </Grid>
-        <Grid item xs={4} sx={{ backgroundColor: "coral" }}>
-          Tutorial 1 (Centered)
-        </Grid>
-        <Grid item xs={4} sx={{ backgroundColor: "lime" }}>
-          Tutorial 2 (Centered)
-        </Grid>
-      </Grid>
-
-      {/* Chat */}
-      <Grid container sx={{ position: "absolute", bottom: "0", left: "0", backgroundColor: "brown" }}>
-        <Grid item sx={{ width: "fit-content", backgroundColor: "darkcyan", color: "white" }}>
-          Chat (Bottom Left)
-        </Grid>
+        <CustomGrid item sx={{p:8, mt: 2}}>
+          <Button variant={"contained"}>Hello World</Button>
+          <Typography>Content</Typography>
+          <Typography>
+            very very very very very very very long long Content
+          </Typography>
+          <Typography>Content</Typography>
+          <Typography>Content</Typography>
+          <Typography>Content</Typography>
+          <Typography>Content</Typography>
+        </CustomGrid>
       </Grid>
     </BaseContainer>
   );
 };
 
 export default Layout;
+
+// This is the Layout for the Lobby
+// const Layout = () => {
+//   return (
+//     <BaseContainer>
+//       <Grid container>
+//         <Grid item xs={6} sx={{ backgroundColor: "red" }}>
+//           Lobby Name
+//         </Grid>
+//         <Grid
+//           item
+//           xs={6}
+//           sx={{
+//             display: "flex",
+//             justifyContent: "flex-end",
+//             backgroundColor: "green",
+//           }}
+//         >
+//           Inivte Button
+//         </Grid>
+//       </Grid>
+
+//       <Box sx={{ backgroundColor: "blue", padding: "20px" }}>
+//         <Grid container>
+//           {/* Table */}
+//           <Grid
+//             item
+//             xs={8}
+//             sx={{ alignItems: "center", backgroundColor: "yellow" }}
+//           >
+//             Table
+//           </Grid>
+//           {/* Location */}
+//           <Grid item xs={4} sx={{ backgroundColor: "orange" }}>
+//             {/* padding for all children? */}
+//             <Grid
+//               item
+//               sx={{
+//                 marginBottom: "20px",
+//                 padding: "5px",
+//                 display: "flex",
+//                 justifyContent: "center",
+//                 alignItems: "center",
+//                 backgroundColor: "purple",
+//               }}
+//             >
+//               <Typography>Location (Centered)</Typography>
+//             </Grid>
+//             <Grid
+//               item
+//               sx={{
+//                 display: "flex",
+//                 justifyContent: "left",
+//                 backgroundColor: "pink",
+//               }}
+//             >
+//               Region (Aligned Left)
+//             </Grid>
+//             <Grid
+//               item
+//               sx={{
+//                 display: "flex",
+//                 justifyContent: "center",
+//                 height: "300px",
+//                 backgroundColor: "lightblue",
+//               }}
+//             >
+//               Map (Centered)
+//             </Grid>
+//             <Grid
+//               item
+//               sx={{
+//                 display: "flex",
+//                 justifyContent: "center",
+//                 height: "100px",
+//                 backgroundColor: "lightgreen",
+//               }}
+//             >
+//               Confirm Location (Centered)
+//             </Grid>
+//             <Grid
+//               item
+//               xs={4}
+//               sx={{
+//                 display: "flex",
+//                 justifyContent: "left",
+//                 height: "50px",
+//                 backgroundColor: "lightpink",
+//               }}
+//             >
+//               Vote (Aligned Left)
+//             </Grid>
+//           </Grid>
+//         </Grid>
+//       </Box>
+
+//       <Grid
+//         container
+//         direction="column"
+//         justifyContent="center"
+//         sx={{ backgroundColor: "lightgray" }}
+//       >
+//         <Grid
+//           item
+//           xs={4}
+//           sx={{
+//             display: "flex",
+//             justifyContent: "center",
+//             backgroundColor: "teal",
+//           }}
+//         >
+//           <Button variant="contained" sx={{ width: "fit-content" }}>
+//             Leave (Centered)
+//           </Button>
+//         </Grid>
+//         <Grid item xs={4} sx={{ backgroundColor: "coral" }}>
+//           Tutorial 1 (Centered)
+//         </Grid>
+//         <Grid item xs={4} sx={{ backgroundColor: "lime" }}>
+//           Tutorial 2 (Centered)
+//         </Grid>
+//       </Grid>
+
+//       {/* Chat */}
+//       <Grid container sx={{ position: "absolute", bottom: "0", left: "0", backgroundColor: "brown" }}>
+//         <Grid item sx={{ width: "fit-content", backgroundColor: "darkcyan", color: "white" }}>
+//           Chat (Bottom Left)
+//         </Grid>
+//       </Grid>
+//     </BaseContainer>
+//   );
+// };
+
+// export default Layout;
 
 // // Only for styling
 // import {

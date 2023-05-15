@@ -165,7 +165,7 @@ const CreateEvent = () => {
                 mt: 2,
                 maxWidth: 1200,
                 flexGrow: 1,
-                background: "rgba(255, 255, 255, 0.5)",
+                background: "rgba(255, 255, 255, 0.7)",
                 border: "2px black solid",
                 borderRadius: "20px",
               }}

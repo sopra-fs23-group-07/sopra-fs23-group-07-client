@@ -11,6 +11,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { toast } from "react-toastify";
+import { CustomHeading } from "styles/development/CustomHeading";
 
 const EditProfile = () => {
   const history = useHistory();
@@ -110,7 +111,7 @@ const EditProfile = () => {
       >
         {/* title */}
         <Grid item xs={12}>
-          <Typography
+          {/* <Typography
             variant={"h3"}
             sx={{
               display: "flex",
@@ -121,7 +122,8 @@ const EditProfile = () => {
             }}
           >
             Edit Profile
-          </Typography>
+          </Typography> */}
+          <CustomHeading variant="h3">Edit Profile</CustomHeading>
         </Grid>
         {/* Visible Box */}
         <Grid

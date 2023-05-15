@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import { toast } from "react-toastify";
+import { CustomHeading } from "styles/development/CustomHeading";
 
 // On this page the host chooses different attributes of his lobby
 const CreateLobby = () => {
@@ -86,7 +87,7 @@ const CreateLobby = () => {
         <Grid container direction="column" sx={{ alignItems: "center" }}>
           {/* title */}
           <Grid item xs={12}>
-            <Typography
+            {/* <Typography
               variant="h3"
               sx={{
                 display: "flex",
@@ -97,7 +98,8 @@ const CreateLobby = () => {
               }}
             >
               Create Lobby
-            </Typography>
+            </Typography> */}
+              <CustomHeading variant="h3">Create Lobby</CustomHeading>
           </Grid>
           {/* Visible Box */}
           <Grid
