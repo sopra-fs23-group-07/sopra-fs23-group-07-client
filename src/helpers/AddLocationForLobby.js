@@ -33,6 +33,134 @@ const AddLocationForLobby = (props) => {
   const list_of_coordinates = [];
   const flyToLocation = props.flyToLocation;
 
+  const [viewState, setViewState] = useState({
+    longitude: lng,
+    latitude: lat,
+    zoom: 6,
+  });
+
+  const cantonCoordinates = {
+    'Zürich': {
+      longitude: 8.541694,
+      latitude: 47.376887,
+    },
+    'Aargau': {
+      longitude: 8.0511,
+      latitude: 47.3872,
+    },
+    'Appenzell Innerrhoden': {
+      longitude: 9.4096,
+      latitude: 47.3162,
+    },
+    'Appenzell Ausserrhoden': {
+      longitude: 9.2792,
+      latitude: 47.3663,
+    },
+    'Bern': {
+      longitude: 7.4474,
+      latitude: 46.9479,
+    },
+    'Basel-Landschaft': {
+      longitude: 7.7331,
+      latitude: 47.4417,
+    },
+    'Basel': {
+      longitude: 7.5903,
+      latitude: 47.5596,
+    },
+    'Fribourg': {
+      longitude: 7.1610,
+      latitude: 46.8022,
+    },
+    'Geneva': {
+      longitude: 6.1432,
+      latitude: 46.2044,
+    },
+    'Glarus': {
+      longitude: 9.0672,
+      latitude: 47.0404,
+    },
+    'Graubünden': {
+      longitude: 9.5309,
+      latitude: 46.6560,
+    },
+    'Jura': {
+      longitude: 7.3274,
+      latitude: 47.3446,
+    },
+    'Luzern': {
+      longitude: 8.3086,
+      latitude: 47.0502,
+    },
+    'Neuchâtel': {
+      longitude: 6.9293,
+      latitude: 46.9896,
+    },
+    'Nidwalden': {
+      longitude: 8.3889,
+      latitude: 46.9260,
+    },
+    'Obwalden': {
+      longitude: 8.2426,
+      latitude: 46.8983,
+    },
+    'St. Gallen': {
+      longitude: 9.3767,
+      latitude: 47.4239,
+    },
+    'Schaffhausen': {
+      longitude: 8.6348,
+      latitude: 47.6973,
+    },
+    'Solothurn': {
+      longitude: 7.5292,
+      latitude: 47.2074,
+    },
+    'Schwyz': {
+      longitude: 8.6537,
+      latitude: 47.0207,
+    },
+    'Thurgau': {
+      longitude: 9.1084,
+      latitude: 47.5761,
+    },
+    'Ticino': {
+      longitude: 8.9635,
+      latitude: 46.3145,
+    },
+    'Uri': {
+      longitude: 8.6444,
+      latitude: 46.8804,
+    },
+    'Vaud': {
+      longitude: 6.6358089,
+      latitude: 46.5247936,
+    },
+    'Valais': {
+      longitude: 7.4589,
+      latitude: 46.1905,
+    },
+    'Zug': {
+      longitude: 8.5174,
+      latitude: 47.1662,
+    },
+  };
+
+  useEffect(() => {
+    if (props.cantonFullName) {
+      console.log("props", props.cantonFullName)
+      // Update the view state based on the cantonFullName prop
+      const coordinates = cantonCoordinates[props.cantonFullName];
+      if (coordinates) {
+        setViewState({
+          ...coordinates,
+          zoom: 10, // Adjust the zoom level as needed
+        });
+      }
+    }
+  }, [props.cantonFullName]);
+
+
   useEffect(() => {
     if (flyToLocation) {
       mapRef.current.getMap().flyTo({
@@ -172,15 +300,12 @@ const AddLocationForLobby = (props) => {
       }}
     >
       <ReactMapGL
-        ref={mapRef}
-        mapboxAccessToken={process.env.REACT_APP_MAP_TOKEN}
-        initialViewState={{
-          longitude: lng,
-          latitude: lat,
-          zoom: 6,
-        }}
-        mapStyle="mapbox://styles/mapbox/streets-v11"
-        onClick={props.hasLockedSelections ? null : handleMapClick}
+          ref={mapRef}
+          mapboxAccessToken={process.env.REACT_APP_MAP_TOKEN}
+          {...viewState}
+          onMove={evt => setViewState(evt.viewState)}
+          mapStyle="mapbox://styles/mapbox/streets-v11"
+          onClick={props.hasLockedSelections ? null : handleMapClick}
       >
         {lat2 && lng2 && <Marker latitude={lat2} longitude={lng2}></Marker>}
 
