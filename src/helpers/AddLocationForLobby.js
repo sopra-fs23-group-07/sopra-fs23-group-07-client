@@ -208,18 +208,35 @@ const AddLocationForLobby = (props) => {
           await setAddress(data.features[0].place_name);
           toast.success("You successfully confirmed the location");
         }
-      } else {
+      } else if (data.features[0].context[2].text){
         console.log("there is no short code here only text with region");
         if (data.features[0].context[2].text === props.cantonFullName) {
           console.log("the text is the same as the canton full name");
           setCorrectAddress(true);
           await setAddress(data.features[0].place_name);
           toast.success("You successfully confirmed the location");
-        } else {
-          console.log("the text is not the same as the canton full name");
-          toast.error("You are in the wrong canton");
+        } else if(data.features[0].context[3].text)
+        {
+            if (data.features[0].context[3].text === props.cantonFullName) {
+                setCorrectAddress(true);
+                await setAddress(data.features[0].place_name);
+                toast.success("You successfully confirmed the location");
+            } else if(data.features[0].context[4].text)
+
+            {
+              if(data.features[0].context[4].text === props.cantonFullName)
+              {
+                setCorrectAddress(true);
+                await setAddress(data.features[0].place_name);
+                toast.success("You successfully confirmed the location");
+              }
+            }
+            else{
+              toast.error("You are in the wrong canton");
+            }
         }
       }
+
 
       console.log(
         "this is the data for mapbox coordinates into adress",
