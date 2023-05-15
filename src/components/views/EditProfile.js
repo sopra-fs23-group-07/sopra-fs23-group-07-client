@@ -133,6 +133,7 @@ const EditProfile = () => {
             maxWidth: 600,
             flexGrow: 1,
             background: "rgba(255, 255, 255, 0.7)",
+            borderRadius: "20px",
           }}
         >
           {/* All form fields */}

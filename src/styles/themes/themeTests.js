@@ -1,6 +1,11 @@
 import { createTheme } from "@mui/material";
 import { darken } from "@mui/material";
 import background1 from "../../background1.jpg";
+import background2 from "../../background2.jpg";
+import background3 from "../../background3.jpg";
+import background4 from "../../background4.jpg";
+import background5 from "../../background5.jpg";
+
 
 const colors5 = {
   // primary & secondary dark MUI
@@ -31,19 +36,31 @@ const colors5 = {
 };
 
 // dynamic colors
+colors5.redgradient = "linear-gradient(to right, rgba(255, 0, 0, 1), rgba(255, 165, 0, 1))";
+
+colors5.redgradientreverse = "linear-gradient(to left, rgba(255, 0, 0, 1), rgba(255, 165, 0, 1))";
+
 colors5.bluegradient =
   "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 36%, rgba(0,212,255,1) 100%)";
-colors5.containedButtonBackground = colors5.bluetwo;
-colors5.containedButtonBackgroundHover = colors5.blueone;
+// colors5.containedButtonBackground = colors5.bluetwo;
+colors5.containedButtonBackground = colors5.redgradient;
+
+
+
+colors5.containedButtonBackgroundHover = colors5.redgradientreverse;
 colors5.containedButtonText = colors5.white;
 
 colors5.textButtonText = colors5.white;
-
+colors5.textButtonTextHover = "rgba(255, 165, 0, 1)";
 colors5.headerColor = colors5.bluegradient;
 
 colors5.containerBackground = colors5.bluethree;
-colors5.background = colors5.bluethree;
-colors5.backgroundPicture = background1;
+colors5.background = colors5.light;
+// colors5.backgroundPicture = background2;
+// colors5.backgroundPicture = background3;
+// colors5.backgroundPicture = background4;
+colors5.backgroundPicture = background5;
+
 
 export const themeTwo = createTheme({
   // colors
@@ -221,6 +238,7 @@ export const themeSix = createTheme({
             // transition: "background 0.3s ease",
             "&:hover": {
               // background: colors5.textButtonBackgroundHover,
+              color: colors5.textButtonTextHover,
               fontSize: "1.25rem",
             },
           }),
@@ -231,8 +249,11 @@ export const themeSix = createTheme({
       styleOverrides: {
         body: {
           backgroundImage: `url(${colors5.backgroundPicture})`,
-          backgroundSize: "cover",
+          backgroundSize: "60%",
+          // backgroundSize: "30%",
+          
           backgroundPosition: "center",
+          backgroundRepeat: "repeat",
 
         }
       }
@@ -247,7 +268,7 @@ export const themeSix = createTheme({
           padding: 0,
           minWidth: "100vw",
           minHeight: "100vh",
-          backgroundColor: "yellow",
+          backgroundColor: colors5.bluethree,
           backgroundImage: `url(${background1})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
