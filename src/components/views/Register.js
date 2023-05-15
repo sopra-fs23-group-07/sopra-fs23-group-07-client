@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from "react";
+import React, {useContext, useState} from "react";
 import {api, handleError} from "helpers/api";
 import User from "models/User";
 import {useHistory, useLocation} from "react-router-dom";
@@ -27,7 +27,7 @@ const Register = (props) => {
 
     function validateEmail(email) {
         const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        return (emailRegex.test(email) || email === '');
+        return emailRegex.test(email);
     }
     const handleUsernameInputChange = (event) => {
         setUsernameError(false);
@@ -51,7 +51,6 @@ const Register = (props) => {
         const location = useLocation();
 
         lobby = location.state.lobby;
-        //console.log(lobby);
         lobbyId = location.state.lobbyId;
 
         }

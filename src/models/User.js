@@ -12,6 +12,7 @@ class User {
         this.birthdate = null;
         this.bio = null;
         this.hasLockedSelections = null;
+        this.avatar = "src/avatars/basketball_m.jpgsrc/avatars/basketball_m.jpg"
         Object.assign(this, data);
     }
 }

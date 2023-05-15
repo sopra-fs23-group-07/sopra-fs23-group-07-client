@@ -60,14 +60,7 @@ const Events = () => {
 
         setEvents(response.data);
 
-        // logs for debugging can be deleted after proper testing
-        // console.log("request to:", response.request.responseURL);
-        // console.log("status code:", response.status);
-        // console.log("status text:", response.statusText);
-        // console.log("requested data:", response.data);
-        // console.log(response);
       } catch (error) {
-        console.error(`Something went wrong while fetching the event.`);
         toast.error(handleError(error));
       }
     }
@@ -80,7 +73,11 @@ const Events = () => {
   }, []);
 
   const columns = [
-    {field: 'id', headerName: 'ID', width:50},
+    {
+      field: 'id',
+      headerName: 'ID',
+      width:50
+    },
     {
       field: 'eventName',
       headerName : 'Event Name',
@@ -110,13 +107,23 @@ const Events = () => {
       field: 'actions',
       headerName: 'Actions',
       width: 100,
-      renderCell: RenderActions,
-
+      renderCell: (props) => {
+        return (
+            <RenderActions
+              eventId={props.id}
+              flyToLocation={flyToLocation}
+              setFlyToLocation={setFlyToLocation}
+              latitude={props.row.eventLatitude}
+              longitude={props.row.eventLongitude}
+            />
+        );
+      },
     },
   ];
-  let rows;
-  if (events !== null){
 
+  let rows;
+
+  if (events) {
     rows = events.map(event => {
       return {
         id: event.eventId,
@@ -125,19 +132,14 @@ const Events = () => {
         eventSport: event.eventSport,
         eventParticipantsCount: event.eventParticipantsCount,
         eventDate: moment(event.eventDate).format("MMMM DD, YYYY h:mm A"),
-        eventLocationLatitude: event.eventLocationDTO.latitude,
-        eventLocationLongitude: event.eventLocationDTO.longitude,
+        eventLatitude: event.eventLocationDTO.latitude,
+        eventLongitude: event.eventLocationDTO.longitude
       };
     });
-
   } else {
-    rows = [
-      {id: 1, eventName:"Test", eventRegion:"testRegion", eventSport:"testSport", eventParticipantsCount:"5", eventDate:"2022-05-05"},
-      {id: 2, eventName:"Test", eventRegion:"testRegion", eventSport:"testSport", eventParticipantsCount:"5", eventDate:"2022-05-05"},
-      {id: 3, eventName:"Test", eventRegion:"testRegion", eventSport:"testSport", eventParticipantsCount:"5", eventDate:"2022-05-05"},
-      {id: 4, eventName:"Test", eventRegion:"testRegion", eventSport:"testSport", eventParticipantsCount:"5", eventDate:"2022-05-05"},
-    ];
+    rows = [];
   }
+
 
   return (
     <BaseContainer className="lobby">
@@ -197,72 +199,7 @@ const Events = () => {
               }}
               />
           </Paper>
-          {/* Table */}
-          {/*<TableContainer component={Paper}>*/}
-          {/*  <Table>*/}
-          {/*    <TableHead>*/}
-          {/*      <TableRow>*/}
-          {/*        <TableCell>*/}
-          {/*          <Typography fontWeight="bold">Event name</Typography>*/}
-          {/*        </TableCell>*/}
-          {/*        <TableCell>*/}
-          {/*          <Typography fontWeight="bold">Region</Typography>*/}
-          {/*        </TableCell>*/}
-          {/*        <TableCell>*/}
-          {/*          <Typography fontWeight="bold">Sport</Typography>*/}
-          {/*        </TableCell>*/}
-          {/*        <TableCell>*/}
-          {/*          <Typography fontWeight="bold">*/}
-          {/*            Number of participants*/}
-          {/*          </Typography>*/}
-          {/*        </TableCell>*/}
-          {/*        <TableCell>*/}
-          {/*          <Typography fontWeight="bold">Date</Typography>*/}
-          {/*        </TableCell>*/}
-          {/*        <TableCell />*/}
-          {/*      </TableRow>*/}
-          {/*    </TableHead>*/}
-          {/*    <TableBody>*/}
-          {/*      {events &&*/}
-          {/*        events.map((event) => {*/}
-          {/*          return (*/}
-          {/*            <TableRow key={event.eventName}>*/}
-          {/*              <TableCell>{event.eventName}</TableCell>*/}
-          {/*              <TableCell>{event.eventRegion}</TableCell>*/}
-          {/*              <TableCell>{event.eventSport}</TableCell>*/}
-          {/*              <TableCell>*/}
-          {/*                {event.eventParticipantsCount}/*/}
-          {/*                {event.eventMaxParticipants}*/}
-          {/*              </TableCell>*/}
-          {/*              <TableCell>*/}
-          {/*                {moment(event.eventDate).format(*/}
-          {/*                  "MMMM DD, YYYY h:mm A"*/}
-          {/*                )}*/}
-          {/*              </TableCell>*/}
-          {/*              <TableCell>*/}
-          {/*                <Button*/}
-          {/*                  onClick={() => handleViewEventClick(event.eventId)}*/}
-          {/*                >*/}
-          {/*                  View*/}
-          {/*                </Button>*/}
-          {/*                <Button*/}
-          {/*                  // fly to the location*/}
-          {/*                  onClick={() => {*/}
-          {/*                    setFlyToLocation({*/}
-          {/*                      latitude: event.eventLocationDTO.latitude,*/}
-          {/*                      longitude: event.eventLocationDTO.longitude,*/}
-          {/*                    });*/}
-          {/*                  }}*/}
-          {/*                >*/}
-          {/*                  Show on Map*/}
-          {/*                </Button>*/}
-          {/*              </TableCell>*/}
-          {/*            </TableRow>*/}
-          {/*          );*/}
-          {/*        })}*/}
-          {/*    </TableBody>*/}
-          {/*  </Table>*/}
-          {/*</TableContainer>*/}
+
           {noEventsDisclaimer /* only displayed if no events exist*/}
         </Grid>
         {/* Map */}
