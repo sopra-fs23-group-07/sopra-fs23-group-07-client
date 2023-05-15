@@ -11,6 +11,7 @@ class Event {
         this.eventMaxParticipants = null;
         this.participantDTOs = null;
         this.eventParticipantsCount = null;
+        this.eventLocation = null;
         Object.assign(this, data);
     }
 }
