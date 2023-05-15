@@ -4,8 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
 import moment from 'moment';
-import {api} from "./api";
-import {toast} from "react-toastify";
+import {api, handleError} from "./api";
 
 
 const today = new Date();
@@ -107,8 +106,7 @@ const SelectDateAndTime = (props) => {
 
 
         } catch (error) {
-            toast.error("Something went wrong when suggesting a date")
-            // alert(`Something went wrong when joining the lobby: \n${handleError(error)}`);
+            alert(`Something went wrong when joining the lobby: \n${handleError(error)}`);
         }
 
     };
