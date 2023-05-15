@@ -1,7 +1,7 @@
 import {Redirect, useHistory} from "react-router-dom";
 import PropTypes from "prop-types";
 import React, {useEffect} from "react";
-import {api, handleError} from "../../../helpers/api";
+import {api} from "../../../helpers/api";
 import {toast} from "react-toastify";
 
 export const ProfileGuard = (props) => {
@@ -27,7 +27,9 @@ export const ProfileGuard = (props) => {
 
 
             } catch (error) {
-                toast.error(handleError(error));
+                // toast.error(handleError(error));
+                toast.info("Please log in or register to view your profile!")
+                console.log(error.response);
             }
         }
 

@@ -155,7 +155,7 @@ const Lobby = () => {
     }
 
     const handleMessageKeyPress = (e) => {
-        if(e.key === "Enter") {
+        if (e.key === "Enter") {
             handleSendMessage(message);
         }
     }
@@ -243,6 +243,8 @@ const Lobby = () => {
             }
         } catch (error) {
             toast.error(handleError(error));
+            localStorage.removeItem("lobbyId");
+            history.push(`/Lobbies`);
         }
     };
 
@@ -722,7 +724,9 @@ const Lobby = () => {
                                 placeholder="Enter Message..."
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
-                                onKeyPress = { (e) => {handleMessageKeyPress(e)} }
+                                onKeyPress={(e) => {
+                                    handleMessageKeyPress(e)
+                                }}
                                 size="small"
                                 style={{width: "78%"}}
                             />
