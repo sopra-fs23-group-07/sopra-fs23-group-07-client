@@ -163,7 +163,7 @@ const Register = (props) => {
                                 justifySelf: 'center',
                                 alignSelf: 'center'}}
                     >
-                        Login + {lobby}
+                        Login
                     </Button>
                 </Box>
             </Paper>

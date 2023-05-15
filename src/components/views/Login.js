@@ -29,6 +29,7 @@ const Login = (props) => {
     var lobbyId = 0;
 
 
+
     try {
         const location = useLocation();
 
@@ -39,7 +40,10 @@ const Login = (props) => {
         }
     catch {}
 
-
+    if(props.lobby) {
+        lobby = props.lobby;
+        lobbyId = props.lobbyId;
+    }
 
     const doLogin = async () => {
         setUsernameError(false);
@@ -131,7 +135,7 @@ const Login = (props) => {
                     <Button
                         variant={"contained"}
                         startIcon={<AppRegistrationIcon />}
-                        onClick={() => history.push({pathname: "/register", state: {lobby: props.lobby, lobbyId: props.lobbyId}})}
+                        onClick={() => history.push({pathname: "/register", state: {lobby: lobby, lobbyId: lobbyId}})}
                         sx={{
                             mt: 2,
                             paddingY: 2,
@@ -139,7 +143,7 @@ const Login = (props) => {
                             justifySelf: 'center',
                             alignSelf: 'center'}}
                     >
-                        Register + {lobby}
+                        Register
                     </Button>
                 </Box>
             </Paper>
