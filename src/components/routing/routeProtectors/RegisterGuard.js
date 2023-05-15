@@ -26,7 +26,10 @@ export const RegisterGuard = (props) => {
               }, []);
 
     // if user is already logged in, redirects to the main /app
-    if(!loggedIn) {return props.children;}
+    if(!loggedIn) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        return props.children;}
     else {return <Redirect to="/Home"/>;}
 
 };
