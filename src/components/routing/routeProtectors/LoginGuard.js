@@ -24,4 +24,4 @@ export const LoginGuard = props => {
 
 LoginGuard.propTypes = {
     children: PropTypes.node
-}
+}}
