@@ -123,19 +123,22 @@ const Events = () => {
 
   let rows;
 
-  rows = events.map(event => {
-
-    return {
-      id: event.eventId,
-      eventName: event.eventName,
-      eventRegion: event.eventRegion,
-      eventSport: event.eventSport,
-      eventParticipantsCount: event.eventParticipantsCount,
-      eventDate: moment(event.eventDate).format("MMMM DD, YYYY h:mm A"),
-      eventLatitude: event.eventLocationDTO.latitude,
-      eventLongitude: event.eventLocationDTO.longitude
-    };
-  });
+  if (events) {
+    rows = events.map(event => {
+      return {
+        id: event.eventId,
+        eventName: event.eventName,
+        eventRegion: event.eventRegion,
+        eventSport: event.eventSport,
+        eventParticipantsCount: event.eventParticipantsCount,
+        eventDate: moment(event.eventDate).format("MMMM DD, YYYY h:mm A"),
+        eventLatitude: event.eventLocationDTO.latitude,
+        eventLongitude: event.eventLocationDTO.longitude
+      };
+    });
+  } else {
+    rows = [];
+  }
 
 
   return (
