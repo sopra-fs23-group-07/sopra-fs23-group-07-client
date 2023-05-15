@@ -22,7 +22,6 @@ export const LobbyInviteGuard = props => {
       console.log(userId);
       const history = useHistory();
 
-
       //if(!localStorage.getItem("userId")) {return <Redirect to="/login"/>;}
       if(!localStorage.getItem("userId")) {return <Login lobby="true" lobbyId={lobbyId} />;}
 
@@ -53,13 +52,7 @@ export const LobbyInviteGuard = props => {
                       }
 
                   } catch (error) {
-                      console.log(error.response);
-                      if(error.response.status == 404 && error.response.data == "The userId provided was not found") {
-                            localStorage.removeItem("token");
-                            localStorage.removeItem("userId");
-                            console.log(returnToLobby);
-                            }
-
+                      toast.error(handleError(error));
                   }
               }
               fetchData();
@@ -68,7 +61,9 @@ export const LobbyInviteGuard = props => {
           }, []);
 
 
-        return <Login lobby="true" lobbyId={lobbyId} />;
+
+        return <Redirect to="/Home"/>;
+
 };
 
 LobbyInviteGuard.propTypes = {
