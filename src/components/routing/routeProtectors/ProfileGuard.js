@@ -1,48 +1,47 @@
 import {Redirect, useHistory} from "react-router-dom";
 import PropTypes from "prop-types";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {api, handleError} from "../../../helpers/api";
 import {toast} from "react-toastify";
+import Spinner from "components/ui/Spinner";
+
 
 export const ProfileGuard = (props) => {
 
 
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
+    console.log(userId);
+    console.log(token);
+    const [toProfile, setToProfile] = useState(false);
+
     const history = useHistory();
 
-
-    useEffect(() => {
+    //useEffect(() => {
         async function fetchData() {
-            try {
+          try {
+            const response = await api.get(`/users/${userId}`);
+            console.log(response.data.token);
 
-                const response = await api.get(`/users/${userId}`);
-                if (token != response.data.token) {
-
-                    history.push("/Login");
-                    // return <Login lobby="true" lobbyId={lobbyId} />;
-                } else {
-                    return props.children;
-                }
+            if(token === response.data.token) {
+                setToProfile(true); }
+            else {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userId");
+                history.push("/Login");}
 
 
-            } catch (error) {
-                toast.error(handleError(error));
-            }
+          } catch (error) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("userId");
+            history.push("/Login");
+          }
         }
 
         fetchData();
-
-
-    }, []);
-
-    if (
-        localStorage.getItem("token") !== "null" &&
-        localStorage.getItem("token")
-    ) {
-        return props.children;
-    }
-    return <Redirect to="/login"/>;
+      //}, []);
+    if(setToProfile) { return props.children; }
+    return <Spinner />
 };
 
 ProfileGuard.propTypes = {
