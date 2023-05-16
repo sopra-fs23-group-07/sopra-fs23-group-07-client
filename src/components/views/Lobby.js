@@ -38,7 +38,13 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import InfoIcon from "@mui/icons-material/Info";
 import { toast } from "react-toastify";
+import { CustomHeading } from "styles/development/CustomHeading";
+import { CustomGrid } from "styles/development/CustomGrid";
+import HourglassTopOutlinedIcon from "@mui/icons-material/HourglassTopOutlined";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { styled } from "@mui/system";
 
 const Lobby = () => {
   const history = useHistory(); // needed for linking
@@ -226,318 +232,428 @@ const Lobby = () => {
     }
   };
 
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    borderColor: "black",
+    borderWidth: 1,
+    borderStyle: "solid",
+    wordWrap: "break-word",
+    maxWidth: 0,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  }));
+
   return (
     <>
       <BaseContainer>
-        <Grid container>
-          <Grid item xs={6} sx={{ backgroundColor: "red" }}>
-            <Typography> Lobby: {lobby.lobbyName}</Typography>
+        {/* Title */}
+        <Grid container sx={{ marginBottom: 2 }}>
+          <Grid
+            item
+            xs={8}
+            sx={
+              {
+                // backgroundColor: "red"
+              }
+            }
+          >
+            <Typography
+              variant="h3"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "left",
+                marginLeft: 4,
+                color: "white",
+              }}
+            >
+              Lobby: {lobby.lobbyName}
+            </Typography>
           </Grid>
           <Grid
             item
-            xs={6}
+            xs={4}
             sx={{
               display: "flex",
               justifyContent: "flex-end",
-              backgroundColor: "green",
+              // backgroundColor: "green",
+              paddingRight: 4,
             }}
           >
             <Button variant="contained" onClick={() => setOpen(true)}>
-              Invite friends to lobby
+              Invite friends
             </Button>
           </Grid>
         </Grid>
 
-        <Box sx={{ backgroundColor: "blue", padding: "20px" }}>
-          <Grid container>
-            {/* Table */}
+        {/* Visible Box */}
+        <Grid
+          container
+          sx={{
+            backgroundColor: "blue",
+            // pt: 2,
+            // pb: 4,
+            // paddingX: 4,
+            p: 4,
+            background: "rgba(255, 255, 255, 0.7)",
+            borderRadius: "20px",
+            marginBottom: 2,
+          }}
+        >
+          {/* make it responsive */}
+          {/* <Grid sx={{ marginTop: 2 }}> */}
+          {/* Table */}
+
+          {/* Table */}
+          <Grid
+            item
+            xs={8}
+            // sx={{ alignItems: "center", backgroundColor: "yellow" }}
+          >
+            <TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    {/* Table cells usefull */}
+                    <StyledTableCell sx={{ minWidth: 100, width: "15%" }}>
+                      Player
+                    </StyledTableCell>
+                    <StyledTableCell sx={{ minWidth: 200, width: "30%" }}>
+                      Sport
+                    </StyledTableCell>
+                    <StyledTableCell sx={{ minWidth: 150, width: "20%" }}>
+                      Time
+                    </StyledTableCell>
+                    <StyledTableCell sx={{ minWidth: 80, width: "15%" }}>
+                      {String(Math.floor(lobby.timeRemaining / 60000)).padStart(
+                        2,
+                        "0"
+                      )}
+                      :
+                      {String(
+                        Math.floor((lobby.timeRemaining % 60000) / 1000)
+                      ).padStart(2, "0")}
+                    </StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {members.map((user) => (
+                    <TableRow key={user.username}>
+                      {/* Player */}
+                      <StyledTableCell>
+                        {user.userId === parseInt(userId) ? (
+                          <p>{user.username}</p>
+                        ) : (
+                          <Link
+                            href={`/Profile/${user.userId}`}
+                            target="_blank"
+                            title={"This opens the profile page in a new tab"}
+                            sx={{
+                              color: "black",
+                              textDecoration: "none",
+                            }}
+                          >
+                            <AccountCircleIcon fontSize={"inherit"} />{" "}
+                            {user.username}
+                          </Link>
+                        )}
+                      </StyledTableCell>
+                      {/* Sport Selection */}
+                      {/* <StyledTableCell> */}
+                      <TableCell
+                        sx={{
+                          borderColor: "black",
+                          borderWidth: 1,
+                          borderStyle: "solid",
+                          wordWrap: "break-word",
+                          maxWidth: 0,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {user.userId === parseInt(userId) ? (
+                          <MultipleSelectChip
+                            onSelectedSports={handleSelectedSports}
+                            memberId={user.memberId}
+                            selectedSportsServer={user.selectedSports}
+                            chosenSportServer={lobby.lobbyDecidedSport}
+                            hasLockedSelections={user.hasLockedSelections}
+                          />
+                        ) : (
+                          user.selectedSports.map((sport) => (
+                            <Typography
+                              sx={{
+                                display: "inline",
+
+                                color: lobby.lobbyDecidedSport.includes(sport)
+                                  ? "blue"
+                                  : "black",
+                              }}
+                            >
+                              {sport + " "}
+                            </Typography>
+                          ))
+                        )}
+                      {/* </StyledTableCell> */}
+                      </TableCell>
+                      {/* Time Selection */}
+                      {/* <StyledTableCell> */}
+                      {/* Why the hell does StyledTableCell not work here? work around with sx */}
+                      <TableCell
+                        sx={{
+                          borderColor: "black",
+                          borderWidth: 1,
+                          borderStyle: "solid",
+                          wordWrap: "break-word",
+                          maxWidth: 0,
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {user.userId == userId ? (
+                          <SelectDateAndTime
+                            selectedDatesServer={user.selectedDates}
+                            chosenDateServer={lobby.lobbyDecidedDate}
+                            memberId={user.memberId}
+                            hasLockedSelections={user.hasLockedSelections}
+                          ></SelectDateAndTime>
+                        ) : (
+                          user.selectedDates.map((time) => (
+                            <span
+                              style={{
+                                display: "block",
+                                color: lobby.lobbyDecidedDate.includes(time)
+                                  ? "blue"
+                                  : "black",
+                              }}
+                            >
+                              {
+                                <p>
+                                  {moment(time).format("MMMM DD, YYYY h:mm A")}
+                                </p>
+                              }
+                            </span>
+                          ))
+                        )}
+                        {/* </StyledTableCell> */}
+                      </TableCell>
+                      <StyledTableCell>
+                        <FormGroup>
+                          {/*TO DO: check if the user.id I get from backend is the same id as in the local storage!
+                        And then also check if it should be disabled or not depending on the choice of the user*/}
+                          {user.userId === parseInt(userId) ? (
+                            <FormControlLabel
+                              control={<Switch />}
+                              label="Save"
+                              onChange={() =>
+                                handleLock(
+                                  user.memberId,
+                                  user.hasLockedSelections
+                                )
+                              }
+                              checked={user.hasLockedSelections}
+                            />
+                          ) : (
+                            <FormControlLabel
+                              disabled
+                              control={<Switch />}
+                              // label={
+                              //   user.hasLockedSelections
+                              //     ? "User is ready"
+                              //     : "User is not ready"
+                              // }
+                              checked={user.hasLockedSelections}
+                            />
+                          )}
+                        </FormGroup>
+                      </StyledTableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Grid>
+
+          {/* Location */}
+          <Grid
+            item
+            xs={12}
+            md={4}
+            sx={{
+              // backgroundColor: "orange",
+              padding: 2,
+            }}
+          >
             <Grid
               item
-              xs={8}
-              sx={{ alignItems: "center", backgroundColor: "yellow" }}
+              sx={{
+                padding: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                // backgroundColor: "purple",
+              }}
             >
-              <TableContainer className="table-container" component={Paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>
-                        <Typography fontWeight="bold">Players</Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography fontWeight="bold">Sports</Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography fontWeight="bold">Time</Typography>
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {members.map((user) => (
-                      <TableRow key={user.username}>
-                        <TableCell>
-                          {user.userId === parseInt(userId) ? (
-                            <p>{user.username}</p>
-                          ) : (
-                            <Link
-                              href={`/Profile/${user.userId}`}
-                              target="_blank"
-                              title={"This opens the profile page in a new tab"}
-                            >
-                              <LaunchIcon fontSize={"inherit"} />{" "}
-                              {user.username}
-                            </Link>
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {/*{user.sports}*/}
-                          {user.userId === parseInt(userId) ? (
-                            <MultipleSelectChip
-                              onSelectedSports={handleSelectedSports}
-                              memberId={user.memberId}
-                              selectedSportsServer={user.selectedSports}
-                              chosenSportServer={lobby.lobbyDecidedSport}
-                              hasLockedSelections={user.hasLockedSelections}
-                            />
-                          ) : (
-                            user.selectedSports.map((sport) => (
-                              <span
-                                style={{
-                                  display: "block",
-                                  color: lobby.lobbyDecidedSport.includes(sport)
-                                    ? "blue"
-                                    : "black",
-                                }}
-                              >
-                                {sport}
-                              </span>
-                            ))
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          {/*{user.time}*/}
-                          {/*<DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />*/}
-                          {user.userId == userId ? (
-                            <SelectDateAndTime
-                              selectedDatesServer={user.selectedDates}
-                              chosenDateServer={lobby.lobbyDecidedDate}
-                              memberId={user.memberId}
-                              hasLockedSelections={user.hasLockedSelections}
-                            ></SelectDateAndTime>
-                          ) : (
-                            user.selectedDates.map((time) => (
-                              <span
-                                style={{
-                                  display: "block",
-                                  color: lobby.lobbyDecidedDate.includes(time)
-                                    ? "blue"
-                                    : "black",
-                                }}
-                              >
-                                {
-                                  <p>
-                                    {moment(time).format(
-                                      "MMMM DD, YYYY h:mm A"
-                                    )}
-                                  </p>
-                                }
-                              </span>
-                            ))
-                          )}
-                          {/*<p>{moment(time).format("MMMM DD, YYYY h:mm A")}</p>*/}
-                          {/*// user.selectedDates.map((time) => (*/}
-                          {/*//     <p>{moment(time).format("MMMM DD, YYYY h:mm A")}</p>))}*/}
-                          {/*{chosenDate.map((date) => (*/}
-                          {/*    <div key={date} className="flex items-center space-x-2">*/}
-                          {/*      <p className="flex-grow">{moment(date).format("MMMM DD, YYYY h:mm A")}</p>*/}
-                          {/*      <IconButton*/}
-                          {/*          aria-label="delete"*/}
-                          {/*          onClick={() => removeDate(date)}*/}
-                          {/*      >*/}
-                          {/*        <ClearIcon />*/}
-                          {/*      </IconButton>*/}
-                          {/*    </div>*/}
-                          {/*))}*/}
-                        </TableCell>
-                        <TableCell>
-                          {" "}
-                          <FormGroup>
-                            {/*TO DO: check if the user.id I get from backend is the same id as in the local storage!
-                        And then also check if it should be disabled or not depending on the choice of the user*/}
-                            {user.userId === parseInt(userId) ? (
-                              <FormControlLabel
-                                control={<Switch />}
-                                label="Lock your choice"
-                                onChange={() =>
-                                  handleLock(
-                                    user.memberId,
-                                    user.hasLockedSelections
-                                  )
-                                }
-                                checked={user.hasLockedSelections}
-                              />
-                            ) : (
-                              <FormControlLabel
-                                disabled
-                                control={<Switch />}
-                                label={
-                                  user.hasLockedSelections
-                                    ? "User is ready"
-                                    : "User is not ready"
-                                }
-                                checked={user.hasLockedSelections}
-                              />
-                            )}
-                          </FormGroup>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+              <Typography variant="h5">Location </Typography>
             </Grid>
-            {/* Location */}
-            <Grid item xs={4} sx={{ backgroundColor: "orange" }}>
-              {/* padding for all children? */}
-              <Grid
-                item
-                sx={{
-                  padding: "5px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  backgroundColor: "purple",
+            <Grid
+              item
+              sx={{
+                display: "flex",
+                justifyContent: "left",
+                // backgroundColor: "pink",
+                padding: 1,
+              }}
+            >
+              <Typography>Region: {lobby.lobbyRegion} </Typography>
+            </Grid>
+            {/* Map and Confirm Button */}
+            <Grid
+              item
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                // backgroundColor: "lightblue",
+              }}
+            >
+              <div
+                style={{
+                  width: "100%",
                 }}
               >
-                <Typography>Location </Typography>
-              </Grid>
-              <Grid
-                item
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  backgroundColor: "pink",
-                }}
-              >
-                <Typography>Region: {lobby.lobbyRegion} </Typography>
-              </Grid>
-              {/* Map and Confirm Button */}
-              <Grid
-                item
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  backgroundColor: "lightblue",
-                }}
-              >
-                <div
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  {members.map((user) =>
-                    user.userId === parseInt(userId) ? (
-                      <AddLocationForLobby
-                        memberId={user.memberId}
-                        key={user.username}
-                        locationDTO={locationDTO}
-                        hasLockedSelections={user.hasLockedSelections}
-                        flyToLocation={flyToLocation}
-                        canton={shortCodeForRegion}
-                        cantonFullName={canton_Full_name}
-                      />
-                    ) : null
+                {members.map((user) =>
+                  user.userId === parseInt(userId) ? (
+                    <AddLocationForLobby
+                      memberId={user.memberId}
+                      key={user.username}
+                      locationDTO={locationDTO}
+                      hasLockedSelections={user.hasLockedSelections}
+                      flyToLocation={flyToLocation}
+                      canton={shortCodeForRegion}
+                      cantonFullName={canton_Full_name}
+                    />
+                  ) : null
+                )}
+              </div>
+            </Grid>
+
+            {/* Placeholder for Confirm Button */}
+            <Grid
+              item
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                height: "70px",
+                // backgroundColor: "lightgreen",
+              }}
+            ></Grid>
+
+            {/* Location Voting */}
+            <Grid
+              item
+              sx={{
+                display: "flex",
+                justifyContent: "left",
+                height: "50px",
+                // backgroundColor: "lightpink",
+              }}
+            >
+              {locationDTO.map((location) => (
+                <React.Fragment key={location.id}>
+                  {members.map(
+                    (user) =>
+                      user.userId === parseInt(userId) && (
+                        <div
+                          className="my-12"
+                          key={`${location.id}-${user.username}`}
+                        >
+                          <VotingForLocations
+                            hasLockedSelections={user.hasLockedSelections}
+                            memberId={user.memberId}
+                            address={location.address}
+                            locationId={location.locationId}
+                            memberVotes={location.memberVotes}
+                            key={location.id}
+                            latitude={location.latitude}
+                            longitude={location.longitude}
+                            setFlyToLocation={setFlyToLocation}
+                          />
+                        </div>
+                      )
                   )}
-                </div>
-              </Grid>
-
-              {/* Placeholder for Confirm Button */}
-              <Grid
-                item
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  height: "70px",
-                  backgroundColor: "lightgreen",
-                }}
-              ></Grid>
-
-              {/* Location Voting */}
-              <Grid
-                item
-                sx={{
-                  display: "flex",
-                  justifyContent: "left",
-                  height: "50px",
-                  backgroundColor: "lightpink",
-                }}
-              >
-                {locationDTO.map((location) => (
-                  <React.Fragment key={location.id}>
-                    {members.map(
-                      (user) =>
-                        user.userId === parseInt(userId) && (
-                          <div
-                            className="my-12"
-                            key={`${location.id}-${user.username}`}
-                          >
-                            <VotingForLocations
-                              hasLockedSelections={user.hasLockedSelections}
-                              memberId={user.memberId}
-                              address={location.address}
-                              locationId={location.locationId}
-                              memberVotes={location.memberVotes}
-                              key={location.id}
-                              latitude={location.latitude}
-                              longitude={location.longitude}
-                              setFlyToLocation={setFlyToLocation}
-                            />
-                          </div>
-                        )
-                    )}
-                  </React.Fragment>
-                ))}{" "}
-              </Grid>
+                </React.Fragment>
+              ))}
             </Grid>
           </Grid>
-        </Box>
+          {/* </Grid> */}
+        </Grid>
 
         {/* Centered elements below  */}
         <Grid
           container
           direction="column"
           justifyContent="center"
-          sx={{ backgroundColor: "lightgray" }}
+          // sx={{ backgroundColor: "lightgray" }}
         >
           {/* Leave Button */}
           <Grid
             item
+            container
             xs={4}
             sx={{
               display: "flex",
-              justifyContent: "center",
-              backgroundColor: "teal",
+              justifyContent: "space-between",
+              // backgroundColor: "teal",
+              paddingLeft: "15px",
             }}
           >
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => handleLeaveLobby()}
-              sx={{
-                width: "fit-content",
-                paddingLeft: "30px",
-                paddingRight: "30px",
-              }}
-            >
-              Leave
-            </Button>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => handleLeaveLobby()}
+                sx={{
+                  width: "fit-content",
+                  paddingLeft: "30px",
+                  paddingRight: "30px",
+                  // alignSelf: "flex-start",
+                  // justifySelf: "",
+                }}
+              >
+                Leave
+              </Button>
+            </Grid>
+            <Grid item>
+              <InfoIcon />
+            </Grid>
           </Grid>
+
+          {/* dev version of Leave Button & InfoIcon */}
+          {/* <Grid
+            item
+            xs={4}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              borderRight: "solid 5px yellow", // Add left border on the same height as the yellow box
+              backgroundColor: "teal",
+              paddingLeft: "5px", // Adjust padding to align the button with the border
+            }}
+          >
+            <Button variant="contained" sx={{ width: "fit-content" }}>
+              Leave (Centered)
+            </Button>
+            <Button sx={{ marginRight: "5px" }}>
+              <InfoIcon />
+            </Button>
+          </Grid> */}
 
           {/* Accordion short tutorial  */}
           <Grid item xs={4} sx={{ backgroundColor: "coral" }}>
             <Accordion>
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
+                expandIcon={<InfoIcon />}
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
@@ -722,7 +838,7 @@ const Lobby = () => {
                 padding: "10px",
                 marginBottom: "0px",
                 backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
-                position: "absolute",
+                position: "fixed",
                 bottom: "10px",
                 right: "10px",
                 overflow: "auto",
@@ -801,9 +917,7 @@ const Lobby = () => {
               </div>
             </div>
           </Grid>
-
         </Grid>
-
       </BaseContainer>
 
       {/* 
@@ -816,14 +930,6 @@ Old Code below
       <BaseContainer className="lobby">
         <div className="flex space-x-10">
           <div className="w-[80%]">
-            
-              <h3>
-                <Schedule />
-                {Math.floor(lobby.timeRemaining / 60000)}:
-                {Math.floor((lobby.timeRemaining % 60000) / 1000)}
-              </h3>
-
-
             {/* pop-up */}
             <Dialog
               maxWidth="md"
