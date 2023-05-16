@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
 import moment from 'moment';
 import {api, handleError} from "./api";
@@ -12,39 +13,6 @@ const SelectDateAndTime = (props) => {
 
     const [startDate, setStartDate] = useState();
     const [chosenDate, setChosenDate] = useState(props.selectedDatesServer);
-
-    const [previousTime, setPreviousTime] = useState(null);
-    const [previousDate, setPreviousDate] = useState(null);
-    const [onlyDateChanged, setOnlyDateChanged] = useState(false);
-
-    const handleOnSelect = (e) => {
-        console.log(e)
-        console.log("handleOnSelect is called");
-        setOnlyDateChanged(true);
-
-    }
-    const handleDateChange = (date) => {
-        console.log(date)
-        console.log("handleDateChange is called");
-        setStartDate(date);
-//&& onlyDateChanged === false
-        // Check if the time changed
-        const selectedTime = moment(date).format('h:mm A');
-        // const selectedDate = moment(date).format('YYYY-MM-DD');
-        // console.log(selectedDate);
-        // console.log(previousDate);
-
-        if (((selectedTime !== previousTime) && (previousTime !== null))) {
-            // console.log(selectedDate !== previousDate);
-            setOnlyDateChanged(false);
-            // if (selectedDate == previousDate)
-            handleClick(date); // Pass the selected date as a parameter
-        }
-        setPreviousTime(selectedTime);
-        // setPreviousDate(selectedDate);
-
-        // Update the previous time
-    };
     const removeDate = (dateToRemove) => {
         setChosenDate(chosenDate.filter((date) => date !== dateToRemove));
         // UpdateSelectedTime(chosenDate);
@@ -69,12 +37,11 @@ const SelectDateAndTime = (props) => {
         // console.log(chosenDate);
     }, [chosenDate]);
 
-    const handleClick = (date) => {
-        if (date) {
-            const formattedDate = moment(date).format('YYYY-MM-DDTHH:mm:ss');
-            if (!chosenDate.includes(formattedDate)) {
+    const handleClick = () => {
+        if (startDate) {
+            const formattedDate = moment(startDate).format('YYYY-MM-DDTHH:mm:ss');
+            if (chosenDate.includes(formattedDate) === false) {
                 setChosenDate(prevState => [...prevState, formattedDate]);
-                // setStartDate(null); // Reset the selected date to nothing
             } else {
                 alert('You already chose this date and time! Please choose another one!');
             }
@@ -117,29 +84,28 @@ const SelectDateAndTime = (props) => {
             <div className="flex">
                 <div className="w-[100%]">
                     <DatePicker
-                        showIcon={true}
                         disabled={props.hasLockedSelections}
                         selected={startDate}
-                        onChange={handleDateChange}
-                        onSelect={handleOnSelect}
+                        onChange={(date) => setStartDate(date)}
                         showTimeSelect
                         timeIntervals={30}
+                        maxDate={new Date(today.setDate(today.getDate() + 5))} // 5 days from now
                         filterTime={filterPassedTime}
                         dateFormat="MMMM d, yyyy h:mm aa"
                         placeholderText="Select a date and time"
-                    />
+                        isClearable={false}
 
-                    <div style={{color: "black"}}>You can choose more than one date</div>
+                    />
                 </div>
-                {/*<div className="w-[40%]">*/}
-                {/*    <IconButton*/}
-                {/*        disabled={props.hasLockedSelections}*/}
-                {/*        aria-label="delete"*/}
-                {/*        onClick={handleClick}*/}
-                {/*    >*/}
-                {/*        <CheckIcon/>*/}
-                {/*    </IconButton>*/}
-                {/*</div>*/}
+                <div className="w-[40%]">
+                    <IconButton
+                        disabled={props.hasLockedSelections}
+                        aria-label="delete"
+                        onClick={handleClick}
+                    >
+                        <AddIcon/>
+                    </IconButton>
+                </div>
             </div>
             <div className="flex flex-wrap gap-x-2 gap-y-0 my-0.1">
                 {chosenDate.map((date) => (
@@ -167,5 +133,4 @@ const SelectDateAndTime = (props) => {
         </div>
     );
 };
-
 export default SelectDateAndTime;
