@@ -1,6 +1,5 @@
 import React, { useEffect, useState} from "react";
 import BaseContainer from "components/ui/BaseContainer";
-import { Spinner } from "components/ui/Spinner";
 import { useHistory } from "react-router-dom";
 import {
   Button,
@@ -15,6 +14,7 @@ import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import {toast} from "react-toastify";
 import { DataGrid } from '@mui/x-data-grid';
 import { RenderActions } from "components/ui/RenderActions";
+import {CustomNoRowsOverlay} from "components/ui/CustomNoRowsOverlay";
 
 // page where all events are listed
 const Events = () => {
@@ -34,23 +34,6 @@ const Events = () => {
     }
   };
 
-  // if no event exist display disclaimer
-  let noEventsDisclaimer = <Spinner />;
-  if (!events || events.length === 0) {
-    noEventsDisclaimer = (
-      <p
-        style={{
-          fontWeight: "bold",
-          textAlign: "center",
-          fontSize: "1.2rem",
-          color: "black",
-        }}
-      >
-        Currently no events available! <br /> Go to Lobbies to start creating
-        one.
-      </p>
-    );
-  }
 
   // fetch data from backend (each second) and save all events
   useEffect(() => {
@@ -82,11 +65,13 @@ const Events = () => {
       field: 'eventName',
       headerName : 'Event Name',
       width:120,
+      flex:1,
     },
     {
       field: 'eventRegion',
       headerName: 'Region',
-      width:100
+      width:100,
+      flex: 1
     },
     {
       field: 'eventSport',
@@ -96,12 +81,14 @@ const Events = () => {
     {
       field: 'eventParticipantsCount',
       headerName: 'Number of\nParticipants',
-      width:100
+      width:100,
+      flex: 1
     },
     {
       field: 'eventDate',
       headerName: 'Date',
-      width :180
+      width :180,
+      flex: 2
     },
     {
       field: 'actions',
@@ -130,7 +117,8 @@ const Events = () => {
         eventName: event.eventName,
         eventRegion: event.eventRegion,
         eventSport: event.eventSport,
-        eventParticipantsCount: event.eventParticipantsCount,
+        eventParticipantsCount: String(event.eventParticipantsCount) + "/" + String(event.eventMaxParticipants),
+        eventMaxParticipants: event.eventMaxParticipants,
         eventDate: moment(event.eventDate).format("MMMM DD, YYYY h:mm A"),
         eventLatitude: event.eventLocationDTO.latitude,
         eventLongitude: event.eventLocationDTO.longitude
@@ -163,8 +151,8 @@ const Events = () => {
             Create New Event
           </Button>
         </Grid>
-        <Grid item xs={12} md={8}>
-          <Paper>
+        <Grid item xs={12} md={8} >
+          <Paper sx={{height:"100%"}}>
             <DataGrid
               rows={rows}
               columns={columns}
@@ -182,11 +170,16 @@ const Events = () => {
               }}
               pageSizeOptions={[5]}
               disableRowSelectionOnClick
-              //sx only used for text wrapping
+              slots={{
+                noRowsOverlay: CustomNoRowsOverlay,
+              }}
+              //sx only used for text wrapping and header styling
               sx={{
                 "& .MuiDataGrid-columnHeaderTitle": {
                   whiteSpace: "normal",
-                  lineHeight: "normal"
+                  lineHeight: "normal",
+                  fontWeight: "bold"
+
                 },
                 "& .MuiDataGrid-columnHeader": {
                   // Forced to use important since overriding inline styles
@@ -199,8 +192,6 @@ const Events = () => {
               }}
               />
           </Paper>
-
-          {noEventsDisclaimer /* only displayed if no events exist*/}
         </Grid>
         {/* Map */}
         <Grid item xs={12} md={4}>
