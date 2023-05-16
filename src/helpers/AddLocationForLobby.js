@@ -181,7 +181,7 @@ const AddLocationForLobby = (props) => {
       console.log("this is the canton full name new:", canton_Full_name); // log the canton variable
     } else {
       console.log("User already confirmed location");
-      toast.warn("You already confirmed your location!");
+      toast.warn("You already suggested a location!");
     }
   };
 
@@ -201,12 +201,12 @@ const AddLocationForLobby = (props) => {
           console.log(
             "the short code is not the same as the canton code given"
           );
-          toast.error("You are in the wrong canton");
+          toast.error("Choose a location in the region of: " + props.cantonFullName);
         } else {
           console.log("there is a short code and it is correct");
           setCorrectAddress(true);
           await setAddress(data.features[0].place_name);
-          toast.success("You successfully confirmed the location");
+          toast.success("You successfully suggested a location");
         }
       } else if (data.features[0].context[2].text){
         console.log("there is no short code here only text with region");
@@ -214,13 +214,13 @@ const AddLocationForLobby = (props) => {
           console.log("the text is the same as the canton full name");
           setCorrectAddress(true);
           await setAddress(data.features[0].place_name);
-          toast.success("You successfully confirmed the location");
+          toast.success("You successfully suggested a location");
         } else if(data.features[0].context[3].text)
         {
             if (data.features[0].context[3].text === props.cantonFullName) {
                 setCorrectAddress(true);
                 await setAddress(data.features[0].place_name);
-                toast.success("You successfully confirmed the location");
+              toast.success("You successfully suggested a location");
             } else if(data.features[0].context[4].text)
 
             {
@@ -228,11 +228,11 @@ const AddLocationForLobby = (props) => {
               {
                 setCorrectAddress(true);
                 await setAddress(data.features[0].place_name);
-                toast.success("You successfully confirmed the location");
+                toast.success("You successfully suggested a location");
               }
             }
             else{
-              toast.error("You are in the wrong canton");
+              toast.error("Choose a location in the region of: " + props.cantonFullName);
             }
         }
       }
@@ -244,7 +244,11 @@ const AddLocationForLobby = (props) => {
       );
     } catch (error) {
       // Handle any errors that occurred during the request
+      toast.error("some error occured with checking if you chose the correct region. You can still confirm any location");
       console.error(error);
+      setCorrectAddress(true);
+      await setAddress(data.features[0].place_name);
+      toast.success("You successfully suggested a location");
     }
   };
 
@@ -284,7 +288,7 @@ const AddLocationForLobby = (props) => {
         await api.post(`/lobbies/${lobbyId}/locations`, requestBody);
         SetUserConfirmedLocation(true);
       } else {
-        alert("You already confirmed your location!");
+        alert("You already suggested a location!");
       }
     } catch (error) {
       alert(
