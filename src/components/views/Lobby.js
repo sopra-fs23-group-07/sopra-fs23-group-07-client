@@ -418,7 +418,7 @@ const Lobby = () => {
                   backgroundColor: "pink",
                 }}
               >
-                <Typography>Region: </Typography>
+                <Typography>Region: {lobby.lobbyRegion} </Typography>
               </Grid>
               {/* Map and Confirm Button */}
               <Grid
