@@ -194,6 +194,8 @@ const AddLocationForLobby = (props) => {
       // Handle the data returned by the server
 
       if (data.features[0].context[2].short_code) {
+
+
         const shortCode = data.features[0].context[2].short_code.split("-")[1];
         console.log("there is a shortcode here", shortCode); // "SO"}
 
@@ -244,7 +246,7 @@ const AddLocationForLobby = (props) => {
       );
     } catch (error) {
       // Handle any errors that occurred during the request
-      toast.error("some error occured with checking if you chose the correct region. You can still confirm any location");
+      toast.warn("Please click on a valid location in the map first");
       console.error(error);
       setCorrectAddress(true);
       await setAddress(data.features[0].place_name);
@@ -288,11 +290,11 @@ const AddLocationForLobby = (props) => {
         await api.post(`/lobbies/${lobbyId}/locations`, requestBody);
         SetUserConfirmedLocation(true);
       } else {
-        alert("You already suggested a location!");
+        toast.error("You already suggested a location!");
       }
     } catch (error) {
-      alert(
-        `Something went wrong when joining the lobby: \n${handleError(error)}`
+      toast.error(
+        `Something went wrong when confirming your location: \n${handleError(error)}`
       );
     }
   };
