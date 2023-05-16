@@ -1,20 +1,55 @@
-import {Redirect} from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
 import PropTypes from "prop-types";
 import {api} from "../../../helpers/api";
 import {useEffect, useState} from "react";
+import Spinner from "components/ui/Spinner";
 
 export const RegisterGuard = (props) => {
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
+    console.log(userId);
+    console.log(token);
+    const [toRegister, setToRegister] = useState(false);
+
+    const history = useHistory();
+
+    //useEffect(() => {
+        async function fetchData() {
+          try {
+            const response = await api.get(`/users/${userId}`);
+            console.log(response.data.token);
+
+            if(token === response.data.token) {
+                history.push("/Home"); }
+            else {
+                localStorage.removeItem("token");
+                localStorage.removeItem("userId");
+                setToRegister(true);}
+
+
+          } catch (error) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("userId");
+            console.log(error);
+            setToRegister(true);
+          }
+        }
+
+        fetchData();
+      //}, []);
+    if(toRegister) { return props.children; }
+    return <Spinner />
 
     // if user is already logged in, redirects to the main /app
-    if (userId && token) {
-        return <Redirect to="/Home"/>;
-    } else {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        return props.children;
-    }
+//    if (userId && token) {
+//        return <Redirect to="/Home"/>;
+//    } else {
+//        localStorage.removeItem("token");
+//        localStorage.removeItem("userId");
+//        return props.children;
+//    }
+
+
 
 };
 
