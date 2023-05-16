@@ -25,6 +25,9 @@ const AddLocationForEvent = (props) => {
     const canton = props.canton;
     const canton_Full_name = props.cantonFullName;
 
+    const locationError = props.locationError;
+    const setLocationError = props.setLocationError;
+
 
     const handleMapClick = (map) => {
 
@@ -133,7 +136,9 @@ const AddLocationForEvent = (props) => {
         <Box
             sx={{
                 height: 350,
-                position: 'relative'
+                position: 'relative',
+                border: 3,
+                borderColor: locationError ? 'red' : 'transparent',
             }}>
             <ReactMapGL
                 ref={mapRef}

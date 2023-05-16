@@ -9,7 +9,6 @@ import {
   Grid,
   InputLabel,
   MenuItem,
-  Paper,
   Select,
   TextField,
   Typography,
@@ -20,6 +19,8 @@ import moment from "moment";
 import dayjs from "dayjs";
 import AddLocationForEvent from "../../helpers/AddLocationForEvent";
 import { toast } from "react-toastify";
+import {InputSlider}  from "components/ui/InputSlider";
+
 
 const CreateEvent = () => {
   // Set up state variables for each input field.
@@ -30,6 +31,13 @@ const CreateEvent = () => {
   const [region, setRegion] = useState("");
   const [canton_Full_name, setCanton_Full_name] = useState("");
   const [maxParticipants, setMaxParticipants] = useState("");
+  const [eventNameError, setEventNameError] = useState(false);
+  const [eventSportError, setEventSportError] = useState(false);
+  const [eventTimeError, setEventTimeError] = useState(false);
+  const [eventRegionError, setEventRegionError] = useState(false);
+  const [eventMaxPartError, setEventMaxPartError] = useState(false);
+  const [eventLocationError, setEventLocationError] = useState(false);
+
   // Set up other variables
   const history = useHistory();
   const userId = localStorage.getItem("userId");
@@ -37,6 +45,7 @@ const CreateEvent = () => {
 
   //method to handle the location change inside the AddLocationForEvent component
   const handleLocationChange = (lng, lat, address) => {
+    setEventLocationError(false);
     const newLocation = {
       address: address,
       longitude: lng,
@@ -52,6 +61,12 @@ const CreateEvent = () => {
 
   const handleCreateEventClick = async () => {
     try {
+      if (!eventName){setEventNameError(true);}
+      if (!eventDate){setEventTimeError(true);}
+      if (!selectedSport){setEventSportError(true);}
+      if (!canton_Full_name){setEventRegionError(true);}
+      if (!location){setEventLocationError(true);}
+      if (!maxParticipants || isNaN(maxParticipants)){setEventMaxPartError(true);}
       // Validate the input fields.
       if (
         !eventName ||
@@ -116,6 +131,7 @@ const CreateEvent = () => {
   //
 
   const handleDateChange = (date) => {
+    setEventTimeError(false);
     if (date !== null) {
       // Convert the date to the desired format
       // const formattedDate = date.toISOString().slice(0, 16);
@@ -185,7 +201,11 @@ const CreateEvent = () => {
                   id="eventName"
                   placeholder="EVENT NAME"
                   value={eventName}
-                  onChange={(e) => setEventName(e.target.value)}
+                  onChange={(e) => {
+                    setEventNameError(false);
+                    setEventName(e.target.value)
+                  }}
+                  error={eventNameError}
                 />
 
                 {/* Sport */}
@@ -195,7 +215,11 @@ const CreateEvent = () => {
                   <Select
                     value={selectedSport}
                     label="Select a sport"
-                    onChange={(e) => setSelectedSport(e.target.value)}
+                    onChange={(e) =>{
+                      setEventSportError(false);
+                      setSelectedSport(e.target.value);
+                    }}
+                    error={eventSportError}
                   >
                     {sports.map((sport) => (
                       <MenuItem key={sport} value={sport}>
@@ -211,6 +235,7 @@ const CreateEvent = () => {
                 <DateTimePicker
                   value={dayjs(eventDate)}
                   onChange={handleDateChange}
+                  error={eventTimeError}
                 />
 
                 {/* Region */}
@@ -223,6 +248,7 @@ const CreateEvent = () => {
                       label="Select a region"
                       value={region}
                       onChange={(e) => {
+                        setEventRegionError(false);
                         const canton_Full_name2 = e.target.value.split(",")[0];
                         const shortCode1 = e.target.value.split(",")[1];
                         setRegion(e.target.value); // Set the entire value
@@ -231,6 +257,7 @@ const CreateEvent = () => {
                         console.log("shortCode:", shortCodeForRegion);
                         console.log("canton_Full_name:", canton_Full_name2);
                       }}
+                      error={eventRegionError}
                     >
                       <MenuItem value="Aargau,AG">Aargau</MenuItem>
                       <MenuItem value="Appenzell Innerrhoden,AI">
@@ -272,13 +299,13 @@ const CreateEvent = () => {
                 <Typography variant={"h5"}>
                   Maximum number of participants
                 </Typography>
-                <TextField
-                  type={"number"}
-                  id="maxParticipants"
-                  placeholder="MAX NR OF PARTICIPANTS"
-                  value={maxParticipants}
-                  onChange={(e) => setMaxParticipants(e.target.value)}
+                <InputSlider
+                    maxParticipants={maxParticipants}
+                    setMaxParticipants={setMaxParticipants}
+                    maxPartError={eventMaxPartError}
+                    setMaxPartError={setEventMaxPartError}
                 />
+
               </Box>
               {/* TODO: Add Choose Location */}
               <Typography variant={"h5"}>Location</Typography>
@@ -287,6 +314,8 @@ const CreateEvent = () => {
                 handleLocationChange={handleLocationChange}
                 canton={shortCodeForRegion}
                 cantonFullName={canton_Full_name}
+                locationError={eventLocationError}
+                setLocationError={setEventLocationError}
               ></AddLocationForEvent>
 
               {/* Button to create event */}

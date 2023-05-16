@@ -8,7 +8,6 @@ import {
   FormControl,
   Grid,
   MenuItem,
-  Paper,
   Select,
   TextField,
   Typography,
@@ -16,6 +15,7 @@ import {
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import { toast } from "react-toastify";
 import { CustomHeading } from "styles/development/CustomHeading";
+import {InputSlider}  from "components/ui/InputSlider";
 
 // On this page the host chooses different attributes of his lobby
 const CreateLobby = () => {
@@ -130,18 +130,19 @@ const CreateLobby = () => {
               <TextField
                 label="Lobby Name"
                 value={lobbyName}
-                onChange={(e) => setLobbyName(e.target.value)}
+                onChange={(e) => {
+                  setLobbyNameError(false);
+                  setLobbyName(e.target.value);
+                }}
                 sx={{ mt: 2 }}
                 error={lobbyNameError}
               />
 
-              <TextField
-                label="Maximum Number of Participants"
-                type={"number"}
-                value={maxParticipants}
-                onChange={(e) => setMaxParticipants(e.target.value)}
-                sx={{ mt: 2 }}
-                error={maxPartError}
+              <InputSlider
+                maxParticipants={maxParticipants}
+                setMaxParticipants={setMaxParticipants}
+                maxPartError={maxPartError}
+                setMaxPartError={setMaxPartError}
               />
 
               <Typography sx={{ mt: 2, mb: 0, alignSelf: "left" }}>
@@ -154,6 +155,7 @@ const CreateLobby = () => {
                 // id="createLobby-select"
                 value={region}
                 onChange={(e) => {
+                  setRegionError(false);
                   const canton_Full_name2 = e.target.value.split(",")[0];
                   const shortCode1 = e.target.value.split(",")[1];
                   setRegion(e.target.value); // Set the entire value
