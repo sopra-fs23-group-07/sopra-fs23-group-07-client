@@ -8,13 +8,13 @@ import background5 from "../../background5.jpg";
 
 const colors5 = {
   // primary & secondary dark MUI
-  primary: "#ce93d8",
-  secondary: "#90caf9",
+  // primary: "#ce93d8",
+  // secondary: "#90caf9",
   // primary & secondary YouTube Tutorial
   // primary: "#00adb5",
   // secondary: "#95defb",
-  // primary: "rgba(2,0,36,1)",
-  // secondary: "rgba(0,212,255,1)",
+  primary: "rgba(2,0,36,1)",
+  secondary: "rgba(0,212,255,1)",
   blueone: "rgba(2,0,36,1)",
   bluetwo: "rgba(9,9,121,1)",
   bluethree: "rgba(0,212,255,1)",
@@ -36,34 +36,59 @@ const colors5 = {
 
 // dynamic colors
 colors5.redgradient =
-  "linear-gradient(to right, rgba(255, 0, 0, 1), rgba(255, 165, 0, 1))";
+  "linear-gradient(to right, rgba(255, 0, 0, 1), rgba(255, 165, 0, 1))"; // version 1
 
 colors5.redgradientreverse =
-  "linear-gradient(to left, rgba(255, 0, 0, 1), rgba(255, 165, 0, 1))";
+  "linear-gradient(to left, rgba(255, 0, 0, 1), rgba(255, 165, 0, 1))"; // version 1
+
+// colors5.bluegradient =
+//   "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 36%, rgba(0,212,255,1) 100%)"; // version 1
 
 colors5.bluegradient =
-  "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 36%, rgba(0,212,255,1) 100%)";
+  "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 100%)"; // version 1
+
+colors5.orangegradient =
+  "linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)";
+
+// analogous colors of dominant
+colors5.violetgradient1 = "linear-gradient(to right, #A56DC9, #6D91C9)"; // sexy
+
+// triadic color to dominant
+colors5.triadicDominantGradient = "linear-gradient(to right, #C9776D, #6DC977)";
+
 // colors5.containedButtonBackground = colors5.bluetwo;
-colors5.containedButtonBackground = colors5.redgradient;
+// colors5.containedButtonBackground = colors5.redgradient; // version 1
+// colors5.containedButtonBackground = colors5.triadicDominantGradient;
+colors5.containedButtonBackground = "orange";
+// colors5.containedButtonBackground = colors5.redgradient;
+// colors5.containedButtonBackground = colors5.orangegradient;
+
+// analogous colors of dominant
+colors5.violetgradient1 = "linear-gradient(to right, #A56DC9, #6D91C9)"; // sexy
+
+// triadic color to dominant
+colors5.triadicDominantGradient = "linear-gradient(to right, #C9776D, #6DC977)";
 
 colors5.containedButtonBackgroundHover = colors5.redgradientreverse;
 colors5.containedButtonText = colors5.white;
 
 colors5.textButtonText = colors5.white;
 colors5.textButtonTextHover = "rgba(255, 165, 0, 1)";
-colors5.headerColor = colors5.bluegradient;
+colors5.headerColor = colors5.violetgradient1;
+// colors5.headerColor = colors5.bluegradient;
 
 // colors5.pageHeaders = colors5.redgradient;
 colors5.pageHeaders = "green";
 
 colors5.containerBackground = colors5.bluethree;
 colors5.background = colors5.light;
+colors5.background = colors5.black;
 
 // background pictures
 // colors5.backgroundPicture = background2;
 // colors5.backgroundPicture = background3;
 // colors5.backgroundPicture = background4;
-colors5.backgroundPicture = background5;
+colors5.backgroundPicture = background5; // version 1
 
 export const themeTwo = createTheme({
   // colors
@@ -197,6 +222,24 @@ export const themeSix = createTheme({
     bluethree: colors5.bluetwo,
   },
   components: {
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          // border:"none",
+          // background: "pink"
+        },
+      },
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          // border: 1,
+          // borderColor: "black",
+          // background: "yellow"
+        },
+      },
+    },
+
     MuiAppBar: {
       styleOverrides: {
         root: {
