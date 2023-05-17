@@ -221,14 +221,23 @@ const Lobby = () => {
         await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
         localStorage.removeItem("lobbyId");
         history.push("/Events/" + eventId);
-      } else {
+      }
+    } catch (error) {
+      toast.error(handleError(error));
+    }
+  };
+
+  const handleLeaveLobbyByButton = async (LobbyState) => {
+    try {
         const requestBody = JSON.stringify({ userId });
         await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
         localStorage.removeItem("lobbyId");
         history.push(`/Lobbies`);
       }
-    } catch (error) {
+     catch (error) {
       toast.error(handleError(error));
+      localStorage.removeItem("lobbyId");
+      history.push(`/Lobbies`);
     }
   };
 
@@ -611,7 +620,7 @@ const Lobby = () => {
               <Button
                 variant="contained"
                 color="error"
-                onClick={() => handleLeaveLobby()}
+                onClick={() => handleLeaveLobbyByButton()}
                 sx={{
                   width: "fit-content",
                   paddingLeft: "30px",

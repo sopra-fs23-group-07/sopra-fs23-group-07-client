@@ -8,6 +8,7 @@ import Select from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import {api, handleError} from "./api";
 import MenuItem from '@mui/material/MenuItem';
+import {toast} from "react-toastify";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -67,7 +68,7 @@ export default function MultipleSelectChip(props) {
 
 
         } catch (error) {
-            alert(`Something went wrong when joining the lobby: \n${handleError(error)}`);
+            toast.error(handleError(error));
         }
 
     };

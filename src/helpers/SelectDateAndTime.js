@@ -6,6 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
 import moment from 'moment';
 import {api, handleError} from "./api";
+import {toast} from "react-toastify";
 
 
 const today = new Date();
@@ -73,7 +74,7 @@ const SelectDateAndTime = (props) => {
 
 
         } catch (error) {
-            alert(`Something went wrong when joining the lobby: \n${handleError(error)}`);
+            toast.error(handleError(error));
         }
 
     };
