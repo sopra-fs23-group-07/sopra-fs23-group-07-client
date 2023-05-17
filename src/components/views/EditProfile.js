@@ -76,6 +76,7 @@ const EditProfile = () => {
     try {
       const filteredRequestBody = Object.fromEntries(
         Object.entries({
+          token,
           userId,
           username,
           password,
@@ -84,7 +85,6 @@ const EditProfile = () => {
           birthdate,
         }).filter(([_, value]) => value !== "")
       );
-      console.log(filteredRequestBody);
       await api.put(`/users/${userId}`, filteredRequestBody, {
         headers: { Authorization: `Bearer ${token}` },
       });

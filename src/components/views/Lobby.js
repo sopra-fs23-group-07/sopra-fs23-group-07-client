@@ -182,7 +182,7 @@ const Lobby = () => {
           console.log("if condition was met");
           const LobbyState = true;
           setHasExecuted(true);
-          handleLeaveLobby(LobbyState);
+          await handleLeaveLobby(LobbyState);
         } else {
           const response = await api.get("/lobbies/" + lobbyId);
           setLobby(response.data);
@@ -199,7 +199,7 @@ const Lobby = () => {
           }
 
           if (response.data.lobbyMessageDTOs.length != oldChatLength) {
-            updateScroll();
+            await updateScroll();
           }
           oldChatLength = response.data.lobbyMessageDTOs.length;
         }
@@ -217,24 +217,17 @@ const Lobby = () => {
     try {
       if (LobbyState) {
         console.log("handleLeaveLobby was called");
-        const requestBody = JSON.stringify({ userId });
+        const requestBody = JSON.stringify({userId});
         await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
         localStorage.removeItem("lobbyId");
         history.push("/Events/" + eventId);
-      }
-    } catch (error) {
-      toast.error(handleError(error));
-    }
-  };
-
-  const handleLeaveLobbyByButton = async (LobbyState) => {
-    try {
-        const requestBody = JSON.stringify({ userId });
+      } else {
+        const requestBody = JSON.stringify({userId});
         await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
         localStorage.removeItem("lobbyId");
         history.push(`/Lobbies`);
       }
-     catch (error) {
+    } catch (error) {
       toast.error(handleError(error));
       localStorage.removeItem("lobbyId");
       history.push(`/Lobbies`);
