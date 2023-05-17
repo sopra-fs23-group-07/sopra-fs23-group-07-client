@@ -177,6 +177,22 @@ const Lobby = () => {
   var oldChatLength = 0;
 
   useEffect(() => {
+    // Add a listener to show a warning when the user attempts to leave the page
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = "Are you sure you want to leave? Any unsaved changes will be lost.";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Clean up the listener when the component is unmounted
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+
+  useEffect(() => {
     async function fetchData() {
       try {
         if (eventId !== null && !hasExecuted) {
