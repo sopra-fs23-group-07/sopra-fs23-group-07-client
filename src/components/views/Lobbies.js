@@ -54,6 +54,8 @@ const Lobbies = () => {
       localStorage.setItem("lobbyId", lobbyId);
       history.push("/Lobby/" + String(lobbyId));
     } catch (error) {
+      if(error.response.status == 401 || error.response.status == 400) {
+        localStorage.clear();}
       toast.error(handleError(error));
     }
   };

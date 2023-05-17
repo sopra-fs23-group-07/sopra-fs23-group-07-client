@@ -13,7 +13,7 @@ export const RegisterGuard = (props) => {
 
     const history = useHistory();
 
-    //useEffect(() => {
+    useEffect(() => {
         async function fetchData() {
           try {
             const response = await api.get(`/users/${userId}`);
@@ -36,7 +36,7 @@ export const RegisterGuard = (props) => {
         }
 
         fetchData();
-      //}, []);
+      }, []);
     if(toRegister) { return props.children; }
     return <Spinner />
 

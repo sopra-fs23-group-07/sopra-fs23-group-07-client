@@ -75,6 +75,9 @@ const CreateLobby = () => {
 
       history.push(`/Lobby/${response.data.lobbyId}`);
     } catch (error) {
+        if(error.response.status == 401) {
+            localStorage.clear();
+            }
       toast.error(handleError(error));
     }
   };

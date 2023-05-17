@@ -41,6 +41,7 @@ const CreateEvent = () => {
   // Set up other variables
   const history = useHistory();
   const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
   const [shortCodeForRegion, setShortCodeForRegion] = useState("");
 
   //method to handle the location change inside the AddLocationForEvent component
@@ -98,6 +99,7 @@ const CreateEvent = () => {
         eventRegion: canton_Full_name,
         eventMaxParticipants: maxParticipants, // integer
         eventCreator: userId, // long
+        token: token,
       });
 
       const response = await api.post("/events", requestBody);
@@ -109,6 +111,7 @@ const CreateEvent = () => {
       // after event is generated braing user to event page.
       history.push(`/Events/${response.data.eventId}`);
     } catch (error) {
+      if(error.response.status == 401) { localStorage.clear(); }
       toast.error(handleError(error));
     }
   };

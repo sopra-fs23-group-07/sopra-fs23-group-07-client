@@ -50,6 +50,7 @@ const Lobby = () => {
   const history = useHistory(); // needed for linking
   const lobbyId = localStorage.getItem("lobbyId");
   const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
 
   const [lobby, setLobby] = useState([]);
 
@@ -217,19 +218,30 @@ const Lobby = () => {
     try {
       if (LobbyState) {
         console.log("handleLeaveLobby was called");
-        const requestBody = JSON.stringify({ userId });
+        const requestBody = JSON.stringify({
+                userId: userId,
+                token: token,
+              });
         await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
         localStorage.removeItem("lobbyId");
         history.push("/Events/" + eventId);
       }
     } catch (error) {
-      toast.error(handleError(error));
+        toast.error(handleError(error));
+        if(error.response.status == 401) {
+            localStorage.clear();
+            history.push("/Events/" + eventId);
+        }
+
     }
   };
 
   const handleLeaveLobbyByButton = async (LobbyState) => {
     try {
-        const requestBody = JSON.stringify({ userId });
+        const requestBody = JSON.stringify({
+                        userId: userId,
+                        token: token,
+                      });
         await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
         localStorage.removeItem("lobbyId");
         history.push(`/Lobbies`);
@@ -237,6 +249,7 @@ const Lobby = () => {
      catch (error) {
       toast.error(handleError(error));
       localStorage.removeItem("lobbyId");
+      if(error.response.status == 401) { localStorage.clear(); }
       history.push(`/Lobbies`);
     }
   };

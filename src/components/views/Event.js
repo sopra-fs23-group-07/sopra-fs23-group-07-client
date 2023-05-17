@@ -28,6 +28,7 @@ import {toast} from "react-toastify";
 const Event = () => {
   const eventId = useParams().eventId;
   const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
 
   const [event, setEvent] = useState([]);
   const [eventLocationDTO, setEventLocationDTO] = useState(null);
@@ -62,6 +63,7 @@ const Event = () => {
     } catch (error) {
       // setError(handleError(error));
       //   console.log(error);
+      if(error.response.status == 401) { localStorage.clear(); }
 
       if (error.response.status === 500) {
         toast.error("Please log in before you join an event.");
@@ -83,6 +85,8 @@ const Event = () => {
     } catch (error) {
       // setError(handleError(error));
       //   console.log(error);
+      if(error.response.status == 401) { localStorage.clear(); }
+
       if (error.response.status === 500) {
         toast.error("Please log in before you leave an event.");
       } else if (error.response.status === 404) {
