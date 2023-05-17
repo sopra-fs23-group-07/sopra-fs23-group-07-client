@@ -111,7 +111,7 @@ const CreateEvent = () => {
       // after event is generated braing user to event page.
       history.push(`/Events/${response.data.eventId}`);
     } catch (error) {
-      if(error.response.status == 401) { localStorage.clear(); }
+      if(error.response.status == 401) { localStorage.clear(); window.dispatchEvent(new Event("localstorage-update"))}
       toast.error(handleError(error));
     }
   };

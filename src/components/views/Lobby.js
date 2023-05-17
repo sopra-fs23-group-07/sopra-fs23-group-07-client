@@ -225,11 +225,6 @@ const Lobby = () => {
         await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
         localStorage.removeItem("lobbyId");
         history.push("/Events/" + eventId);
-      } else {
-        const requestBody = JSON.stringify({userId});
-        await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
-        localStorage.removeItem("lobbyId");
-        history.push(`/Lobbies`);
       }
     } catch (error) {
       toast.error(handleError(error));
@@ -238,6 +233,27 @@ const Lobby = () => {
       history.push(`/Lobbies`);
     }
   };
+
+  const handleLeaveLobbyByButton = async () => {
+    try {
+
+      const requestBody = JSON.stringify({
+        userId: userId,
+        token: token,
+      });
+        await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
+        localStorage.removeItem("lobbyId");
+        history.push(`/Lobbies`);
+
+    } catch (error) {
+      toast.error(handleError(error));
+      localStorage.removeItem("lobbyId");
+      if(error.response.status == 401) { localStorage.clear(); window.dispatchEvent(new Event("localstorage-update"));
+      }
+      history.push(`/Lobbies`);
+    }
+  };
+
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     borderColor: "black",

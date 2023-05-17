@@ -64,14 +64,15 @@ const Event = () => {
     } catch (error) {
       // setError(handleError(error));
       //   console.log(error);
-      if(error.response.status == 401) { localStorage.clear(); }
+      if(error.response.status == 401) { localStorage.clear(); window.dispatchEvent(new CustomEvent("localstorage-update"));
+      }
 
       if (error.response.status === 500) {
         toast.error("Please log in before you join an event.");
       } else if (error.response.status === 404) {
         toast.error("You already joined this event.");
       } else {
-        toast.error("Something went wrong.");
+        toast.error(handleError(error));;
       }
     }
   };
@@ -86,14 +87,15 @@ const Event = () => {
     } catch (error) {
       // setError(handleError(error));
       //   console.log(error);
-      if(error.response.status == 401) { localStorage.clear(); }
+      if(error.response.status == 401) { localStorage.clear(); window.dispatchEvent(new CustomEvent("localstorage-update"));
+      }
 
       if (error.response.status === 500) {
         toast.error("Please log in before you leave an event.");
       } else if (error.response.status === 404) {
         toast.error("You already left this event.");
       } else {
-        toast.error("Something went wrong.");
+        toast.error(handleError(error));;
       }
     }
   };

@@ -30,7 +30,7 @@ export const GlobalProvider = (props) => {
     }
 
     return (
-        <GlobalContext.Provider value={{token,user,setUser}}>
+        <GlobalContext.Provider value={{token,user,setUser, getUser}}>
             {props.children}
         </GlobalContext.Provider>
     );

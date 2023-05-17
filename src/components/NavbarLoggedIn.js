@@ -16,6 +16,7 @@ const NavbarLoggedIn = () => {
     const [open, setOpen] = useState(false);
     const [pushTo, setPushTo] = useState("");
     const [isLogOut, setIsLogOut] = useState(false);
+    const token = localStorage.getItem("token");
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -29,7 +30,10 @@ const NavbarLoggedIn = () => {
     const handleLeaveLobby = async () => {
         try {
             console.log("handleLeaveLobby was called");
-            const requestBody = JSON.stringify({userId});
+            const requestBody = JSON.stringify({
+                userId: userId,
+                token: token,
+            });
             await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
             localStorage.removeItem("lobbyId");
             handleClose(); // Close the dialog
@@ -41,9 +45,10 @@ const NavbarLoggedIn = () => {
 
             toast.error(handleError(error));
             localStorage.removeItem("lobbyId");
+            if(error.response.status == 401) { localStorage.clear(); }
             history.push(pushTo);
-
         }
+
     };
 
 
@@ -136,6 +141,7 @@ const NavbarLoggedIn = () => {
             console.log("handleLogoutClick was called inside try");
         } catch (error) {
             toast.error(`Something went wrong during the logout: \n${handleError(error)}`);
+            history.push("/login");
         }
     }
 
