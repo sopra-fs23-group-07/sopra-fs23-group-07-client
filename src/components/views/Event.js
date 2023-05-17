@@ -22,8 +22,9 @@ import AddLocation from "../../helpers/AddLocation";
 import Grid from "@mui/material/Grid";
 import moment from "moment";
 import LaunchIcon from "@mui/icons-material/Launch";
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import {toast} from "react-toastify";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { toast } from "react-toastify";
+import { CustomHeading } from "styles/development/CustomHeading";
 
 const Event = () => {
   const eventId = useParams().eventId;
@@ -136,123 +137,193 @@ const Event = () => {
         direction="row"
         justifyContent="center"
         alignItems="center"
+        sx={{ mt: 2 }}
       >
-        <Grid item xs={12}>
-          <Typography variant="h2">Event Details</Typography>
+        {/* Title */}
+        <Grid container sx={{ marginBottom: 4 }}>
+          <Grid
+            item
+            xs={8}
+            sx={
+              {
+                // backgroundColor: "red"
+              }
+            }
+          >
+            <Typography
+              variant="h3"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "left",
+                // marginLeft: 4,
+                color: "white",
+              }}
+            >
+              Event Details
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={4}
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              // backgroundColor: "green",
+              paddingRight: 4,
+            }}
+          >
+            <Button variant="contained" onClick={() => setOpen(true)}>
+              {/* Invite friends */}
+              Share Event with your Friends!
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={7}>
-          <TableContainer className="table-container" component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <Typography fontWeight="bold">Event Name</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography>{event.eventName}</Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Typography fontWeight="bold">Sport</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography>{event.eventSport}</Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Typography fontWeight="bold">Date</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography>
-                      {moment(event.eventDate).format("MMMM DD, YYYY h:mm A")}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Typography fontWeight="bold">Region</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography>{event.eventRegion}</Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Typography fontWeight="bold">Location</Typography>
-                  </TableCell>
-                  <TableCell>
-                    {event && event.eventLocationDTO && (
-                      <Typography>{event.eventLocationDTO.address}</Typography>
-                    )}
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Typography fontWeight="bold">Participants</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography fontWeight={"bold"}>
-                      {event.eventParticipantsCount}/
-                      {event.eventMaxParticipants}
-                    </Typography>
-                    {event.participantDTOs &&
-                      event.participantDTOs.map((participantDTO) => (
+
+        {/* Visible Box */}
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            backgroundColor: "blue",
+            // pt: 2,
+            // pb: 4,
+            // paddingX: 4,
+            p: 4,
+            background: "rgba(255, 255, 255, 0.7)",
+            borderRadius: "20px",
+            marginBottom: 2,
+          }}
+        >
+          {/* Table */}
+          <Grid item xs={12} md={7}>
+            <TableContainer className="table-container" component={Paper} sx={{background: "rgba(255,255,255,1)", border: "black solid 1px"}}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      <Typography fontWeight="bold">Event Name</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>{event.eventName}</Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Typography fontWeight="bold">Sport</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>{event.eventSport}</Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Typography fontWeight="bold">Date</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>
+                        {moment(event.eventDate).format("MMMM DD, YYYY h:mm A")}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Typography fontWeight="bold">Region</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>{event.eventRegion}</Typography>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Typography fontWeight="bold">Location</Typography>
+                    </TableCell>
+                    <TableCell>
+                      {event && event.eventLocationDTO && (
                         <Typography>
-                          <Link
-                            href={`/Profile/${participantDTO.userId}`}
-                            target={"_blank"}
-                            title={"This opens the profile page in a new tab"}
-                          >
-                            <LaunchIcon fontSize={"inherit"} />
-                            {participantDTO.username}
-                          </Link>
+                          {event.eventLocationDTO.address}
                         </Typography>
-                      ))}
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody></TableBody>
-            </Table>
-          </TableContainer>
-        </Grid>
-        <Grid item xs={12} md={5}>
-          {eventLocationDTO && (
-            <AddLocation
-              eventLocationDTO={eventLocationDTO}
-              EventPage={false}
-            />
-          )}
+                      )}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Typography fontWeight="bold">Participants</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography fontWeight={"bold"}>
+                        {event.eventParticipantsCount}/
+                        {event.eventMaxParticipants}
+                      </Typography>
+                      {event.participantDTOs &&
+                        event.participantDTOs.map((participantDTO) => (
+                          <Typography>
+                            <Link
+                              href={`/Profile/${participantDTO.userId}`}
+                              target={"_blank"}
+                              title={"This opens the profile page in a new tab"}
+                            >
+                              <LaunchIcon fontSize={"inherit"} />
+                              {participantDTO.username}
+                            </Link>
+                          </Typography>
+                        ))}
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody></TableBody>
+              </Table>
+            </TableContainer>
+          </Grid>
+          {/*  Map */}
+          <Grid item xs={12} md={5}>
+            {eventLocationDTO && (
+              <AddLocation
+                eventLocationDTO={eventLocationDTO}
+                EventPage={false}
+              />
+            )}
+          </Grid>
+
+          <Grid
+            container
+            xs={7}
+            md={2}
+            marginTop={2}
+            marginLeft={48}
+            display={"flex"}
+            direction="row"
+            justifyContent={"space-between"}
+            justifySelf={"center"}
+          >
+            <Button
+              variant="contained"
+              color="success"
+              size="large"
+              className="event button"
+              onClick={() => handleJoinEvent()}
+              // disabled={isParticipant || event.eventParticipantsCount === event.eventMaxParticipants}
+            >
+              Join
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              size="large"
+              className="event button"
+              onClick={() => handleLeaveEvent()}
+              // disabled={!isParticipant}
+            >
+              Leave
+            </Button>
+          </Grid>
         </Grid>
 
-        <Grid container xs={7} md={7} direction="row" justifyContent={"center"}>
-          <Button
-            variant="contained"
-            color="success"
-            size="large"
-            className="event button"
-            onClick={() => handleJoinEvent()}
-            // disabled={isParticipant || event.eventParticipantsCount === event.eventMaxParticipants}
-          >
-            Join
-          </Button>
-          <Button
-            variant="contained"
-            color="error"
-            size="large"
-            className="event button"
-            onClick={() => handleLeaveEvent()}
-            // disabled={!isParticipant}
-          >
-            Leave
-          </Button>
-        </Grid>
-
+        {/* Share Button & Popup */}
         <Grid container xs={5} md={5} direction="row" justifyContent="center">
-          <Button variant="contained" onClick={() => setOpen(true)}>
+          {/* <Button variant="contained" onClick={() => setOpen(true)}>
             Share Event with your Friends!
-          </Button>
+          </Button> */}
           {/* pop-up */}
           <Dialog
             maxWidth="md"
@@ -272,10 +343,10 @@ const Event = () => {
             </DialogContent>
             <DialogActions>
               <Button
-                  variant="contained"
-                  onClick={handleCopyClick}
-                  color={isCopied ? "success":"primary"}
-                  startIcon={isCopied ? <ContentCopyIcon/> : null}
+                variant="contained"
+                onClick={handleCopyClick}
+                color={isCopied ? "success" : "primary"}
+                startIcon={isCopied ? <ContentCopyIcon /> : null}
               >
                 {isCopied ? "Copied" : "Copy"}
               </Button>
