@@ -28,6 +28,133 @@ const AddLocationForEvent = (props) => {
     const locationError = props.locationError;
     const setLocationError = props.setLocationError;
 
+    const [viewState, setViewState] = useState({
+        longitude: lng,
+        latitude: lat,
+        zoom: 6,
+    });
+
+    const cantonCoordinates = {
+        'Zürich': {
+            longitude: 8.541694,
+            latitude: 47.376887,
+        },
+        'Aargau': {
+            longitude: 8.0511,
+            latitude: 47.3872,
+        },
+        'Appenzell Innerrhoden': {
+            longitude: 9.4096,
+            latitude: 47.3162,
+        },
+        'Appenzell Ausserrhoden': {
+            longitude: 9.2792,
+            latitude: 47.3663,
+        },
+        'Bern': {
+            longitude: 7.4474,
+            latitude: 46.9479,
+        },
+        'Basel-Landschaft': {
+            longitude: 7.7331,
+            latitude: 47.4417,
+        },
+        'Basel': {
+            longitude: 7.5903,
+            latitude: 47.5596,
+        },
+        'Fribourg': {
+            longitude: 7.1610,
+            latitude: 46.8022,
+        },
+        'Geneva': {
+            longitude: 6.1432,
+            latitude: 46.2044,
+        },
+        'Glarus': {
+            longitude: 9.0672,
+            latitude: 47.0404,
+        },
+        'Graubünden': {
+            longitude: 9.5309,
+            latitude: 46.6560,
+        },
+        'Jura': {
+            longitude: 7.3274,
+            latitude: 47.3446,
+        },
+        'Luzern': {
+            longitude: 8.3086,
+            latitude: 47.0502,
+        },
+        'Neuchâtel': {
+            longitude: 6.9293,
+            latitude: 46.9896,
+        },
+        'Nidwalden': {
+            longitude: 8.3889,
+            latitude: 46.9260,
+        },
+        'Obwalden': {
+            longitude: 8.2426,
+            latitude: 46.8983,
+        },
+        'St. Gallen': {
+            longitude: 9.3767,
+            latitude: 47.4239,
+        },
+        'Schaffhausen': {
+            longitude: 8.6348,
+            latitude: 47.6973,
+        },
+        'Solothurn': {
+            longitude: 7.5292,
+            latitude: 47.2074,
+        },
+        'Schwyz': {
+            longitude: 8.6537,
+            latitude: 47.0207,
+        },
+        'Thurgau': {
+            longitude: 9.1084,
+            latitude: 47.5761,
+        },
+        'Ticino': {
+            longitude: 8.9635,
+            latitude: 46.3145,
+        },
+        'Uri': {
+            longitude: 8.6444,
+            latitude: 46.8804,
+        },
+        'Vaud': {
+            longitude: 6.6358089,
+            latitude: 46.5247936,
+        },
+        'Valais': {
+            longitude: 7.4589,
+            latitude: 46.1905,
+        },
+        'Zug': {
+            longitude: 8.5174,
+            latitude: 47.1662,
+        },
+    };
+
+    useEffect(() => {
+        if (props.cantonFullName) {
+            console.log("props", props.cantonFullName)
+            // Update the view state based on the cantonFullName prop
+            const coordinates = cantonCoordinates[props.cantonFullName];
+            if (coordinates) {
+                setViewState({
+                    ...coordinates,
+                    zoom: 10, // Adjust the zoom level as needed
+                });
+            }
+        }
+    }, [props.cantonFullName]);
+
 
     const handleMapClick = (map) => {
 
@@ -49,56 +176,72 @@ const AddLocationForEvent = (props) => {
 
     const transformCoordinatesToAddress = async (lngLat) => {
         try {
-            const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat.lng},${lngLat.lat}.json?access_token=${TOKEN}`);
+            const response = await fetch(
+                `https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat.lng},${lngLat.lat}.json?access_token=${TOKEN}`
+            );
             const data = await response.json();
-            // const canton = data.features[0].context.find(context => context.id.startsWith('region')).text;
-            // console.log("this is the canton full name:", canton_Full_name); // log the canton variable
+            // Handle the data returned by the server
 
-            if (canton === "") {
-                // alert("Please select a canton first");
-                toast.error('Please select a canton first');
-            } else {
+            if (data.features[0].context[2].short_code) {
 
-                if (data.features[0].context[2].short_code) {
-                    const shortCode = data.features[0].context[2].short_code.split("-")[1];
-                    // console.log("there is a shortcode here", shortCode); // "SO"}
 
-                    if (shortCode !== props.canton) {
-                        // console.log("the short code is not the same as the canton code given")
-                        toast.error("You are in the wrong canton");
-                    } else {
-                        // console.log("there is a short code and it is correct");
-                        setCorrectAddress(true);
-                        await setAddress(data.features[0].place_name);
-                        toast.success("You successfully confirmed the location");
-                    }
+                const shortCode = data.features[0].context[2].short_code.split("-")[1];
+                console.log("there is a shortcode here", shortCode); // "SO"}
+
+                if (shortCode !== props.canton) {
+                    console.log(
+                        "the short code is not the same as the canton code given"
+                    );
+                    toast.error("Choose a region first and then set a marker in the same region you chose");
                 } else {
-                    // console.log("there is no short code here only text with region");
-                    if (data.features[0].context[2].text === props.cantonFullName) {
-                        // console.log("the text is the same as the canton full name");
+                    console.log("there is a short code and it is correct");
+                    setCorrectAddress(true);
+                    await setAddress(data.features[0].place_name);
+                    toast.success("You successfully suggested a location");
+                }
+            } else if (data.features[0].context[2].text){
+                console.log("there is no short code here only text with region");
+                if (data.features[0].context[2].text === props.cantonFullName) {
+                    console.log("the text is the same as the canton full name");
+                    setCorrectAddress(true);
+                    await setAddress(data.features[0].place_name);
+                    toast.success("You successfully suggested a location");
+                } else if(data.features[0].context[3].text)
+                {
+                    if (data.features[0].context[3].text === props.cantonFullName) {
                         setCorrectAddress(true);
                         await setAddress(data.features[0].place_name);
-                        toast.success("You successfully confirmed the location");
-                    } else {
-                        // console.log("the text is not the same as the canton full name");
-                        toast.error("You are in the wrong canton");
+                        toast.success("You successfully suggested a location");
+                    } else if(data.features[0].context[4].text)
+
+                    {
+                        if(data.features[0].context[4].text === props.cantonFullName)
+                        {
+                            setCorrectAddress(true);
+                            await setAddress(data.features[0].place_name);
+                            toast.success("You successfully suggested a location");
+                        }
+                    }
+                    else{
+                        toast.error("Choose a region first and then set a marker in the same region you chose");
                     }
                 }
-
             }
 
 
-            // console.log("Canton shortcode:", cantonShortCode);
-            // console.log("this is the data for mapbox coordinates into adress", data.features[0].place_name);
-            // console.log("this is the canton:", canton); // log the canton variable
+            console.log(
+                "this is the data for mapbox coordinates into adress",
+                data.features[0].place_name
+            );
         } catch (error) {
-            console.error(error);
-            // if (error instanceof TypeError) {
-            //     alert("You are in the wrong canton");
-            //
-            // }
+            // Handle any errors that occurred during the request
+            toast.error("Choose a region first and then set a marker in the same region you chose");
+            // console.error(error);
+            // setCorrectAddress(true);
+            // await setAddress(data.features[0].place_name);
+            // toast.success("You successfully suggested a location");
         }
-    }
+    };
 
 
     useEffect(() => {
@@ -143,11 +286,8 @@ const AddLocationForEvent = (props) => {
             <ReactMapGL
                 ref={mapRef}
                 mapboxAccessToken={process.env.REACT_APP_MAP_TOKEN}
-                initialViewState={{
-                    longitude: lng,
-                    latitude: lat,
-                    zoom: 6,
-                }}
+                {...viewState}
+                onMove={evt => setViewState(evt.viewState)}
                 mapStyle="mapbox://styles/mapbox/streets-v11"
                 onClick={handleMapClick}
             >

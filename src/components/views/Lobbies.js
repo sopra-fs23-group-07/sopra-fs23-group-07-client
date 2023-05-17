@@ -144,7 +144,7 @@ const Lobbies = () => {
             <Table>
               <TableHead>
                 <TableRow sx={{ justifyContent: "flex-start" }}>
-                  <TableCell>
+                  <TableCell style={{width:"flex"}}>
                     <Typography fontWeight="bold">Lobby name</Typography>
                   </TableCell>
                   <TableCell>
