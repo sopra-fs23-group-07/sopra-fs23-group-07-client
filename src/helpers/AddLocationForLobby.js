@@ -185,74 +185,42 @@ const AddLocationForLobby = (props) => {
     }
   };
 
+  const isCantonMatch = (context, canton, cantonFullName) => {
+    for (const item of context) {
+      if (item.short_code && item.short_code.split("-")[1] === canton) {
+        return true;
+      }
+      if (item.text === cantonFullName) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const processLocation = async (data, canton, cantonFullName) => {
+    if (isCantonMatch(data.features[0].context, canton, cantonFullName)) {
+      setCorrectAddress(true);
+      await setAddress(data.features[0].place_name);
+      toast.success("You successfully suggested a location");
+    } else {
+      toast.error("Choose a location in the region of: " + cantonFullName);
+    }
+  };
+
   const transformCoordinatesToAddress = async (lngLat) => {
     try {
       const response = await fetch(
-        `https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat.lng},${lngLat.lat}.json?access_token=${TOKEN}`
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${lngLat.lng},${lngLat.lat}.json?access_token=${TOKEN}`
       );
       const data = await response.json();
-      // Handle the data returned by the server
 
-      if (data.features[0].context[2].short_code) {
+      processLocation(data, props.canton, props.cantonFullName);
 
-
-        const shortCode = data.features[0].context[2].short_code.split("-")[1];
-        console.log("there is a shortcode here", shortCode); // "SO"}
-
-        if (shortCode !== props.canton) {
-          console.log(
-            "the short code is not the same as the canton code given"
-          );
-          toast.error("Choose a location in the region of: " + props.cantonFullName);
-        } else {
-          console.log("there is a short code and it is correct");
-          setCorrectAddress(true);
-          await setAddress(data.features[0].place_name);
-          toast.success("You successfully suggested a location");
-        }
-      } else if (data.features[0].context[2].text){
-        console.log("there is no short code here only text with region");
-        if (data.features[0].context[2].text === props.cantonFullName) {
-          console.log("the text is the same as the canton full name");
-          setCorrectAddress(true);
-          await setAddress(data.features[0].place_name);
-          toast.success("You successfully suggested a location");
-        } else if(data.features[0].context[3].text)
-        {
-            if (data.features[0].context[3].text === props.cantonFullName) {
-                setCorrectAddress(true);
-                await setAddress(data.features[0].place_name);
-              toast.success("You successfully suggested a location");
-            } else if(data.features[0].context[4].text)
-
-            {
-              if(data.features[0].context[4].text === props.cantonFullName)
-              {
-                setCorrectAddress(true);
-                await setAddress(data.features[0].place_name);
-                toast.success("You successfully suggested a location");
-              }
-            }
-            else{
-              toast.error("Choose a location in the region of: " + props.cantonFullName);
-            }
-        }
-      }
-
-
-      console.log(
-        "this is the data for mapbox coordinates into adress",
-        data.features[0].place_name
-      );
     } catch (error) {
-      // Handle any errors that occurred during the request
       toast.error("Choose a location in the region of: " + props.cantonFullName);
-      // console.error(error);
-      // setCorrectAddress(true);
-      // await setAddress(data.features[0].place_name);
-      // toast.success("You successfully suggested a location");
     }
   };
+
 
   useEffect(() => {
     if (Address && LngLat) SendLocationToServer(LngLat);
