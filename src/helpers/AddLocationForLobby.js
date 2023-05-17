@@ -247,10 +247,10 @@ const AddLocationForLobby = (props) => {
     } catch (error) {
       // Handle any errors that occurred during the request
       toast.error("Choose a location in the region of: " + props.cantonFullName);
-      console.error(error);
-      setCorrectAddress(true);
-      await setAddress(data.features[0].place_name);
-      toast.success("You successfully suggested a location");
+      // console.error(error);
+      // setCorrectAddress(true);
+      // await setAddress(data.features[0].place_name);
+      // toast.success("You successfully suggested a location");
     }
   };
 
