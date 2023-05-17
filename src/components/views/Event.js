@@ -58,6 +58,7 @@ const Event = () => {
     try {
       const requestBody = JSON.stringify({
         userId: userId,
+        token: token,
       });
       await api.put(`/events/${eventId}/join`, requestBody);
       setIsParticipant(true);
@@ -81,6 +82,7 @@ const Event = () => {
     try {
       const requestBody = JSON.stringify({
         userId: userId,
+        token: token,
       });
       await api.put(`/events/${eventId}/leave`, requestBody);
       setIsParticipant(false);
