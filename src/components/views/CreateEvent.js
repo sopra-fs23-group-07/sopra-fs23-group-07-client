@@ -141,7 +141,7 @@ const CreateEvent = () => {
 
       // const formattedDate = date;
 
-      const formattedDate = moment(date).format("YYYY-MM-DDTHH:mm:ss");
+      const formattedDate = dayjs(date).format("YYYY-MM-DDTHH:mm:ss");
 
       // const formattedDate = dayjs(date).format("YYYY-MM-DDTHH:mm:ss");
       console.log("Reached this POINT", formattedDate);
@@ -236,9 +236,21 @@ const CreateEvent = () => {
 
                 <Typography variant={"h5"}>Time</Typography>
                 <DateTimePicker
-                  value={dayjs(eventDate)}
-                  onChange={handleDateChange}
-                  error={eventTimeError}
+                    value={dayjs(eventDate)}
+                    onChange={handleDateChange}
+                    error={eventTimeError}
+                    disablePast
+                    shouldDisableTime={(timeValue, viewType) => {
+                      if (viewType === 'hours') {
+                        const now = dayjs();
+                        const selectedDate = dayjs(eventDate).set('hour', timeValue);
+
+                        if (selectedDate.isSame(now, 'day')) {
+                          return timeValue < now.hour();
+                        }
+                      }
+                      return false;
+                    }}
                 />
 
                 {/* Region */}
