@@ -130,8 +130,9 @@ const Event = () => {
         const userIds = response.data.participantDTOs.map(
           (participant) => participant.userId
         );
+        console.log("USER IDS")
         console.log(userIds);
-        setIsParticipant(userIds.includes(String(userId)));
+        setIsParticipant(userIds.includes(Number(userId)));
       } catch (error) {
         toast.error(handleError(error));
       }
@@ -309,28 +310,29 @@ const Event = () => {
         }}
       >
         <Button
-          variant="contained"
-          color="success"
-          size="large"
-          className="event button"
-          onClick={() => handleJoinEvent()}
-          // disabled={
-          //   isParticipant ||
-          //   event.eventParticipantsCount === event.eventMaxParticipants
-          // }
+            variant="contained"
+            color="success"
+            size="large"
+            className="event button"
+            onClick={() => handleJoinEvent()}
+            disabled={
+                isParticipant ||
+                (event.eventParticipantsCount >= event.eventMaxParticipants)
+            }
         >
           Join
         </Button>
         <Button
-          variant="contained"
-          color="error"
-          size="large"
-          className="event button"
-          onClick={() => handleLeaveEvent()}
-          // disabled={!isParticipant}
+            variant="contained"
+            color="error"
+            size="large"
+            className="event button"
+            onClick={() => handleLeaveEvent()}
+            disabled={!isParticipant}
         >
           Leave
         </Button>
+
       </Box>
 
       {/* pop-up */}
