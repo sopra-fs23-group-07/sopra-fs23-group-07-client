@@ -28,9 +28,8 @@ export const RegisterGuard = (props) => {
 
 
           } catch (error) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("userId");
-            console.log(error);
+              localStorage.clear();
+              window.dispatchEvent(new CustomEvent("localstorage-update"));
             setToRegister(true);
           }
         }
