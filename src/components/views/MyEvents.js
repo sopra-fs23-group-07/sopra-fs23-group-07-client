@@ -15,10 +15,14 @@ import {
   TableRow,
   Typography,
   Grid,
+  IconButton,
 } from "@mui/material";
 import AddLocation from "helpers/AddLocation";
 import moment from "moment/moment";
 import { toast } from "react-toastify";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
 const MyEvents = () => {
   // initializing variables and hooks need
@@ -93,27 +97,11 @@ const MyEvents = () => {
             My Events
           </Typography>
         </Grid>
-
-        <Grid item xs={4}>
-           {/* Stats */}
-           <Typography
-           variant="h6"
-           sx={{
-             display: "flex",
-             alignItems: "center",
-             justifyContent: "right",
-             paddingRight: 4,
-             paddingTop: 2,
-             color: "white",
-           }}
-           >
-            You are currently part of {events ? events.length : 0} events
-          </Typography>
-        </Grid>
       </Grid>
 
       {/* Visible Box */}
-      <Box
+      <Grid
+        container
         sx={{
           backgroundColor: "rgba(255, 255, 255, 0.7)",
           borderRadius: "20px",
@@ -121,41 +109,92 @@ const MyEvents = () => {
           display: "flex",
           justifyContent: "space-between",
           gap: 4,
+          minHeight: "400px",
+          
         }}
       >
         {/* Table Box */}
-        <Box sx={{ flexGrow: 1, boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)" }}>
+        <Grid
+          item
+          sx={{
+            flexGrow: 1,
+            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+          }}
+        >
           {/* Table */}
-          <Table sx={{ background: "white" }}>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <Typography fontWeight="bold">Event name</Typography>
+          <Table
+            sx={{
+              background: "white",
+              minHeight: "100%",
+              borderCollapse: "separate",
+              borderSpacing: "0 16px",
+            }}
+          >
+            <TableHead
+            >
+              <TableRow
+                sx={{
+
+                  border: "2px solid black",
+
+                  "& td, & th": {
+                    borderBottom: "0px black solid", // works
+                  },
+                }}
+              >
+                <TableCell sx={{ minWidth: 130, width: "15%" }}>
+                  <Typography fontWeight="bold">Event Name</Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ minWidth: 120, width: "25%" }}>
                   <Typography fontWeight="bold">Region</Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ minWidth: 100, width: "15%" }}>
                   <Typography fontWeight="bold">Sport</Typography>
                 </TableCell>
-                <TableCell>
-                  <Typography fontWeight="bold">
-                    Number of participants
-                  </Typography>
+                <TableCell sx={{ minWidth: 60, width: "10%" }}>
+                  <PeopleAltIcon sx={{ sizeHeight: "1.5em" }} />
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ minWidth: 180, width: "25%" }}>
                   <Typography fontWeight="bold">Date</Typography>
                 </TableCell>
-                <TableCell />
+
+                <TableCell sx={{ minWidth: 50, width: "10%" }} />
               </TableRow>
             </TableHead>
+
             <TableBody>
               {events &&
                 events.map((event) => {
                   return (
-                    <TableRow key={event.eventName}>
-                      <TableCell>{event.eventName}</TableCell>
-                      <TableCell>{event.eventRegion}</TableCell>
+                    <TableRow
+                      key={event.eventName}
+                      sx={{
+                   
+
+                        "& td, & th": {
+                          background: "rgba(165, 109, 201, 0.1)",
+                          borderTop: "2px black solid", // works
+                          borderBottom: "2px black solid", // works
+                        },
+                      }}
+                    >
+                      <TableCell sx={{ borderLeft: "0px black solid" }}>
+                        {event.eventName}
+                      </TableCell>
+                      <TableCell>
+                        <IconButton
+                          variant="contained"
+                          onClick={() => {
+                            setFlyToLocation({
+                              latitude: event.eventLocationDTO.latitude,
+                              longitude: event.eventLocationDTO.longitude,
+                            });
+                          }}
+                        >
+                          <LocationOnIcon />
+                        </IconButton>
+                        {" " + event.eventRegion}
+                      </TableCell>
                       <TableCell>{event.eventSport}</TableCell>
                       <TableCell>
                         {event.eventParticipantsCount}/
@@ -165,24 +204,12 @@ const MyEvents = () => {
                         {moment(event.eventDate).format("MMMM DD, YYYY h:mm A")}
                       </TableCell>
 
-                      <TableCell>
-                        <Button
+                      <TableCell sx={{ borderRight: "0px black solid" }}>
+                        <IconButton
                           onClick={() => handleViewEventClick(event.eventId)}
                         >
-                          View
-                        </Button>
-                        <Button
-                        variant="contained"
-                          // fly to the location (TODO: Check as soon as Backend has implemented eventLocationDTO in EventGetDTO)
-                          onClick={() => {
-                            setFlyToLocation({
-                              latitude: event.eventLocationDTO.latitude,
-                              longitude: event.eventLocationDTO.longitude,
-                            });
-                          }}
-                        >
-                          Show on Map
-                        </Button>
+                          <VisibilityIcon />
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   );
@@ -192,10 +219,11 @@ const MyEvents = () => {
               }
             </TableBody>
           </Table>
-        </Box>
+        </Grid>
 
         {/* Map */}
-        <Box
+        <Grid
+          item
           sx={{
             width: "30%",
             boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
@@ -216,9 +244,10 @@ const MyEvents = () => {
               }}
             />
           )}
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     </BaseContainer>
+
   );
 };
 

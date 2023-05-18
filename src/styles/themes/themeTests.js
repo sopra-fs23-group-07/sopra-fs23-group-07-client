@@ -65,6 +65,8 @@ colors5.containedButtonBackground = "orange";
 
 // analogous colors of dominant
 colors5.violetgradient1 = "linear-gradient(to right, #A56DC9, #6D91C9)"; // sexy
+colors5.violetgradient1reverse = "linear-gradient(to left, #A56DC9, #6D91C9)"; // sexy
+
 
 // triadic color to dominant
 colors5.triadicDominantGradient = "linear-gradient(to right, #C9776D, #6DC977)";
@@ -84,6 +86,9 @@ colors5.containerBackground = colors5.bluethree;
 colors5.background = colors5.light;
 colors5.background = colors5.black;
 
+colors5.iconButtonBackground = colors5.violetgradient1;
+colors5.iconButtonSymbol = "orange"; // gradient doesn't work
+colors5.iconButtonBackgroundHover = colors5.violetgradient1reverse;
 // background pictures
 // colors5.backgroundPicture = background2;
 // colors5.backgroundPicture = background3;
@@ -222,6 +227,36 @@ export const themeSix = createTheme({
     bluethree: colors5.bluetwo,
   },
   components: {
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          background: colors5.iconButtonBackground,
+          color: colors5.iconButtonSymbol,
+          // transform: "translate(0,0)",
+          // transition: "transform 0.2s",
+          transition: "background 0.2s",
+
+          // "&:before": {
+            
+          //   position: "absolute",
+          //   height: "100%",
+          //   width: "100%",
+          //   background: "hsl(0, 0%, 5%)",
+          //   border: "2px solid white",
+          //   top: "0",
+          //   left: "0",
+          // },
+          
+          "&:hover": {
+            // color: "blue", // change hover
+            // border: "1px black solid",
+            // transform: "translate(5%, 5%)",
+            background: colors5.iconButtonBackgroundHover,
+          },
+        },
+      },
+    },
+
     MuiTableCell: {
       styleOverrides: {
         root: {

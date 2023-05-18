@@ -56,7 +56,7 @@ import soccer from "../../soccer.jpg";
 export default function ResponsiveLayout() {
   return (
     <>
-    {/* final version */}
+      {/* final version */}
       <BaseContainer>
         {/* white box */}
         <Box
@@ -70,7 +70,9 @@ export default function ResponsiveLayout() {
           }}
         >
           {/* Table Box */}
-          <Box sx={{ flexGrow: 1, boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.3)' }}>
+          <Box
+            sx={{ flexGrow: 1, boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.7)" }}
+          >
             {/* Table */}
             <Table sx={{ minWidth: 300, background: "white" }}>
               <TableHead>
@@ -88,126 +90,134 @@ export default function ResponsiveLayout() {
               </TableBody>
             </Table>
           </Box>
-          <Box sx={{width: "30%", boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.3)'}}>
+          <Box
+            sx={{
+              width: "30%",
+              boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+              background: "brown",
+            }}
+          >
             Map
           </Box>
         </Box>
       </BaseContainer>
 
-{/* test versions */}
       <BaseContainer>
-        {/* white box */}
-        <Box
-          sx={{
-            backgroundColor: "rgba(255, 255, 255, 0.7)",
-            borderRadius: "20px",
-            padding: 4,
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 4,
-          }}
-        >
-          {/* table container */}
-          <Box sx={{ flexGrow: 1,boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.7)' }}>
-            {/* table */}
-            <TableContainer sx={{ background: "white" }}>
-              <Table>
-                <TableBody>
-                  {/* Placeholder rows */}
-                  {Array.from(Array(6).keys()).map((index) => (
-                    <TableRow key={index}>
-                      <TableCell>Placeholder</TableCell>
-                      <TableCell>Placeholder</TableCell>
-                      <TableCell>Placeholder</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Box>
+        {" "}
+        <Box sx={{ backgroundColor: "#F0F0F0", padding: 2, mt: 4 }}>
+          <Box sx={{ border: "1px solid #000000", padding: 2 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} md={12} sx={{ backgroundColor: "yellow" }}>
+                <TableContainer>
+                  <Table
+                    sx={{ borderCollapse: "separate", borderSpacing: "0 8px" }} // sacing
+                  >
+                    <TableHead>
+                      <TableRow
+                        sx={
+                          {
+                            // borderBottom: "3px solid green", // doesn't work
+                            // background: "red", // works
+                          }
+                        }
+                      >
+                        <TableCell style={{ minWidth: 100, width: "15%" }}>
+                          Player
+                        </TableCell>
+                        <TableCell style={{ minWidth: 200, width: "30%" }}>
+                          Sport
+                        </TableCell>
+                        <TableCell style={{ minWidth: 150, width: "20%" }}>
+                          Time
+                        </TableCell>
+                        <TableCell style={{ minWidth: 80, width: "15%" }}>
+                          13:37
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
 
-          {/* Map container */}
-          <Box
-            sx={{
-              width: "30%",
-              //  height: "100%",
-              background: "orange",
-              boxShadow: '0px 2px 16px rgba(0, 0, 0, 0.5)'
-            }}
-          >
-            {/* <img
-            src="background1.jpg"
-            alt="Your Image"
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-          /> */}
-            <Box sx={{ background: "red" }}>Map</Box>
+                    <TableBody
+                      sx={{
+                        "& > .MuiTableRow-root": {
+                          // border: "3px solid black",
+                          // borderWidth: "2px 2px 2px 2px",
+                          // background: "red",
+                        },
+                      }}
+                    >
+                      {/* Placeholder rows */}
+                      {Array.from(Array(6).keys()).map((index) => (
+                        <TableRow
+                          key={index}
+                          sx={{
+                            "& td, & th": {
+                              // padding: "8px",
+                              background: "lightblue", // works
+                              borderTop: "3px black solid", // works
+                              borderBottom: "3px black solid", // works
+                            },
+                          }}
+                        >
+                          <TableCell
+                            sx={{
+                              whiteSpace: "nowrap",
+                              borderLeft: "3px black solid", // works
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              // sx={{
+                              //                       // "& TableCell": { background: "green" },
+                              //                       "&& .MuiTableCell-root": {
+                              //                         backgroundColor: "yellow",
+                              //                         fontWeight: "bold",
+                              //                         alignItems: "flex-start",
+                              //                         justifyContent: "right",
+                              //                       },
+                            }}
+                          >
+                            Placeholder Placeholder Placeholder Placeholder
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            Placeholder Placeholder Placeholder Placeholder
+                            Placeholder Placeholder
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              // border: "1px black solid",
+                              // borderWeight: "0px 3px 0px 0px",
+                              // borderTop: "3px black solid", // works
+                              // borderBottom: "3px black solid", // works
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            Placeholder Placeholder Placeholder Placeholder
+                            Placeholder
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                            }}
+                          >
+                            Placeholder Placeholder
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
-        {/* // version 2 */}
-
-        {/* <Container
-        maxWidth="md"
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "100vh",
-          // backgroundColor: theme.palette.background.default,
-        }}
-      > */}
-        {/* Whitecontainer */}
-        <Box
-          sx={{
-            borderRadius: "20px",
-            backgroundColor: "rgba(255, 255, 255, 0.7)",
-            display: "flex",
-            padding: 2,
-          }}
-        >
-          <Box
-            sx={{
-              flexGrow: 1,
-            }}
-          >
-            <Table sx={{ minWidth: 300, background: "white" }}>
-              <TableHead>
-                <TableRow>{/* Add table header cells here */}</TableRow>
-              </TableHead>
-              <TableBody>
-                {/* Placeholder rows */}
-                {Array.from(Array(6).keys()).map((index) => (
-                  <TableRow key={index}>
-                    <TableCell>Placeholder</TableCell>
-                    <TableCell>Placeholder</TableCell>
-                    <TableCell>Placeholder</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              padding: 2,
-              marginLeft: 2,
-              background: "red",
-
-              // height: "100%",
-              width: "30%",
-            }}
-          >
-            {/* <img
-              src={soccer}
-              alt="example"
-              style={{ maxHeight: "50%" }} */}
-            {/* // <img src={soccer} alt="soccer" style={{ maxWidth: "80%" }} /> */}
-            {/* /> */}
-            <Box>Map</Box>
-          </Box>
-        </Box>
-        {/* </Container> */}
       </BaseContainer>
     </>
   );

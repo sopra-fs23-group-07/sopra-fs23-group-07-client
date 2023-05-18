@@ -19,8 +19,7 @@ import moment from "moment";
 import dayjs from "dayjs";
 import AddLocationForEvent from "../../helpers/AddLocationForEvent";
 import { toast } from "react-toastify";
-import {InputSlider}  from "components/ui/InputSlider";
-
+import { InputSlider } from "components/ui/InputSlider";
 
 const CreateEvent = () => {
   // Set up state variables for each input field.
@@ -62,19 +61,30 @@ const CreateEvent = () => {
 
   const handleCreateEventClick = async () => {
     try {
-      if (!eventName){setEventNameError(true);}
-      if (!eventDate){setEventTimeError(true);}
-      if (!selectedSport){setEventSportError(true);}
-      if (!canton_Full_name){setEventRegionError(true);}
-      if (!location){setEventLocationError(true);}
-      if (!maxParticipants || isNaN(maxParticipants)){setEventMaxPartError(true);}
+      if (!eventName) {
+        setEventNameError(true);
+      }
+      if (!eventDate) {
+        setEventTimeError(true);
+      }
+      if (!selectedSport) {
+        setEventSportError(true);
+      }
+      if (!canton_Full_name) {
+        setEventRegionError(true);
+      }
+      if (!location) {
+        setEventLocationError(true);
+      }
+      if (!maxParticipants || isNaN(maxParticipants)) {
+        setEventMaxPartError(true);
+      }
       // Validate the input fields.
       if (
         !eventName ||
         !selectedSport ||
         !eventDate ||
-        location &&
-        !canton_Full_name ||
+        (location && !canton_Full_name) ||
         !maxParticipants ||
         isNaN(maxParticipants)
       ) {
@@ -83,10 +93,10 @@ const CreateEvent = () => {
         return;
       }
 
-      if(
-          !location
-      ){
-        toast.error("Please click on the map to add a location in the region you chose");
+      if (!location) {
+        toast.error(
+          "Please click on the map to add a location in the region you chose"
+        );
       }
 
       // send event to backend (TODO: Make sure all are strings )
@@ -117,12 +127,14 @@ const CreateEvent = () => {
       // after event is generated braing user to event page.
       history.push(`/Events/${response.data.eventId}`);
     } catch (error) {
-      if(error.response.status == 401) { localStorage.clear(); window.dispatchEvent(new Event("localstorage-update"))}
-      if(error.response.status == 400) {}
-      else{
+      if (error.response.status == 401) {
+        localStorage.clear();
+        window.dispatchEvent(new Event("localstorage-update"));
+      }
+      if (error.response.status == 400) {
+      } else {
         toast.error(handleError(error));
       }
-
     }
   };
 
@@ -174,6 +186,7 @@ const CreateEvent = () => {
     <>
       <BaseContainer>
         <Grid container direction="column" alignItems="center">
+          {/* title */}
           <Grid item>
             <Typography
               variant={"h3"}
@@ -184,7 +197,9 @@ const CreateEvent = () => {
               Create Event
             </Typography>
           </Grid>
+
           <Grid item container justifyContent="center">
+            {/* Visible Box */}
             <Grid
               item
               justifyContent="center"
@@ -192,85 +207,61 @@ const CreateEvent = () => {
                 paddingY: 10,
                 paddingX: 4,
                 mt: 2,
-                maxWidth: 1200,
+                maxWidth: 800,
                 flexGrow: 1,
                 background: "rgba(255, 255, 255, 0.7)",
-                border: "2px black solid",
                 borderRadius: "20px",
               }}
             >
+              {/* All form fields */}
               <Box
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  width: "50%",
+                  width: "70%",
                   margin: "0 auto",
                 }}
               >
                 {/* Event Name */}
-                <Typography variant={"h5"}>Event Name</Typography>
+                {/* <Typography variant={"h5"}>Event Name</Typography> */}
                 <TextField
-                  sx={{ mt: 2, mb: 4 }}
-                  id="eventName"
-                  placeholder="EVENT NAME"
+                  sx={{ mt: 2 }}
+                  // id="eventName"
+                  label="Event Name"
                   value={eventName}
                   onChange={(e) => {
                     setEventNameError(false);
-                    setEventName(e.target.value)
+                    setEventName(e.target.value);
                   }}
                   error={eventNameError}
                 />
 
-                {/* Sport */}
-                <Typography variant={"h5"}>Sport</Typography>
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
-                  <InputLabel>SPORT</InputLabel>
-                  <Select
-                    value={selectedSport}
-                    label="Select a sport"
-                    onChange={(e) =>{
-                      setEventSportError(false);
-                      setSelectedSport(e.target.value);
-                    }}
-                    error={eventSportError}
-                  >
-                    {sports.map((sport) => (
-                      <MenuItem key={sport} value={sport}>
-                        {sport}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-
-                {/* Select Time */}
-
-                <Typography variant={"h5"}>Time</Typography>
-                <DateTimePicker
-                    value={dayjs(eventDate)}
-                    onChange={handleDateChange}
-                    error={eventTimeError}
-                    disablePast
-                    shouldDisableTime={(timeValue, viewType) => {
-                      if (viewType === 'hours') {
-                        const now = dayjs();
-                        const selectedDate = dayjs(eventDate).set('hour', timeValue);
-
-                        if (selectedDate.isSame(now, 'day')) {
-                          return timeValue < now.hour();
-                        }
-                      }
-                      return false;
-                    }}
-                />
-
-                {/* Region */}
-                <Typography variant={"h5"}>Region</Typography>
+        {/* Region */}
+        <Typography
+                  variant={"h5"}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mt: 2
+                  }}
+                >
+                  Region
+                </Typography>
                 <Box sx={{ minWidth: 240 }}>
-                  <FormControl fullWidth>
-                    <InputLabel>REGION</InputLabel>
+                  <FormControl sx={{ width: "100%" }}>
+                    {/* <InputLabel
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      Region
+                    </InputLabel> */}
                     <Select
-                      sx={{ mt: 2, mb: 4 }}
-                      label="Select a region"
+                      sx={{ mt: 2 }}
+                      // label="Region"
                       value={region}
                       onChange={(e) => {
                         setEventRegionError(false);
@@ -321,47 +312,97 @@ const CreateEvent = () => {
                 </Box>
 
                 {/* MaxParticipants */}
-                <Typography variant={"h5"}>
+                {/* <Typography variant={"h5"}>
                   Maximum number of participants
-                </Typography>
+                </Typography> */}
                 <InputSlider
-                    maxParticipants={maxParticipants}
-                    setMaxParticipants={setMaxParticipants}
-                    maxPartError={eventMaxPartError}
-                    setMaxPartError={setEventMaxPartError}
+                  maxParticipants={maxParticipants}
+                  setMaxParticipants={setMaxParticipants}
+                  maxPartError={eventMaxPartError}
+                  setMaxPartError={setEventMaxPartError}
                 />
 
-              </Box>
-              {/* TODO: Add Choose Location */}
-              <Typography variant={"h5"}>Location</Typography>
-              {/* Map to put location */}
-              <AddLocationForEvent
-                handleLocationChange={handleLocationChange}
-                canton={shortCodeForRegion}
-                cantonFullName={canton_Full_name}
-                locationError={eventLocationError}
-                setLocationError={setEventLocationError}
-              ></AddLocationForEvent>
+                {/* Sport */}
+                {/* <Typography variant={"h5"}>Sport</Typography> */}
+                <FormControl sx={{ mt: 2 }}>
+                  <InputLabel>Sport</InputLabel>
+                  <Select
+                    value={selectedSport}
+                    onChange={(e) => {
+                      setEventSportError(false);
+                      setSelectedSport(e.target.value);
+                    }}
+                    error={eventSportError}
+                  >
+                    {sports.map((sport) => (
+                      <MenuItem key={sport} value={sport}>
+                        {sport}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
 
-              {/* Button to create event */}
-              <Button
-                variant="contained"
-                sx={{
-                  //   m: 80,
-                  marginTop: "5000px",
-                  p: 2,
-                  display: "flex",
-                  //   flexDirection: "column",
-                  //   width: "30%",
-                  margin: "0 auto",
-                  justifySelf: "center",
-                  alignSelf: "center",
-                }}
-                onClick={() => handleCreateEventClick()}
-                startIcon={<AddBoxOutlinedIcon />}
-              >
-                Create Event
-              </Button>
+                {/* Select Time */}
+                <Typography variant={"h5"}>Time</Typography>
+                <DateTimePicker
+                  value={dayjs(eventDate)}
+                  onChange={handleDateChange}
+                  error={eventTimeError}
+                  disablePast
+                  shouldDisableTime={(timeValue, viewType) => {
+                    if (viewType === "hours") {
+                      const now = dayjs();
+                      const selectedDate = dayjs(eventDate).set(
+                        "hour",
+                        timeValue
+                      );
+
+                      if (selectedDate.isSame(now, "day")) {
+                        return timeValue < now.hour();
+                      }
+                    }
+                    return false;
+                  }}
+                />
+
+        
+
+                {/* Location */}
+                <Typography
+                  variant={"h5"}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  Location
+                </Typography>
+                {/* Map to put location */}
+                <AddLocationForEvent
+                  handleLocationChange={handleLocationChange}
+                  canton={shortCodeForRegion}
+                  cantonFullName={canton_Full_name}
+                  locationError={eventLocationError}
+                  setLocationError={setEventLocationError}
+                ></AddLocationForEvent>
+
+                {/* Button to create event */}
+                <Button
+                  variant="contained"
+                  sx={{
+                    marginTop: 2,
+                    p: 2,
+                    display: "flex",
+                    justifySelf: "center",
+                    alignSelf: "center",
+                  }}
+                  onClick={() => handleCreateEventClick()}
+                  startIcon={<AddBoxOutlinedIcon />}
+                >
+                  Create Event
+                </Button>
+              </Box>
             </Grid>
           </Grid>
         </Grid>
