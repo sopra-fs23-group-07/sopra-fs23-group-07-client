@@ -26,6 +26,7 @@ import LaunchIcon from "@mui/icons-material/Launch";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { toast } from "react-toastify";
 import { CustomHeading } from "styles/development/CustomHeading";
+import ShareButtons from "../ui/ShareButtons";
 
 const Event = () => {
   const eventId = useParams().eventId;
@@ -353,6 +354,7 @@ const Event = () => {
           />
         </DialogContent>
         <DialogActions>
+          <ShareButtons/>
           <Button
             variant="contained"
             onClick={handleCopyClick}

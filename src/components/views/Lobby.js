@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import BaseContainer from "components/ui/BaseContainer";
+import ShareButtons from "components/ui/ShareButtons";
 import {
   Button,
-  Box,
   Dialog,
   DialogActions,
   DialogContent,
@@ -11,7 +11,6 @@ import {
   FormGroup,
   Grid,
   Link,
-  Paper,
   Switch,
   Table,
   TableBody,
@@ -29,7 +28,6 @@ import { useHistory } from "react-router-dom";
 import SelectDateAndTime from "../../helpers/SelectDateAndTime";
 import AddLocationForLobby from "../../helpers/AddLocationForLobby";
 import VotingForLocations from "../../helpers/VotingForLocations";
-import LaunchIcon from "@mui/icons-material/Launch";
 import Schedule from "@mui/icons-material/Schedule";
 import moment from "moment/moment";
 import HelpOutline from "@mui/icons-material/HelpOutline";
@@ -987,6 +985,7 @@ Old Code below
                 />
               </DialogContent>
               <DialogActions>
+                <ShareButtons/>
                 <Button
                   variant="contained"
                   onClick={handleCopyClick}
