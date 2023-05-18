@@ -28,9 +28,11 @@ export const ProfileGuard = (props) => {
             else {
                 localStorage.removeItem("token");
                 localStorage.removeItem("userId");
-                history.push("/Login");}
+                history.push("/Login");
                 window.dispatchEvent(new CustomEvent("localstorage-update"));
-              toast.error("You could not be authenticated. Please log in or register.");
+                toast.error("You could not be authenticated. Please log in or register.");
+            }
+
 
 
           } catch (error) {
