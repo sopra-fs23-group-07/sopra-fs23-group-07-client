@@ -282,6 +282,9 @@ const AddLocationForEvent = (props) => {
                     Confirm Location
                 </Button>
             </div>
+            <div>
+                <p>{Address}</p>
+            </div>
 
         </Box>
     )

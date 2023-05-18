@@ -185,6 +185,7 @@ const EditProfile = () => {
                 value={birthdate}
                 onChange={(value) => handleBirthdateInputChange(value)}
                 sx={{ mt: 2 }}
+                disableFuture
               />
             </LocalizationProvider>
 
