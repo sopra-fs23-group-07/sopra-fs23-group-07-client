@@ -1,20 +1,15 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import BaseContainer from "components/ui/BaseContainer";
 import { useHistory } from "react-router-dom";
-import {
-  Button,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Button, Box, Grid, Paper, Typography } from "@mui/material";
 import AddLocation from "helpers/AddLocation";
 import { api, handleError } from "helpers/api";
-import Grid from "@mui/material/Grid";
 import moment from "moment/moment";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
-import {toast} from "react-toastify";
-import { DataGrid } from '@mui/x-data-grid';
+import { toast } from "react-toastify";
+import { DataGrid } from "@mui/x-data-grid";
 import { RenderActions } from "components/ui/RenderActions";
-import {CustomNoRowsOverlay} from "components/ui/CustomNoRowsOverlay";
+import { CustomNoRowsOverlay } from "components/ui/CustomNoRowsOverlay";
 
 // page where all events are listed
 const Events = () => {
@@ -25,7 +20,7 @@ const Events = () => {
 
   const handleCreateEventClick = () => {
     if (
-      (localStorage.getItem("token") !== "null") &&
+      localStorage.getItem("token") !== "null" &&
       localStorage.getItem("token")
     ) {
       history.push("/CreateEvent");
@@ -34,7 +29,6 @@ const Events = () => {
     }
   };
 
-
   // fetch data from backend (each second) and save all events
   useEffect(() => {
     async function fetchData() {
@@ -42,7 +36,6 @@ const Events = () => {
         const response = await api.get(`/events`);
 
         setEvents(response.data);
-
       } catch (error) {
         toast.error(handleError(error));
       }
@@ -57,52 +50,52 @@ const Events = () => {
 
   const columns = [
     {
-      field: 'id',
-      headerName: 'ID',
-      width:50
+      field: "id",
+      headerName: "ID",
+      width: 50,
     },
     {
-      field: 'eventName',
-      headerName : 'Event Name',
-      width:120,
-      flex:1,
+      field: "eventName",
+      headerName: "Event Name",
+      width: 120,
+      flex: 1,
     },
     {
-      field: 'eventRegion',
-      headerName: 'Region',
-      width:100,
-      flex: 1
+      field: "eventRegion",
+      headerName: "Region",
+      width: 100,
+      flex: 1,
     },
     {
-      field: 'eventSport',
-      headerName: 'Sport',
-      width:100
+      field: "eventSport",
+      headerName: "Sport",
+      width: 100,
     },
     {
-      field: 'eventParticipantsCount',
-      headerName: 'Number of\nParticipants',
-      width:100,
-      flex: 1
+      field: "eventParticipantsCount",
+      headerName: "Number of\nParticipants",
+      width: 100,
+      flex: 1,
     },
     {
-      field: 'eventDate',
-      headerName: 'Date',
-      width :180,
-      flex: 2
+      field: "eventDate",
+      headerName: "Date",
+      width: 180,
+      flex: 2,
     },
     {
-      field: 'actions',
-      headerName: 'Actions',
+      field: "actions",
+      headerName: "Actions",
       width: 100,
       renderCell: (props) => {
         return (
-            <RenderActions
-              eventId={props.id}
-              flyToLocation={flyToLocation}
-              setFlyToLocation={setFlyToLocation}
-              latitude={props.row.eventLatitude}
-              longitude={props.row.eventLongitude}
-            />
+          <RenderActions
+            eventId={props.id}
+            flyToLocation={flyToLocation}
+            setFlyToLocation={setFlyToLocation}
+            latitude={props.row.eventLatitude}
+            longitude={props.row.eventLongitude}
+          />
         );
       },
     },
@@ -111,37 +104,53 @@ const Events = () => {
   let rows;
 
   if (events) {
-    rows = events.map(event => {
+    rows = events.map((event) => {
       return {
         id: event.eventId,
         eventName: event.eventName,
         eventRegion: event.eventRegion,
         eventSport: event.eventSport,
-        eventParticipantsCount: String(event.eventParticipantsCount) + "/" + String(event.eventMaxParticipants),
+        eventParticipantsCount:
+          String(event.eventParticipantsCount) +
+          "/" +
+          String(event.eventMaxParticipants),
         eventMaxParticipants: event.eventMaxParticipants,
         eventDate: moment(event.eventDate).format("MMMM DD, YYYY h:mm A"),
         eventLatitude: event.eventLocationDTO.latitude,
-        eventLongitude: event.eventLocationDTO.longitude
+        eventLongitude: event.eventLocationDTO.longitude,
       };
     });
   } else {
     rows = [];
   }
 
-
   return (
-    <BaseContainer className="lobby">
-      <Grid container spacing={2}>
-        {/* Header */}
-        <Grid item xs={12}>
-          <Typography variant={"h3"}>Events</Typography>
+    <BaseContainer>
+     
+      {/* Title */}
+      <Grid container sx={{ marginBottom: 4 }}>
+        <Grid item xs={8}>
+          <Typography
+            variant="h3"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "left",
+              marginLeft: 4,
+              color: "white",
+            }}
+          >
+            Events
+          </Typography>
         </Grid>
-        {/* Create Event Button */}
         <Grid
-          container
-          direction="row"
-          justifyContent="flex-end"
-          alignItems="center"
+          item
+          xs={4}
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            paddingRight: 4,
+          }}
         >
           <Button
             variant="contained"
@@ -151,59 +160,86 @@ const Events = () => {
             Create New Event
           </Button>
         </Grid>
-        <Grid item xs={12} md={8} >
-          <Paper sx={{height:"100%"}}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: {
-                    pageSize: 5,
-                  },
-                },
-                columns: {
-                  columnVisibilityModel: {
-                    id: false,
-                  },
-                },
-              }}
-              pageSizeOptions={[5]}
-              disableRowSelectionOnClick
-              slots={{
-                noRowsOverlay: CustomNoRowsOverlay,
-              }}
-              //sx only used for text wrapping and header styling
-              sx={{
-                "& .MuiDataGrid-columnHeaderTitle": {
-                  whiteSpace: "normal",
-                  lineHeight: "normal",
-                  fontWeight: "bold"
+      </Grid>
 
+      {/* Visible Box */}
+      <Box
+        sx={{
+          backgroundColor: "rgba(255, 255, 255, 0.7)",
+          borderRadius: "20px",
+          padding: 4,
+          display: "flex",
+          justifyContent: "space-between",
+          gap: 4,
+        }}
+      >
+        {/* Table Box */}
+        <Box sx={{ flexGrow: 1, boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)" }}>
+          {/* Table */}
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 5,
                 },
-                "& .MuiDataGrid-columnHeader": {
-                  // Forced to use important since overriding inline styles
-                  height: "unset !important"
+              },
+              columns: {
+                columnVisibilityModel: {
+                  id: false,
                 },
-                "& .MuiDataGrid-columnHeaders": {
-                  // Forced to use important since overriding inline styles
-                  maxHeight: "168px !important"
-                }
-              }}
-              />
-          </Paper>
-        </Grid>
+              },
+            }}
+            pageSizeOptions={[5]}
+            disableRowSelectionOnClick
+            slots={{
+              noRowsOverlay: CustomNoRowsOverlay,
+            }}
+            //sx only used for text wrapping and header styling
+            sx={{
+              background: "white",
+              "& .MuiDataGrid-columnHeaderTitle": {
+                whiteSpace: "normal",
+                lineHeight: "normal",
+                fontWeight: "bold",
+              },
+              "& .MuiDataGrid-columnHeader": {
+                // Forced to use important since overriding inline styles
+                height: "unset !important",
+              },
+              "& .MuiDataGrid-columnHeaders": {
+                // Forced to use important since overriding inline styles
+                maxHeight: "168px !important",
+              },
+            }}
+          />
+        </Box>
+        
         {/* Map */}
-        <Grid item xs={12} md={4}>
+        <Box
+          sx={{
+            width: "30%",
+            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+            position: "relative",
+          }}
+        >
           {events && (
             <AddLocation
               flyToLocation={flyToLocation}
               events_passed={events}
               EventPage={true}
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+              }}
             />
           )}
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </BaseContainer>
   );
 };
