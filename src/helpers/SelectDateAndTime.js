@@ -100,6 +100,7 @@ const SelectDateAndTime = (props) => {
                         onChange={(date) => setStartDate(date)}
                         showTimeSelect
                         timeIntervals={30}
+                        minDate={new Date()}
                         maxDate={new Date(today.setDate(today.getDate() + 5))} // 5 days from now
                         filterTime={filterPassedTime}
                         dateFormat="MMMM d, yyyy h:mm aa"
