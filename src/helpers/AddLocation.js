@@ -64,7 +64,7 @@ const AddLocation = (props) => {
     return (
         <Box
             sx={{
-                height: 350,
+                height: "100%",
                 position: 'relative'
             }}>
 
@@ -78,6 +78,7 @@ const AddLocation = (props) => {
                 }}
 
                 mapStyle="mapbox://styles/mapbox/streets-v11"
+                style={{ width: "100%", height: "100%" }}
             >
 
                 {props.events_passed && list_of_coordinates.map((coordinate, index) => (
