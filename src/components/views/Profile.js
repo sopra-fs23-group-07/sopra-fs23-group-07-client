@@ -1,7 +1,23 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 import BaseContainer from "../ui/BaseContainer";
-import {Avatar, Badge, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Paper, Table, TableCell, TableContainer, TableRow, Typography} from "@mui/material";
+import Spinner from "../ui/Spinner";
+import {
+    Avatar,
+    Badge,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Grid,
+    Paper,
+    Table,
+    TableCell,
+    TableContainer,
+    TableRow,
+    Typography
+} from "@mui/material";
 import {api, handleError} from "../../helpers/api";
 import {useHistory, useParams} from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
@@ -24,6 +40,9 @@ const Profile = () => {
     const [user, setUser] = useState([]);
     const [avatar, setAvatar] = useState(avatars[0]); // Initial avatar is the first in the list
     const [open, setOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [noUser, setNoUser] = useState(false);
+
 
     const handleAvatarChange = (index) => {
         const fetchData = async () => {
@@ -53,20 +72,13 @@ const Profile = () => {
                 const response = await api.get("/users/" + userId)
 
                 setUser(response.data);
-                console.log("AVATAR")
-                console.log(avatar);
-                console.log(response.data.avatar)
-                console.log(avatars[user.avatar])
                 setAvatar(avatars[response.data.avatar]);
-                console.log(avatar)
+                setIsLoading(false);
 
-                console.log("request to:", response.request.responseURL);
-                console.log("status code:", response.status);
-                console.log("status text:", response.statusText);
-                console.log("requested data:", response.data);
-                console.log(response);
 
             } catch (error) {
+                setIsLoading(false);
+                setNoUser(true);
                 toast.error(handleError(error));
             }
         };
@@ -232,6 +244,50 @@ const Profile = () => {
         </Grid>
     </Paper>
 
+    let noUserContent = (
+        <Paper
+            sx={{
+                p: 4,
+                mt: 2,
+                maxWidth: 400,
+                flexGrow: 1,
+            }}
+            elevation={3}
+        >
+            <Grid
+                container
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                style={{ minHeight: '100%' }}  // or you can set a specific height here
+            >
+                <p>
+                    This User does not exist.
+                </p>
+                <p>
+                    <Button
+                        variant="contained"
+                        onClick={() => history.goBack()}
+                        sx={{ mt: 2 }}
+                    >
+                        Go Back
+                    </Button>
+                </p>
+                <p>
+                    <Button
+                        variant="contained"
+                        onClick={() => history.push("/Home")}
+                        sx={{ mt: 2 }}
+                    >
+                        Home
+                    </Button>
+                </p>
+            </Grid>
+        </Paper>
+
+    );
+
+
     return (
         <BaseContainer className="profile">
             <Grid item xs={12}>
@@ -239,7 +295,7 @@ const Profile = () => {
                     Profile
                 </Typography>
             </Grid>
-            {content}
+            {isLoading ? <Spinner/> : (noUser ? noUserContent : content)}
         </BaseContainer>
     );
 };
