@@ -39,6 +39,7 @@ const AddLocationForLobby = (props) => {
     zoom: 6,
   });
 
+
   const cantonCoordinates = {
     'Zürich': {
       longitude: 8.541694,
@@ -181,7 +182,7 @@ const AddLocationForLobby = (props) => {
       console.log("this is the canton full name new:", canton_Full_name); // log the canton variable
     } else {
       console.log("User already confirmed location");
-      toast.warn("You already suggested a location!");
+      toast.warn("You already added a location!");
     }
   };
 
@@ -201,9 +202,10 @@ const AddLocationForLobby = (props) => {
     if (isCantonMatch(data.features[0].context, canton, cantonFullName)) {
       setCorrectAddress(true);
       await setAddress(data.features[0].place_name);
-      toast.success("You successfully suggested a location");
+      sendLocationToServer(data.features[0].place_name);
+      toast.success("You successfully added a location");
     } else {
-      toast.error("Choose a location in the region of: " + cantonFullName);
+      toast.error("Add a location in the region of " + cantonFullName);
     }
   };
 
@@ -217,14 +219,17 @@ const AddLocationForLobby = (props) => {
       processLocation(data, props.canton, props.cantonFullName);
 
     } catch (error) {
-      toast.error("Choose a location in the region of: " + props.cantonFullName);
+      toast.error("Add a location in the region of " + props.cantonFullName);
     }
   };
 
 
   useEffect(() => {
-    if (Address && LngLat) SendLocationToServer(LngLat);
+    if (Address && LngLat) {
+      SendLocationToServer(LngLat);
+    }
   }, [Address]);
+
 
   // const exportImage = async (latitude, longitude) => {
   //     try {
@@ -258,14 +263,43 @@ const AddLocationForLobby = (props) => {
         await api.post(`/lobbies/${lobbyId}/locations`, requestBody);
         SetUserConfirmedLocation(true);
       } else {
-        toast.error("You already suggested a location!");
+        toast.error("You already added a location!");
       }
     } catch (error) {
       toast.error(
-        `Something went wrong when confirming your location: \n${handleError(error)}`
+        `Something went wrong when adding a location: \n${handleError(error)}`
       );
     }
   };
+
+  const unConfirmLocation = async () => {
+    try {
+      if (UserConfirmedLocation === true) {
+        const requestBody = JSON.stringify({
+          memberId: props.memberId,
+        });
+        await api.delete(`/lobbies/${lobbyId}/locations`, { data: requestBody });
+
+        // Reset states
+        setLat2(null);
+        setLng2(null);
+        setLngLat(null);
+        setAddress(null);
+        setCorrectAddress(false);
+
+        SetUserConfirmedLocation(false);
+      } else {
+        toast.error("You did not add a location yet!");
+      }
+    } catch (error) {
+      toast.error(
+          `Something went wrong while removing your location: \n${handleError(error)}`
+      );
+    }
+  };
+
+
+
 
   //
   // if(props.locationDTO !== undefined) {
@@ -321,11 +355,26 @@ const AddLocationForLobby = (props) => {
       >
         <Button
           variant="contained"
-          disabled={props.hasLockedSelections}
+          disabled={
+              props.hasLockedSelections ||
+              props.locationDTO.some(location => location.memberId === props.memberId)
+          }
           onClick={() => transformCoordinatesToAddress(LngLat)}
         >
-          Confirm Location
+          Add Location
         </Button>
+
+        <Button
+            variant="contained"
+            disabled={
+                props.hasLockedSelections ||
+                !props.locationDTO.some(location => location.memberId === props.memberId)
+            }
+            onClick={() => unConfirmLocation()}
+        >
+          Remove Location
+        </Button>
+
       </Box>
     </Box>
   );
