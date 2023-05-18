@@ -6,6 +6,7 @@ import { api, handleError } from "helpers/api";
 import {
   Button,
   Paper,
+  Box,
   Table,
   TableBody,
   TableCell,
@@ -17,7 +18,7 @@ import {
 } from "@mui/material";
 import AddLocation from "helpers/AddLocation";
 import moment from "moment/moment";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 const MyEvents = () => {
   // initializing variables and hooks need
@@ -75,98 +76,148 @@ const MyEvents = () => {
   }
 
   return (
-    <BaseContainer className="lobby">
-      <Grid container spacing={2}>
-        {/* Header */}
-        <Grid item xs={12}>
-          <Typography variant={"h3"}>My Events</Typography>
+    <BaseContainer>
+      {/* Title */}
+      <Grid container sx={{ marginBottom: 4 }}>
+        <Grid item xs={8}>
+          <Typography
+            variant="h3"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "left",
+              marginLeft: 4,
+              color: "white",
+            }}
+          >
+            My Events
+          </Typography>
         </Grid>
-        <Grid item xs={12} md={7}>
-          <Typography>
+
+        <Grid item xs={4}>
+           {/* Stats */}
+           <Typography
+           variant="h6"
+           sx={{
+             display: "flex",
+             alignItems: "center",
+             justifyContent: "right",
+             paddingRight: 4,
+             paddingTop: 2,
+             color: "white",
+           }}
+           >
             You are currently part of {events ? events.length : 0} events
           </Typography>
-          {/* Table */}
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <Typography fontWeight="bold">Event name</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography fontWeight="bold">Region</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography fontWeight="bold">Sport</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography fontWeight="bold">
-                      Number of participants
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography fontWeight="bold">Date</Typography>
-                  </TableCell>
-                  <TableCell />
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {events &&
-                  events.map((event) => {
-                    return (
-                      <TableRow key={event.eventName}>
-                        <TableCell>{event.eventName}</TableCell>
-                        <TableCell>{event.eventRegion}</TableCell>
-                        <TableCell>{event.eventSport}</TableCell>
-                        <TableCell>
-                          {event.eventParticipantsCount}/
-                          {event.eventMaxParticipants}
-                        </TableCell>
-                        <TableCell>
-                          {moment(event.eventDate).format(
-                            "MMMM DD, YYYY h:mm A"
-                          )}
-                        </TableCell>
-
-                        <TableCell>
-                          <Button
-                            onClick={() => handleViewEventClick(event.eventId)}
-                          >
-                            View
-                          </Button>
-                          <Button
-                            // fly to the location (TODO: Check as soon as Backend has implemented eventLocationDTO in EventGetDTO)
-                            onClick={() => {
-                              setFlyToLocation({
-                                latitude: event.eventLocationDTO.latitude,
-                                longitude: event.eventLocationDTO.longitude,
-                              });
-                            }}
-                          >
-                            Show on Map
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          {
-            noMyEventsDisclaimer /* only displayed if for no events registered */
-          }
         </Grid>
+      </Grid>
+
+      {/* Visible Box */}
+      <Box
+        sx={{
+          backgroundColor: "rgba(255, 255, 255, 0.7)",
+          borderRadius: "20px",
+          padding: 4,
+          display: "flex",
+          justifyContent: "space-between",
+          gap: 4,
+        }}
+      >
+        {/* Table Box */}
+        <Box sx={{ flexGrow: 1, boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)" }}>
+          {/* Table */}
+          <Table sx={{ background: "white" }}>
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  <Typography fontWeight="bold">Event name</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography fontWeight="bold">Region</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography fontWeight="bold">Sport</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography fontWeight="bold">
+                    Number of participants
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography fontWeight="bold">Date</Typography>
+                </TableCell>
+                <TableCell />
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {events &&
+                events.map((event) => {
+                  return (
+                    <TableRow key={event.eventName}>
+                      <TableCell>{event.eventName}</TableCell>
+                      <TableCell>{event.eventRegion}</TableCell>
+                      <TableCell>{event.eventSport}</TableCell>
+                      <TableCell>
+                        {event.eventParticipantsCount}/
+                        {event.eventMaxParticipants}
+                      </TableCell>
+                      <TableCell>
+                        {moment(event.eventDate).format("MMMM DD, YYYY h:mm A")}
+                      </TableCell>
+
+                      <TableCell>
+                        <Button
+                          onClick={() => handleViewEventClick(event.eventId)}
+                        >
+                          View
+                        </Button>
+                        <Button
+                        variant="contained"
+                          // fly to the location (TODO: Check as soon as Backend has implemented eventLocationDTO in EventGetDTO)
+                          onClick={() => {
+                            setFlyToLocation({
+                              latitude: event.eventLocationDTO.latitude,
+                              longitude: event.eventLocationDTO.longitude,
+                            });
+                          }}
+                        >
+                          Show on Map
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              {
+                noMyEventsDisclaimer /* only displayed if for no events registered */
+              }
+            </TableBody>
+          </Table>
+        </Box>
+
         {/* Map */}
-        <Grid item xs={12} md={5}>
+        <Box
+          sx={{
+            width: "30%",
+            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+            position: "relative",
+          }}
+        >
           {events && (
             <AddLocation
               flyToLocation={flyToLocation}
               events_passed={events}
               EventPage={true}
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+              }}
             />
           )}
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </BaseContainer>
   );
 };
