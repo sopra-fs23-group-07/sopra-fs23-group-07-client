@@ -105,7 +105,10 @@ const Lobby = () => {
       const requestBody = JSON.stringify({
         memberId: memberId,
       });
-      await api.put(`/lobbies/${lobbyId}/lock`, requestBody);
+      const response = await api.put(`/lobbies/${lobbyId}/lock`, requestBody);
+      if(response.status === 200){
+        toast.warn("An event can only be created if there are at least two people in the lobby that saved their choice.")
+      }
       console.log("Choice locked was sent to the backend");
     } catch (error) {
       toast.error(handleError(error));

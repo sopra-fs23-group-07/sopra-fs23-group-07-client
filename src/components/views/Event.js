@@ -75,7 +75,7 @@ const Event = () => {
       if (error.response.status === 500) {
         toast.error("Please log in before you join an event.");
       } else if (error.response.status === 404) {
-        toast.error("You already joined this event.");
+        toast.error(handleError(error));
       } else {
         toast.error(handleError(error));
       }
@@ -101,7 +101,7 @@ const Event = () => {
       if (error.response.status === 500) {
         toast.error("Please log in before you leave an event.");
       } else if (error.response.status === 404) {
-        toast.error("You already left this event.");
+        toast.error(handleError(error));
       } else {
         toast.error(handleError(error));
       }
