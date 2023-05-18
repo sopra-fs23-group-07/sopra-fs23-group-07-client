@@ -61,12 +61,13 @@ const Login = (props) => {
 
       if (props.lobby) {
         history.push("/Lobby/" + String(props.lobbyId));
+      } else {
+          try {
+            if (lobby) {
+              history.push("/Lobby/" + String(lobbyId));
+            }
+          } catch {}
       }
-      try {
-        if (lobby) {
-          history.push("/Lobby/" + String(lobbyId));
-        }
-      } catch {}
 
       history.push(`/Home`);
     } catch (error) {

@@ -11,19 +11,20 @@ import Spinner from "components/ui/Spinner";
  */
 export const LobbyInviteGuard = props => {
 
+    let {lobbyId} = useParams();
+    const [toLogin, setToLogin] = useState(false);
+    const history = useHistory();
+
     if (localStorage.getItem("lobbyId")) {
         return props.children;
     }
 
-    let {lobbyId} = useParams();
+
     console.log("this is lobby id: " + lobbyId);
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
     console.log(userId);
 
-    const [toLogin, setToLogin] = useState(false);
-
-    const history = useHistory();
 
     //if(!localStorage.getItem("userId")) {return <Redirect to="/login"/>;}
 //    if (!localStorage.getItem("userId") || !localStorage.getItem("token")) {
