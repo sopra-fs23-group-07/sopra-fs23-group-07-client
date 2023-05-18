@@ -22,8 +22,8 @@ export const RegisterGuard = (props) => {
             if(token === response.data.token) {
                 history.push("/Home"); }
             else {
-                localStorage.removeItem("token");
-                localStorage.removeItem("userId");
+                localStorage.clear();
+                window.dispatchEvent(new CustomEvent("localstorage-update"));
                 setToRegister(true);}
 
 

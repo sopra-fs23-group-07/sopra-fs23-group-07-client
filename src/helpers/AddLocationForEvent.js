@@ -158,19 +158,14 @@ const AddLocationForEvent = (props) => {
 
     const handleMapClick = (map) => {
 
-        if (UserConfirmedLocation === false) {
             const {lngLat} = map;
             setLat2(lngLat.lat);
             setLng2(lngLat.lng);
             setLngLat(lngLat);
+            transformCoordinatesToAddress(lngLat);
             // console.log("this is the canton:", canton); // log the canton variable
             // console.log("this is the canton full name new:", canton_Full_name); // log the canton variable
 
-        } else {
-            // console.log("User already confirmed location");
-            toast.warn("You already confirmed your location!")
-
-        }
 
     };
 
@@ -190,8 +185,10 @@ const AddLocationForEvent = (props) => {
         if (isCantonMatch(data.features[0].context, canton, cantonFullName)) {
             setCorrectAddress(true);
             await setAddress(data.features[0].place_name);
-            toast.success("You successfully confirmed a location");
+            // toast.success("You successfully confirmed a location");
         } else {
+            setLat2(null);
+            setLng2(null);
             toast.error("Choose a region first and put a marker in that region only");
         }
     };
@@ -225,15 +222,25 @@ const AddLocationForEvent = (props) => {
         // }
     }, [Address, shortCode])
 
+    useEffect(() => {
+
+        // if (shortCode) {
+        //     console.log("this is the shortCode in UseEffect:", shortCode);
+        //     if (shortCode !== props.canton) {
+        //         alert("You are in the wrong canton");
+        //     } else {
+        //         setCorrectAddress(true);
+        //         console.log("setCorrectAddress value is ", CorrectAddress)
+        //     }
+        // }
+    }, [lat2, lng2])
+
 
     const SendLocationToServer = (lngLat) => {
-        if (UserConfirmedLocation === false) {
+
 
             props.handleLocationChange(lngLat.lng, lngLat.lat, Address);
             SetUserConfirmedLocation(true);
-        } else {
-            toast.warn("You already confirmed your location!")
-        }
 
 
     };
@@ -276,12 +283,12 @@ const AddLocationForEvent = (props) => {
 
 
             </ReactMapGL>
-            <div className="my-1">
-                <Button variant="contained" disabled={props.hasLockedSelections}
-                        onClick={() => transformCoordinatesToAddress(LngLat)}>
-                    Confirm Location
-                </Button>
-            </div>
+            {/*<div className="my-1">*/}
+            {/*    <Button variant="contained" disabled={props.hasLockedSelections}*/}
+            {/*            onClick={() => transformCoordinatesToAddress(LngLat)}>*/}
+            {/*        Confirm Location*/}
+            {/*    </Button>*/}
+            {/*</div>*/}
             <div>
                 <p>{Address}</p>
             </div>
