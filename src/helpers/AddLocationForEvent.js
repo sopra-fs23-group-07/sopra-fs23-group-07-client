@@ -190,7 +190,7 @@ const AddLocationForEvent = (props) => {
         if (isCantonMatch(data.features[0].context, canton, cantonFullName)) {
             setCorrectAddress(true);
             await setAddress(data.features[0].place_name);
-            toast.success("You successfully suggested a location");
+            toast.success("You successfully confirmed a location");
         } else {
             toast.error("Choose a region first and put a marker in that region only");
         }
@@ -206,7 +206,7 @@ const AddLocationForEvent = (props) => {
             processLocation(data, props.canton, props.cantonFullName);
 
         } catch (error) {
-            toast.error("Choose a location in the region of: " + props.cantonFullName);
+            toast.error("Choose a region first and put a marker in that region only");
         }
     };
 

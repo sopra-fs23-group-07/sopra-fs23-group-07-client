@@ -22,6 +22,7 @@ import EditProfile from "../../views/EditProfile";
 import { ProfileGuard } from "../routeProtectors/ProfileGuard";
 import {LobbyRoute} from "../routeProtectors/LobbyGuard";
 import {LobbyInviteGuard} from "../routeProtectors/LobbyInviteGuard";
+import {MyEventsGuard} from "../routeProtectors/MyEventsGuard";
 
 /**
  * Main router of your application.
@@ -73,7 +74,9 @@ const AppRouter = () => {
         </Route>
 
         <Route exact path="/MyEvents">
+          <MyEventsGuard>
           <MyEvents />
+            </MyEventsGuard>
         </Route>
 
         <Route exact path="/Profile/:userId">
