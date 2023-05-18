@@ -41,13 +41,23 @@ const SelectDateAndTime = (props) => {
     const handleClick = () => {
         if (startDate) {
             const formattedDate = moment(startDate).format('YYYY-MM-DDTHH:mm:ss');
+
+            // Check if the selected date is in the past
+            const currentDate = new Date();
+            const selectedDate = new Date(startDate);
+            if (currentDate.getTime() >= selectedDate.getTime()) {
+                toast.error('You cannot choose a date in the past! Please choose a future date.');
+                return;
+            }
+
             if (chosenDate.includes(formattedDate) === false) {
                 setChosenDate(prevState => [...prevState, formattedDate]);
             } else {
-                alert('You already chose this date and time! Please choose another one!');
+                toast.error('You already chose this date and time! Please choose another one!');
             }
         }
     };
+
 
 
     //As an Alternative here you would filter in a way that a user can only choose 5 days in advance!
