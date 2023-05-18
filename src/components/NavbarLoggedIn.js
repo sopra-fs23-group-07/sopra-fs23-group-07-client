@@ -153,10 +153,10 @@ const NavbarLoggedIn = () => {
                     <p>You are about to leave the lobby. Are you sure?</p>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    <Button variant="contained" onClick={handleClose} >
                         Cancel
                     </Button>
-                    <Button onClick={handleLeaveLobby} color="primary">
+                    <Button variant="contained" onClick={handleLeaveLobby}>
                         Leave
                     </Button>
                 </DialogActions>
