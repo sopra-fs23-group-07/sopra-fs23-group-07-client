@@ -72,8 +72,8 @@ const CreateEvent = () => {
       if (
         !eventName ||
         !selectedSport ||
-        // !eventDate ||
-        // !location ||
+        !eventDate ||
+        location &&
         !canton_Full_name ||
         !maxParticipants ||
         isNaN(maxParticipants)
@@ -81,6 +81,12 @@ const CreateEvent = () => {
         // console.log(JSON.stringify(eventDate)); // delete when done
         toast.error("Please fill in all fields with valid data.");
         return;
+      }
+
+      if(
+          !location
+      ){
+        toast.error("Please click on the map to add a location in the region you chose");
       }
 
       // send event to backend (TODO: Make sure all are strings )
@@ -112,7 +118,11 @@ const CreateEvent = () => {
       history.push(`/Events/${response.data.eventId}`);
     } catch (error) {
       if(error.response.status == 401) { localStorage.clear(); window.dispatchEvent(new Event("localstorage-update"))}
-      toast.error(handleError(error));
+      if(error.response.status == 400) {}
+      else{
+        toast.error(handleError(error));
+      }
+
     }
   };
 
