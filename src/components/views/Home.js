@@ -19,6 +19,7 @@ import CardMedia from "@mui/material/CardMedia";
 import group from "../../group.png";
 import addGroup from "../../addGroup.png";
 import Event from "../../Event.png";
+import addEvent from "../../add-event.png";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
@@ -42,6 +43,7 @@ const Home = () => {
     const [expanded1, setExpanded1] = React.useState(false);
     const [expanded2, setExpanded2] = React.useState(false);
     const [expanded3, setExpanded3] = React.useState(false);
+    const [expanded4, setExpanded4] = React.useState(false);
 
     return (
         <BaseContainer className="lobby">
@@ -70,15 +72,15 @@ const Home = () => {
 
             </Grid>
 
-            <Grid container item xs={12}>
-                <Grid xs={12} md={12} >
+            <Grid container  xs={12}>
+                <Grid item xs={12} md={12} >
                     <Typography variant={"h4"}>
                         How to use our services
                     </Typography>
                 </Grid>
             </Grid>
 
-            <Grid container item xs={12} sx={{mt:5}}>
+            <Grid container xs={12} sx={{mt:5}}>
                 <Grid item xs={12} md={6} sx={{padding:3}}>
                     <Card>
                         <CardHeader
@@ -140,7 +142,7 @@ const Home = () => {
                                 </Typography>
                                 <Typography variant={"h6"}>How long will the lobby exist?</Typography>
                                 <Typography paragraph>
-                                    The lobby exists until either the timer runs out or all members of the lobby lock
+                                    The lobby exists until either the timer runs out or all members of the lobby safe/lock
                                     their choices.
                                 </Typography>
                                 <Typography variant={"h6"}>What happens after the lobby?</Typography>
@@ -214,7 +216,7 @@ const Home = () => {
             </Grid>
 
 
-            <Grid container item xs={12} sx={{mt:5}}>
+            <Grid container xs={12} sx={{mt:5}}>
                 <Grid item xs={12} md={6} sx={{p:3}} >
                     <Card>
                         <CardHeader
@@ -256,13 +258,77 @@ const Home = () => {
                                 <Typography paragraph>
                                     An event is the result of a lobby. Sport, time and location are all defined and fixed.
                                 </Typography>
-                                <Typography variante={"h6"}>How can I join an event? </Typography>
+                                <Typography variant={"h6"}>How can I join an event? </Typography>
                                 <Typography paragraph>
                                     You can join an event by clicking on the "Join" button.
                                 </Typography>
-                                <Typography variante={"h6"}>Can I leave an event?</Typography>
+                                <Typography variant={"h6"}>Can I leave an event?</Typography>
                                 <Typography paragraph>
                                     Yes, you can leave an event by clicking on the "Leave" button.
+                                </Typography>
+                            </CardContent>
+                        </Collapse>
+                    </Card>
+                </Grid>
+                <Grid item xs={12} md={6} sx={{padding:3}}>
+                    <Card>
+                        <CardHeader
+                            title="Create a new event"
+                        />
+                        <CardMedia
+                            component="img"
+                            src={addEvent}
+                            alt="add Event Icon"
+                            sx={{paddingX:"25%"}}
+                        />
+                        <CardContent>
+                            <Typography paragraph variant="body1">
+                                If you already know where, when and which sport to play with your friends or with new people, this is the way to go!
+                            </Typography>
+                        </CardContent>
+                        <CardActions disableSpacing>
+                            <Button variant={"contained"}
+                                    p={2}
+                                    startIcon={<Add/>}
+                                    onClick={() => history.push("/CreateEvent/")}
+                                    sx={{mt:3}}
+                            >
+                                Create New Event
+                            </Button>
+                            <ExpandMore
+                                expand={expanded4}
+                                onClick={() => setExpanded4(!expanded4)}
+                                aria-expanded={expanded4}
+                                aria-label="show more"
+                            >
+                                <ExpandMoreIcon />
+                            </ExpandMore>
+                        </CardActions>
+                        <Collapse in={expanded4} timeout="auto" unmountOnExit>
+                            <CardContent>
+                                <Typography variant={"h6"}>How can I create a new event?</Typography>
+                                <Typography paragraph>
+                                    There are several conditions that must be met in order for you to create an event:
+                                    <ul>
+                                        <li>You must be logged in</li>
+                                        <li>You must define the following:
+                                            <ol>
+                                                <li>Event name</li>
+                                                <li>Maximum number of participants</li>
+                                                <li>the sport you want to play</li>
+                                                <li>where exactly you want to play</li>
+                                                <li>when you want to play</li>
+                                            </ol>
+                                        </li>
+                                    </ul>
+                                </Typography>
+
+                                <Typography variant={"h6"}>
+                                    How can I invite my friends to the event?
+                                </Typography>
+                                <Typography paragraph>
+                                    You can invite your friends by sharing the link to the lobby with them.
+                                    Note, however, that your friends must have an account and must be logged in!
                                 </Typography>
                             </CardContent>
                         </Collapse>
