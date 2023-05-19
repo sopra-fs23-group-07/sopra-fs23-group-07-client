@@ -13,8 +13,12 @@ const colors5 = {
   // primary & secondary YouTube Tutorial
   // primary: "#00adb5",
   // secondary: "#95defb",
-  primary: "rgba(2,0,36,1)",
-  secondary: "rgba(0,212,255,1)",
+  // primary: "rgba(2,0,36,1)",
+  // secondary: "rgba(0,212,255,1)",
+  primary: "orange",
+  secondary: "#A56DC9",
+  orange: "orange",
+  dominantviolet: "#A56DC9",
   blueone: "rgba(2,0,36,1)",
   bluetwo: "rgba(9,9,121,1)",
   bluethree: "rgba(0,212,255,1)",
@@ -67,16 +71,17 @@ colors5.containedButtonBackground = "orange";
 colors5.violetgradient1 = "linear-gradient(to right, #A56DC9, #6D91C9)"; // sexy
 colors5.violetgradient1reverse = "linear-gradient(to left, #A56DC9, #6D91C9)"; // sexy
 
-
 // triadic color to dominant
 colors5.triadicDominantGradient = "linear-gradient(to right, #C9776D, #6DC977)";
 
-colors5.containedButtonBackgroundHover = colors5.redgradientreverse;
+colors5.containedButtonBackgroundHover = colors5.violetgradient1reverse;
 colors5.containedButtonText = colors5.white;
+colors5.containedButtonTextHover = "orange";
 
 colors5.textButtonText = colors5.white;
-colors5.textButtonTextHover = "rgba(255, 165, 0, 1)";
+colors5.textButtonTextHover = "orange";
 colors5.headerColor = colors5.violetgradient1;
+colors5.textButtonBackgroundHover = colors5.violetgradient1reverse;
 // colors5.headerColor = colors5.bluegradient;
 
 // colors5.pageHeaders = colors5.redgradient;
@@ -227,6 +232,36 @@ export const themeSix = createTheme({
     bluethree: colors5.bluetwo,
   },
   components: {
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: colors5.secondary, // color when hover
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: colors5.secondary, // color when focused
+          },
+        },
+      },
+    },
+    MuiFormLabel: {
+      styleOverrides: {
+        root: {
+          "&.Mui-focused": {
+            color: colors5.secondary, // color of the label when focused
+          },
+        },
+      },
+    },
+
+    MuiSlider: {
+      styleOverrides: {
+        root: {
+          color: colors5.primary,
+        },
+      },
+    },
+
     MuiIconButton: {
       styleOverrides: {
         root: {
@@ -237,7 +272,7 @@ export const themeSix = createTheme({
           transition: "background 0.2s",
 
           // "&:before": {
-            
+
           //   position: "absolute",
           //   height: "100%",
           //   width: "100%",
@@ -246,7 +281,7 @@ export const themeSix = createTheme({
           //   top: "0",
           //   left: "0",
           // },
-          
+
           "&:hover": {
             // color: "blue", // change hover
             // border: "1px black solid",
@@ -309,11 +344,13 @@ export const themeSix = createTheme({
         root: ({ ownerState }) => ({
           ...(ownerState.variant === "contained" && {
             // styling contained buttons
+            // borderRadius: "20px",
             background: colors5.containedButtonBackground,
             color: colors5.containedButtonText,
             transition: "background 0.3s ease",
             "&:hover": {
               background: colors5.containedButtonBackgroundHover,
+              color: colors5.containedButtonTextHover,
             },
           }),
           ...(ownerState.variant === "text" && {
@@ -323,8 +360,10 @@ export const themeSix = createTheme({
             // transition: "background 0.3s ease",
             "&:hover": {
               // background: colors5.textButtonBackgroundHover,
+              // color: colors5.textButtonTextHover,
+              // fontSize: "1.25rem",
+              background: colors5.textButtonBackgroundHover,
               color: colors5.textButtonTextHover,
-              fontSize: "1.25rem",
             },
           }),
         }),
