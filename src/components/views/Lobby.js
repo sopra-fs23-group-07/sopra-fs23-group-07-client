@@ -196,12 +196,21 @@ const Lobby = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        if (eventId !== null && !hasExecuted) {
+        if (eventId > 0 && !hasExecuted) {
           console.log("if condition was met");
           const LobbyState = true;
           setHasExecuted(true);
           await handleLeaveLobby(LobbyState);
-        } else {
+        }
+
+        else if(eventId === -1 && !hasExecuted){
+          console.log("event Id is -1");
+          setHasExecuted(true);
+          await handleLeaveTimerUp();
+
+        }
+
+        else {
           const response = await api.get("/lobbies/" + lobbyId);
           setLobby(response.data);
           setMembers(response.data.memberDTOs);
@@ -261,6 +270,30 @@ const Lobby = () => {
         await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
         localStorage.removeItem("lobbyId");
         history.push(`/Lobbies`);
+
+    } catch (error) {
+      toast.error(handleError(error));
+      localStorage.removeItem("lobbyId");
+      if(error.response.status == 401) { localStorage.clear(); window.dispatchEvent(new Event("localstorage-update"));
+      }
+      history.push(`/Lobbies`);
+    }
+  };
+
+  const handleLeaveTimerUp = async () => {
+    try {
+
+      const requestBody = JSON.stringify({
+        userId: userId,
+        token: token,
+      });
+      await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
+      localStorage.removeItem("lobbyId");
+      toast.error("The timer has run out. You have been removed from the lobby. " +
+          "At least two users must save their choice for the event to be created");
+
+      history.push(`/Lobbies`);
+
 
     } catch (error) {
       toast.error(handleError(error));
