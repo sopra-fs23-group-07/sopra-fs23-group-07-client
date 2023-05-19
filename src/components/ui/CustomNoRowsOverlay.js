@@ -8,7 +8,7 @@ const StyledGridOverlay = styled('div')(({ theme }) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '100%',
+    height: "100%"
 }));
 
 export function CustomNoRowsOverlay() {
