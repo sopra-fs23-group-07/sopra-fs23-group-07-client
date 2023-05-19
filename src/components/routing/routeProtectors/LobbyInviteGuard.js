@@ -43,9 +43,10 @@ export const LobbyInviteGuard = props => {
             if (!localStorage.getItem("userId") || !localStorage.getItem("token") || token != response.data.token) {
                 //history.push("/Login");
                 //return <Login lobby="true" lobbyId={lobbyId}/>;
-                localStorage.removeItem("token");
-                localStorage.removeItem("userId");
+                localStorage.clear();
+                window.dispatchEvent(new CustomEvent("localstorage-update"));
                 setToLogin(true);
+                await api.post(`/users/logout/${userId}`);
             } else {
 
                 console.log("this is lobby id: " + lobbyId);
@@ -58,6 +59,7 @@ export const LobbyInviteGuard = props => {
                 localStorage.setItem("lobbyId", lobbyId);
                 //history.push("/Lobby/" + String(props.lobbyId));
                 history.push("/Lobby/" + String(lobbyId));
+
             }
 
         } catch (error) {
@@ -65,9 +67,10 @@ export const LobbyInviteGuard = props => {
             if (error.response.status == 404 && error.response.data == "The lobbyId provided was not found") {
                 history.push("/Home"); }
             else if (error.response.status == 404 || error.response.status == 401 || error.response.status == 400) {
-                localStorage.removeItem("token");
-                localStorage.removeItem("userId");
+                localStorage.clear();
+                window.dispatchEvent(new CustomEvent("localstorage-update"));
                 setToLogin(true);
+                await api.post(`/users/logout/${userId}`);
             }
             else {
             history.push("/Home");}

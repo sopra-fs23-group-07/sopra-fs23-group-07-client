@@ -26,18 +26,21 @@ export const ProfileGuard = (props) => {
             if(token === response.data.token) {
                 setToProfile(true); }
             else {
-                localStorage.removeItem("token");
-                localStorage.removeItem("userId");
-                history.push("/Login");
+                localStorage.clear();
                 window.dispatchEvent(new CustomEvent("localstorage-update"));
                 toast.error("You could not be authenticated. Please log in or register.");
+                try {await api.post(`/users/logout/${userId}`);}
+                catch {}
+                history.push("/Login");
             }
 
 
 
           } catch (error) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("userId");
+            localStorage.clear();
+            window.dispatchEvent(new CustomEvent("localstorage-update"));
+            try {await api.post(`/users/logout/${userId}`);}
+            catch {}
             history.push("/Login");
           }
         }

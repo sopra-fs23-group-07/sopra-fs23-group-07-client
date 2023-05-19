@@ -59,6 +59,7 @@ const Lobbies = () => {
       if (error.response.status == 401 || error.response.status == 400) {
         localStorage.clear();
         window.dispatchEvent(new Event("localstorage-update"));
+        await api.post(`/users/logout/${userId}`);
       }
       toast.error(handleError(error));
     }

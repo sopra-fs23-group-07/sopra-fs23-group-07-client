@@ -258,6 +258,8 @@ const Lobby = () => {
       localStorage.removeItem("lobbyId");
       if (error.response.status == 401) {
         localStorage.clear();
+        window.dispatchEvent(new Event("localstorage-update"));
+        await api.post(`/users/logout/${userId}`);
       }
       history.push(`/Lobbies`);
     }
@@ -278,6 +280,7 @@ const Lobby = () => {
       if (error.response.status == 401) {
         localStorage.clear();
         window.dispatchEvent(new Event("localstorage-update"));
+        await api.post(`/users/logout/${userId}`);
       }
       history.push(`/Lobbies`);
     }

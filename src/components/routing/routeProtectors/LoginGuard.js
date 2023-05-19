@@ -28,16 +28,19 @@ export const LoginGuard = props => {
                 if(token === response.data.token) {
                     history.push("/Home"); }
                 else {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("userId");
-                    setToLogin(true);}
+                    localStorage.clear();
+                    window.dispatchEvent(new CustomEvent("localstorage-update"));
+                    setToLogin(true);
+                    await api.post(`/users/logout/${userId}`);}
+
 
 
               } catch (error) {
-                localStorage.removeItem("token");
-                localStorage.removeItem("userId");
+                localStorage.clear();
+                window.dispatchEvent(new CustomEvent("localstorage-update"));
                 console.log(error);
                 setToLogin(true);
+                await api.post(`/users/logout/${userId}`);
               }
             }
 

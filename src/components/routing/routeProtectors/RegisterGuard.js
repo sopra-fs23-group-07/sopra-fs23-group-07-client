@@ -24,13 +24,15 @@ export const RegisterGuard = (props) => {
             else {
                 localStorage.clear();
                 window.dispatchEvent(new CustomEvent("localstorage-update"));
-                setToRegister(true);}
+                setToRegister(true);
+                await api.post(`/users/logout/${userId}`);}
 
 
           } catch (error) {
               localStorage.clear();
               window.dispatchEvent(new CustomEvent("localstorage-update"));
             setToRegister(true);
+            await api.post(`/users/logout/${userId}`);
           }
         }
 
