@@ -115,23 +115,23 @@ const Event = () => {
         setEvent(response.data);
         setEventLocationDTO(response.data.eventLocationDTO);
 
-        console.log("eventLocationDTO: ", eventLocationDTO); // This will log the old value
-        console.log("request to:", response.request.responseURL);
-        console.log("status code:", response.status);
-        console.log("status text:", response.statusText);
-        console.log("requested data:", response.data);
-        console.log(response);
+        // console.log("eventLocationDTO: ", eventLocationDTO); // This will log the old value
+        // console.log("request to:", response.request.responseURL);
+        // console.log("status code:", response.status);
+        // console.log("status text:", response.statusText);
+        // console.log("requested data:", response.data);
+        // console.log(response);
 
         // Log the updated value of eventLocationDTO
-        console.log(
-          "updated eventLocationDTO: ",
-          response.data.eventLocationDTO
-        );
+        // console.log(
+        //   "updated eventLocationDTO: ",
+        //   response.data.eventLocationDTO
+        // );
         const userIds = response.data.participantDTOs.map(
           (participant) => participant.userId
         );
-        console.log("USER IDS")
-        console.log(userIds);
+        // console.log("USER IDS")
+        // console.log(userIds);
         setIsParticipant(userIds.includes(Number(userId)));
       } catch (error) {
         toast.error(handleError(error));

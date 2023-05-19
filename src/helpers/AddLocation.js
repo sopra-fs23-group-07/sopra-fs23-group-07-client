@@ -6,8 +6,8 @@ import Geocoder from "./Geocoder";
 const AddLocation = (props) => {
     //const {state:{location:{lng, lat}}, dispatch} = useValue();
 
-    console.log("this are the props", props.events_passed);
-    console.log("this is the event", props.eventLocationDTO);
+    // console.log("this are the props", props.events_passed);
+    // console.log("this is the event", props.eventLocationDTO);
 
     const [marker, setMarker] = useState(null);
     // const [lng, setLng] = useState(8.541042);  //Longitude zurich
@@ -28,7 +28,7 @@ const AddLocation = (props) => {
 
     const mapRef = useRef();
 
-    console.log("EventPage", props.EventPage);
+    // console.log("EventPage", props.EventPage);
 
 
     if (props.events_passed !== undefined) {
@@ -39,9 +39,9 @@ const AddLocation = (props) => {
             list_of_coordinates.push(events_for_location[i].eventLocationDTO);
         }
 
-
-        console.log("list of coordinates", list_of_coordinates);
-        console.log("props.eventLocationDTO", props.eventLocationDTO);
+        //
+        // console.log("list of coordinates", list_of_coordinates);
+        // console.log("props.eventLocationDTO", props.eventLocationDTO);
 
 
     }

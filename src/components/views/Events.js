@@ -34,7 +34,6 @@ const Events = () => {
     async function fetchData() {
       try {
         const response = await api.get(`/events`);
-
         setEvents(response.data);
       } catch (error) {
         toast.error(handleError(error));
@@ -70,6 +69,7 @@ const Events = () => {
       field: "eventSport",
       headerName: "Sport",
       width: 100,
+      flex: 1,
     },
     {
       field: "eventParticipantsCount",
@@ -87,6 +87,9 @@ const Events = () => {
       field: "actions",
       headerName: "Actions",
       width: 100,
+      flex: 1,
+      sortable: false,
+      filterable: false,
       renderCell: (props) => {
         return (
           <RenderActions
@@ -128,8 +131,8 @@ const Events = () => {
     <BaseContainer>
      
       {/* Title */}
-      <Grid container sx={{ marginBottom: 4 }}>
-        <Grid item xs={8}>
+      <Grid container lg={12} md={12} xs={12} sx={{ marginBottom: 4 }}>
+        <Grid item lg={8} md={8} xs={8}>
           <Typography
             variant="h3"
             sx={{
@@ -145,6 +148,8 @@ const Events = () => {
         </Grid>
         <Grid
           item
+          lg={4}
+          md={4}
           xs={4}
           sx={{
             display: "flex",
@@ -161,85 +166,84 @@ const Events = () => {
           </Button>
         </Grid>
       </Grid>
-
+      <Grid container lg={12} md={12} xs={12}>
       {/* Visible Box */}
-      <Box
-        sx={{
-          backgroundColor: "rgba(255, 255, 255, 0.7)",
-          borderRadius: "20px",
-          padding: 4,
-          display: "flex",
-          justifyContent: "space-between",
-          gap: 4,
-        }}
-      >
-        {/* Table Box */}
-        <Box sx={{ flexGrow: 1, boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)" }}>
-          {/* Table */}
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5,
-                },
-              },
-              columns: {
-                columnVisibilityModel: {
-                  id: false,
-                },
-              },
-            }}
-            pageSizeOptions={[5]}
-            disableRowSelectionOnClick
-            slots={{
-              noRowsOverlay: CustomNoRowsOverlay,
-            }}
-            //sx only used for text wrapping and header styling
+        <Grid item lg={12} md={12} xs={12}>
+          <Box
             sx={{
-              background: "white",
-              "& .MuiDataGrid-columnHeaderTitle": {
-                whiteSpace: "normal",
-                lineHeight: "normal",
-                fontWeight: "bold",
-              },
-              "& .MuiDataGrid-columnHeader": {
-                // Forced to use important since overriding inline styles
-                height: "unset !important",
-              },
-              "& .MuiDataGrid-columnHeaders": {
-                // Forced to use important since overriding inline styles
-                maxHeight: "168px !important",
-              },
+              backgroundColor: "rgba(255, 255, 255, 0.7)",
+              borderRadius: "20px",
+              padding: 4,
+              display: "flex",
+              justifyContent: "space-between",
+              gap: 4,
             }}
-          />
-        </Box>
-        
-        {/* Map */}
-        <Box
-          sx={{
-            width: "30%",
-            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
-            position: "relative",
-          }}
-        >
-          {events && (
-            <AddLocation
-              flyToLocation={flyToLocation}
-              events_passed={events}
-              EventPage={true}
-              sx={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-              }}
-            />
-          )}
-        </Box>
-      </Box>
+          >
+            <Grid item lg={8} md={8} xs={12}>
+              {/* Table Box */}
+              <Box sx={{ boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)" }}>
+                {/* Table */}
+                <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  initialState={{
+                    pagination: {
+                      paginationModel: {
+                        pageSize: 5,
+                      },
+                    },
+                    columns: {
+                      columnVisibilityModel: {
+                        id: false,
+                      },
+                    },
+                  }}
+                  pageSizeOptions={[5]}
+                  disableRowSelectionOnClick
+                  slots={{
+                    noRowsOverlay: CustomNoRowsOverlay,
+                  }}
+                  //sx only used for text wrapping and header styling
+                  sx={{
+                    height: "375px",
+                    background: "white",
+                    "& .MuiDataGrid-columnHeaderTitle": {
+                      whiteSpace: "normal",
+                      lineHeight: "normal",
+                      fontWeight: "bold",
+                    },
+                    "& .MuiDataGrid-columnHeader": {
+                      // Forced to use important since overriding inline styles
+                      height: "unset !important",
+                    },
+                    "& .MuiDataGrid-columnHeaders": {
+                      // Forced to use important since overriding inline styles
+                      maxHeight: "168px !important",
+                    }
+                  }}
+                />
+              </Box>
+            </Grid>
+            <Grid item lg={4} md={4} xs={12} >
+              {/* Map */}
+                {events && (
+                  <AddLocation
+                    flyToLocation={flyToLocation}
+                    events_passed={events}
+                    EventPage={true}
+                    sx={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                )}
+            </Grid>
+          </Box>
+        </Grid>
+      </Grid>
     </BaseContainer>
   );
 };
