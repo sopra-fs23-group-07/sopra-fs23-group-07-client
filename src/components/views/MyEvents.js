@@ -24,6 +24,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
+
 const MyEvents = () => {
   // initializing variables and hooks need
   const history = useHistory();
