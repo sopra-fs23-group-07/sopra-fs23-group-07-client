@@ -23,7 +23,7 @@ const AddLocationForLobby = (props) => {
   const [Address, setAddress] = useState(null);
   const [CorrectAddress, setCorrectAddress] = useState(false);
 
-  const [UserConfirmedLocation, SetUserConfirmedLocation] = useState(false);
+  const UserConfirmedLocation = props.locationDTO.some(location => location.memberId === props.memberId);
 
   const canton = props.canton;
   const canton_Full_name = props.cantonFullName;
@@ -261,7 +261,6 @@ const AddLocationForLobby = (props) => {
           latitude: lngLat.lat,
         });
         await api.post(`/lobbies/${lobbyId}/locations`, requestBody);
-        SetUserConfirmedLocation(true);
       } else {
         toast.error("You already added a location!");
       }
@@ -287,7 +286,6 @@ const AddLocationForLobby = (props) => {
         setAddress(null);
         setCorrectAddress(false);
 
-        SetUserConfirmedLocation(false);
       } else {
         toast.error("You did not add a location yet!");
       }

@@ -70,9 +70,9 @@ const VotingForLocations = (props) => {
 
     const { location, lobby } = props;
 
-    const addressStyle = {
-        color: lobby.lobbyDecidedLocation.address === address ? "blue" : "inherit",
-    };
+    const addressStyle = lobby.lobbyDecidedLocation && lobby.lobbyDecidedLocation.address
+        ? { color: lobby.lobbyDecidedLocation.address === address ? "blue" : "inherit" }
+        : {}; // or your default style object
 
     return (
         <div>
