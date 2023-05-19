@@ -73,13 +73,13 @@ const Lobbies = () => {
         textAlign: "center",
         fontSize: "1.2rem",
         color: "black",
-        background: "red"
+        background: "red",
       }}
     />
   );
   if (!lobbies || lobbies.length === 0) {
     noLobbiesDisclaimer = (
-      <p sx={{background: "blue"}}>
+      <p sx={{ background: "blue" }}>
         Currently no lobbies available! <br /> Click create Lobby to create Your
         own lobby.
       </p>
@@ -119,14 +119,14 @@ const Lobbies = () => {
     <BaseContainer>
       {/* Title */}
       <Grid container sx={{ marginBottom: 4 }}>
-        <Grid item xs={8}>
+        <Grid item md={8} xs={12}>
           <Typography
             variant="h3"
             sx={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "left",
-              marginLeft: 4,
+              justifyContent: { md: "left", xs: "center" },
+              marginLeft: { md: 4, xs: 0},
               color: "white",
             }}
           >
@@ -135,11 +135,12 @@ const Lobbies = () => {
         </Grid>
         <Grid
           item
-          xs={4}
+          md={4}
+          xs={12}
           sx={{
             display: "flex",
-            justifyContent: "flex-end",
-            paddingRight: 4,
+            justifyContent: { md: "flex-end", xs: "center" },
+            paddingRight: {md:4, xs: 0 }
           }}
         >
           <Button
@@ -152,8 +153,8 @@ const Lobbies = () => {
         </Grid>
       </Grid>
 
-      {/* white box */}
-      <Box
+      {/* Visible box */}
+      <Grid
         sx={{
           backgroundColor: "rgba(255, 255, 255, 0.7)",
           borderRadius: "20px",
@@ -161,78 +162,123 @@ const Lobbies = () => {
           display: "flex",
           justifyContent: "space-between",
           gap: 4,
+          // minHeight: "300px",
         }}
       >
-        <Box sx={{ flexGrow: 1, boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)" }}>
-          <Table sx={{ background: "white" }}>
+        {/* Table Box */}
+        <Grid
+          item
+          sx={{
+            flexGrow: 1,
+            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          {/* Table */}
+
+          <Table
+            sx={{
+              background: "white",
+              minHeight: "100%",
+              borderCollapse: "separate",
+              borderSpacing: "0 16px",
+            }}
+          >
             <TableHead>
-              <TableRow sx={{ justifyContent: "flex-start" }}>
-                <TableCell style={{ width: "flex" }}>
-                  <Typography fontWeight="bold">Lobby name</Typography>
+              <TableRow
+                sx={{
+                  border: "2px solid black",
+
+                  "& td, & th": {
+                    borderBottom: "0px black solid", // works
+                  },
+                }}
+              >
+                <TableCell sx={{ minWidth: 130, width: "25%" }}>
+                  <Typography fontWeight="bold">Lobby Name</Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ minWidth: 130, width: "25%" }}>
                   <Typography fontWeight="bold">Region</Typography>
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ minWidth: 80, width: "15%" }}>
                   <PeopleAltIcon sx={{ sizeHeight: "1.5em" }} />
                 </TableCell>
-                <TableCell>
+                <TableCell sx={{ minWidth: 80, width: "15%" }}>
                   <HourglassTopOutlinedIcon />
                 </TableCell>
-                <TableCell />
+                <TableCell sx={{ minWidth: 130, width: "20%" }} />
               </TableRow>
             </TableHead>
-            <TableBody
-              sx={{
-                "& > .MuiTableRow-root": {
-                  border: "3px solid black",
-                  borderWidth: "2px 2px 2px 2px"
-                  // background: "rgba(0, 0, 0, 0.1)",
-                },
-              }}
-            >
-              {lobbies &&
-                lobbies.map((lobby) => (
-                  <TableRow
-                    key={lobby.lobbyName}
+            <TableBody>
+              {lobbies && lobbies.length > 0 ? (
+                lobbies.map((lobby) => {
+                  return (
+                    <TableRow
+                      key={lobby.lobbyName}
+                      sx={{
+                        "& td, & th": {
+                          background: "rgba(165, 109, 201, 0.1)",
+                          borderTop: "2px black solid", // works
+                          borderBottom: "2px black solid", // works
+                        },
+                      }}
+                    >
+                      <TableCell sx={{ borderLeft: "0px black solid" }}>
+                        {lobby.lobbyName}
+                      </TableCell>
+                      <TableCell>{lobby.lobbyRegion}</TableCell>
+                      <TableCell>
+                        {lobby.lobbyMembersCount}/{lobby.lobbyMaxMembers}
+                      </TableCell>
+                      <TableCell>
+                        <div>
+                          {String(
+                            Math.floor(lobby.timeRemaining / 60000)
+                          ).padStart(2, "0")}
+                          :
+                          {String(
+                            Math.floor((lobby.timeRemaining % 60000) / 1000)
+                          ).padStart(2, "0")}
+                        </div>
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          borderRight: "0px black solid",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          endIcon={<PersonAddOutlinedIcon />}
+                          onClick={() => handleJoinLobby(lobby.lobbyId)}
+                        >
+                          Join
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={6}
                     sx={{
-                      "& td, & th": {
-                        padding: "8px",
-                      },
+                      maxWidth: "300px",
+                      textAlign: "center",
+                      verticalAlign: "middle",
+                      borderBottom: "0px black solid", // works
+                      fontWeight: "bold",
                     }}
                   >
-                    <TableCell>{lobby.lobbyName}</TableCell>
-                    <TableCell>{lobby.lobbyRegion}</TableCell>
-                    <TableCell>
-                      {lobby.lobbyMembersCount}/{lobby.lobbyMaxMembers}
-                    </TableCell>
-                    <TableCell>
-                      <div>
-                        {String(
-                          Math.floor(lobby.timeRemaining / 60000)
-                        ).padStart(2, "0")}
-                        :
-                        {String(
-                          Math.floor((lobby.timeRemaining % 60000) / 1000)
-                        ).padStart(2, "0")}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        variant="contained"
-                        endIcon={<PersonAddOutlinedIcon />}
-                        onClick={() => handleJoinLobby(lobby.lobbyId)}
-                      >
-                        Join
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                    Currently no lobbies available! <br /> Click create Lobby to
+                    create Your own lobby.
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
-            {noLobbiesDisclaimer}
           </Table>
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     </BaseContainer>
   );
 };
