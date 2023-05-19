@@ -18,7 +18,7 @@ import {
   Typography,
 } from "@mui/material";
 import { api, handleError } from "../../helpers/api";
-import { useParams } from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import AddLocation from "../../helpers/AddLocation";
 import Grid from "@mui/material/Grid";
 import moment from "moment";
@@ -32,6 +32,7 @@ const Event = () => {
   const eventId = useParams().eventId;
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
+  const history = useHistory(); // needed for linking
 
   const [event, setEvent] = useState([]);
   const [eventLocationDTO, setEventLocationDTO] = useState(null);
@@ -40,6 +41,8 @@ const Event = () => {
   const [open, setOpen] = useState(false); // state for the pop-up
   const urlRef = useRef(null); // ref for the URL input
   const [isCopied, setIsCopied] = useState(false);
+  const [openLeaveDialog, setOpenLeaveDialog] = useState(false);
+
 
   const handleCopyClick = () => {
     if (navigator.clipboard) {
@@ -83,13 +86,35 @@ const Event = () => {
   };
 
   const handleLeaveEvent = async () => {
+    if (
+        event.eventParticipantsCount === 1 &&
+        event.participantDTOs.some((p) => p.userId === Number(userId))
+    ) {
+      setOpenLeaveDialog(true);
+    } else {
+      leaveEvent();
+    }
+  };
+
+
+  const leaveEvent = async () => {
     try {
       const requestBody = JSON.stringify({
         userId: userId,
         token: token,
       });
-      await api.put(`/events/${eventId}/leave`, requestBody);
+
+      if(event.eventParticipantsCount === 1 &&
+          event.participantDTOs.some((p) => p.userId === Number(userId))) {
+        // Call to delete the event
+        await api.delete(`/events/${eventId}/delete`);
+        history.push('/events');
+      } else {
+        await api.put(`/events/${eventId}/leave`, requestBody);
+      }
+
       setIsParticipant(false);
+
     } catch (error) {
       // setError(handleError(error));
       //   console.log(error);
@@ -107,6 +132,8 @@ const Event = () => {
       }
     }
   };
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -134,7 +161,17 @@ const Event = () => {
         console.log(userIds);
         setIsParticipant(userIds.includes(Number(userId)));
       } catch (error) {
-        toast.error(handleError(error));
+
+        if(error.response.status === 404) {
+          toast.error("This event does not exist anymore.");
+          history.push('/events');
+        }
+        else
+        {
+          toast.error(handleError(error));
+        }
+
+
       }
     };
     fetchData();
@@ -370,6 +407,20 @@ const Event = () => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Dialog
+          open={openLeaveDialog}
+          onClose={() => setOpenLeaveDialog(false)}
+      >
+        <DialogTitle>
+          As you are the only participant the event will be deleted if you leave. Are you sure you want to leave the event?
+        </DialogTitle>
+        <DialogActions>
+          <Button variant="contained" onClick={() => setOpenLeaveDialog(false)}>No</Button>
+          <Button variant="contained" onClick={leaveEvent}>Yes</Button>
+        </DialogActions>
+      </Dialog>
+
 
     </BaseContainer>
   );
