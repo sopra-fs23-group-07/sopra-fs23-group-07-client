@@ -43,6 +43,10 @@ import { CustomGrid } from "styles/development/CustomGrid";
 import HourglassTopOutlinedIcon from "@mui/icons-material/HourglassTopOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { styled } from "@mui/system";
+import AddLocation from "helpers/AddLocation";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
 const Lobby = () => {
   const history = useHistory(); // needed for linking
@@ -106,8 +110,10 @@ const Lobby = () => {
         memberId: memberId,
       });
       const response = await api.put(`/lobbies/${lobbyId}/lock`, requestBody);
-      if(response.status === 200){
-        toast.warn("An event can only be created if there are at least two people in the lobby that saved their choice.")
+      if (response.status === 200) {
+        toast.warn(
+          "An event can only be created if there are at least two people in the lobby that saved their choice."
+        );
       }
       console.log("Choice locked was sent to the backend");
     } catch (error) {
@@ -181,7 +187,8 @@ const Lobby = () => {
     // Add a listener to show a warning when the user attempts to leave the page
     const handleBeforeUnload = (e) => {
       e.preventDefault();
-      e.returnValue = "Are you sure you want to leave? Any unsaved changes will be lost.";
+      e.returnValue =
+        "Are you sure you want to leave? Any unsaved changes will be lost.";
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
@@ -192,7 +199,6 @@ const Lobby = () => {
     };
   }, []);
 
-
   useEffect(() => {
     async function fetchData() {
       try {
@@ -201,16 +207,11 @@ const Lobby = () => {
           const LobbyState = true;
           setHasExecuted(true);
           await handleLeaveLobby(LobbyState);
-        }
-
-        else if(eventId === -1 && !hasExecuted){
+        } else if (eventId === -1 && !hasExecuted) {
           console.log("event Id is -1");
           setHasExecuted(true);
           await handleLeaveTimerUp();
-
-        }
-
-        else {
+        } else {
           const response = await api.get("/lobbies/" + lobbyId);
           setLobby(response.data);
           setMembers(response.data.memberDTOs);
@@ -245,9 +246,9 @@ const Lobby = () => {
       if (LobbyState) {
         console.log("handleLeaveLobby was called");
         const requestBody = JSON.stringify({
-                userId: userId,
-                token: token,
-              });
+          userId: userId,
+          token: token,
+        });
         await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
         localStorage.removeItem("lobbyId");
         history.push("/Events/" + eventId);
@@ -255,26 +256,28 @@ const Lobby = () => {
     } catch (error) {
       toast.error(handleError(error));
       localStorage.removeItem("lobbyId");
-      if(error.response.status == 401) { localStorage.clear(); }
+      if (error.response.status == 401) {
+        localStorage.clear();
+      }
       history.push(`/Lobbies`);
     }
   };
 
   const handleLeaveLobbyByButton = async () => {
     try {
-
       const requestBody = JSON.stringify({
         userId: userId,
         token: token,
       });
-        await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
-        localStorage.removeItem("lobbyId");
-        history.push(`/Lobbies`);
-
+      await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
+      localStorage.removeItem("lobbyId");
+      history.push(`/Lobbies`);
     } catch (error) {
       toast.error(handleError(error));
       localStorage.removeItem("lobbyId");
-      if(error.response.status == 401) { localStorage.clear(); window.dispatchEvent(new Event("localstorage-update"));
+      if (error.response.status == 401) {
+        localStorage.clear();
+        window.dispatchEvent(new Event("localstorage-update"));
       }
       history.push(`/Lobbies`);
     }
@@ -282,28 +285,28 @@ const Lobby = () => {
 
   const handleLeaveTimerUp = async () => {
     try {
-
       const requestBody = JSON.stringify({
         userId: userId,
         token: token,
       });
       await api.put("/lobbies/" + lobbyId + "/leave", requestBody);
       localStorage.removeItem("lobbyId");
-      toast.error("The timer has run out. You have been removed from the lobby. " +
-          "At least two users must save their choice for the event to be created");
+      toast.error(
+        "The timer has run out. You have been removed from the lobby. " +
+          "At least two users must save their choice for the event to be created"
+      );
 
       history.push(`/Lobbies`);
-
-
     } catch (error) {
       toast.error(handleError(error));
       localStorage.removeItem("lobbyId");
-      if(error.response.status == 401) { localStorage.clear(); window.dispatchEvent(new Event("localstorage-update"));
+      if (error.response.status == 401) {
+        localStorage.clear();
+        window.dispatchEvent(new Event("localstorage-update"));
       }
       history.push(`/Lobbies`);
     }
   };
-
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     borderColor: "black",
@@ -317,6 +320,7 @@ const Lobby = () => {
 
   return (
     <>
+      {/* old version */}
       <BaseContainer>
         {/* Title */}
         <Grid container sx={{ marginBottom: 2 }}>
@@ -466,8 +470,9 @@ const Lobby = () => {
                             </Typography>
                           ))
                         )}
-                      {/* </StyledTableCell> */}
+                        {/* </StyledTableCell> */}
                       </TableCell>
+
                       {/* Time Selection */}
                       {/* <StyledTableCell> */}
                       {/* Why the hell does StyledTableCell not work here? work around with sx */}
@@ -509,6 +514,8 @@ const Lobby = () => {
                         )}
                         {/* </StyledTableCell> */}
                       </TableCell>
+
+                      {/* Save Button */}
                       <StyledTableCell>
                         <FormGroup>
                           {/*TO DO: check if the user.id I get from backend is the same id as in the local storage!
@@ -864,10 +871,10 @@ const Lobby = () => {
         <Grid
           container
           sx={{
-            position: "fixed",
-            bottom: 0,
-            left: 0,
-            backgroundColor: "brown",
+            // position: "fixed",
+            // bottom: 0,
+            // right: 0,
+            // backgroundColor: "brown",
             // zIndex: 9999, // Ensure the chat is on top of other elements
             // height: "200px", // Set the desired height
             // width: "25%", // Set the desired width
@@ -876,27 +883,27 @@ const Lobby = () => {
           <Grid
             item
             sx={{
-              width: "fit-content",
-              backgroundColor: "darkcyan",
-              color: "white",
+              // width: "fit-content",
+              // backgroundColor: "darkcyan",
+              // color: "white",
             }}
           >
             {/* Open Chat Button */}
             <Button
               onClick={() => handleMaximizeChat()}
               style={{
-                cursor: "pointer",
-                width: "10px",
-                height: "auto",
-                backgroundColor: "#00A8EA",
-                color: "#fff",
-                border: "solid 1px #0095cc",
-                textAlign: "center",
-                position: "fixed",
-                right: "30px",
-                top: "950px",
-                padding: "0px",
-                borderRadius: "3px",
+                // cursor: "pointer",
+                // width: "10px",
+                // height: "auto",
+                // backgroundColor: "#00A8EA",
+                // color: "#fff",
+                // border: "solid 1px #0095cc",
+                // textAlign: "center",
+                // position: "fixed",
+                // right: "30px",
+                // top: "950px",
+                // padding: "0px",
+                // borderRadius: "3px",
               }}
             >
               Open Chat
@@ -904,52 +911,54 @@ const Lobby = () => {
 
             {/* Chat Window Container */}
             <div
-              id="ChatWindow"
-              className="ChatWindow"
+              // id="ChatWindow"
+              // className="ChatWindow"
               style={{
-                border: "3px solid #333",
-                width: "25%",
-                height: "200px",
-                padding: "10px",
-                marginBottom: "0px",
-                backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
-                position: "fixed",
-                bottom: "10px",
-                right: "10px",
-                overflow: "auto",
-                display: "block",
+                // border: "3px solid #333",
+                // width: "25%",
+                // height: "200px",
+                // padding: "10px",
+                // marginBottom: "0px",
+                // backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
+                // position: "fixed",
+                // bottom: "10px",
+                // right: "10px",
+                // overflow: "auto",
+                // display: "block",
               }}
             >
               {/* Close Chat Button X */}
               <Button
                 onClick={() => handleMinimizeChat()}
                 style={{
-                  cursor: "pointer",
-                  width: "10px",
-                  height: "auto",
-                  backgroundColor: "#00A8EA",
-                  color: "#fff",
-                  border: "solid 1px #0095cc",
-                  textAlign: "center",
-                  position: "fixed",
-                  right: "30px",
-                  top: "810px",
-                  padding: "0px",
-                  borderRadius: "3px",
+                  // cursor: "pointer",
+                  // width: "10px",
+                  // height: "auto",
+                  // backgroundColor: "#00A8EA",
+                  // color: "#fff",
+                  // border: "solid 1px #0095cc",
+                  // textAlign: "center",
+                  // position: "fixed",
+                  // right: "30px",
+                  // top: "810px",
+                  // padding: "0px",
+                  // borderRadius: "3px",
                 }}
               >
                 X
               </Button>
 
               {/* Chat Messages Display */}
-              <div id="ChatBox" className="ChatBox">
+              <div 
+              // id="ChatBox" className="ChatBox"
+              >
                 {chat.map((message) => (
                   <h1
-                    align="left"
-                    style={{
-                      color: "#000000",
-                      fontSize: "16px",
-                    }}
+                    // align="left"
+                    // style={{
+                    //   color: "#000000",
+                    //   fontSize: "16px",
+                    // }}
                   >
                     {message.username}: {message.message}
                   </h1>
@@ -958,19 +967,19 @@ const Lobby = () => {
 
               {/* Styling inside Box */}
               <div
-                id="EnterMessageBox"
-                className="EnterMessageBox"
-                style={{
-                  backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
-                  position: "absolute",
-                  bottom: "10px",
-                  left: "10px",
-                }}
+                // id="EnterMessageBox"
+                // className="EnterMessageBox"
+                // style={{
+                //   backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
+                //   position: "absolute",
+                //   bottom: "10px",
+                //   left: "10px",
+                // }}
               >
                 {/* Chat input field */}
                 <TextField
                   type={"string"}
-                  id="message"
+                  // id="message"
                   placeholder="Enter Message..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
@@ -978,30 +987,26 @@ const Lobby = () => {
                     handleMessageKeyPress(e);
                   }}
                   size="small"
-                  style={{ width: "78%" }}
+                  // style={{ width: "78%" }}
                 />
 
                 {/* Chat Send Button */}
                 <Button
                   variant="contained"
                   onClick={() => handleSendMessage(message)}
-                  style={{ height: "39px", width: "15%" }}
+                  // style={{ height: "39px", width: "15%" }}
                 >
                   Send
                 </Button>
               </div>
+
             </div>
           </Grid>
         </Grid>
+
       </BaseContainer>
 
-      {/* 
-
-
-Old Code below
-
-
-*/}
+      {/* Old Code below*/}
       <BaseContainer className="lobby">
         <div className="flex space-x-10">
           <div className="w-[80%]">
@@ -1023,7 +1028,7 @@ Old Code below
                 />
               </DialogContent>
               <DialogActions>
-                <ShareButtons/>
+                <ShareButtons />
                 <Button
                   variant="contained"
                   onClick={handleCopyClick}
@@ -1039,6 +1044,422 @@ Old Code below
             </Dialog>
           </div>
         </div>
+      </BaseContainer>
+
+      {/* Event + Lobby */}
+      <BaseContainer>
+        {/* Title */}
+        <Grid container sx={{ marginBottom: 4 }}>
+          <Grid item xs={8}>
+            <Typography
+              variant="h3"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "left",
+                marginLeft: 4,
+                color: "white",
+              }}
+            >
+              Lobby: {lobby.lobbyName}
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={4}
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              // backgroundColor: "green",
+              paddingRight: 4,
+            }}
+          >
+            <Button variant="contained" onClick={() => setOpen(true)}>
+              Invite friends
+            </Button>
+          </Grid>
+        </Grid>
+
+        {/* Visible Box */}
+        <Grid
+          container
+          sx={{
+            backgroundColor: "rgba(255, 255, 255, 0.7)",
+            borderRadius: "20px",
+            padding: 4,
+            display: "flex",
+            justifyContent: "space-between",
+            gap: 4,
+            minHeight: "400px",
+          }}
+        >
+          {/* Table Box */}
+          <Grid
+            item
+            sx={{
+              flexGrow: 1,
+              boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+            }}
+          >
+            {/* Table */}
+            <Table
+              sx={{
+                background: "white",
+                minHeight: "100%",
+                borderCollapse: "separate",
+                borderSpacing: "0 16px",
+              }}
+            >
+              <TableHead>
+                <TableRow
+                  sx={{
+                    border: "2px solid black",
+
+                    "& td, & th": {
+                      borderBottom: "0px black solid", // works
+                    },
+                  }}
+                >
+                  <TableCell
+                    sx={{
+                      minWidth: 100,
+                      width: "15%",
+                      wordWrap: "break-word",
+                      maxWidth: 0,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    <Typography fontWeight="bold">Player</Typography>
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      minWidth: 200,
+                      width: "30%",
+                      wordWrap: "break-word",
+                      maxWidth: 0,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    <Typography fontWeight="bold">Sport</Typography>
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      minWidth: 150,
+                      width: "20%",
+                      wordWrap: "break-word",
+                      maxWidth: 0,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    <Typography fontWeight="bold">Time</Typography>
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      minWidth: 80,
+                      width: "15%",
+                      wordWrap: "break-word",
+                      maxWidth: 0,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {String(Math.floor(lobby.timeRemaining / 60000)).padStart(
+                      2,
+                      "0"
+                    )}
+                    :
+                    {String(
+                      Math.floor((lobby.timeRemaining % 60000) / 1000)
+                    ).padStart(2, "0")}
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {members.map((user) => (
+                  <TableRow
+                    key={user.username}
+                    sx={{
+                      "& td, & th": {
+                        background: "rgba(165, 109, 201, 0.1)",
+                        borderTop: "2px black solid", // works
+                        borderBottom: "2px black solid", // works
+                      },
+                    }}
+                  >
+                    {/* Player */}
+                    <TableCell sx={{ borderLeft: "0px black solid" }}>
+                      {user.userId === parseInt(userId) ? (
+                        <p>{user.username}</p>
+                      ) : (
+                        <Link
+                          href={`/Profile/${user.userId}`}
+                          target="_blank"
+                          title={"This opens the profile page in a new tab"}
+                          sx={{
+                            color: "black",
+                            textDecoration: "none",
+                          }}
+                        >
+                          <AccountCircleIcon fontSize={"inherit"} />{" "}
+                          {user.username}
+                        </Link>
+                      )}
+                    </TableCell>
+
+                    {/* Sport Selection */}
+                    <TableCell
+                      sx={{
+                        wordWrap: "break-word",
+                        maxWidth: 0,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {user.userId === parseInt(userId) ? (
+                        <MultipleSelectChip
+                          onSelectedSports={handleSelectedSports}
+                          memberId={user.memberId}
+                          selectedSportsServer={user.selectedSports}
+                          chosenSportServer={lobby.lobbyDecidedSport}
+                          hasLockedSelections={user.hasLockedSelections}
+                        />
+                      ) : (
+                        user.selectedSports.map((sport) => (
+                          <Typography
+                            sx={{
+                              display: "inline",
+                              color: lobby.lobbyDecidedSport.includes(sport)
+                                ? "blue"
+                                : "black",
+                            }}
+                          >
+                            {sport + " "}
+                          </Typography>
+                        ))
+                      )}
+                    </TableCell>
+
+                    {/* Time Selection */}
+                    <TableCell
+                      sx={{
+                        wordWrap: "break-word",
+                        maxWidth: 0,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {user.userId == userId ? (
+                        <SelectDateAndTime
+                          selectedDatesServer={user.selectedDates}
+                          chosenDateServer={lobby.lobbyDecidedDate}
+                          memberId={user.memberId}
+                          hasLockedSelections={user.hasLockedSelections}
+                        ></SelectDateAndTime>
+                      ) : (
+                        user.selectedDates.map((time) => (
+                          <span
+                            style={{
+                              display: "block",
+                              color: lobby.lobbyDecidedDate.includes(time)
+                                ? "blue"
+                                : "black",
+                            }}
+                          >
+                            {
+                              <p>
+                                {moment(time).format("MMMM DD, YYYY h:mm A")}
+                              </p>
+                            }
+                          </span>
+                        ))
+                      )}
+                    </TableCell>
+
+                    {/* Save Button */}
+                    <TableCell>
+                      <FormGroup>
+                        {/*TO DO: check if the user.id I get from backend is the same id as in the local storage!
+                        And then also check if it should be disabled or not depending on the choice of the user*/}
+                        {user.userId === parseInt(userId) ? (
+                          <FormControlLabel
+                            control={<Switch />}
+                            label="Save"
+                            onChange={() =>
+                              handleLock(
+                                user.memberId,
+                                user.hasLockedSelections
+                              )
+                            }
+                            checked={user.hasLockedSelections}
+                          />
+                        ) : (
+                          <FormControlLabel
+                            disabled
+                            control={<Switch />}
+                            checked={user.hasLockedSelections}
+                          />
+                        )}
+                      </FormGroup>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Grid>
+
+          {/* Map Location old */}
+          {/* <Grid
+            item
+            sx={{
+              width: { xl: "30%", xs: "100%" },
+              maxHeight: { lg: "500px", xs: "500px" },
+              height: { xl: "auto", xs: "500px" },
+              boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+              position: "relative",
+            }}
+          > */}
+            {/* {events && (
+              <AddLocation
+                flyToLocation={flyToLocation}
+                events_passed={events}
+                EventPage={true}
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                }}
+              />
+            )} */}
+          {/* </Grid> */}
+
+          {/* Location */}
+          <Grid
+            item
+            xs={12}
+            md={4}
+            sx={{
+              // backgroundColor: "orange",
+              padding: 2,
+            }}
+          >
+
+            {/* Location title */}
+            <Grid
+              item
+              sx={{
+                padding: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                // backgroundColor: "purple",
+              }}
+            >
+              <Typography variant="h5">Location </Typography>
+            </Grid>
+
+            {/* Region text */}
+            <Grid
+              item
+              sx={{
+                display: "flex",
+                justifyContent: "left",
+                // backgroundColor: "pink",
+                padding: 1,
+              }}
+            >
+              <Typography>Region: {lobby.lobbyRegion} </Typography>
+            </Grid>
+
+            {/* Map and Confirm Button */}
+            <Grid
+              item
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                // backgroundColor: "lightblue",
+              }}
+            >
+              <div
+                style={{
+                  width: "100%",
+                }}
+              >
+                {members.map((user) =>
+                  user.userId === parseInt(userId) ? (
+                    <AddLocationForLobby
+                      memberId={user.memberId}
+                      key={user.username}
+                      locationDTO={locationDTO}
+                      hasLockedSelections={user.hasLockedSelections}
+                      flyToLocation={flyToLocation}
+                      canton={shortCodeForRegion}
+                      cantonFullName={canton_Full_name}
+                    />
+                  ) : null
+                )}
+              </div>
+            </Grid>
+
+            {/* Placeholder for Confirm Button */}
+            <Grid
+              item
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                height: "70px",
+                // backgroundColor: "lightgreen",
+              }}
+            ></Grid>
+
+            {/* Location Voting */}
+            <Grid
+              item
+              sx={{
+                display: "flex",
+                justifyContent: "left",
+                height: "50px",
+                // backgroundColor: "lightpink",
+              }}
+            >
+              {locationDTO.map((location) => (
+                <React.Fragment key={location.id}>
+                  {members.map(
+                    (user) =>
+                      user.userId === parseInt(userId) && (
+                        <div
+                          className="my-12"
+                          key={`${location.id}-${user.username}`}
+                        >
+                          <VotingForLocations
+                            hasLockedSelections={user.hasLockedSelections}
+                            lobby={lobby}
+                            members={members}
+                            memberId={user.memberId}
+                            address={location.address}
+                            locationId={location.locationId}
+                            memberVotes={location.memberVotes}
+                            key={location.id}
+                            latitude={location.latitude}
+                            longitude={location.longitude}
+                            setFlyToLocation={setFlyToLocation}
+                          />
+                        </div>
+                      )
+                  )}
+                </React.Fragment>
+              ))}
+            </Grid>
+
+          </Grid>
+
+        </Grid>
       </BaseContainer>
     </>
   );
