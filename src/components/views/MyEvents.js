@@ -60,25 +60,6 @@ const MyEvents = () => {
     history.push("/Events/" + String(eventId));
   };
 
-  // if user didn't join any event display disclaimer
-  let noMyEventsDisclaimer = <Spinner />;
-  if (!events || events.length === 0) {
-    noMyEventsDisclaimer = (
-      <p
-        style={{
-          fontWeight: "bold",
-          textAlign: "center",
-          fontSize: "1.2rem",
-          color: "black",
-        }}
-      >
-        Looks like you haven't joined any events yet. Don't miss out on the fun,
-        browse and join existing events or create your own lobby to start an
-        event!
-      </p>
-    );
-  }
-
   return (
     <BaseContainer>
       {/* Title */}
@@ -110,7 +91,6 @@ const MyEvents = () => {
           justifyContent: "space-between",
           gap: 4,
           minHeight: "400px",
-          
         }}
       >
         {/* Table Box */}
@@ -130,11 +110,9 @@ const MyEvents = () => {
               borderSpacing: "0 16px",
             }}
           >
-            <TableHead
-            >
+            <TableHead>
               <TableRow
                 sx={{
-
                   border: "2px solid black",
 
                   "& td, & th": {
@@ -163,14 +141,12 @@ const MyEvents = () => {
             </TableHead>
 
             <TableBody>
-              {events &&
+              {events && events.length > 0 ? (
                 events.map((event) => {
                   return (
                     <TableRow
                       key={event.eventName}
                       sx={{
-                   
-
                         "& td, & th": {
                           background: "rgba(165, 109, 201, 0.1)",
                           borderTop: "2px black solid", // works
@@ -213,10 +189,26 @@ const MyEvents = () => {
                       </TableCell>
                     </TableRow>
                   );
-                })}
-              {
-                noMyEventsDisclaimer /* only displayed if for no events registered */
-              }
+                })
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={6}
+                    sx={{
+                      maxWidth: "300px",
+                      textAlign: "center",
+                      verticalAlign: "middle",
+                      borderBottom: "0px black solid", // works
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Looks like you haven't joined any events yet.
+                    <br />
+                    Don't miss out on the fun, browse and join existing events
+                    or create your own lobby to start an event!
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </Grid>
@@ -225,7 +217,9 @@ const MyEvents = () => {
         <Grid
           item
           sx={{
-            width: "30%",
+            width: { xl: "30%", xs: "100%" },
+            maxHeight: { lg: "500px", xs: "500px" },
+            height: { xl: "auto", xs: "500px" },
             boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
             position: "relative",
           }}
@@ -247,7 +241,6 @@ const MyEvents = () => {
         </Grid>
       </Grid>
     </BaseContainer>
-
   );
 };
 
