@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { api, handleError } from "./api";
 
 const VotingForLocations = (props) => {
-    const [UserAlreadyVoted, setUserAlreadyVoted] = useState(false);
+
     const address = props.address;
     const lobbyId = localStorage.getItem("lobbyId");
     const locationId = props.locationId;
@@ -25,11 +25,35 @@ const VotingForLocations = (props) => {
         }
     };
 
+    // Function to check if the user voted for this location
+    const hasVotedForThisLocation = () => {
+        // Find the current location in the lobbyLocationDTOs array
+        const currentLocation = props.lobby.lobbyLocationDTOs.find(location => location.locationId === props.locationId);
+
+        // If we found the current location and the memberVotesIds includes the memberId, return true
+        if (currentLocation && currentLocation.memberVotesIds.includes(props.memberId)) {
+            return true;
+        }
+
+        // If we didn't find the location or the memberId is not included in memberVotesIds, return false
+        return false;
+    }
+
+
+    const [UserAlreadyVoted, setUserAlreadyVoted] = useState(hasVotedForThisLocation);
+
+    // console.log(props.lobby.lobbyLocationDTOs[0].locationId);
+
+    // React.useEffect(() => {
+    //     return () => {
+    //         setUserAlreadyVoted(false);
+    //     };
+    // }, []);
+
     React.useEffect(() => {
-        return () => {
-            setUserAlreadyVoted(false);
-        };
-    }, []);
+        setUserAlreadyVoted(hasVotedForThisLocation());
+    }, [props.lobby, props.locationId]);
+
 
     const UnVoteForLocation = async () => {
         try {
