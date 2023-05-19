@@ -642,6 +642,8 @@ const Lobby = () => {
                         >
                           <VotingForLocations
                             hasLockedSelections={user.hasLockedSelections}
+                            lobby={lobby}
+                            members={members}
                             memberId={user.memberId}
                             address={location.address}
                             locationId={location.locationId}
