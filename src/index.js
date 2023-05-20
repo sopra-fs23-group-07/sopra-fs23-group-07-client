@@ -15,7 +15,7 @@ ReactDOM.render(
     <App />
     <ToastContainer
       position="top-right"
-      autoClose={15000}
+      autoClose={5000}
       hideProgressBar={false}
       newestOnTop={false}
       closeOnClick
@@ -24,6 +24,8 @@ ReactDOM.render(
       draggable
       pauseOnHover
       theme="light"
+      newestOnTop
+      limit={2}
     />
   </>,
   document.getElementById("root")
