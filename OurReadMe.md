@@ -13,26 +13,51 @@ Our application allows users to set up and join sports activities spontaneously.
 - [Contact Information](#contact-information)
 
 ## Technologies
-- JSX, npm and React
+- JavaScript React
+- Npm
 - HTTP/Rest
-- gradle, spring, java and mysql
-- github, sonarqube and Google Cloud
+- Google Cloud
 
 ## Components
-- Mapbox API
-- JPA 
+Top Components
 
-## Installation
+## Launch & Deployment
 
-Instructions on how to install and set up the project, including any dependencies that need to be installed.
+For your local development environment, you will need Node.js. You can download it [here](https://nodejs.org). All other dependencies, including React, get installed with:
 
-## Usage
+```npm install```
 
-Instructions on how to use the project, including any command line arguments or input formats. You may also want to include screenshots or examples of the project in action.
+Run this command before you start your application for the first time. Next, you can start the app with:
 
-## Contributing
+```npm run dev```
 
-Guidelines for contributing to the project, including how to submit bug reports or feature requests, and any coding standards or guidelines for pull requests.
+Now you can open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+Notice that the page will reload if you make any edits. You will also see any lint errors in the console (use Google Chrome).
+
+### Testing
+Testing is optional, and you can run the tests with `npm run test`.
+This launches the test runner in an interactive watch mode. See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+> For macOS user running into a 'fsevents' error: https://github.com/jest-community/vscode-jest/issues/423
+
+### Build
+Finally, `npm run build` builds the app for production to the `build` folder.<br>
+It correctly bundles React in production mode and optimizes the build for the best performance: the build is minified, and the filenames include hashes.<br>
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+## User Flow
+
+1) Register
+2) Events
+3) Lobbies
+4) Create Lobby
+5) Lobby
+6) Event Details
+
+## Roadmap
+Top features to be implemented in future.
 
 ## License
 
