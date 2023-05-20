@@ -7,8 +7,8 @@ If you have ever tried to organize a sports event with friends then you know how
 
 - [Technologies](#technologies)
 - [Components](#components)
-- [Launch & Deployment](#launch & deployment)
-- [User Flow](#user flow)
+- [Launch & Deployment](#launch-&-deployment)
+- [User Flow](#user-flow)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [License](#license)
