@@ -127,9 +127,12 @@ const CreateEvent = () => {
       // after event is generated braing user to event page.
       history.push(`/Events/${response.data.eventId}`);
     } catch (error) {
-      if (error.response.status == 401) {
+        console.log(error.response);
+      if (error.response.status == 401 || error.response.status == 404) {
         localStorage.clear();
         window.dispatchEvent(new Event("localstorage-update"));
+        await api.post(`/users/logout/${userId}`);
+        toast.error(handleError(error));
       }
       if (error.response.status == 400) {
       } else {
