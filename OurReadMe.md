@@ -51,14 +51,6 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## User Flow
 
-1) Register
-2) Home
-3) Events
-4) Lobbies
-5) Create Lobby
-6) Lobby
-7) Event Details
-
 ### Register
 
 Upon going to our app, the user is first shown the register page. Although it is not required to register/login to use our app, there are certain features only available for logged in users. To successfully register, a unique username, email and a password is required.
@@ -75,9 +67,17 @@ A user can then go to the events page by clicking "Events" on the navigation bar
 
 Incase there is no event which interests the user, they can have a look at what lobbies are currently open in the lobbies page by clicking "Lobbies" on the navigation bar on top of the page. Here the user is shown all lobbies including the number of patricpants in a lobby and the area in which the lobby is considering. To join a lobby the user can click the "Join Lobby" or if there is nothing which suits the user, they can create a new lobby by clicking the "Create Lobby" button.
 
+### Create Lobby
+
+To create a lobby the user must first give the lobby a unique name, set the maximum number of participants and select a Kanton where the event will take place. To create the event the user must simply click the "Create Lobby" button and they will be redireted to the lobby page.
+
 ### Lobby
 
+While in the lobby a user must select at least one sport, date and time, and location which suits them. Instructions on how to make selections for the various categories can be found in a text box when hovering over the information icon next to the categoriy headers. Once all members have saved their choices or if the timer has run out, the majority of each category will be used to create a new event and all users of the lobby will be redirected to the event details page for that event. If at any time the user wishes to leave the lobby, they can click the "Leave Lobby" button.
 
+### Event Details
+
+The event details page allows users to view the specifics about an event such as the sport, time, location of the event and particpants of the event. If a user wishes to join the event and there is still space in the event, the user can click the "Join" button. Likewise if a user wishes to leave an event, they can click the "Leave" button. 
 
 ## Roadmap
 Top features to be implemented in future.
