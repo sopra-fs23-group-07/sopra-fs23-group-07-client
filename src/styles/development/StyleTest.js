@@ -39,189 +39,377 @@ import { CustomHeading } from "./CustomHeading";
 import { CustomGrid } from "./CustomGrid";
 import InfoIcon from "@mui/icons-material/Info";
 
-import HourglassTopOutlinedIcon from "@mui/icons-material/HourglassTopOutlined";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { styled } from "@mui/system";
-import { api, handleError } from "../../helpers/api";
-import { useParams } from "react-router-dom";
-import AddLocation from "../../helpers/AddLocation";
-import moment from "moment";
-import LaunchIcon from "@mui/icons-material/Launch";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { toast } from "react-toastify";
-import background1 from "../../background1.jpg";
-import soccer from "../../soccer.jpg";
+// import HourglassTopOutlinedIcon from "@mui/icons-material/HourglassTopOutlined";
+// import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+// import { styled } from "@mui/system";
+// import { api, handleError } from "../../helpers/api";
+// import { useParams } from "react-router-dom";
+// import AddLocation from "../../helpers/AddLocation";
+// import moment from "moment";
+// import LaunchIcon from "@mui/icons-material/Launch";
+// import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+// import { toast } from "react-toastify";
+// import background1 from "../../background1.jpg";
+// import soccer from "../../soccer.jpg";
 
-// test new layout
-export default function ResponsiveLayout() {
-  return (
-    <>
-      {/* final version */}
-      <BaseContainer>
-        {/* white box */}
-        <Box
-          sx={{
-            backgroundColor: "rgba(255, 255, 255, 0.7)",
-            borderRadius: "20px",
-            padding: 4,
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 4,
-          }}
-        >
-          {/* Table Box */}
-          <Box
-            sx={{ flexGrow: 1, boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.7)" }}
-          >
-            {/* Table */}
-            <Table sx={{ minWidth: 300, background: "white" }}>
-              <TableHead>
-                <TableRow>{/* Add table header cells here */}</TableRow>
-              </TableHead>
-              <TableBody>
-                {/* Placeholder rows */}
-                {Array.from(Array(6).keys()).map((index) => (
-                  <TableRow key={index}>
-                    <TableCell>Placeholder</TableCell>
-                    <TableCell>Placeholder</TableCell>
-                    <TableCell>Placeholder</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Box>
-          <Box
-            sx={{
-              width: "30%",
-              boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
-              background: "brown",
-            }}
-          >
-            Map
-          </Box>
-        </Box>
-      </BaseContainer>
+// import { useState } from "react";
 
-      <BaseContainer>
-        {" "}
-        <Box sx={{ backgroundColor: "#F0F0F0", padding: 2, mt: 4 }}>
-          <Box sx={{ border: "1px solid #000000", padding: 2 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={12} sx={{ backgroundColor: "yellow" }}>
-                <TableContainer>
-                  <Table
-                    sx={{ borderCollapse: "separate", borderSpacing: "0 8px" }} // sacing
-                  >
-                    <TableHead>
-                      <TableRow
-                        sx={
-                          {
-                            // borderBottom: "3px solid green", // doesn't work
-                            // background: "red", // works
-                          }
-                        }
-                      >
-                        <TableCell style={{ minWidth: 100, width: "15%" }}>
-                          Player
-                        </TableCell>
-                        <TableCell style={{ minWidth: 200, width: "30%" }}>
-                          Sport
-                        </TableCell>
-                        <TableCell style={{ minWidth: 150, width: "20%" }}>
-                          Time
-                        </TableCell>
-                        <TableCell style={{ minWidth: 80, width: "15%" }}>
-                          13:37
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
+//   // let buttonSize = "30px";
+//   // let componentSize = "800px";
+//   const [isOpen, setIsOpen] = useState(false);
 
-                    <TableBody
-                      sx={{
-                        "& > .MuiTableRow-root": {
-                          // border: "3px solid black",
-                          // borderWidth: "2px 2px 2px 2px",
-                          // background: "red",
-                        },
-                      }}
-                    >
-                      {/* Placeholder rows */}
-                      {Array.from(Array(6).keys()).map((index) => (
-                        <TableRow
-                          key={index}
-                          sx={{
-                            "& td, & th": {
-                              // padding: "8px",
-                              background: "lightblue", // works
-                              borderTop: "3px black solid", // works
-                              borderBottom: "3px black solid", // works
-                            },
-                          }}
-                        >
-                          <TableCell
-                            sx={{
-                              whiteSpace: "nowrap",
-                              borderLeft: "3px black solid", // works
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              // sx={{
-                              //                       // "& TableCell": { background: "green" },
-                              //                       "&& .MuiTableCell-root": {
-                              //                         backgroundColor: "yellow",
-                              //                         fontWeight: "bold",
-                              //                         alignItems: "flex-start",
-                              //                         justifyContent: "right",
-                              //                       },
-                            }}
-                          >
-                            Placeholder Placeholder Placeholder Placeholder
-                          </TableCell>
-                          <TableCell
-                            sx={{
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                            }}
-                          >
-                            Placeholder Placeholder Placeholder Placeholder
-                            Placeholder Placeholder
-                          </TableCell>
-                          <TableCell
-                            sx={{
-                              // border: "1px black solid",
-                              // borderWeight: "0px 3px 0px 0px",
-                              // borderTop: "3px black solid", // works
-                              // borderBottom: "3px black solid", // works
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                            }}
-                          >
-                            Placeholder Placeholder Placeholder Placeholder
-                            Placeholder
-                          </TableCell>
-                          <TableCell
-                            sx={{
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                            }}
-                          >
-                            Placeholder Placeholder
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </BaseContainer>
-    </>
-  );
-}
+//   const toggleChat = () => {
+//     setIsOpen(!isOpen);
+//   };
+
+// // test new layout
+// export default function ResponsiveLayout() {
+//   return (
+//     <>
+// {/* Chat test */}
+// <Box
+//       sx={{
+//         position: "fixed",
+//         bottom: 16,
+//         right: 16,
+//         zIndex: 999,
+//         backgroundColor: "white",
+//         borderRadius: "4px",
+//         boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+//         width: componentSize,
+//         height: componentSize,
+//         display: "flex",
+//         flexDirection: "column",
+//       }}
+//     >
+//       <Button
+//         sx={{
+//           alignSelf: "flex-end",
+//           marginRight: "8px",
+//           marginTop: "8px",
+//         }}
+//         onClick={toggleChat}
+//       >
+//         Toggle
+//       </Button>
+
+//       <Box
+//         sx={{
+//           backgroundColor: "red",
+//           flexGrow: 1,
+//           marginBottom: "8px",
+//         }}
+//       >
+//         {/* Bottom Left Component */}
+//       </Box>
+
+//       <Box
+//         sx={{
+//           display: "flex",
+//           justifyContent: "space-between",
+//         }}
+//       >
+//         <Box
+//           sx={{
+//             backgroundColor: "blue",
+//             width: buttonSize,
+//             height: "100%",
+//             marginRight: "8px",
+//           }}
+//         >
+//           {/* Left Button */}
+//         </Box>
+//         <Box
+//           sx={{
+//             backgroundColor: "green",
+//             width: "calc(100% - 2 * buttonSize - 8px)",
+//             height: "100%",
+//             marginRight: "8px",
+//           }}
+//         >
+//           {/* Top Left Component */}
+//         </Box>
+//         <Box
+//           sx={{
+//             backgroundColor: "yellow",
+//             width: buttonSize,
+//             height: "100%",
+//           }}
+//         >
+//           {/* Right Button */}
+//         </Box>
+//       </Box>
+//     </Box>
+
+//       {/* final version */}
+//       <BaseContainer>
+//         {/* white box */}
+//         <Box
+//           sx={{
+//             backgroundColor: "rgba(255, 255, 255, 0.7)",
+//             borderRadius: "20px",
+//             padding: 4,
+//             display: "flex",
+//             justifyContent: "space-between",
+//             gap: 4,
+//           }}
+//         >
+//           {/* Table Box */}
+//           <Box
+//             sx={{ flexGrow: 1, boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.7)" }}
+//           >
+//             {/* Table */}
+//             <Table sx={{ minWidth: 300, background: "white" }}>
+//               <TableHead>
+//                 <TableRow>{/* Add table header cells here */}</TableRow>
+//               </TableHead>
+//               <TableBody>
+//                 {/* Placeholder rows */}
+//                 {Array.from(Array(6).keys()).map((index) => (
+//                   <TableRow key={index}>
+//                     <TableCell>Placeholder</TableCell>
+//                     <TableCell>Placeholder</TableCell>
+//                     <TableCell>Placeholder</TableCell>
+//                   </TableRow>
+//                 ))}
+//               </TableBody>
+//             </Table>
+//           </Box>
+//           <Box
+//             sx={{
+//               width: "30%",
+//               boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+//               background: "brown",
+//             }}
+//           >
+//             Map
+//           </Box>
+//         </Box>
+//       </BaseContainer>
+
+//       {/* Current version MyEvents */}
+//       <BaseContainer>
+//         {/* Visible Box */}
+//         <Grid
+//           container
+//           sx={{
+//             backgroundColor: "rgba(255, 255, 255, 0.7)",
+//             borderRadius: "20px",
+//             padding: 4,
+//             display: "flex",
+//             justifyContent: "space-between",
+//             gap: 4,
+//             minHeight: "400px",
+//             // minWidth: "800px",
+//             // flexDirection: {
+//             //   xs: 'column', // stack vertically on small screens
+//             //   sm: 'row', // stack horizontally on medium screens and larger
+//             // },
+//           }}
+//         >
+
+//           {/* Table Box */}
+//           <Grid
+//             item
+//             sx={{
+//               flexGrow: 1,
+//               boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+//             }}
+//           >
+//             {/* Table */}
+//             <Table
+//               sx={{
+//                 background: "white",
+//                 minHeight: "100%",
+//                 borderCollapse: "separate",
+//                 borderSpacing: "0 16px",
+//                 // border: "2px solid black"
+//               }}
+//             >
+//               <TableHead>
+//                 <TableRow>{/* Add table header cells here */}</TableRow>
+//               </TableHead>
+//               <TableBody>
+//                 {/* Placeholder rows */}
+//                 {Array.from(Array(6).keys()).map((index) => (
+//                   <TableRow
+//                     key={index}
+//                     sx={{
+//                       // borderColor: "black", // doesn't work
+//                       // borderWidth: 3, // doesn't work
+//                       // borderStyle: "solid", // doesn't work
+//                       // background: "lightblue", // works
+
+//                       "& td, & th": {
+//                         background: "rgba(165, 109, 201, 0.1)",
+//                         borderTop: "2px black solid", // works
+//                         borderBottom: "2px black solid", // works
+//                       },
+//                     }}
+//                   >
+//                     <TableCell>Placeholder</TableCell>
+//                     <TableCell>Placeholder</TableCell>
+//                     <TableCell>Placeholder</TableCell>
+//                   </TableRow>
+//                 ))}
+//               </TableBody>
+//             </Table>
+
+//             {/* Map */}
+//             <Grid
+//               item
+//               sx={{
+//                 // width: { md: "30%", xs: "100%" },
+//                 // maxHeight: "500px",
+//                 width: "30%",
+//                 boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+//                 position: "relative",
+//               }}
+//             >
+//               Map
+//             </Grid>
+//           </Grid>
+//         </Grid>
+//       </BaseContainer>
+
+//       {/* New version */}
+//       <BaseContainer bgcolor={"red"}>
+//         <Grid container bgcolor={"yellow"} mt={2} spacing={2}>
+//           <Grid
+//             item
+//             xs={12}
+//             bgcolor={"lightblue"}
+//             width={"100px"}
+//             height={"100px"}
+//           >
+//             H
+//           </Grid>
+//           <Grid item bgcolor={"navy"} width={"100px"} height={"100px"}>
+//             e
+//           </Grid>
+//         </Grid>
+//       </BaseContainer>
+//     </>
+//   );
+// }
+
+// <BaseContainer>
+// {" "}
+// <Box sx={{ backgroundColor: "#F0F0F0", padding: 2, mt: 4 }}>
+//   <Box sx={{ border: "1px solid #000000", padding: 2 }}>
+//     <Grid container spacing={2}>
+//       <Grid item xs={12} md={12} sx={{ backgroundColor: "yellow" }}>
+//         <TableContainer>
+//           <Table
+//             sx={{ borderCollapse: "separate", borderSpacing: "0 8px" }} // sacing
+//           >
+//             <TableHead>
+//               <TableRow
+//                 sx={
+//                   {
+//                     // borderBottom: "3px solid green", // doesn't work
+//                     // background: "red", // works
+//                   }
+//                 }
+//               >
+//                 <TableCell style={{ minWidth: 100, width: "15%" }}>
+//                   Player
+//                 </TableCell>
+//                 <TableCell style={{ minWidth: 200, width: "30%" }}>
+//                   Sport
+//                 </TableCell>
+//                 <TableCell style={{ minWidth: 150, width: "20%" }}>
+//                   Time
+//                 </TableCell>
+//                 <TableCell style={{ minWidth: 80, width: "15%" }}>
+//                   13:37
+//                 </TableCell>
+//               </TableRow>
+//             </TableHead>
+
+//             <TableBody
+//               sx={{
+//                 "& > .MuiTableRow-root": {
+//                   // border: "3px solid black",
+//                   // borderWidth: "2px 2px 2px 2px",
+//                   // background: "red",
+//                 },
+//               }}
+//             >
+//               {/* Placeholder rows */}
+//               {Array.from(Array(6).keys()).map((index) => (
+//                 <TableRow
+//                   key={index}
+//                   sx={{
+//                     "& td, & th": {
+//                       // padding: "8px",
+//                       background: "lightblue", // works
+//                       borderTop: "3px black solid", // works
+//                       borderBottom: "3px black solid", // works
+//                     },
+//                   }}
+//                 >
+//                   <TableCell
+//                     sx={{
+//                       whiteSpace: "nowrap",
+//                       borderLeft: "3px black solid", // works
+//                       overflow: "hidden",
+//                       textOverflow: "ellipsis",
+//                       // sx={{
+//                       //                       // "& TableCell": { background: "green" },
+//                       //                       "&& .MuiTableCell-root": {
+//                       //                         backgroundColor: "yellow",
+//                       //                         fontWeight: "bold",
+//                       //                         alignItems: "flex-start",
+//                       //                         justifyContent: "right",
+//                       //                       },
+//                     }}
+//                   >
+//                     Placeholder Placeholder Placeholder Placeholder
+//                   </TableCell>
+//                   <TableCell
+//                     sx={{
+//                       whiteSpace: "nowrap",
+//                       overflow: "hidden",
+//                       textOverflow: "ellipsis",
+//                     }}
+//                   >
+//                     Placeholder Placeholder Placeholder Placeholder
+//                     Placeholder Placeholder
+//                   </TableCell>
+//                   <TableCell
+//                     sx={{
+//                       // border: "1px black solid",
+//                       // borderWeight: "0px 3px 0px 0px",
+//                       // borderTop: "3px black solid", // works
+//                       // borderBottom: "3px black solid", // works
+//                       whiteSpace: "nowrap",
+//                       overflow: "hidden",
+//                       textOverflow: "ellipsis",
+//                     }}
+//                   >
+//                     Placeholder Placeholder Placeholder Placeholder
+//                     Placeholder
+//                   </TableCell>
+//                   <TableCell
+//                     sx={{
+//                       whiteSpace: "nowrap",
+//                       overflow: "hidden",
+//                       textOverflow: "ellipsis",
+//                     }}
+//                   >
+//                     Placeholder Placeholder
+//                   </TableCell>
+//                 </TableRow>
+//               ))}
+//             </TableBody>
+//           </Table>
+//         </TableContainer>
+//       </Grid>
+//     </Grid>
+//   </Box>
+// </Box>
+// </BaseContainer>
 
 // bs event not working
 // export default function ResponsiveLayout() {

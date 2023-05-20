@@ -349,10 +349,11 @@ const AddLocationForLobby = (props) => {
       </ReactMapGL>
 
       <Box
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "10px", }}
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 2, marginTop: "10px", }}
       >
         <Button
           variant="contained"
+          sx={{width: "40%"}}
           disabled={
               props.hasLockedSelections ||
               props.locationDTO.some(location => location.memberId === props.memberId)
@@ -364,6 +365,7 @@ const AddLocationForLobby = (props) => {
 
         <Button
             variant="contained"
+            sx={{width: "40%"}}
             disabled={
                 props.hasLockedSelections ||
                 !props.locationDTO.some(location => location.memberId === props.memberId)

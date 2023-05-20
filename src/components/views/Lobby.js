@@ -3,6 +3,7 @@ import BaseContainer from "components/ui/BaseContainer";
 import ShareButtons from "components/ui/ShareButtons";
 import {
   Button,
+  Box,
   Dialog,
   DialogActions,
   DialogContent,
@@ -21,6 +22,7 @@ import {
   TextField,
   Tooltip,
   Typography,
+  IconButton,
 } from "@mui/material";
 import MultipleSelectChip from "helpers/SelectSport";
 import { api, handleError } from "../../helpers/api";
@@ -36,6 +38,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import InfoIcon from "@mui/icons-material/Info";
 import { toast } from "react-toastify";
 import { CustomHeading } from "styles/development/CustomHeading";
@@ -47,15 +50,14 @@ import AddLocation from "helpers/AddLocation";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Lobby = () => {
   const history = useHistory(); // needed for linking
   const lobbyId = localStorage.getItem("lobbyId");
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
-
   const [lobby, setLobby] = useState([]);
-
   const [selectedSports, setSelectedSports] = React.useState([]);
   const [members, setMembers] = useState([]); // state for the pop-up
   const [chat, setChat] = useState([]);
@@ -65,13 +67,6 @@ const Lobby = () => {
   const [canton_Full_name, setCanton_Full_name] = useState("");
   const [shortCodeForRegion, setShortCodeForRegion] = useState("");
 
-  //
-  // members.map((user) => {
-  //     if (user.userId === parseInt(userId)) {
-  //         setChoiceLocked(user.hasLockedSelections)
-  //
-  //     }
-  // });
   const handleSelectedSports = (sports) => {
     setSelectedSports(sports);
   };
@@ -110,10 +105,8 @@ const Lobby = () => {
         memberId: memberId,
       });
       const response = await api.put(`/lobbies/${lobbyId}/lock`, requestBody);
-      if (response.status === 200) {
-        toast.warn(
-          "An event can only be created if there are at least two people in the lobby that saved their choice."
-        );
+      if (response.data) {
+        toast.warn(response.data);
       }
       console.log("Choice locked was sent to the backend");
     } catch (error) {
@@ -323,19 +316,587 @@ const Lobby = () => {
 
   return (
     <>
-      {/* old version */}
-      <BaseContainer>
-        {/* Title */}
-        <Grid container sx={{ marginBottom: 2 }}>
+      {/* Chat attempt 0*/}
+      {/* <Grid
+          container
+          sx={
+            {
+              // position: "fixed",
+              // bottom: 0,
+              // right: 0,
+              // backgroundColor: "brown",
+              // zIndex: 9999, // Ensure the chat is on top of other elements
+              // height: "200px", // Set the desired height
+              // width: "25%", // Set the desired width
+            }
+          }
+        >
           <Grid
             item
-            xs={8}
             sx={
               {
-                // backgroundColor: "red"
+                // width: "fit-content",
+                // backgroundColor: "darkcyan",
+                // color: "white",
               }
             }
           >
+            <Button
+              onClick={() => handleMaximizeChat()}
+              style={
+                {
+                  // cursor: "pointer",
+                  // width: "10px",
+                  // height: "auto",
+                  // backgroundColor: "#00A8EA",
+                  // color: "#fff",
+                  // border: "solid 1px #0095cc",
+                  // textAlign: "center",
+                  // position: "fixed",
+                  // right: "30px",
+                  // top: "950px",
+                  // padding: "0px",
+                  // borderRadius: "3px",
+                }
+              }
+            >
+              Open Chat
+            </Button>
+
+            <div
+              // id="ChatWindow"
+              // className="ChatWindow"
+              style={
+                {
+                  // border: "3px solid #333",
+                  // width: "25%",
+                  // height: "200px",
+                  // padding: "10px",
+                  // marginBottom: "0px",
+                  // backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
+                  // position: "fixed",
+                  // bottom: "10px",
+                  // right: "10px",
+                  // overflow: "auto",
+                  // display: "block",
+                }
+              }
+            >
+              <Button
+                onClick={() => handleMinimizeChat()}
+                style={
+                  {
+                    // cursor: "pointer",
+                    // width: "10px",
+                    // height: "auto",
+                    // backgroundColor: "#00A8EA",
+                    // color: "#fff",
+                    // border: "solid 1px #0095cc",
+                    // textAlign: "center",
+                    // position: "fixed",
+                    // right: "30px",
+                    // top: "810px",
+                    // padding: "0px",
+                    // borderRadius: "3px",
+                  }
+                }
+              >
+                X
+              </Button>
+
+              <div
+              // id="ChatBox" className="ChatBox"
+              >
+                {chat.map((message) => (
+                  <h1
+                  // align="left"
+                  // style={{
+                  //   color: "#000000",
+                  //   fontSize: "16px",
+                  // }}
+                  >
+                    {message.username}: {message.message}
+                  </h1>
+                ))}
+              </div>
+
+              <div
+              // id="EnterMessageBox"
+              // className="EnterMessageBox"
+              // style={{
+              //   backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
+              //   position: "absolute",
+              //   bottom: "10px",
+              //   left: "10px",
+              // }}
+              >
+                <TextField
+                  type={"string"}
+                  // id="message"
+                  placeholder="Enter Message..."
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  onKeyPress={(e) => {
+                    handleMessageKeyPress(e);
+                  }}
+                  size="small"
+                  // style={{ width: "78%" }}
+                />
+
+                <Button
+                  variant="contained"
+                  onClick={() => handleSendMessage(message)}
+                  // style={{ height: "39px", width: "15%" }}
+                >
+                  Send
+                </Button>
+              </div>
+            </div>
+          </Grid>
+        </Grid> */}
+
+      {/* Chat attempt 1 */}
+      {/* <Grid
+          sx={{
+            position: "fixed",
+            bottom: 8,
+            right: 8,
+            zIndex: 999,
+            backgroundColor: "white",
+            borderRadius: "4px",
+            border: "2px black solid",
+            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+            width: "400px",
+            height: "200px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Button
+            sx={{
+              // position: "relative",
+              // top: 1,
+              // right: 1,
+              // width: "30px",
+              // height: "30px",
+              alignSelf: "flex-end",
+              marginRight: "8px",
+              marginTop: "8px",
+              bgcolor: "orange",
+            }}
+            // onClick={toggleChat}
+          >
+            Toggle
+          </Button>
+
+          <Box
+            sx={{
+              backgroundColor: "red",
+              flexGrow: 1,
+              marginBottom: "8px",
+            }}
+          >
+            Bottom Left Component
+          </Box>
+
+          <Grid item container
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Grid item
+              sx={{
+                backgroundColor: "blue",
+                width: "200px",
+                height: "100%",
+                marginRight: "8px",
+                flexDirection: "column"
+              }}
+            >
+              Left Button
+            </Grid>
+            <Grid
+            item
+              sx={{
+                backgroundColor: "green",
+                // width: "calc(100% - 2 * "buttonSize" - 8px)",
+                width: "100px",
+                height: "100%",
+                marginRight: "8px",
+              }}
+            >
+              Top Left Component
+            </Grid>
+            <Grid
+            item
+              sx={{
+                backgroundColor: "yellow",
+                width: "100px",
+                height: "100%",
+              }}
+            >
+              Right Button
+            </Grid>
+          </Grid>
+        </Grid> */}
+
+      {/* Chat attempt 2 */}
+      {/* <Grid
+          container
+           id="ChatWindow"
+          style={{
+            position: "fixed",
+            bottom: 8,
+            right: 8,
+            zIndex: 999,
+            backgroundColor: "white",
+            borderRadius: "4px",
+            border: "2px black solid",
+            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+            width: "400px",
+            height: "200px",
+            display: "flex",
+            flexDirection: "rows",
+            p: 1,
+          }}
+        >
+          <Grid item container height={"80%"} flexDirection={"column"}>
+            
+            <Grid item width={"80%"} height={"100%"} bgcolor={"blue"}>
+                {chat.map((message) => (
+                  <h1
+                  align="left"
+                  style={{
+                    color: "#000000",
+                    fontSize: "16px",
+                  }}
+                  >
+                    {message.username}: {message.message}
+                  </h1>
+                ))}
+             
+            </Grid>
+
+          
+            <Grid
+              item
+              width={"20%"}
+              display={"flex"}
+              justifyContent={"flex-end"}
+              bgcolor={"pink"}
+            >
+              <IconButton onClick={() => handleMinimizeChat()}>
+                <CloseIcon />
+              </IconButton>
+            </Grid>
+          </Grid>
+
+          <Grid
+            item
+            container
+            height={"20%"}
+            flexDirection={"column"}
+            bgcolor={"green"}
+          >
+            
+            <Grid
+              item
+              width={"50%"}
+              bgcolor={"yellow"}
+              // display={"flex"}
+              // alignSelf={"flex-end"}
+            >
+              <TextField
+                type={"string"}
+                // id="message"
+                placeholder="Enter Message..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyPress={(e) => {
+                  handleMessageKeyPress(e);
+                }}
+                size="small"
+                // style={{ width: "78%" }}
+              />
+            </Grid>
+           
+            <Grid item width={"25%"} bgcolor={"orange"}>
+              <Button
+                variant="contained"
+                onClick={() => handleSendMessage(message)}
+                marginLeft={2}
+              >
+                Send
+              </Button>
+            </Grid>
+           
+            <Grid item width={"25%"} bgcolor={"lightblue"}>
+              <Button
+                variant="contained"
+                marginBottom={2}
+                onClick={() => handleMaximizeChat()}
+              >
+                {" "}
+                open Chat
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid> */}
+
+      {/* Chat attempt 3 */}
+      {/* Chat */}
+      {/* <Box
+          container
+          sx={{
+            position: "fixed",
+            bottom: 8,
+            right: 8,
+            zIndex: 999,
+            bgcolor: "brown",
+            width: "400px",
+            height: "200px",
+            // display: "flex",
+            // flexDirection: "rows",
+          }}
+        >
+          <Button
+            onClick={() => handleMaximizeChat()}
+            variant="contained"
+            style={{
+              position: "fixed",
+              bottom: 8,
+              right: 8,
+              zIndex: 999,
+              marginBottom: 2,
+              marginRight: 2,
+
+              // cursor: "pointer",
+              // width: "10px",
+              // height: "auto",
+              // backgroundColor: "#00A8EA",
+              // color: "#fff",
+              // border: "solid 1px #0095cc",
+              // textAlign: "center",
+              // position: "fixed",
+              // right: "30px",
+              // top: "950px",
+              // padding: "0px",
+              // borderRadius: "3px",
+            }}
+          >
+            Open Chat
+          </Button>
+
+          <Box
+            id="ChatWindow"
+            className="ChatWindow"
+            style={{
+              backgroundColor: "white",
+              borderRadius: "4px",
+              border: "2px black solid",
+              boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+              p: 1,
+              // border: "3px solid #333",
+              // width: "25%",
+              // height: "200px",
+              maxHeight: "400px",
+              // padding: "10px",
+              // marginBottom: "0px",
+              // backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
+              // position: "fixed",
+              // bottom: "10px",
+              // right: "10px",
+              // overflow: "auto",
+              position: "fixed",
+              bottom: 8,
+              right: 8,
+              zIndex: 999,
+              // width: "100%",
+              display: "block",
+            }}
+          >
+            <Button
+              onClick={() => handleMinimizeChat()}
+              style={
+                {
+                  // cursor: "pointer",
+                  // width: "10px",
+                  // height: "auto",
+                  // backgroundColor: "#00A8EA",
+                  // color: "#fff",
+                  // border: "solid 1px #0095cc",
+                  // textAlign: "center",
+                  // position: "fixed",
+                  // right: "30px",
+                  // top: "810px",
+                  // padding: "0px",
+                  // borderRadius: "3px",
+                }
+              }
+            >
+              X
+            </Button>
+
+            <Box id="ChatBox" className="ChatBox" sx={{ marginLeft: 1 }}>
+              {chat.map((message) => (
+                <h1
+                  align="left"
+                  style={{
+                    color: "#000000",
+                    fontSize: "16px",
+                  }}
+                >
+                  {message.username}: {message.message}
+                </h1>
+              ))}
+            </Box>
+
+            <Box
+              id="EnterMessageBox"
+              className="EnterMessageBox"
+              style={{
+                //   backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
+                //   position: "absolute",
+                //   bottom: "10px",
+                //   left: "10px",
+                padding: "8px",
+              }}
+            >
+              <TextField
+                type={"string"}
+                id="message"
+                placeholder="Enter Message..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyPress={(e) => {
+                  handleMessageKeyPress(e);
+                }}
+                size="small"
+                // style={{ width: "78%" }}
+                sx={{ marginRight: 1 }}
+              />
+
+              <Button
+                variant="contained"
+                onClick={() => handleSendMessage(message)}
+                // style={{ height: "39px", width: "15%" }}
+              >
+                Send
+              </Button>
+            </Box>
+          </Box>
+        </Box> */}
+
+      {/* Chat attempt 4 */}
+      {/* <Button
+          onClick={() => handleMaximizeChat()}
+          variant="contained"
+          style={{
+            // cursor: "pointer",
+            // width: "10px",
+            // height: "auto",
+            // backgroundColor: "#00A8EA",
+            // color: "#fff",
+            // border: "solid 1px #0095cc",
+            textAlign: "center",
+            position: "fixed",
+            right: 8,
+            bottom: 8,
+            padding: 4,
+            borderRadius: "3px",
+          }}
+        >
+          Open Chat
+        </Button>
+
+        <div
+          id="ChatWindow"
+          className="ChatWindow"
+          style={{
+            border: "3px solid #333",
+            width: "400px",
+            height: "200px",
+            padding: "10px",
+            marginBottom: "0px",
+            backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
+            position: "fixed",
+            bottom: 8,
+            right: 8,
+            zIndex: 999,
+            overflow: "auto",
+            display: "block",
+          }}
+        >
+          <Button
+            onClick={() => handleMinimizeChat()}
+            style={{
+              cursor: "pointer",
+              width: "10px",
+              height: "auto",
+              backgroundColor: "#00A8EA",
+              color: "#fff",
+              border: "solid 1px #0095cc",
+              textAlign: "center",
+              position: "fixed",
+              right: "30px",
+              bottom: "350px",
+              padding: "0px",
+              borderRadius: "3px",
+            }}
+          >
+            X
+          </Button>
+          <div id="ChatBox" className="ChatBox">
+            {chat.map((message) => (
+              <h1
+                align="left"
+                style={{
+                  color: "#000000",
+                  fontSize: "16px",
+                }}
+              >
+                {message.username}: {message.message}
+              </h1>
+            ))}
+          </div>
+          <div
+            id="EnterMessageBox"
+            className="EnterMessageBox"
+            style={{
+              backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
+              position: "absolute",
+              bottom: "10px",
+              left: "10px",
+            }}
+          >
+            <TextField
+              type={"string"}
+              id="message"
+              placeholder="Enter Message..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyPress={(e) => {
+                handleMessageKeyPress(e);
+              }}
+              size="small"
+              style={{ width: "78%" }}
+            />
+            <Button
+              variant="contained"
+              onClick={() => handleSendMessage(message)}
+              style={{ height: "39px", width: "15%" }}
+            >
+              Send
+            </Button>
+          </div>
+        </div> */}
+
+      {/* Event + Lobby */}
+      <BaseContainer>
+        {/* Title */}
+        <Grid container sx={{ marginBottom: 4 }}>
+          <Grid item xs={8}>
             <Typography
               variant="h3"
               sx={{
@@ -369,203 +930,266 @@ const Lobby = () => {
         <Grid
           container
           sx={{
-            backgroundColor: "blue",
-            // pt: 2,
-            // pb: 4,
-            // paddingX: 4,
-            p: 4,
-            background: "rgba(255, 255, 255, 0.7)",
+            backgroundColor: "rgba(255, 255, 255, 0.7)",
             borderRadius: "20px",
-            marginBottom: 2,
+            padding: 4,
+            display: "flex",
+            // flexDirection: "column", // xy
+            justifyContent: "space-between",
+            gap: 4,
+            minHeight: "400px",
           }}
         >
-          {/* make it responsive */}
-          {/* <Grid sx={{ marginTop: 2 }}> */}
-          {/* Table */}
-
-          {/* Table */}
+          {/* Table Box */}
           <Grid
             item
-            xs={8}
-            // sx={{ alignItems: "center", backgroundColor: "yellow" }}
+            sx={{
+              flexGrow: 1,
+              boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+            }}
           >
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    {/* Table cells usefull */}
-                    <StyledTableCell sx={{ minWidth: 100, width: "15%" }}>
-                      Player
-                    </StyledTableCell>
-                    <StyledTableCell sx={{ minWidth: 200, width: "30%" }}>
+            {/* Table */}
+            <Table
+              sx={{
+                background: "white",
+                minHeight: "100%",
+                borderCollapse: "separate",
+                borderSpacing: "0 16px",
+              }}
+            >
+              <TableHead>
+                <TableRow
+                  sx={{
+                    border: "2px solid black",
+
+                    "& td, & th": {
+                      borderBottom: "0px black solid", // works
+                    },
+                  }}
+                >
+                  <TableCell
+                    sx={{
+                      minWidth: 100,
+                      width: "15%",
+                      wordWrap: "break-word",
+                      maxWidth: 0,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    <Typography fontWeight="bold">
+                      Player <InfoOutlinedIcon sx={{ color: "white" }} />
+                    </Typography>
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      minWidth: 200,
+                      width: "30%",
+                      wordWrap: "break-word",
+                      maxWidth: 0,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    <Typography fontWeight="bold">
                       Sport
-                    </StyledTableCell>
-                    <StyledTableCell sx={{ minWidth: 150, width: "20%" }}>
+                      <Tooltip
+                        arrow
+                        title="To select a sport/s first click on the field labelled “Select Sports”. Then choose the sport/s you wish to select by clicking on them in the drop-down menu. To remove a selection, click on the sport/s again while in the drop-down menu. "
+                      >
+                        <InfoOutlinedIcon />
+                      </Tooltip>
+                    </Typography>
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      minWidth: 150,
+                      width: "20%",
+                      wordWrap: "break-word",
+                      maxWidth: 0,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    <Typography fontWeight="bold">
                       Time
-                    </StyledTableCell>
-                    <StyledTableCell sx={{ minWidth: 80, width: "15%" }}>
-                      {String(Math.floor(lobby.timeRemaining / 60000)).padStart(
-                        2,
-                        "0"
+                      <Tooltip arrow title="To add a time period first click on the field labelled “Select a date and time”. Second select the date in the calendar. Then select the time period from the scrollbar on the right. Finally click the “+” icon to add the time period to your selection. To remove a time period from your selection, click the “X” icon next to the time period you wish to remove. ">
+                        <InfoOutlinedIcon />
+                      </Tooltip>
+                    </Typography>
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      minWidth: 80,
+                      width: "15%",
+                      wordWrap: "break-word",
+                      maxWidth: 0,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    <Tooltip arrow title="To save your selections, click the toggle switch labelled “Save”. This will lock your selections and you will not be able to change your selections. Once all members of the lobby have locked their selections the lobby will close, and an event will be created. If you would like to change a selection, first unlock by clicking the toggle switch labelled “Save” and you may change your selections. ">
+                      <HourglassTopOutlinedIcon />
+                    </Tooltip>
+                    {String(Math.floor(lobby.timeRemaining / 60000)).padStart(
+                      2,
+                      "0"
+                    )}
+                    :
+                    {String(
+                      Math.floor((lobby.timeRemaining % 60000) / 1000)
+                    ).padStart(2, "0")}
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {members.map((user) => (
+                  <TableRow
+                    key={user.username}
+                    sx={{
+                      "& td, & th": {
+                        background: "rgba(165, 109, 201, 0.1)",
+                        borderTop: "2px black solid", // works
+                        borderBottom: "2px black solid", // works
+                      },
+                    }}
+                  >
+                    {/* Player */}
+                    <TableCell sx={{ borderLeft: "0px black solid" }}>
+                      {user.userId === parseInt(userId) ? (
+                        <p>{user.username}</p>
+                      ) : (
+                        <Link
+                          href={`/Profile/${user.userId}`}
+                          target="_blank"
+                          title={"This opens the profile page in a new tab"}
+                          sx={{
+                            color: "black",
+                            textDecoration: "none",
+                          }}
+                        >
+                          <AccountCircleIcon fontSize={"inherit"} />{" "}
+                          {user.username}
+                        </Link>
                       )}
-                      :
-                      {String(
-                        Math.floor((lobby.timeRemaining % 60000) / 1000)
-                      ).padStart(2, "0")}
-                    </StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {members.map((user) => (
-                    <TableRow key={user.username}>
-                      {/* Player */}
-                      <StyledTableCell>
-                        {user.userId === parseInt(userId) ? (
-                          <p>{user.username}</p>
-                        ) : (
-                          <Link
-                            href={`/Profile/${user.userId}`}
-                            target="_blank"
-                            title={"This opens the profile page in a new tab"}
+                    </TableCell>
+
+                    {/* Sport Selection */}
+                    <TableCell
+                      sx={{
+                        wordWrap: "break-word",
+                        maxWidth: 0,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {user.userId === parseInt(userId) ? (
+                        <MultipleSelectChip
+                          onSelectedSports={handleSelectedSports}
+                          memberId={user.memberId}
+                          selectedSportsServer={user.selectedSports}
+                          chosenSportServer={lobby.lobbyDecidedSport}
+                          hasLockedSelections={user.hasLockedSelections}
+                        />
+                      ) : (
+                        user.selectedSports.map((sport) => (
+                          <Typography
                             sx={{
-                              color: "black",
-                              textDecoration: "none",
+                              display: "inline",
+                              color: lobby.lobbyDecidedSport.includes(sport)
+                                ? "blue"
+                                : "black",
                             }}
                           >
-                            <AccountCircleIcon fontSize={"inherit"} />{" "}
-                            {user.username}
-                          </Link>
-                        )}
-                      </StyledTableCell>
-                      {/* Sport Selection */}
-                      {/* <StyledTableCell> */}
-                      <TableCell
-                        sx={{
-                          borderColor: "black",
-                          borderWidth: 1,
-                          borderStyle: "solid",
-                          wordWrap: "break-word",
-                          maxWidth: 0,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                      >
+                            {sport + " "}
+                          </Typography>
+                        ))
+                      )}
+                    </TableCell>
+
+                    {/* Time Selection */}
+                    <TableCell
+                      sx={{
+                        wordWrap: "break-word",
+                        maxWidth: 0,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {user.userId == userId ? (
+                        <SelectDateAndTime
+                          selectedDatesServer={user.selectedDates}
+                          chosenDateServer={lobby.lobbyDecidedDate}
+                          memberId={user.memberId}
+                          hasLockedSelections={user.hasLockedSelections}
+                        ></SelectDateAndTime>
+                      ) : (
+                        user.selectedDates.map((time) => (
+                          <span
+                            style={{
+                              display: "block",
+                              color: lobby.lobbyDecidedDate.includes(time)
+                                ? "blue"
+                                : "black",
+                            }}
+                          >
+                            {
+                              <p>
+                                {moment(time).format("MMMM DD, YYYY h:mm A")}
+                              </p>
+                            }
+                          </span>
+                        ))
+                      )}
+                    </TableCell>
+
+                    {/* Save Button */}
+                    <TableCell>
+                      <FormGroup>
+                        {/*TO DO: check if the user.id I get from backend is the same id as in the local storage!
+                        And then also check if it should be disabled or not depending on the choice of the user*/}
                         {user.userId === parseInt(userId) ? (
-                          <MultipleSelectChip
-                            onSelectedSports={handleSelectedSports}
-                            memberId={user.memberId}
-                            selectedSportsServer={user.selectedSports}
-                            chosenSportServer={lobby.lobbyDecidedSport}
-                            hasLockedSelections={user.hasLockedSelections}
+                          <FormControlLabel
+                            control={<Switch />}
+                            label="Save"
+                            onChange={() =>
+                              handleLock(
+                                user.memberId,
+                                user.hasLockedSelections
+                              )
+                            }
+                            checked={user.hasLockedSelections}
                           />
                         ) : (
-                          user.selectedSports.map((sport) => (
-                            <Typography
-                              sx={{
-                                display: "inline",
-
-                                color: lobby.lobbyDecidedSport.includes(sport)
-                                  ? "blue"
-                                  : "black",
-                              }}
-                            >
-                              {sport + " "}
-                            </Typography>
-                          ))
+                          <FormControlLabel
+                            disabled
+                            control={<Switch />}
+                            checked={user.hasLockedSelections}
+                          />
                         )}
-                        {/* </StyledTableCell> */}
-                      </TableCell>
-
-                      {/* Time Selection */}
-                      {/* <StyledTableCell> */}
-                      {/* Why the hell does StyledTableCell not work here? work around with sx */}
-                      <TableCell
-                        sx={{
-                          borderColor: "black",
-                          borderWidth: 1,
-                          borderStyle: "solid",
-                          wordWrap: "break-word",
-                          maxWidth: 0,
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                      >
-                        {user.userId == userId ? (
-                          <SelectDateAndTime
-                            selectedDatesServer={user.selectedDates}
-                            chosenDateServer={lobby.lobbyDecidedDate}
-                            memberId={user.memberId}
-                            hasLockedSelections={user.hasLockedSelections}
-                          ></SelectDateAndTime>
-                        ) : (
-                          user.selectedDates.map((time) => (
-                            <span
-                              style={{
-                                display: "block",
-                                color: lobby.lobbyDecidedDate.includes(time)
-                                  ? "blue"
-                                  : "black",
-                              }}
-                            >
-                              {
-                                <p>
-                                  {moment(time).format("MMMM DD, YYYY h:mm A")}
-                                </p>
-                              }
-                            </span>
-                          ))
-                        )}
-                        {/* </StyledTableCell> */}
-                      </TableCell>
-
-                      {/* Save Button */}
-                      <StyledTableCell>
-                        <FormGroup>
-                          {/*TO DO: check if the user.id I get from backend is the same id as in the local storage!
-                        And then also check if it should be disabled or not depending on the choice of the user*/}
-                          {user.userId === parseInt(userId) ? (
-                            <FormControlLabel
-                              control={<Switch />}
-                              label="Save"
-                              onChange={() =>
-                                handleLock(
-                                  user.memberId,
-                                  user.hasLockedSelections
-                                )
-                              }
-                              checked={user.hasLockedSelections}
-                            />
-                          ) : (
-                            <FormControlLabel
-                              disabled
-                              control={<Switch />}
-                              // label={
-                              //   user.hasLockedSelections
-                              //     ? "User is ready"
-                              //     : "User is not ready"
-                              // }
-                              checked={user.hasLockedSelections}
-                            />
-                          )}
-                        </FormGroup>
-                      </StyledTableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+                      </FormGroup>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </Grid>
 
           {/* Location */}
           <Grid
             item
-            xs={12}
-            md={4}
             sx={{
-              // backgroundColor: "orange",
-              padding: 2,
+              width: { xl: "30%", xs: "100%" },
+              height: { xl: "auto", xs: "500px" },
+              boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+              position: "relative",
+              background: "rgba(165, 109, 201, 0.1)",
+              border: "2px black solid",
+              overflow: "auto"
             }}
           >
+            {/* Location title */}
             <Grid
               item
               sx={{
@@ -576,8 +1200,10 @@ const Lobby = () => {
                 // backgroundColor: "purple",
               }}
             >
-              <Typography variant="h5">Location </Typography>
+              <Typography variant="h5" fontWeight={"bold"}>Location </Typography>
             </Grid>
+
+            {/* Region text */}
             <Grid
               item
               sx={{
@@ -589,6 +1215,7 @@ const Lobby = () => {
             >
               <Typography>Region: {lobby.lobbyRegion} </Typography>
             </Grid>
+
             {/* Map and Confirm Button */}
             <Grid
               item
@@ -596,12 +1223,14 @@ const Lobby = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                flex: 1 //xy
                 // backgroundColor: "lightblue",
               }}
             >
-              <div
+              <Grid
                 style={{
                   width: "100%",
+                  // maxHeight: { lg: "500px", xs: "500px" },
                 }}
               >
                 {members.map((user) =>
@@ -617,7 +1246,7 @@ const Lobby = () => {
                     />
                   ) : null
                 )}
-              </div>
+              </Grid>
             </Grid>
 
             {/* Placeholder for Confirm Button */}
@@ -635,9 +1264,13 @@ const Lobby = () => {
             <Grid
               item
               sx={{
+                
                 display: "flex",
+                flexDirection: "column",
                 justifyContent: "left",
-                height: "50px",
+                mb: 2,
+                ml: 1,
+                // height: "50px",
                 // backgroundColor: "lightpink",
               }}
             >
@@ -669,8 +1302,8 @@ const Lobby = () => {
                 </React.Fragment>
               ))}
             </Grid>
+            
           </Grid>
-          {/* </Grid> */}
         </Grid>
 
         {/* Centered elements below  */}
@@ -678,6 +1311,7 @@ const Lobby = () => {
           container
           direction="column"
           justifyContent="center"
+          marginTop={8}
           // sx={{ backgroundColor: "lightgray" }}
         >
           {/* Leave Button */}
@@ -870,599 +1504,38 @@ const Lobby = () => {
           </Grid>
         </Grid>
 
-        {/* Chat */}
-        <Grid
-          container
-          sx={{
-            // position: "fixed",
-            // bottom: 0,
-            // right: 0,
-            // backgroundColor: "brown",
-            // zIndex: 9999, // Ensure the chat is on top of other elements
-            // height: "200px", // Set the desired height
-            // width: "25%", // Set the desired width
-          }}
+        {/* pop-up */}
+        <Dialog
+          maxWidth="md"
+          fullWidth
+          open={open}
+          onClose={() => setOpen(false)}
         >
-          <Grid
-            item
-            sx={{
-              // width: "fit-content",
-              // backgroundColor: "darkcyan",
-              // color: "white",
-            }}
-          >
-            {/* Open Chat Button */}
+          <DialogTitle>Copy Lobby URL</DialogTitle>
+          <DialogContent>
+            <input
+              type="text"
+              value={window.location.href}
+              ref={urlRef}
+              readOnly
+              style={{ width: "100%", padding: "8px" }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <ShareButtons />
             <Button
-              onClick={() => handleMaximizeChat()}
-              style={{
-                // cursor: "pointer",
-                // width: "10px",
-                // height: "auto",
-                // backgroundColor: "#00A8EA",
-                // color: "#fff",
-                // border: "solid 1px #0095cc",
-                // textAlign: "center",
-                // position: "fixed",
-                // right: "30px",
-                // top: "950px",
-                // padding: "0px",
-                // borderRadius: "3px",
-              }}
+              variant="contained"
+              onClick={handleCopyClick}
+              color={isCopied ? "success" : "primary"}
+              startIcon={isCopied ? <ContentCopyIcon /> : null}
             >
-              Open Chat
+              {isCopied ? "Copied" : "Copy"}
             </Button>
-
-            {/* Chat Window Container */}
-            <div
-              // id="ChatWindow"
-              // className="ChatWindow"
-              style={{
-                // border: "3px solid #333",
-                // width: "25%",
-                // height: "200px",
-                // padding: "10px",
-                // marginBottom: "0px",
-                // backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
-                // position: "fixed",
-                // bottom: "10px",
-                // right: "10px",
-                // overflow: "auto",
-                // display: "block",
-              }}
-            >
-              {/* Close Chat Button X */}
-              <Button
-                onClick={() => handleMinimizeChat()}
-                style={{
-                  // cursor: "pointer",
-                  // width: "10px",
-                  // height: "auto",
-                  // backgroundColor: "#00A8EA",
-                  // color: "#fff",
-                  // border: "solid 1px #0095cc",
-                  // textAlign: "center",
-                  // position: "fixed",
-                  // right: "30px",
-                  // top: "810px",
-                  // padding: "0px",
-                  // borderRadius: "3px",
-                }}
-              >
-                X
-              </Button>
-
-              {/* Chat Messages Display */}
-              <div 
-              // id="ChatBox" className="ChatBox"
-              >
-                {chat.map((message) => (
-                  <h1
-                    // align="left"
-                    // style={{
-                    //   color: "#000000",
-                    //   fontSize: "16px",
-                    // }}
-                  >
-                    {message.username}: {message.message}
-                  </h1>
-                ))}
-              </div>
-
-              {/* Styling inside Box */}
-              <div
-                // id="EnterMessageBox"
-                // className="EnterMessageBox"
-                // style={{
-                //   backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
-                //   position: "absolute",
-                //   bottom: "10px",
-                //   left: "10px",
-                // }}
-              >
-                {/* Chat input field */}
-                <TextField
-                  type={"string"}
-                  // id="message"
-                  placeholder="Enter Message..."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  onKeyPress={(e) => {
-                    handleMessageKeyPress(e);
-                  }}
-                  size="small"
-                  // style={{ width: "78%" }}
-                />
-
-                {/* Chat Send Button */}
-                <Button
-                  variant="contained"
-                  onClick={() => handleSendMessage(message)}
-                  // style={{ height: "39px", width: "15%" }}
-                >
-                  Send
-                </Button>
-              </div>
-
-            </div>
-          </Grid>
-        </Grid>
-
-      </BaseContainer>
-
-      {/* Old Code below*/}
-      <BaseContainer className="lobby">
-        <div className="flex space-x-10">
-          <div className="w-[80%]">
-            {/* pop-up */}
-            <Dialog
-              maxWidth="md"
-              fullWidth
-              open={open}
-              onClose={() => setOpen(false)}
-            >
-              <DialogTitle>Copy Lobby URL</DialogTitle>
-              <DialogContent>
-                <input
-                  type="text"
-                  value={window.location.href}
-                  ref={urlRef}
-                  readOnly
-                  style={{ width: "100%", padding: "8px" }}
-                />
-              </DialogContent>
-              <DialogActions>
-                <ShareButtons />
-                <Button
-                  variant="contained"
-                  onClick={handleCopyClick}
-                  color={isCopied ? "success" : "primary"}
-                  startIcon={isCopied ? <ContentCopyIcon /> : null}
-                >
-                  {isCopied ? "Copied" : "Copy"}
-                </Button>
-                <Button variant="contained" onClick={() => setOpen(false)}>
-                  Close
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </div>
-        </div>
-      </BaseContainer>
-
-      {/* Event + Lobby */}
-      <BaseContainer>
-        {/* Title */}
-        <Grid container sx={{ marginBottom: 4 }}>
-          <Grid item xs={8}>
-            <Typography
-              variant="h3"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "left",
-                marginLeft: 4,
-                color: "white",
-              }}
-            >
-              Lobby: {lobby.lobbyName}
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={4}
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              // backgroundColor: "green",
-              paddingRight: 4,
-            }}
-          >
-            <Button variant="contained" onClick={() => setOpen(true)}>
-              Invite friends
+            <Button variant="contained" onClick={() => setOpen(false)}>
+              Close
             </Button>
-          </Grid>
-        </Grid>
-
-        {/* Visible Box */}
-        <Grid
-          container
-          sx={{
-            backgroundColor: "rgba(255, 255, 255, 0.7)",
-            borderRadius: "20px",
-            padding: 4,
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 4,
-            minHeight: "400px",
-          }}
-        >
-          {/* Table Box */}
-          <Grid
-            item
-            sx={{
-              flexGrow: 1,
-              boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
-            }}
-          >
-            {/* Table */}
-            <Table
-              sx={{
-                background: "white",
-                minHeight: "100%",
-                borderCollapse: "separate",
-                borderSpacing: "0 16px",
-              }}
-            >
-              <TableHead>
-                <TableRow
-                  sx={{
-                    border: "2px solid black",
-
-                    "& td, & th": {
-                      borderBottom: "0px black solid", // works
-                    },
-                  }}
-                >
-                  <TableCell
-                    sx={{
-                      minWidth: 100,
-                      width: "15%",
-                      wordWrap: "break-word",
-                      maxWidth: 0,
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    <Typography fontWeight="bold">Player</Typography>
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      minWidth: 200,
-                      width: "30%",
-                      wordWrap: "break-word",
-                      maxWidth: 0,
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    <Typography fontWeight="bold">Sport</Typography>
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      minWidth: 150,
-                      width: "20%",
-                      wordWrap: "break-word",
-                      maxWidth: 0,
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    <Typography fontWeight="bold">Time</Typography>
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      minWidth: 80,
-                      width: "15%",
-                      wordWrap: "break-word",
-                      maxWidth: 0,
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    {String(Math.floor(lobby.timeRemaining / 60000)).padStart(
-                      2,
-                      "0"
-                    )}
-                    :
-                    {String(
-                      Math.floor((lobby.timeRemaining % 60000) / 1000)
-                    ).padStart(2, "0")}
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-
-              <TableBody>
-                {members.map((user) => (
-                  <TableRow
-                    key={user.username}
-                    sx={{
-                      "& td, & th": {
-                        background: "rgba(165, 109, 201, 0.1)",
-                        borderTop: "2px black solid", // works
-                        borderBottom: "2px black solid", // works
-                      },
-                    }}
-                  >
-                    {/* Player */}
-                    <TableCell sx={{ borderLeft: "0px black solid" }}>
-                      {user.userId === parseInt(userId) ? (
-                        <p>{user.username}</p>
-                      ) : (
-                        <Link
-                          href={`/Profile/${user.userId}`}
-                          target="_blank"
-                          title={"This opens the profile page in a new tab"}
-                          sx={{
-                            color: "black",
-                            textDecoration: "none",
-                          }}
-                        >
-                          <AccountCircleIcon fontSize={"inherit"} />{" "}
-                          {user.username}
-                        </Link>
-                      )}
-                    </TableCell>
-
-                    {/* Sport Selection */}
-                    <TableCell
-                      sx={{
-                        wordWrap: "break-word",
-                        maxWidth: 0,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {user.userId === parseInt(userId) ? (
-                        <MultipleSelectChip
-                          onSelectedSports={handleSelectedSports}
-                          memberId={user.memberId}
-                          selectedSportsServer={user.selectedSports}
-                          chosenSportServer={lobby.lobbyDecidedSport}
-                          hasLockedSelections={user.hasLockedSelections}
-                        />
-                      ) : (
-                        user.selectedSports.map((sport) => (
-                          <Typography
-                            sx={{
-                              display: "inline",
-                              color: lobby.lobbyDecidedSport.includes(sport)
-                                ? "blue"
-                                : "black",
-                            }}
-                          >
-                            {sport + " "}
-                          </Typography>
-                        ))
-                      )}
-                    </TableCell>
-
-                    {/* Time Selection */}
-                    <TableCell
-                      sx={{
-                        wordWrap: "break-word",
-                        maxWidth: 0,
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {user.userId == userId ? (
-                        <SelectDateAndTime
-                          selectedDatesServer={user.selectedDates}
-                          chosenDateServer={lobby.lobbyDecidedDate}
-                          memberId={user.memberId}
-                          hasLockedSelections={user.hasLockedSelections}
-                        ></SelectDateAndTime>
-                      ) : (
-                        user.selectedDates.map((time) => (
-                          <span
-                            style={{
-                              display: "block",
-                              color: lobby.lobbyDecidedDate.includes(time)
-                                ? "blue"
-                                : "black",
-                            }}
-                          >
-                            {
-                              <p>
-                                {moment(time).format("MMMM DD, YYYY h:mm A")}
-                              </p>
-                            }
-                          </span>
-                        ))
-                      )}
-                    </TableCell>
-
-                    {/* Save Button */}
-                    <TableCell>
-                      <FormGroup>
-                        {/*TO DO: check if the user.id I get from backend is the same id as in the local storage!
-                        And then also check if it should be disabled or not depending on the choice of the user*/}
-                        {user.userId === parseInt(userId) ? (
-                          <FormControlLabel
-                            control={<Switch />}
-                            label="Save"
-                            onChange={() =>
-                              handleLock(
-                                user.memberId,
-                                user.hasLockedSelections
-                              )
-                            }
-                            checked={user.hasLockedSelections}
-                          />
-                        ) : (
-                          <FormControlLabel
-                            disabled
-                            control={<Switch />}
-                            checked={user.hasLockedSelections}
-                          />
-                        )}
-                      </FormGroup>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Grid>
-
-          {/* Map Location old */}
-          {/* <Grid
-            item
-            sx={{
-              width: { xl: "30%", xs: "100%" },
-              maxHeight: { lg: "500px", xs: "500px" },
-              height: { xl: "auto", xs: "500px" },
-              boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
-              position: "relative",
-            }}
-          > */}
-            {/* {events && (
-              <AddLocation
-                flyToLocation={flyToLocation}
-                events_passed={events}
-                EventPage={true}
-                sx={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                }}
-              />
-            )} */}
-          {/* </Grid> */}
-
-          {/* Location */}
-          <Grid
-            item
-            xs={12}
-            md={4}
-            sx={{
-              // backgroundColor: "orange",
-              padding: 2,
-            }}
-          >
-
-            {/* Location title */}
-            <Grid
-              item
-              sx={{
-                padding: 1,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                // backgroundColor: "purple",
-              }}
-            >
-              <Typography variant="h5">Location </Typography>
-            </Grid>
-
-            {/* Region text */}
-            <Grid
-              item
-              sx={{
-                display: "flex",
-                justifyContent: "left",
-                // backgroundColor: "pink",
-                padding: 1,
-              }}
-            >
-              <Typography>Region: {lobby.lobbyRegion} </Typography>
-            </Grid>
-
-            {/* Map and Confirm Button */}
-            <Grid
-              item
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                // backgroundColor: "lightblue",
-              }}
-            >
-              <div
-                style={{
-                  width: "100%",
-                }}
-              >
-                {members.map((user) =>
-                  user.userId === parseInt(userId) ? (
-                    <AddLocationForLobby
-                      memberId={user.memberId}
-                      key={user.username}
-                      locationDTO={locationDTO}
-                      hasLockedSelections={user.hasLockedSelections}
-                      flyToLocation={flyToLocation}
-                      canton={shortCodeForRegion}
-                      cantonFullName={canton_Full_name}
-                    />
-                  ) : null
-                )}
-              </div>
-            </Grid>
-
-            {/* Placeholder for Confirm Button */}
-            <Grid
-              item
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                height: "70px",
-                // backgroundColor: "lightgreen",
-              }}
-            ></Grid>
-
-            {/* Location Voting */}
-            <Grid
-              item
-              sx={{
-                display: "flex",
-                justifyContent: "left",
-                height: "50px",
-                // backgroundColor: "lightpink",
-              }}
-            >
-              {locationDTO.map((location) => (
-                <React.Fragment key={location.id}>
-                  {members.map(
-                    (user) =>
-                      user.userId === parseInt(userId) && (
-                        <div
-                          className="my-12"
-                          key={`${location.id}-${user.username}`}
-                        >
-                          <VotingForLocations
-                            hasLockedSelections={user.hasLockedSelections}
-                            lobby={lobby}
-                            members={members}
-                            memberId={user.memberId}
-                            address={location.address}
-                            locationId={location.locationId}
-                            memberVotes={location.memberVotes}
-                            key={location.id}
-                            latitude={location.latitude}
-                            longitude={location.longitude}
-                            setFlyToLocation={setFlyToLocation}
-                          />
-                        </div>
-                      )
-                  )}
-                </React.Fragment>
-              ))}
-            </Grid>
-
-          </Grid>
-
-        </Grid>
+          </DialogActions>
+        </Dialog>
       </BaseContainer>
     </>
   );

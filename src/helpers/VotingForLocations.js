@@ -1,6 +1,7 @@
-import { Badge, Button } from "@mui/material";
+import { Badge, Button, IconButton, Box, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { api, handleError } from "./api";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 const VotingForLocations = (props) => {
 
@@ -75,32 +76,34 @@ const VotingForLocations = (props) => {
         : {}; // or your default style object
 
     return (
-        <div>
+        <Box>
+              <IconButton
+                // fly to the location
+                onClick={() => {
+                    setFlyToLocation({ latitude, longitude });
+                }}
+                sx={{marginRight: 1}}
+                
+            >
+                <LocationOnIcon />
+            </IconButton>
             {UserAlreadyVoted ? (
-                <Badge badgeContent={memberVotes} color="error">
+                <Badge badgeContent={memberVotes} color="error" sx={{mr: 1}}>
                     <Button disabled={props.hasLockedSelections} variant="contained" onClick={() => UnVoteForLocation(location)}>
                         Unvote
                     </Button>
                 </Badge>
             ) : (
-                <Badge badgeContent={memberVotes} color="primary">
+                <Badge badgeContent={memberVotes} color="primary" sx={{mr: 1}}>
                     <Button disabled={props.hasLockedSelections} variant="contained" onClick={() => VoteForLocation(location)}>
                         Vote
                     </Button>
                 </Badge>
             )}
-            {/*<Badge badgeContent={memberVotes} color="primary"> <Button variant="contained" onClick={()=> handleVote(location)}> Vote</Button> </Badge>*/}
-            &nbsp;&nbsp;
+            {/* &nbsp;&nbsp; */}
             <span style={addressStyle}>{address}</span>
-            <Button
-                // fly to the location
-                onClick={() => {
-                    setFlyToLocation({ latitude, longitude });
-                }}
-            >
-                Show on Map
-            </Button>
-        </div>
+          
+        </Box>
     );
 };
 
