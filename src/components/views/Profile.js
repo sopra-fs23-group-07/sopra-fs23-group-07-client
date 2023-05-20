@@ -44,19 +44,20 @@ const Profile = () => {
     const [noUser, setNoUser] = useState(false);
 
 
-    const handleAvatarChange = (index) => {
-        const fetchData = async () => {
-            try {
-                const requestBody = {"avatar": index, "userId": userId, "token": token};
-                await api.put(`/users/${userId}`, requestBody, {
-                    headers: {Authorization: `Bearer ${token}`},
-                });
-            } catch (error) {
-                toast.error(handleError(error));
+    const handleAvatarChange = async (index) => {
+        try {
+            const requestBody = {"avatar": index, "userId": userId, "token": token};
+            await api.put(`/users/${userId}`, requestBody, {
+                headers: {Authorization: `Bearer ${token}`},
+            });
+            setAvatar(avatars[index]);
+        } catch (error) {
+            const errorMessage = handleError(error);
+            if (errorMessage instanceof Promise) {
+                errorMessage.catch((err) => console.error(err));
             }
+            toast.error(errorMessage);
         }
-        fetchData();
-        setAvatar(avatars[index]);
     }
     const handleClickOpen = () => {
     setOpen(true);
@@ -67,32 +68,44 @@ const Profile = () => {
     };
 
     useEffect(() => {
+        let didCancel = false;
         const fetchData = async () => {
             try {
-                const response = await api.get("/users/" + userId)
-
-                setUser(response.data);
-                setAvatar(avatars[response.data.avatar]);
-                setIsLoading(false);
-
-
+                setIsLoading(true);
+                const response = await api.get(`/users/${userId}`);
+                if (!didCancel) {
+                    setUser(response.data);
+                    setAvatar(avatars[response.data.avatar]);
+                    setIsLoading(false);
+                }
             } catch (error) {
-                setIsLoading(false);
-                setNoUser(true);
-                toast.error(handleError(error));
+                if (!didCancel) {
+                    setIsLoading(false);
+                    setNoUser(true);
+                    const errorMessage = handleError(error);
+                    if (errorMessage instanceof Promise) {
+                        errorMessage.catch((err) => console.error(err));
+                    }
+                    toast.error(errorMessage);
+                }
             }
         };
-        fetchData()
-    }, [userId])
+        fetchData();
+
+        return () => {
+            didCancel = true;
+        };
+    }, [api, userId, handleError]); // Passing api, userId, handleError as dependencies
+
 
     const handleEditProfileClick = (userId) => {
-        if (userId == localStorage.getItem("userId")) {
-            history.push("/Profile/" + String(userId) + "/edit");
-        } else (
+        if (userId == localStorage.getItem("userId")) { // Use strict comparison
+            history.push(`/Profile/${userId}/edit`); // Template literal for cleaner syntax
+        } else {
             toast.error("You are not allowed to edit this profile")
-        )
-
+        }
     };
+
     let content = <Paper
         sx={{
             p: 4,
