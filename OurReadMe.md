@@ -1,13 +1,15 @@
 # SoPra Group 7 - SpeetUp
 
-Our application allows users to set up and join sports activities spontaneously. Users are shown the upcoming sports activities and can create or join a lobby, in which they decide with other users in real-time (1) what sport to play, (2) when to play it, and (3) where to play it. This facilitates the decision making process and promotes the idea of doing sports with your friends or new people from your area in a fun and collaborative way. 
+If you have ever tried to organize a sports event with friends then you know how difficult and frustrating it can be to get a group of even 5 people to come to an agreenment. The greatest difficulty arises from trying to keep track of everyones preferences regarding what sport to play, when to play and where to play. It is simply impossible to organize an event with which everyone is happy with. This is precisely the problem SpeetUp was designed to solve, so next time you need to organize an event don't open WhatsApp, instead head over to SpeetUp. SpeetUp allows it's users to create lobbies where every member can express which sports they would like to play as well as where and when they can play. After all members of the lobby have locked their choices or if the timer has run out an event will be created using the majority option in each category. This way an event can be created with which everyone is satisfied by.
+
 
 ## Table of Contents
 
 - [Technologies](#technologies)
 - [Components](#components)
-- [Installation](#installation)
-- [Usage](#usage)
+- [Launch & Deployment](#launch & deployment)
+- [User Flow](#user flow)
+- [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact Information](#contact-information)
