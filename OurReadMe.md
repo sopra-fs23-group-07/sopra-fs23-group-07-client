@@ -52,11 +52,32 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ## User Flow
 
 1) Register
-2) Events
-3) Lobbies
-4) Create Lobby
-5) Lobby
-6) Event Details
+2) Home
+3) Events
+4) Lobbies
+5) Create Lobby
+6) Lobby
+7) Event Details
+
+### Register
+
+Upon going to our app, the user is first shown the register page. Although it is not required to register/login to use our app, there are certain features only available for logged in users. To successfully register, a unique username, email and a password is required.
+
+### Home
+
+After registration the user is redirected to the home page. The home page consists of many tutorials explaining how to use SpeetUp and its many features. At the top of the page there is a navigation bar which allows users to navigate our app with ease.
+
+### Events
+
+A user can then go to the events page by clicking "Events" on the navigation bar where they will be sent to a page showing all events. Here a user may view the details of an event by clicking the "View Event" button or view the location of the event on the map by clicking the location icon. If a user wishes to create there own event(without any collaboration), they can click the "Create Event" button.
+
+### Lobbies
+
+Incase there is no event which interests the user, they can have a look at what lobbies are currently open in the lobbies page by clicking "Lobbies" on the navigation bar on top of the page. Here the user is shown all lobbies including the number of patricpants in a lobby and the area in which the lobby is considering. To join a lobby the user can click the "Join Lobby" or if there is nothing which suits the user, they can create a new lobby by clicking the "Create Lobby" button.
+
+### Lobby
+
+
 
 ## Roadmap
 Top features to be implemented in future.
