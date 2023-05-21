@@ -78,7 +78,7 @@ export const LobbyInviteGuard = props => {
         }
     }
 
-    fetchData();
+    fetchData().then(() => console.log("fetchData was called"));
 
 
 
