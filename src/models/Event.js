@@ -12,6 +12,7 @@ class Event {
         this.participantDTOs = null;
         this.eventParticipantsCount = null;
         this.eventLocation = null;
+        this.isNewEvent = null;
         Object.assign(this, data);
     }
 }

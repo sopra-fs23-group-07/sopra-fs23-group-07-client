@@ -28,6 +28,7 @@ import { toast } from "react-toastify";
 import { CustomHeading } from "styles/development/CustomHeading";
 import ShareButtons from "../ui/ShareButtons";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Fireworks from "components/ui/Fireworks";
 
 
 const Event = () => {
@@ -39,6 +40,7 @@ const Event = () => {
   const [event, setEvent] = useState([]);
   const [eventLocationDTO, setEventLocationDTO] = useState(null);
   const [isParticipant, setIsParticipant] = useState(false);
+  const [isNewEvent, setIsNewEvent] = useState(false);
 
   const [open, setOpen] = useState(false); // state for the pop-up
   const urlRef = useRef(null); // ref for the URL input
@@ -140,24 +142,15 @@ const Event = () => {
         const response = await api.get("/events/" + eventId);
         setEvent(response.data);
         setEventLocationDTO(response.data.eventLocationDTO);
+        console.log("EVENT DATA")
+        console.log(response.data);
+        console.log("IS NEW EVENT");
+        console.log(response.data.isNewEvent);
+        setIsNewEvent(response.data.isNewEvent);
 
-        // console.log("eventLocationDTO: ", eventLocationDTO); // This will log the old value
-        // console.log("request to:", response.request.responseURL);
-        // console.log("status code:", response.status);
-        // console.log("status text:", response.statusText);
-        // console.log("requested data:", response.data);
-        // console.log(response);
-
-        // Log the updated value of eventLocationDTO
-        // console.log(
-        //   "updated eventLocationDTO: ",
-        //   response.data.eventLocationDTO
-        // );
         const userIds = response.data.participantDTOs.map(
           (participant) => participant.userId
         );
-        // console.log("USER IDS")
-        // console.log(userIds);
         setIsParticipant(userIds.includes(Number(userId)));
       } catch (error) {
         if (error.response.status === 404) {
@@ -168,16 +161,18 @@ const Event = () => {
         }
       }
     };
-    fetchData();
+    fetchData().catch(err => console.log(err));;
 
     const intervalId = setInterval(fetchData, 1000); // Update data every second
 
     return () => clearInterval(intervalId); // Clear the interval when the component is unmounted
   }, [eventId]);
 
+
   return (
     <BaseContainer>
       {/* Title */}
+      {isNewEvent && <Fireworks/>}
       <Grid container sx={{ marginBottom: 4 }}>
         <Grid item md={8} xs={12}>
           <Typography
