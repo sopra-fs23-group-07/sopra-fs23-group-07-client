@@ -16,12 +16,20 @@ If you have ever tried to organize a sports event with friends then you know how
 
 ## Technologies
 - JavaScript React
+- Material UI 
+- ESLint
 - Npm
 - HTTP/Rest
 - Google Cloud
 
 ## Components
-Top Components
+### Home Screen
+### Lobbies Page
+### Lobby 
+### Events Page
+### Event Page
+### My Events Page
+### Profile Page
 
 ## Launch & Deployment
 
@@ -49,6 +57,15 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+## Learn More
+
+To learn more about...
+- React, check out the [React documentation](https://reactjs.org/).
+- Spring Boot, check out the [Spring Boot documentation](https://spring.io/projects/spring-boot).
+- Google Cloud Platform, check out the [GCP documentation](https://cloud.google.com/docs).
+- Toastify, check out the [React toastify documentation](https://fkhadra.github.io/react-toastify/introduction/)
+- tsParticles, check out the [tsParticles documentation](https://particles.js.org/)
+- 
 ## User Flow
 
 ### Register
@@ -96,6 +113,4 @@ The license under which the project is released, including any restrictions on u
 
 ## Credits
 
-<a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a><br>
-<a href="https://www.flaticon.com/free-icons/charity" title="charity icons">Charity icons created by Freepik - Flaticon</a><br>
-<a href="https://www.flaticon.com/free-icons/schedule" title="schedule icons">Schedule icons created by Freepik - Flaticon</a><br>
+<a href="https://www.flaticon.com/authors/freepik" title="icons">Icons created by Freepik - Flaticon</a><br>
