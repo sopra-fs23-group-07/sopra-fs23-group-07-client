@@ -23,6 +23,7 @@ function ControlledAccordions() {
   };
 
   return (
+    // Content of White Box
     <div>
       <Typography variant={"h5"} sx={{ mb: 2 }}>
         General
@@ -170,6 +171,7 @@ const FAQ = () => {
             p: 2,
           }}
         >
+          {/* Unused Buttons */}
           {/* <Grid
             item
             xs={12}
@@ -185,8 +187,8 @@ const FAQ = () => {
             <Button variant="contained">Profile</Button>
           </Grid> */}
           <Grid item xs={12}>
-            {" "}
-            {ControlledAccordions()}{" "}
+            {/* Content of Visible Box*/}
+            {ControlledAccordions()}
           </Grid>
         </Grid>
       </Grid>
