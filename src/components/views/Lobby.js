@@ -799,7 +799,7 @@ const Lobby = () => {
         </Box> */}
 
       {/* Chat attempt 4 */}
-      {/* <Button
+       <Button
           onClick={() => handleMaximizeChat()}
           variant="contained"
           style={{
@@ -811,9 +811,10 @@ const Lobby = () => {
             // border: "solid 1px #0095cc",
             textAlign: "center",
             position: "fixed",
-            right: 8,
-            bottom: 8,
-            padding: 4,
+            right: "1%",
+            bottom: "1%",
+            padding: "0.8%",
+            zIndex: 998,
             borderRadius: "3px",
           }}
         >
@@ -825,14 +826,14 @@ const Lobby = () => {
           className="ChatWindow"
           style={{
             border: "3px solid #333",
-            width: "400px",
-            height: "200px",
-            padding: "10px",
+            width: "24%",
+            height: "35%",
+            padding: "0.5%",
             marginBottom: "0px",
             backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
             position: "fixed",
-            bottom: 8,
-            right: 8,
+            bottom: "1%",
+            right: "0.5%",
             zIndex: 999,
             overflow: "auto",
             display: "block",
@@ -849,8 +850,8 @@ const Lobby = () => {
               border: "solid 1px #0095cc",
               textAlign: "center",
               position: "fixed",
-              right: "30px",
-              bottom: "350px",
+              right: "1%",
+              bottom: "31%",
               padding: "0px",
               borderRadius: "3px",
             }}
@@ -900,7 +901,7 @@ const Lobby = () => {
               Send
             </Button>
           </div>
-        </div> */}
+        </div>
 
       {/* Event + Lobby */}
       <BaseContainer>
