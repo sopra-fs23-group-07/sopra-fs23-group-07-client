@@ -95,7 +95,7 @@ const Event = () => {
     ) {
       setOpenLeaveDialog(true);
     } else {
-      leaveEvent();
+      leaveEvent().catch(err => console.log(err));
     }
   };
 
