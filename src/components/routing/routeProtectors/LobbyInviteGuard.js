@@ -78,7 +78,7 @@ export const LobbyInviteGuard = props => {
         }
     }
 
-    fetchData().then(() => console.log("fetchData was called"));
+    fetchData().catch(err => console.log(err));
 
 
 
