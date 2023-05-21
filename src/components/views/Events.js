@@ -40,7 +40,7 @@ const Events = () => {
       }
     }
 
-    fetchData(); // Make initial request immediately
+    fetchData().catch(err => console.log(err)); // Make initial request immediately
 
     const intervalId = setInterval(fetchData, 10000); // Update data every second
 
