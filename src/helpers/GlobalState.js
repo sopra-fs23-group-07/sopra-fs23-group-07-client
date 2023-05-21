@@ -12,7 +12,7 @@ export const GlobalProvider = (props) => {
 
     useEffect(() => {
         if(token && userId){
-            getUser(userId);
+            getUser(userId).catch(err => console.log(err));
         }
     }, [token]);
 

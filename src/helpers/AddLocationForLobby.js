@@ -216,7 +216,7 @@ const AddLocationForLobby = (props) => {
       );
       const data = await response.json();
 
-      processLocation(data, props.canton, props.cantonFullName);
+      processLocation(data, props.canton, props.cantonFullName).catch(err => console.log(err));
 
     } catch (error) {
       toast.error("Add a location in the region of " + props.cantonFullName);
@@ -226,7 +226,7 @@ const AddLocationForLobby = (props) => {
 
   useEffect(() => {
     if (Address && LngLat) {
-      SendLocationToServer(LngLat);
+      SendLocationToServer(LngLat).catch(err => console.log(err));
     }
   }, [Address]);
 

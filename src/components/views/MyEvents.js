@@ -54,7 +54,7 @@ const MyEvents = () => {
       }
     }
 
-    fetchData(); // Make initial request immediately
+    fetchData().catch(err => console.log(err)); // Make initial request immediately
   }, []);
 
   const handleViewEventClick = (eventId) => {

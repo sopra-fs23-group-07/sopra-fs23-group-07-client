@@ -78,7 +78,7 @@ const Lobby = () => {
 
   const handleCopyClick = () => {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(urlRef.current.value);
+      navigator.clipboard.writeText(urlRef.current.value).catch(err => console.log(err));
       toast.success("Link copied.");
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 5000); // Reset message after 5 seconds
@@ -93,9 +93,9 @@ const Lobby = () => {
 
   const handleLock = (memberId, hasLockedSelections) => {
     if (hasLockedSelections) {
-      unlockChoice(memberId);
+      unlockChoice(memberId).catch(err => console.log(err));
     } else {
-      lockChoice(memberId);
+      lockChoice(memberId).catch(err => console.log(err));
     }
   };
 
@@ -144,7 +144,7 @@ const Lobby = () => {
 
   const handleMessageKeyPress = (e) => {
     if (e.key === "Enter") {
-      handleSendMessage(message);
+      handleSendMessage(message).catch(err => console.log(err));
     }
   };
 
@@ -197,7 +197,7 @@ const Lobby = () => {
         // && history.location.pathname === "any specific path")
         if (history.action === "POP") {
           console.log("Back was clicked");
-          handleLeaveLobbyByButton();
+          handleLeaveLobbyByButton().catch(err => console.log(err));
         }
       };
     }, [history])
@@ -239,7 +239,7 @@ const Lobby = () => {
       }
     }
 
-    fetchData(); // Make initial request immediately
+    fetchData().catch(err => console.log(err)); // Make initial request immediately
     const intervalId = setInterval(fetchData, 1000); // Update data every second
     return () => clearInterval(intervalId); // Clear the interval when the component is unmounted
   }, [eventId]); // Add eventId as a dependency

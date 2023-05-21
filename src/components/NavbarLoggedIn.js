@@ -39,7 +39,7 @@ const NavbarLoggedIn = () => {
             handleClose(); // Close the dialog
             history.push(pushTo);
             if (isLogOut) {
-                handleLogOut();
+                handleLogOut().catch(err => console.log(err));
             }
         } catch (error) {
 
@@ -181,7 +181,7 @@ const NavbarLoggedIn = () => {
                 handleLeaveLobby={() => {
                     handleLeaveLobby().then(() => {
                         handleClose();
-                    });
+                    }).catch(err => {console.log(err)});
                 }}
             />
 

@@ -162,7 +162,7 @@ const AddLocationForEvent = (props) => {
             setLat2(lngLat.lat);
             setLng2(lngLat.lng);
             setLngLat(lngLat);
-            transformCoordinatesToAddress(lngLat);
+            transformCoordinatesToAddress(lngLat).catch(err => console.log(err));
             // console.log("this is the canton:", canton); // log the canton variable
             // console.log("this is the canton full name new:", canton_Full_name); // log the canton variable
 
@@ -200,7 +200,7 @@ const AddLocationForEvent = (props) => {
             );
             const data = await response.json();
 
-            processLocation(data, props.canton, props.cantonFullName);
+            processLocation(data, props.canton, props.cantonFullName).catch(err => console.log(err));
 
         } catch (error) {
             toast.error("Choose a region first and put a marker in that region only");

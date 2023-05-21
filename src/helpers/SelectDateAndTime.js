@@ -32,7 +32,7 @@ const SelectDateAndTime = (props) => {
   };
 
   useEffect(() => {
-    UpdateSelectedTime(chosenDate);
+    UpdateSelectedTime(chosenDate).catch(err => console.log(err));
     // console.log(chosenDate);
   }, [chosenDate]);
 

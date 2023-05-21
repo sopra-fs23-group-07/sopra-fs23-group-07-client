@@ -52,7 +52,7 @@ export default function MultipleSelectChip(props) {
             target: {value},
         } = event;
         const selectedSports = typeof value === 'string' ? value.split(',') : value;
-        UpdateSelectedSports(selectedSports);
+        UpdateSelectedSports(selectedSports).catch(err => console.log(err));
         setMainUserSelectedSports(selectedSports);
         props.onSelectedSports(selectedSports);
     };

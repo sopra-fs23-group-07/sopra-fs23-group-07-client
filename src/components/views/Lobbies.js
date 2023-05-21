@@ -108,7 +108,7 @@ const Lobbies = () => {
       }
     }
 
-    fetchData(); // Make initial request immediately
+    fetchData().catch(err => console.log(err)); // Make initial request immediately
 
     const intervalId = setInterval(fetchData, 800); // Update data every second
 

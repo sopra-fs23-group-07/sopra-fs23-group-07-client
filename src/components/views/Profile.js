@@ -66,7 +66,7 @@ const Profile = () => {
     };
     fetchData().then(() => {
       setAvatar(avatars[index]); // Set avatar only if API call is successful.
-    });
+    }).catch(err => console.log(err));
   };
   const handleClickOpen = () => {
     setOpen(true);
@@ -92,7 +92,7 @@ const Profile = () => {
     };
     fetchData().then(() => {
       console.log("Data fetched successfully"); // This will be executed after fetchData is complete.
-    });
+    }).catch(err => console.log(err));
   }, [userId]);
 
   const handleEditProfileClick = (userId) => {
