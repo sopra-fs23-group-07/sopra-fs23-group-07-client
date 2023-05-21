@@ -23,9 +23,9 @@ const GameRouter = props => {
           </Route>
 
         <Route exact path={`${props.base}/Lobby/:lobbyId`} component={LobbyInviteGuard}>
-//            <LobbyInviteGuard >
-//                <Lobby />
-//            </LobbyInviteGuard>
+            <LobbyInviteGuard >
+                <Lobby />
+            </LobbyInviteGuard>
         </Route>
 
 
