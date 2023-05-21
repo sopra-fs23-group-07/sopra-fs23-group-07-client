@@ -89,16 +89,8 @@ const SelectDateAndTime = (props) => {
   
     <div>
       <Box sx={{ display: "flex", alignItems: "center", marginBottom: 2 }}>
+     
         <Box sx={{ marginRight: 2 }}>
-          <IconButton
-            disabled={props.hasLockedSelections}
-            aria-label="delete"
-            onClick={handleClick}
-          >
-            <AddIcon />
-          </IconButton>
-        </Box>
-        <Box>
           <DatePicker
             disabled={props.hasLockedSelections}
             selected={startDate}
@@ -109,9 +101,18 @@ const SelectDateAndTime = (props) => {
             maxDate={new Date(today.setDate(today.getDate() + 5))} // 5 days from now
             filterTime={filterPassedTime}
             dateFormat="MMMM d, yyyy h:mm aa"
-            placeholderText="Select a date and time"
+            placeholderText="Add a date and time"
             isClearable={false}
           />
+        </Box>
+        <Box >
+          <IconButton
+            disabled={props.hasLockedSelections}
+            aria-label="delete"
+            onClick={handleClick}
+          >
+            <AddIcon />
+          </IconButton>
         </Box>
       </Box>
 
@@ -121,7 +122,18 @@ const SelectDateAndTime = (props) => {
             key={date}
             style={{ display: "flex", alignItems: "center", marginBottom: 2 }}
           >
-            <Box sx={{ marginRight: 2 }}>
+            
+            <span
+            // sx={{ marginRight: 2 }}
+              style={{
+                marginRight: 12,
+                display: "block",
+                color: props.chosenDateServer.includes(date) ? "blue" : "black",
+              }}
+            >
+              {<p>{moment(date).format("MMMM DD, YYYY h:mm A")}</p>}
+            </span>
+            <Box >
               <IconButton
                 disabled={props.hasLockedSelections}
                 aria-label="delete"
@@ -130,14 +142,6 @@ const SelectDateAndTime = (props) => {
                 <ClearIcon />
               </IconButton>
             </Box>
-            <span
-              style={{
-                display: "block",
-                color: props.chosenDateServer.includes(date) ? "blue" : "black",
-              }}
-            >
-              {<p>{moment(date).format("MMMM DD, YYYY h:mm A")}</p>}
-            </span>
           </div>
         ))}
       </div>

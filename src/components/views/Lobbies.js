@@ -186,8 +186,6 @@ const Lobbies = () => {
             <TableHead>
               <TableRow
                 sx={{
-                  border: "2px solid black",
-
                   "& td, & th": {
                     borderBottom: "0px black solid", // works
                   },

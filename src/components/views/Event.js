@@ -18,7 +18,7 @@ import {
   Typography,
 } from "@mui/material";
 import { api, handleError } from "../../helpers/api";
-import {useHistory, useParams} from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import AddLocation from "../../helpers/AddLocation";
 import Grid from "@mui/material/Grid";
 import moment from "moment";
@@ -27,6 +27,8 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { toast } from "react-toastify";
 import { CustomHeading } from "styles/development/CustomHeading";
 import ShareButtons from "../ui/ShareButtons";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
 
 const Event = () => {
   const eventId = useParams().eventId;
@@ -42,7 +44,6 @@ const Event = () => {
   const urlRef = useRef(null); // ref for the URL input
   const [isCopied, setIsCopied] = useState(false);
   const [openLeaveDialog, setOpenLeaveDialog] = useState(false);
-
 
   const handleCopyClick = () => {
     if (navigator.clipboard) {
@@ -87,15 +88,14 @@ const Event = () => {
 
   const handleLeaveEvent = async () => {
     if (
-        event.eventParticipantsCount === 1 &&
-        event.participantDTOs.some((p) => p.userId === Number(userId))
+      event.eventParticipantsCount === 1 &&
+      event.participantDTOs.some((p) => p.userId === Number(userId))
     ) {
       setOpenLeaveDialog(true);
     } else {
       leaveEvent();
     }
   };
-
 
   const leaveEvent = async () => {
     try {
@@ -104,17 +104,18 @@ const Event = () => {
         token: token,
       });
 
-      if(event.eventParticipantsCount === 1 &&
-          event.participantDTOs.some((p) => p.userId === Number(userId))) {
+      if (
+        event.eventParticipantsCount === 1 &&
+        event.participantDTOs.some((p) => p.userId === Number(userId))
+      ) {
         // Call to delete the event
         await api.delete(`/events/${eventId}/delete`);
-        history.push('/events');
+        history.push("/events");
       } else {
         await api.put(`/events/${eventId}/leave`, requestBody);
       }
 
       setIsParticipant(false);
-
     } catch (error) {
       // setError(handleError(error));
       //   console.log(error);
@@ -132,8 +133,6 @@ const Event = () => {
       }
     }
   };
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -161,17 +160,12 @@ const Event = () => {
         // console.log(userIds);
         setIsParticipant(userIds.includes(Number(userId)));
       } catch (error) {
-
-        if(error.response.status === 404) {
+        if (error.response.status === 404) {
           toast.error("This event does not exist anymore.");
-          history.push('/events');
-        }
-        else
-        {
+          history.push("/events");
+        } else {
           toast.error(handleError(error));
         }
-
-
       }
     };
     fetchData();
@@ -183,17 +177,16 @@ const Event = () => {
 
   return (
     <BaseContainer>
-
       {/* Title */}
       <Grid container sx={{ marginBottom: 4 }}>
-        <Grid item xs={8}>
+        <Grid item md={8} xs={12}>
           <Typography
             variant="h3"
             sx={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "left",
-              marginLeft: 4,
+              justifyContent: { md: "left", xs: "center" },
+              marginLeft: { md: 4, xs: 0 },
               color: "white",
             }}
           >
@@ -202,11 +195,12 @@ const Event = () => {
         </Grid>
         <Grid
           item
-          xs={4}
+          md={4}
+          xs={12}
           sx={{
             display: "flex",
-            justifyContent: "flex-end",
-            paddingRight: 4,
+            justifyContent: { md: "flex-end", xs: "center" },
+            paddingRight: { md: 4, xs: 0 },
           }}
         >
           <Button variant="contained" onClick={() => setOpen(true)}>
@@ -217,7 +211,8 @@ const Event = () => {
       </Grid>
 
       {/* Visible Box */}
-      <Box
+      <Grid
+        container
         sx={{
           backgroundColor: "rgba(255, 255, 255, 0.7)",
           borderRadius: "20px",
@@ -228,11 +223,29 @@ const Event = () => {
         }}
       >
         {/* Table Box */}
-        <Box sx={{ flexGrow: 1, boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)" }}>
+        <Grid
+          item
+          sx={{ flexGrow: 1, boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)" }}
+        >
           {/* Table */}
-          <Table sx={{ background: "white" }}>
+          <Table
+            sx={{
+              background: "white",
+              minHeight: "100%",
+              borderCollapse: "separate",
+              borderSpacing: "0 16px",
+            }}
+          >
             <TableHead>
-              <TableRow>
+              <TableRow
+                sx={{
+                  "& td, & th": {
+                    background: "rgba(165, 109, 201, 0.1)",
+                    borderTop: "2px black solid", // works
+                    borderBottom: "2px black solid", // works
+                  },
+                }}
+              >
                 <TableCell>
                   <Typography fontWeight="bold">Event Name</Typography>
                 </TableCell>
@@ -240,7 +253,15 @@ const Event = () => {
                   <Typography>{event.eventName}</Typography>
                 </TableCell>
               </TableRow>
-              <TableRow>
+              <TableRow
+                sx={{
+                  "& td, & th": {
+                    background: "rgba(165, 109, 201, 0.1)",
+                    borderTop: "2px black solid", // works
+                    borderBottom: "2px black solid", // works
+                  },
+                }}
+              >
                 <TableCell>
                   <Typography fontWeight="bold">Sport</Typography>
                 </TableCell>
@@ -248,7 +269,15 @@ const Event = () => {
                   <Typography>{event.eventSport}</Typography>
                 </TableCell>
               </TableRow>
-              <TableRow>
+              <TableRow
+                sx={{
+                  "& td, & th": {
+                    background: "rgba(165, 109, 201, 0.1)",
+                    borderTop: "2px black solid", // works
+                    borderBottom: "2px black solid", // works
+                  },
+                }}
+              >
                 <TableCell>
                   <Typography fontWeight="bold">Date</Typography>
                 </TableCell>
@@ -258,7 +287,15 @@ const Event = () => {
                   </Typography>
                 </TableCell>
               </TableRow>
-              <TableRow>
+              <TableRow
+                sx={{
+                  "& td, & th": {
+                    background: "rgba(165, 109, 201, 0.1)",
+                    borderTop: "2px black solid", // works
+                    borderBottom: "2px black solid", // works
+                  },
+                }}
+              >
                 <TableCell>
                   <Typography fontWeight="bold">Region</Typography>
                 </TableCell>
@@ -266,7 +303,15 @@ const Event = () => {
                   <Typography>{event.eventRegion}</Typography>
                 </TableCell>
               </TableRow>
-              <TableRow>
+              <TableRow
+                sx={{
+                  "& td, & th": {
+                    background: "rgba(165, 109, 201, 0.1)",
+                    borderTop: "2px black solid", // works
+                    borderBottom: "2px black solid", // works
+                  },
+                }}
+              >
                 <TableCell>
                   <Typography fontWeight="bold">Location</Typography>
                 </TableCell>
@@ -276,7 +321,15 @@ const Event = () => {
                   )}
                 </TableCell>
               </TableRow>
-              <TableRow>
+              <TableRow
+                sx={{
+                  "& td, & th": {
+                    background: "rgba(165, 109, 201, 0.1)",
+                    borderTop: "2px black solid", // works
+                    borderBottom: "2px black solid", // works
+                  },
+                }}
+              >
                 <TableCell>
                   <Typography fontWeight="bold">Participants</Typography>
                 </TableCell>
@@ -291,9 +344,13 @@ const Event = () => {
                           href={`/Profile/${participantDTO.userId}`}
                           target={"_blank"}
                           title={"This opens the profile page in a new tab"}
+                          sx={{
+                            color: "black",
+                            textDecoration: "none",
+                          }}
                         >
-                          <LaunchIcon fontSize={"inherit"} />
-                          {participantDTO.username}
+                          <AccountCircleIcon fontSize={"inherit"} />
+                           {" " + participantDTO.username}
                         </Link>
                       </Typography>
                     ))}
@@ -301,12 +358,15 @@ const Event = () => {
               </TableRow>
             </TableHead>
           </Table>
-        </Box>
+        </Grid>
 
         {/* Map */}
-        <Box
+        <Grid
+          item
           sx={{
-            width: "30%",
+            width: { md: "30%", xs: "100%" },
+            maxHeight: { md: "500px", xs: "500px" },
+            height: { md: "auto", xs: "500px" },
             boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
             position: "relative",
           }}
@@ -324,22 +384,12 @@ const Event = () => {
               }}
             />
           )}
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
 
       {/* Join and Leave Button */}
       <Box
-        // container
-        // xs={7}
-        // md={2}
-        // marginTop={2}
-        // marginLeft={48}
-        // display={"flex"}
-        // direction="row"
-        // justifyContent={"space-between"}
-        // justifySelf={"center"}
         sx={{
-          // width: "100%",
           display: "flex",
           justifyContent: "center",
           gap: 8,
@@ -347,29 +397,28 @@ const Event = () => {
         }}
       >
         <Button
-            variant="contained"
-            color="success"
-            size="large"
-            className="event button"
-            onClick={() => handleJoinEvent()}
-            disabled={
-                isParticipant ||
-                (event.eventParticipantsCount >= event.eventMaxParticipants)
-            }
+          variant="contained"
+          color="success"
+          size="large"
+          className="event button"
+          onClick={() => handleJoinEvent()}
+          disabled={
+            isParticipant ||
+            event.eventParticipantsCount >= event.eventMaxParticipants
+          }
         >
           Join
         </Button>
         <Button
-            variant="contained"
-            color="error"
-            size="large"
-            className="event button"
-            onClick={() => handleLeaveEvent()}
-            disabled={!isParticipant}
+          variant="contained"
+          color="error"
+          size="large"
+          className="event button"
+          onClick={() => handleLeaveEvent()}
+          disabled={!isParticipant}
         >
           Leave
         </Button>
-
       </Box>
 
       {/* pop-up */}
@@ -408,20 +457,20 @@ const Event = () => {
         </DialogActions>
       </Dialog>
 
-      <Dialog
-          open={openLeaveDialog}
-          onClose={() => setOpenLeaveDialog(false)}
-      >
+      <Dialog open={openLeaveDialog} onClose={() => setOpenLeaveDialog(false)}>
         <DialogTitle>
-          As you are the only participant the event will be deleted if you leave. Are you sure you want to leave the event?
+          As you are the only participant the event will be deleted if you
+          leave. Are you sure you want to leave the event?
         </DialogTitle>
         <DialogActions>
-          <Button variant="contained" onClick={() => setOpenLeaveDialog(false)}>No</Button>
-          <Button variant="contained" onClick={leaveEvent}>Yes</Button>
+          <Button variant="contained" onClick={() => setOpenLeaveDialog(false)}>
+            No
+          </Button>
+          <Button variant="contained" onClick={leaveEvent}>
+            Yes
+          </Button>
         </DialogActions>
       </Dialog>
-
-
     </BaseContainer>
   );
 };
