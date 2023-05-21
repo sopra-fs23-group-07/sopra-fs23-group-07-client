@@ -100,7 +100,7 @@ const Game = () => {
             }
         }
 
-        fetchData();
+        fetchData().catch(err => console.log(err));
     }, []);
 
     let content = <Spinner/>;
