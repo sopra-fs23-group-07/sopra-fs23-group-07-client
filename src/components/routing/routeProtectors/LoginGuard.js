@@ -44,7 +44,7 @@ export const LoginGuard = props => {
               }
             }
 
-            fetchData();
+            fetchData().catch(err => console.log(err));
           //}, []);
         if(setToLogin) { return props.children; }
         return <Spinner />

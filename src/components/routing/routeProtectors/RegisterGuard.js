@@ -36,7 +36,7 @@ export const RegisterGuard = (props) => {
           }
         }
 
-        fetchData();
+        fetchData().catch(err => console.log(err));
       }, []);
     if(toRegister) { return props.children; }
     return <Spinner />

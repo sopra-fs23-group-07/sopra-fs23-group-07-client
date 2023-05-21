@@ -45,7 +45,7 @@ export const ProfileGuard = (props) => {
           }
         }
 
-        fetchData();
+        fetchData().catch(err => console.log(err));
       //}, []);
     if(setToProfile) { return props.children; }
     return <Spinner />

@@ -43,7 +43,7 @@ export const MyEventsGuard = (props) => {
         }
     }
 
-    fetchData();
+    fetchData().catch(err => console.log(err));
     //}, []);
     if(setToProfile) { return props.children; }
     return <Spinner />
