@@ -48,14 +48,37 @@ const Home = () => {
 
   return (
     <BaseContainer>
-      <Grid container xs={12} md={12} sx={{ marginY: 2 , display: "flex", justifyContent: "center",bgcolor: "red"}}>
+      {/* Title */}
+      <Grid
+        container
+        xs={12}
+        md={12}
+        sx={{
+          marginY: 2,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         <Grid item xs={12} md={6}>
           <Box>
-            <Box p={"5%"}  sx={{display: "flex", justifyContent: "center"}}>
-              <Typography variant={"h3"}>Welcome to SpeetUp!</Typography>
+            <Box p={"5%"} sx={{ display: "flex", justifyContent: "center" }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "white",
+                  textAlign: "center",
+                }}
+              >
+                Welcome to SpeetUp!
+              </Typography>
             </Box>
-            <Box sx={{display: "flex", justifyContent: "center", bgcolor: "blue"}}>
-              <Typography variant={"body1"}>
+            <Box
+              sx={{ display: "flex", justifyContent: "center", color: "white" }}
+            >
+              <Typography variant={"body1"} sx={{ textAlign: "center" }}>
                 We believe that organizing sports events with friends and
                 strangers should be easy, fun, and spontaneous. Our innovative
                 web application provides a solution to the problem of
@@ -67,21 +90,28 @@ const Home = () => {
             </Box>
           </Box>
         </Grid>
-        {/* <Grid item xs={12} md={6}>
-                    <Box display="flex" alignItems="center" justifyContent="center">
-                        <img src={soccer} alt="soccer" style={{ maxWidth: "80%" }} />
-                    </Box>
-                </Grid> */}
       </Grid>
 
-      <Grid container xs={12}>
+      {/* Subtitle */}
+      <Grid container xs={12} sx={{ mt: 4 }}>
         <Grid item xs={12} md={12}>
-          <Typography variant={"h4"}>How to use our services</Typography>
+          <Typography
+            variant="h4"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "white",
+            }}
+          >
+            How to use our services
+          </Typography>
         </Grid>
       </Grid>
 
-      <Grid container xs={12} sx={{ mt: 5 }}>
-        <Grid item xs={12} md={6} sx={{ padding: 3 }}>
+      {/* Explaination Cards */}
+      <Grid container xs={12} sx={{ my: 5,  }}>
+        <Grid item xs={12} md={6} xl={3} sx={{ padding: 3 }}>
           <Card>
             <CardHeader title="Discover and join existing lobbies" />
             <CardMedia
@@ -169,8 +199,8 @@ const Home = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={6} sx={{ padding: 3 }}>
-          <Card>
+        <Grid item xs={12} md={6} xl={3} sx={{ padding: 3 }}>
+          <Card >
             <CardHeader title="Create a new lobby" />
             <CardMedia
               component="img"
@@ -232,11 +262,9 @@ const Home = () => {
             </Collapse>
           </Card>
         </Grid>
-      </Grid>
 
-      <Grid container xs={12} sx={{ mt: 5 }}>
-        <Grid item xs={12} md={6} sx={{ p: 3 }}>
-          <Card>
+        <Grid item xs={12} md={6} xl={3} sx={{ padding: 3 }}>
+          <Card >
             <CardHeader title="Discover and join existing events" />
             <CardMedia
               component="img"
@@ -291,8 +319,9 @@ const Home = () => {
             </Collapse>
           </Card>
         </Grid>
-        <Grid item xs={12} md={6} sx={{ padding: 3 }}>
-          <Card>
+
+        <Grid item xs={12} md={6} xl={3} sx={{ padding: 3 }}>
+          <Card >
             <CardHeader title="Create a new event" />
             <CardMedia
               component="img"
