@@ -193,6 +193,16 @@ const Lobby = () => {
   }, []);
 
   useEffect(() => {
+      return () => {
+        // && history.location.pathname === "any specific path")
+        if (history.action === "POP") {
+          console.log("Back was clicked");
+          handleLeaveLobbyByButton();
+        }
+      };
+    }, [history])
+
+  useEffect(() => {
     async function fetchData() {
       try {
         if (eventId > 0 && !hasExecuted) {
