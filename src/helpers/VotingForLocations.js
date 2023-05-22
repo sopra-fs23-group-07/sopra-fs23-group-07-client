@@ -2,6 +2,7 @@ import { Badge, Button, IconButton, Box, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { api, handleError } from "./api";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import {toast} from "react-toastify";
 
 const VotingForLocations = (props) => {
 
@@ -22,7 +23,14 @@ const VotingForLocations = (props) => {
             await api.put(`/lobbies/${lobbyId}/locations/${locationId}/vote`, requestBody);
             setUserAlreadyVoted(true);
         } catch (error) {
-            alert(`Something went wrong when joining the lobby: \n${handleError(error)}`);
+
+            if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
+
+            {
+                toast.error(`Something went wrong when joining the lobby: \n${handleError(error)}`);
+            }
+
+
         }
     };
 
@@ -65,7 +73,11 @@ const VotingForLocations = (props) => {
             await api.put(`/lobbies/${lobbyId}/locations/${locationId}/unvote`, requestBody);
             setUserAlreadyVoted(false);
         } catch (error) {
-            alert(`Something went wrong when joining the lobby: \n${handleError(error)}`);
+            if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
+
+            {
+                toast.error(`Something went wrong when joining the lobby: \n${handleError(error)}`);
+            }
         }
     };
 

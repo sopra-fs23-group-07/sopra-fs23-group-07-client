@@ -68,7 +68,10 @@ export default function MultipleSelectChip(props) {
 
 
         } catch (error) {
-            toast.error(handleError(error));
+            if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
+            {
+                toast.error(handleError(error));
+            }
         }
 
     };

@@ -265,9 +265,15 @@ const AddLocationForLobby = (props) => {
         toast.error("You already added a location!");
       }
     } catch (error) {
-      toast.error(
-        `Something went wrong when adding a location: \n${handleError(error)}`
-      );
+
+      if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
+
+      {
+        toast.error(
+            `Something went wrong when adding a location: \n${handleError(error)}`
+        );
+      }
+
     }
   };
 
@@ -290,9 +296,16 @@ const AddLocationForLobby = (props) => {
         toast.error("You did not add a location yet!");
       }
     } catch (error) {
-      toast.error(
-          `Something went wrong while removing your location: \n${handleError(error)}`
-      );
+
+      if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
+
+      {
+        toast.error(
+            `Something went wrong while removing your location: \n${handleError(error)}`
+        );
+      }
+
+
     }
   };
 

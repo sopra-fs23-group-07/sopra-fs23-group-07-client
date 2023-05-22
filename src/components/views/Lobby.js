@@ -110,7 +110,11 @@ const Lobby = () => {
       }
       console.log("Choice locked was sent to the backend");
     } catch (error) {
-      toast.error(handleError(error));
+        if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
+
+        {
+            toast.error(handleError(error));
+        }
     }
   };
 
@@ -122,7 +126,11 @@ const Lobby = () => {
       await api.put(`/lobbies/${lobbyId}/unlock`, requestBody);
       console.log("Choice unlocked was sent to the backend");
     } catch (error) {
-      toast.error(handleError(error));
+        if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
+
+        {
+            toast.error(handleError(error));
+        }
     }
   };
 
@@ -138,7 +146,11 @@ const Lobby = () => {
       console.log("Chat Message was sent to the backend");
       setMessage("");
     } catch (error) {
-      toast.error(handleError(error));
+        if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
+
+        {
+            toast.error(handleError(error));
+        }
     }
   };
 
@@ -235,7 +247,13 @@ const Lobby = () => {
           oldChatLength = response.data.lobbyMessageDTOs.length;
         }
       } catch (error) {
-        toast.error(handleError(error));
+          if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
+
+          {
+              toast.error(handleError(error));
+          }
+
+
       }
     }
 
