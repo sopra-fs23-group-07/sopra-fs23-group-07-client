@@ -3,7 +3,7 @@ import { api, handleError } from "helpers/api";
 import User from "models/User";
 import { useHistory, useLocation } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
-import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import LoginIcon from "@mui/icons-material/Login";
 import { GlobalContext } from "../../helpers/GlobalState";
@@ -21,8 +21,12 @@ const Register = (props) => {
   const [emailError, setEmailError] = useState(false);
 
   function validateEmail(email) {
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    return emailRegex.test(email);
+    if (email.length > 100){
+      return false;
+    } else {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/i;
+      return emailRegex.test(email);
+    }
   }
   const handleUsernameInputChange = (event) => {
     setUsernameError(false);
