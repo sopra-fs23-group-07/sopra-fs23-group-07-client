@@ -1,4 +1,4 @@
-import {BrowserRouter, Redirect, Route, Switch, useLocation} from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { LoginGuard } from "components/routing/routeProtectors/LoginGuard";
 import Login from "components/views/Login";
 import { RegisterGuard } from "../routeProtectors/RegisterGuard";
@@ -23,8 +23,6 @@ import { ProfileGuard } from "../routeProtectors/ProfileGuard";
 import {LobbyRoute} from "../routeProtectors/LobbyGuard";
 import {LobbyInviteGuard} from "../routeProtectors/LobbyInviteGuard";
 import {MyEventsGuard} from "../routeProtectors/MyEventsGuard";
-import {useEffect} from "react";
-import {toast} from "react-toastify";
 
 /**
  * Main router of your application.
@@ -35,14 +33,10 @@ import {toast} from "react-toastify";
  * /game renders a Router that contains other sub-routes that render in turn other react components
  * Documentation about routing in React: https://reacttraining.com/react-router/web/guides/quick-start
  */
-const RouterContent = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    toast.dismiss();
-  }, [location]);
-
+const AppRouter = () => {
   return (
+    <BrowserRouter>
+      <Header height="100" />
       <Switch>
         <Route exact path="/login">
           <LoginGuard>
@@ -81,8 +75,8 @@ const RouterContent = () => {
 
         <Route exact path="/MyEvents">
           <MyEventsGuard>
-            <MyEvents />
-          </MyEventsGuard>
+          <MyEvents />
+            </MyEventsGuard>
         </Route>
 
         <Route exact path="/Profile/:userId">
@@ -136,17 +130,9 @@ const RouterContent = () => {
         </Route>
 
         <Route path="*">
-          <Redirect to="/Home" />
+            <Redirect to="/Home" />
         </Route>
       </Switch>
-  );
-};
-const AppRouter = () => {
-
-  return (
-    <BrowserRouter>
-      <Header height="100" />
-      <RouterContent/>
     </BrowserRouter>
   );
 };

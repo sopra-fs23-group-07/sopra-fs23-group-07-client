@@ -7,7 +7,6 @@ import StyleTest from "./styles/development/StyleTest"; // remove when done with
 import { themeOne } from "./styles/themes/themeOne";
 import { themeFive, themeFour, themeSix, themeThree, themeTwo } from "styles/themes/themeTests";
 
-
 /**
  * Happy coding!
  * React Template by Lucas Pelloni
