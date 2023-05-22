@@ -11,6 +11,7 @@ If you have ever tried to organize a sports event with friends then you know how
 - [User Flow](#user-flow)
 - [Roadmap](#roadmap)
 - [License](#license)
+- [Authors and Acknowledgments](#authors-and-acknowledgments)
 
 ## Technologies
 - [JavaScript React](https://legacy.reactjs.org)
