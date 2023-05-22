@@ -10,8 +10,9 @@ If you have ever tried to organize a sports event with friends then you know how
 - [Launch & Deployment](#launch)
 - [User Flow](#user-flow)
 - [Roadmap](#roadmap)
-- [License](#license)
 - [Authors and Acknowledgments](#authors-and-acknowledgments)
+- [Credits](#credits)
+- [License](#license)
 
 ## Technologies
 - [JavaScript React](https://legacy.reactjs.org)
