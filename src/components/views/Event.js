@@ -49,7 +49,7 @@ const Event = () => {
 
   const handleCopyClick = () => {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(urlRef.current.value);
+      navigator.clipboard.writeText(urlRef.current.value).catch(err => console.log(err));
       toast.success("Link copied");
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 5000); // Reset message after 5 seconds
