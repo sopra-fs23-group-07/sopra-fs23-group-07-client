@@ -55,8 +55,6 @@ This launches the test runner in an interactive watch mode. See the section abou
 Finally, `npm run build` builds the app for production to the `build` folder.<br>
 It correctly bundles React in production mode and optimizes the build for the best performance: the build is minified, and the filenames include hashes.<br>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
 ## Learn More
 
 To learn more about...
@@ -65,7 +63,8 @@ To learn more about...
 - Google Cloud Platform, check out the [GCP documentation](https://cloud.google.com/docs).
 - Toastify, check out the [React toastify documentation](https://fkhadra.github.io/react-toastify/introduction/)
 - tsParticles, check out the [tsParticles documentation](https://particles.js.org/)
-- 
+
+
 ## User Flow
 
 ### Register
