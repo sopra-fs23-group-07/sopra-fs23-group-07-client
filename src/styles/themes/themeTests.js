@@ -198,21 +198,4 @@ export const themeSix = createTheme({
       },
     },
   },
-  overrides: {
-    MuiCssBaseline: {
-      // global CSS style
-      "@global": {
-        body: {
-          margin: 0,
-          padding: 0,
-          minWidth: "100vw",
-          minHeight: "100vh",
-          backgroundColor: colors5.bluethree,
-          backgroundImage: `url(${background1})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        },
-      },
-    },
-  },
 });

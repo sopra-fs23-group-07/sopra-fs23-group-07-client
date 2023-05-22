@@ -1,7 +1,7 @@
 import {useHistory, useParams} from "react-router-dom";
 import PropTypes from "prop-types";
 import {api} from "helpers/api.js";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import Login from "components/views/Login";
 import Spinner from "components/ui/Spinner";
 
@@ -26,12 +26,6 @@ export const LobbyInviteGuard = props => {
     console.log(userId);
 
 
-    //if(!localStorage.getItem("userId")) {return <Redirect to="/login"/>;}
-//    if (!localStorage.getItem("userId") || !localStorage.getItem("token")) {
-//        localStorage.removeItem("token");
-//        localStorage.removeItem("userId");
-//        return <Login lobby="true" lobbyId={lobbyId}/>;
-//    }
 
 
     async function fetchData() {
@@ -41,8 +35,7 @@ export const LobbyInviteGuard = props => {
             console.log(token);
             console.log(response.data.token);
             if (!localStorage.getItem("userId") || !localStorage.getItem("token") || token != response.data.token) {
-                //history.push("/Login");
-                //return <Login lobby="true" lobbyId={lobbyId}/>;
+                
                 localStorage.clear();
                 window.dispatchEvent(new CustomEvent("localstorage-update"));
                 setToLogin(true);
@@ -57,7 +50,6 @@ export const LobbyInviteGuard = props => {
                 await api.put(`/lobbies/${lobbyId}/join`, requestBody);
 
                 localStorage.setItem("lobbyId", lobbyId);
-                //history.push("/Lobby/" + String(props.lobbyId));
                 history.push("/Lobby/" + String(lobbyId));
 
             }
@@ -93,4 +85,3 @@ LobbyInviteGuard.propTypes = {
     lobbyId: PropTypes.number
 };
 
-//export default LobbyInviteGuard;

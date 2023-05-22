@@ -5,12 +5,9 @@ import { useHistory } from "react-router-dom";
 import {
   Button,
   Grid,
-  Box,
-  Paper,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   Typography,
@@ -21,8 +18,6 @@ import HourglassTopOutlinedIcon from "@mui/icons-material/HourglassTopOutlined";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import { api, handleError } from "../../helpers/api";
 import { toast } from "react-toastify";
-import { letterSpacing, sizeHeight, width } from "@mui/system";
-import { CustomHeading } from "styles/development/CustomHeading";
 
 // page where all lobbies are listed
 const Lobbies = () => {
@@ -162,7 +157,6 @@ const Lobbies = () => {
           display: "flex",
           justifyContent: "space-between",
           gap: 4,
-          // minHeight: "300px",
         }}
       >
         {/* Table Box */}

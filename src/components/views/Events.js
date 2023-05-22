@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import BaseContainer from "components/ui/BaseContainer";
 import { useHistory } from "react-router-dom";
-import { Button, Box, Grid, Paper, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import AddLocation from "helpers/AddLocation";
 import { api, handleError } from "helpers/api";
 import moment from "moment/moment";

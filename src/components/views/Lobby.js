@@ -3,7 +3,6 @@ import BaseContainer from "components/ui/BaseContainer";
 import ShareButtons from "components/ui/ShareButtons";
 import {
   Button,
-  Box,
   Dialog,
   DialogActions,
   DialogContent,
@@ -11,18 +10,15 @@ import {
   FormControlLabel,
   FormGroup,
   Grid,
-  Link,
   Switch,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   TextField,
   Tooltip,
   Typography,
-  IconButton,
 } from "@mui/material";
 import MultipleSelectChip from "helpers/SelectSport";
 import { api, handleError } from "../../helpers/api";
@@ -36,21 +32,9 @@ import HelpOutline from "@mui/icons-material/HelpOutline";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import InfoIcon from "@mui/icons-material/Info";
 import { toast } from "react-toastify";
-import { CustomHeading } from "styles/development/CustomHeading";
-import { CustomGrid } from "styles/development/CustomGrid";
-import HourglassTopOutlinedIcon from "@mui/icons-material/HourglassTopOutlined";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { styled } from "@mui/system";
-import AddLocation from "helpers/AddLocation";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import CloseIcon from "@mui/icons-material/Close";
 
 const Lobby = () => {
   const history = useHistory(); // needed for linking
@@ -342,15 +326,6 @@ const Lobby = () => {
     }
   };
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    borderColor: "black",
-    borderWidth: 1,
-    borderStyle: "solid",
-    wordWrap: "break-word",
-    maxWidth: 0,
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-  }));
 
   return (
     <>
@@ -493,7 +468,6 @@ const Lobby = () => {
             borderRadius: "20px",
             padding: 4,
             display: "flex",
-            // flexDirection: "column", // xy
             justifyContent: "space-between",
             gap: 4,
             minHeight: "400px",
@@ -620,22 +594,6 @@ const Lobby = () => {
                   >
                     {/* Player */}
                     <TableCell sx={{ borderLeft: "0px black solid" }}>
-                      {/* {user.userId === parseInt(userId) ? (
-                        <p>{user.username}</p>
-                      ) : (
-                        <Link
-                          href={`/Profile/${user.userId}`}
-                          target="_blank"
-                          title={"This opens the profile page in a new tab"}
-                          sx={{
-                            color: "black",
-                            textDecoration: "none",
-                          }}
-                        >
-                          <AccountCircleIcon fontSize={"inherit"} />{" "}
-                          {user.username}
-                        </Link>
-                      )} */}
                       {user.username}
                     </TableCell>
 
@@ -710,12 +668,9 @@ const Lobby = () => {
                     {/* Save Button */}
                     <TableCell>
                       <FormGroup>
-                        {/*TO DO: check if the user.id I get from backend is the same id as in the local storage!
-                        And then also check if it should be disabled or not depending on the choice of the user*/}
                         {user.userId === parseInt(userId) ? (
                           <FormControlLabel
                             control={<Switch />}
-                            // label="Save"
                             label={
                               <React.Fragment>
                                 Save
@@ -803,7 +758,7 @@ const Lobby = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                flex: 1, //xy
+                flex: 1, 
               }}
             >
               <Grid
@@ -835,7 +790,6 @@ const Lobby = () => {
                 display: "flex",
                 justifyContent: "center",
                 height: "70px",
-                // backgroundColor: "lightgreen",
               }}
             ></Grid>
 
@@ -848,8 +802,6 @@ const Lobby = () => {
                 justifyContent: "left",
                 mb: 2,
                 ml: 1,
-                // height: "50px",
-                // backgroundColor: "lightpink",
               }}
             >
               {locationDTO.map((location) => (

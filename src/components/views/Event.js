@@ -8,11 +8,8 @@ import {
   DialogContent,
   DialogTitle,
   Link,
-  Paper,
   Table,
-  TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   Typography,
@@ -22,10 +19,8 @@ import { useHistory, useParams } from "react-router-dom";
 import AddLocation from "../../helpers/AddLocation";
 import Grid from "@mui/material/Grid";
 import moment from "moment";
-import LaunchIcon from "@mui/icons-material/Launch";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { toast } from "react-toastify";
-import { CustomHeading } from "styles/development/CustomHeading";
 import ShareButtons from "../ui/ShareButtons";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Fireworks from "components/ui/Fireworks";
@@ -71,8 +66,6 @@ const Event = () => {
       await api.put(`/events/${eventId}/join`, requestBody);
       setIsParticipant(true);
     } catch (error) {
-      // setError(handleError(error));
-      //   console.log(error);
       if (error.response.status == 401) {
         localStorage.clear();
         window.dispatchEvent(new CustomEvent("localstorage-update"));
@@ -119,8 +112,6 @@ const Event = () => {
 
       setIsParticipant(false);
     } catch (error) {
-      // setError(handleError(error));
-      //   console.log(error);
       if (error.response.status == 401) {
         localStorage.clear();
         window.dispatchEvent(new CustomEvent("localstorage-update"));

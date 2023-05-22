@@ -1,7 +1,7 @@
-import {Redirect, useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import PropTypes from "prop-types";
-import React, {useEffect, useState} from "react";
-import {api, handleError} from "../../../helpers/api";
+import React, {useState} from "react";
+import {api} from "../../../helpers/api";
 import {toast} from "react-toastify";
 import Spinner from "components/ui/Spinner";
 

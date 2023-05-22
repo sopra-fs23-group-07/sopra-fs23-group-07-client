@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
 import BaseContainer from "components/ui/BaseContainer";
-import { Spinner } from "components/ui/Spinner";
 import { useHistory } from "react-router-dom";
 import { api, handleError } from "helpers/api";
 import {
-  Button,
-  Paper,
-  Box,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow,
   Typography,
@@ -42,12 +37,6 @@ const MyEvents = () => {
 
         setEvents(userEvents);
 
-        // logs for debugging can be deleted after proper testing
-        // console.log("request to:", response.request.responseURL);
-        // console.log("status code:", response.status);
-        // console.log("status text:", response.statusText);
-        // console.log("requested data:", response.data);
-        // console.log(response);
       } catch (error) {
         console.error(`Something went wrong while fetching the events.`);
         toast.error(handleError(error));

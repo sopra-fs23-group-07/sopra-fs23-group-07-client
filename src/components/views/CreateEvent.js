@@ -7,7 +7,6 @@ import {
   Button,
   FormControl,
   Grid,
-  InputLabel,
   MenuItem,
   Select,
   TextField,
@@ -15,7 +14,6 @@ import {
 } from "@mui/material";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
 import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
-import moment from "moment";
 import dayjs from "dayjs";
 import AddLocationForEvent from "../../helpers/AddLocationForEvent";
 import { toast } from "react-toastify";
@@ -88,7 +86,6 @@ const CreateEvent = () => {
         !maxParticipants ||
         isNaN(maxParticipants)
       ) {
-        // console.log(JSON.stringify(eventDate)); // delete when done
         toast.error("Please fill in all fields with valid data.");
         return;
       }
@@ -99,18 +96,10 @@ const CreateEvent = () => {
         );
       }
 
-      // send event to backend (TODO: Make sure all are strings )
       const requestBody = JSON.stringify({
         eventName: eventName,
         eventLocationDTO: location,
-
-        // eventLocationDTO: {
-        //     address: "Bakerstreet 1, 8000 Zürich",
-        //     longitude: 8.5483395,
-        //     latitude: 47.368919500000004,
-        // },
         eventDate: eventDate,
-        // eventDate: "2023-04-01T15:30:00",
         eventSport: selectedSport,
         eventRegion: canton_Full_name,
         eventMaxParticipants: maxParticipants, // integer
@@ -120,9 +109,6 @@ const CreateEvent = () => {
 
       const response = await api.post("/events", requestBody);
 
-      // for debugging only delete afterwards
-      console.log(response.data);
-      console.log("this is the location", location);
 
       // after event is generated braing user to event page.
       history.push(`/Events/${response.data.eventId}`);
@@ -154,32 +140,11 @@ const CreateEvent = () => {
     "Hockey",
   ];
 
-  // useEffect(() => {
-  //     console.log("this is the shortCodeForRegion", shortCodeForRegion);
-  // }, [shortCodeForRegion])
-  //
-
+ 
   const handleDateChange = (date) => {
     setEventTimeError(false);
     if (date !== null) {
-      // Convert the date to the desired format
-      // const formattedDate = date.toISOString().slice(0, 16);
-
-      // const formattedDate = date;
-
       const formattedDate = dayjs(date).format("YYYY-MM-DDTHH:mm:ss");
-
-      // const formattedDate = dayjs(date).format("YYYY-MM-DDTHH:mm:ss");
-      console.log("Reached this POINT", formattedDate);
-
-      // const year = date.getFullYear();
-      // const month = (date.getMonth() + 1).toString().padStart(2, "0");
-      // const day = date.getDate().toString().padStart(2, "0");
-      // const hour = date.getHours().toString().padStart(2, "0");
-      // const minute = date.getMinutes().toString().padStart(2, "0");
-      // const formattedDate = `${year}-${month}-${day}T${hour}:${minute}`;
-
-      // Store the formatted date in the eventDate state
       setEventDate(formattedDate);
     } else {
       setEventDate(null);

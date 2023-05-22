@@ -1,20 +1,15 @@
 import * as React from "react";
 
 import BaseContainer from "../ui/BaseContainer";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import {
-  Button,
   Grid,
-  Box,
   Typography,
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Paper,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-//TODO: add questions and answers
 function ControlledAccordions() {
   const [expanded, setExpanded] = React.useState(false);
 
@@ -134,7 +129,6 @@ const FAQ = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              //   marginLeft: 4,
               color: "white",
             }}
           >
@@ -171,21 +165,7 @@ const FAQ = () => {
             p: 2,
           }}
         >
-          {/* Unused Buttons */}
-          {/* <Grid
-            item
-            xs={12}
-            sx={{
-              flexdirection: "column",
-              display: "flex",
-              justifyContent: "center",
-              gap: 4,
-            }}
-          >
-            <Button variant="contained">Lobbies</Button>
-            <Button variant="contained">Events</Button>
-            <Button variant="contained">Profile</Button>
-          </Grid> */}
+         
           <Grid item xs={12}>
             {/* Content of Visible Box*/}
             {ControlledAccordions()}
