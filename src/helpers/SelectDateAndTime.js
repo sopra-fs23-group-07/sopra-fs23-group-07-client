@@ -15,7 +15,6 @@ const SelectDateAndTime = (props) => {
   const [chosenDate, setChosenDate] = useState(props.selectedDatesServer);
   const removeDate = (dateToRemove) => {
     setChosenDate(chosenDate.filter((date) => date !== dateToRemove));
-    // UpdateSelectedTime(chosenDate);
   };
   const lobbyId = localStorage.getItem("lobbyId");
 

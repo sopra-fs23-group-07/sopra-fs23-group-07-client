@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Profile from "components/views/Profile";
 import EditProfile from "components/views/EditProfile";
 import Lobby from "../../views/Lobby";
+import {LobbyInviteGuard} from "../routeProtectors/LobbyInviteGuard";
 
 const GameRouter = props => {
   /**

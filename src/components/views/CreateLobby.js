@@ -52,7 +52,6 @@ const CreateLobby = () => {
 
       const userId = localStorage.getItem("userId");
       const token = localStorage.getItem("token");
-      console.log(token);
 
       // send lobby to backend
       const requestBody = JSON.stringify({
@@ -66,11 +65,9 @@ const CreateLobby = () => {
       });
 
       const response = await api.post("/lobbies", requestBody);
-      console.log(response.data);
       setLobby(response.data);
 
       localStorage.setItem("lobbyId", response.data.lobbyId);
-      // TODO: Make sure that always a new lobby with the correct Id is created. Probably get LobbyId from Backend response.
 
       history.push(`/Lobby/${response.data.lobbyId}`);
     } catch (error) {
@@ -89,18 +86,6 @@ const CreateLobby = () => {
         <Grid container direction="column" sx={{ alignItems: "center" }}>
           {/* title */}
           <Grid item xs={12}>
-            {/* <Typography
-              variant="h3"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "white",
-                //   letterSpacing: "0.2em"
-              }}
-            >
-              Create Lobby
-            </Typography> */}
               <CustomHeading variant="h3">Create Lobby</CustomHeading>
           </Grid>
           {/* Visible Box */}
@@ -108,7 +93,6 @@ const CreateLobby = () => {
             item
             sx={{
               paddingY: 10,
-              //   paddingX: 4,
               paddingX: 8,
               mt: 2,
               maxWidth: 600,
@@ -125,8 +109,6 @@ const CreateLobby = () => {
                 width: "70%",
                 minWidth: "340px", // this parameter controlls the width of the input field and therefore the width of the whole box
                 margin: "0 auto",
-                // ml: "100px",
-                // mr: "100px"
               }}
             >
               <TextField
@@ -151,7 +133,6 @@ const CreateLobby = () => {
                 Choose a region in the menu below
               </Typography>
               <Select
-         
                 value={region}
                 onChange={(e) => {
                   setRegionError(false);
@@ -197,8 +178,6 @@ const CreateLobby = () => {
                 <MenuItem value="Zug,ZG">Zug</MenuItem>
                 <MenuItem value="Zürich,ZH">Zürich</MenuItem>
               </Select>
-              {/* </FormControl> */}
-              {/* </Box> */}
               <Button
                 variant="contained"
                 sx={{ m: 5, p: 2, justifySelf: "center", alignSelf: "center" }}

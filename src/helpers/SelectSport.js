@@ -112,14 +112,6 @@ export default function MultipleSelectChip(props) {
                         >
                             {name}
                         </MenuItem>
-
-                        // <span style={{
-                        //     display: 'block',
-                        //     color: props.chosenSportServer.includes(name) ? 'blue' : 'black'
-                        // }}>
-                        //       {name}
-                        //       </span>
-
                     ))}
                 </Select>
             </FormControl>

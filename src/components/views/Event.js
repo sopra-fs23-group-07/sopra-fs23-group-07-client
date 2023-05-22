@@ -66,7 +66,7 @@ const Event = () => {
       await api.put(`/events/${eventId}/join`, requestBody);
       setIsParticipant(true);
     } catch (error) {
-      if (error.response.status == 401) {
+      if (error.response.status === 401) {
         localStorage.clear();
         window.dispatchEvent(new CustomEvent("localstorage-update"));
       }
@@ -112,7 +112,7 @@ const Event = () => {
 
       setIsParticipant(false);
     } catch (error) {
-      if (error.response.status == 401) {
+      if (error.response.status === 401) {
         localStorage.clear();
         window.dispatchEvent(new CustomEvent("localstorage-update"));
       }
@@ -133,10 +133,6 @@ const Event = () => {
         const response = await api.get("/events/" + eventId);
         setEvent(response.data);
         setEventLocationDTO(response.data.eventLocationDTO);
-        console.log("EVENT DATA")
-        console.log(response.data);
-        console.log("IS NEW EVENT");
-        console.log(response.data.isNewEvent);
         setIsNewEvent(response.data.isNewEvent);
 
         const userIds = response.data.participantDTOs.map(
@@ -325,7 +321,7 @@ const Event = () => {
                   </Typography>
                   {event.participantDTOs &&
                     event.participantDTOs.map((participantDTO) => (
-                      <Typography>
+                      <Typography key={participantDTO.userId}>
                         <Link
                           href={`/Profile/${participantDTO.userId}`}
                           target={"_blank"}

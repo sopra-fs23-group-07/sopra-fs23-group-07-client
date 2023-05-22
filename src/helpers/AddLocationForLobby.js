@@ -146,7 +146,6 @@ const AddLocationForLobby = (props) => {
 
   useEffect(() => {
     if (props.cantonFullName) {
-      console.log("props", props.cantonFullName)
       // Update the view state based on the cantonFullName prop
       const coordinates = cantonCoordinates[props.cantonFullName];
       if (coordinates) {
@@ -175,10 +174,7 @@ const AddLocationForLobby = (props) => {
       setLat2(lngLat.lat);
       setLng2(lngLat.lng);
       setLngLat(lngLat);
-      console.log("this is the canton:", canton); // log the canton variable
-      console.log("this is the canton full name new:", canton_Full_name); // log the canton variable
     } else {
-      console.log("User already confirmed location");
       toast.warn("You already added a location!");
     }
   };

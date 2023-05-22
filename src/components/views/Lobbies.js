@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import BaseContainer from "components/ui/BaseContainer";
-import { Spinner } from "components/ui/Spinner";
 import { useHistory } from "react-router-dom";
 import {
   Button,
@@ -39,9 +38,7 @@ const Lobbies = () => {
   };
 
   const handleJoinLobby = async (lobbyId) => {
-    console.log("this is lobby id: " + lobbyId);
     try {
-      console.log("this is lobby id: " + lobbyId);
       const requestBody = JSON.stringify({
         userId: userId,
         token: token,
@@ -51,7 +48,7 @@ const Lobbies = () => {
       localStorage.setItem("lobbyId", lobbyId);
       history.push("/Lobby/" + String(lobbyId));
     } catch (error) {
-      if (error.response.status == 401 || error.response.status == 400) {
+      if (error.response.status === 401 || error.response.status === 400) {
         localStorage.clear();
         window.dispatchEvent(new Event("localstorage-update"));
         await api.post(`/users/logout/${userId}`);

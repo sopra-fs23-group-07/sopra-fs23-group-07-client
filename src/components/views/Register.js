@@ -24,7 +24,7 @@ const Register = (props) => {
     if (email.length > 100){
       return false;
     } else {
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/i;
+      const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$/i;
       return emailRegex.test(email);
     }
   }
@@ -42,8 +42,8 @@ const Register = (props) => {
     setPassword(event.target.value);
   };
 
-  var lobby = false;
-  var lobbyId = 0;
+  let lobby = false;
+  let lobbyId = 0;
 
   try {
     const location = useLocation();
@@ -73,7 +73,6 @@ const Register = (props) => {
       setUser(user);
 
       // Login successfully worked --> navigate to the route /home in the AppRouter
-      console.log(lobby);
       try {
         if (lobby) {
           history.push("/Lobby/" + String(lobbyId));
@@ -88,95 +87,6 @@ const Register = (props) => {
   };
 
   return (
-    // <BaseContainer>
-    //   <Grid item xs={12} sx={{ paddingY: 2, maxWidth: 800, m: "0 auto" }}>
-    //     <Typography variant={"h3"}>Register</Typography>
-    //   </Grid>
-    //   <Paper
-    //     sx={{
-    //       paddingY: 10,
-    //       paddingX: 4,
-    //       mt: 2,
-    //       maxWidth: 800,
-    //       flexGrow: 1,
-    //       margin: "0 auto",
-    //     }}
-    //   >
-    //     <Box
-    //       sx={{
-    //         display: "flex",
-    //         flexDirection: "column",
-    //         width: "60%",
-    //         margin: "0 auto",
-    //       }}
-    //     >
-    //       <TextField
-    //         label={"Username"}
-    //         placeholder={"Enter your username"}
-    //         type={"text"}
-    //         value={username}
-    //         onChange={handleUsernameInputChange}
-    //         sx={{ mt: 2 }}
-    //         error={usernameError}
-    //       />
-    //       <TextField
-    //         label={"Email"}
-    //         placeholder={"Enter your email"}
-    //         type={"email"}
-    //         value={email}
-    //         onChange={handleEmailInputChange}
-    //         sx={{ mt: 2 }}
-    //         error={emailError}
-    //       />
-    //       <TextField
-    //         label={"Password"}
-    //         placeholder={"Enter your password"}
-    //         type={"password"}
-    //         value={password}
-    //         onChange={handlePasswordInputChange}
-    //         sx={{ mt: 2 }}
-    //       />
-    //       <Button
-    //         variant={"contained"}
-    //         startIcon={<AppRegistrationIcon />}
-    //         disabled={!username || !email || !password}
-    //         onClick={() => doRegister()}
-    //         sx={{
-    //           marginY: 2,
-    //           paddingY: 2,
-    //           paddingX: 4,
-    //           justifySelf: "center",
-    //           alignSelf: "center",
-    //         }}
-    //       >
-    //         Register
-    //       </Button>
-
-    //       <div>Already a User? Please go to the Login Page.</div>
-
-    //       <Button
-    //         variant={"contained"}
-    //         startIcon={<LoginIcon />}
-    //         onClick={() =>
-    //           history.push({
-    //             pathname: "/login",
-    //             state: { lobby: lobby, lobbyId: lobbyId },
-    //           })
-    //         }
-    //         sx={{
-    //           mt: 2,
-    //           paddingY: 2,
-    //           paddingX: 4,
-    //           justifySelf: "center",
-    //           alignSelf: "center",
-    //         }}
-    //       >
-    //         Login
-    //       </Button>
-    //     </Box>
-    //   </Paper>
-    // </BaseContainer>
-
     <BaseContainer>
       {/* Container of all content */}
       <Grid
@@ -200,7 +110,7 @@ const Register = (props) => {
               display: "flex",
               flexDirection: "column",
               width: "70%",
-              minWidth: "340px", // this parameter controlls the width of the input field and therefore the width of the whole box
+              minWidth: "340px", // this parameter controls the width of the input field and therefore the width of the whole box
               margin: "0 auto",
             }}
           >

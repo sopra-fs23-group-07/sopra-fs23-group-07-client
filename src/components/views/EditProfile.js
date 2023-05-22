@@ -32,7 +32,7 @@ const EditProfile = () => {
       if (email.length > 100){
           return false;
       } else {
-          const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/i;
+          const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$/i;
           return emailRegex.test(email);
       }
   }
@@ -116,18 +116,6 @@ const EditProfile = () => {
       >
         {/* title */}
         <Grid item xs={12}>
-          {/* <Typography
-            variant={"h3"}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              //   letterSpacing: "0.2em"
-            }}
-          >
-            Edit Profile
-          </Typography> */}
           <CustomHeading variant="h3">Edit Profile</CustomHeading>
         </Grid>
         {/* Visible Box */}

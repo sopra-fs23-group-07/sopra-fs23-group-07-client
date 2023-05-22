@@ -41,7 +41,7 @@ function ControlledAccordions() {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>Withour registering or logging in you are able to see what lobbies and events are currently open as well as view the details of an event. However you may not create or join and event or lobby without first registering and logging in</Typography>
+          <Typography>Without registering or logging in you are able to see what lobbies and events are currently open as well as view the details of an event. However you may not create or join and event or lobby without first registering and logging in</Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion

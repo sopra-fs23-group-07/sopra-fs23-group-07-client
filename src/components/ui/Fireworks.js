@@ -189,27 +189,10 @@ const Fireworks = () => {
                             "default": "destroy",
                             "top": "none"
                         },
-                        // "trail": {
-                        //     "fillColor": "#000",
-                        //     "enable": true,
-                        //     "length": 10
-                        // }
                     }
                 },
                 "sounds": {
-                    "enable": true,
-                    "events": [
-                        {
-                            "event": "particleRemoved",
-                            "filter": "explodeSoundCheck",
-                            "audio": [
-                                "https://particles.js.org/audio/explosion0.mp3",
-                                "https://particles.js.org/audio/explosion1.mp3",
-                                "https://particles.js.org/audio/explosion2.mp3"
-                            ]
-                        }
-                    ],
-                    "volume": 50
+                    "enable": false,
                 }
             }}
         />

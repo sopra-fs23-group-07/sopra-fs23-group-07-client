@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import BaseContainer from "components/ui/BaseContainer";
 import { useHistory } from "react-router-dom";
 import { api, handleError } from "helpers/api";
@@ -50,50 +50,42 @@ const CreateEvent = () => {
       latitude: lat,
     };
     setLocation(newLocation);
-    console.log("this is the location", location);
   };
 
-  useEffect(() => {
-    console.log("this is the location", location);
-  }, [location]);
 
   const handleCreateEventClick = async () => {
     try {
+      let error = false;
+
       if (!eventName) {
         setEventNameError(true);
+        error = true;
       }
       if (!eventDate) {
         setEventTimeError(true);
+        error = true;
       }
       if (!selectedSport) {
         setEventSportError(true);
+        error = true;
       }
       if (!canton_Full_name) {
         setEventRegionError(true);
+        error = true;
       }
       if (!location) {
         setEventLocationError(true);
+        error = true;
       }
       if (!maxParticipants || isNaN(maxParticipants)) {
         setEventMaxPartError(true);
-      }
-      // Validate the input fields.
-      if (
-        !eventName ||
-        !selectedSport ||
-        !eventDate ||
-        (location && !canton_Full_name) ||
-        !maxParticipants ||
-        isNaN(maxParticipants)
-      ) {
-        toast.error("Please fill in all fields with valid data.");
-        return;
+        error = true;
       }
 
-      if (!location) {
-        toast.error(
-          "Please click on the map to add a location in the region you chose"
-        );
+      // Check for any errors before proceeding
+      if (error) {
+        toast.error("Please fill in all fields with valid data.");
+        return;
       }
 
       const requestBody = JSON.stringify({
@@ -102,31 +94,29 @@ const CreateEvent = () => {
         eventDate: eventDate,
         eventSport: selectedSport,
         eventRegion: canton_Full_name,
-        eventMaxParticipants: maxParticipants, // integer
-        eventCreator: userId, // long
+        eventMaxParticipants: maxParticipants,
+        eventCreator: userId,
         token: token,
       });
 
       const response = await api.post("/events", requestBody);
 
-
-      // after event is generated braing user to event page.
+      // after event is generated, bring user to event page.
       history.push(`/Events/${response.data.eventId}`);
     } catch (error) {
-      console.log(error.response);
-      if (error.response.status == 401 || error.response.status == 404) {
+      console.error(error.response);
+      const errorStatus = error.response.status;
+
+      if (errorStatus === 401 || errorStatus === 404) {
         localStorage.clear();
         window.dispatchEvent(new Event("localstorage-update"));
         await api.post(`/users/logout/${userId}`);
-        toast.error(handleError(error));
-      }
-      if (error.response.status == 400 && error.response.data == "Please choose event date in the future.") {
-        toast.error(handleError(error));
       } else {
         toast.error(handleError(error));
       }
     }
   };
+
 
   const sports = [
     "Basketball",
@@ -192,10 +182,8 @@ const CreateEvent = () => {
                 }}
               >
                 {/* Event Name */}
-                {/* <Typography variant={"h5"}>Event Name</Typography> */}
                 <TextField
                   sx={{ mt: 2 }}
-                  // id="eventName"
                   label="Event Name"
                   value={eventName}
                   onChange={(e) => {
@@ -228,8 +216,6 @@ const CreateEvent = () => {
                         setRegion(e.target.value); // Set the entire value
                         setCanton_Full_name(canton_Full_name2);
                         setShortCodeForRegion(shortCode1);
-                        console.log("shortCode:", shortCodeForRegion);
-                        console.log("canton_Full_name:", canton_Full_name2);
                       }}
                       error={eventRegionError}
                     >
@@ -270,9 +256,6 @@ const CreateEvent = () => {
                 </Box>
 
                 {/* MaxParticipants */}
-                {/* <Typography variant={"h5"}>
-                  Maximum number of participants
-                </Typography> */}
                 <InputSlider
                   maxParticipants={maxParticipants}
                   setMaxParticipants={setMaxParticipants}

@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Box, Button} from "@mui/material";
+import {Box} from "@mui/material";
 import ReactMapGL, {GeolocateControl, Marker, NavigationControl} from "react-map-gl";
 import Geocoder from "./Geocoder";
 import {toast} from "react-toastify";
@@ -141,7 +141,6 @@ const AddLocationForEvent = (props) => {
 
     useEffect(() => {
         if (props.cantonFullName) {
-            console.log("props", props.cantonFullName)
             // Update the view state based on the cantonFullName prop
             const coordinates = cantonCoordinates[props.cantonFullName];
             if (coordinates) {
@@ -214,12 +213,8 @@ const AddLocationForEvent = (props) => {
 
 
     const SendLocationToServer = (lngLat) => {
-
-
             props.handleLocationChange(lngLat.lng, lngLat.lat, Address);
             SetUserConfirmedLocation(true);
-
-
     };
 
 
