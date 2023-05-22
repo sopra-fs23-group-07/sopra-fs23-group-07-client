@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
-import { DateTimePicker } from "@mui/x-date-pickers";
+import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker';
 import moment from "moment";
 import dayjs from "dayjs";
 import AddLocationForEvent from "../../helpers/AddLocationForEvent";
@@ -127,7 +127,7 @@ const CreateEvent = () => {
       // after event is generated braing user to event page.
       history.push(`/Events/${response.data.eventId}`);
     } catch (error) {
-        console.log(error.response);
+      console.log(error.response);
       if (error.response.status == 401 || error.response.status == 404) {
         localStorage.clear();
         window.dispatchEvent(new Event("localstorage-update"));
@@ -239,32 +239,21 @@ const CreateEvent = () => {
                   error={eventNameError}
                 />
 
-        {/* Region */}
-        <Typography
+                {/* Region */}
+                <Typography
                   variant={"h5"}
                   sx={{
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    mt: 2
+                    my: 2,
                   }}
                 >
                   Region
                 </Typography>
                 <Box sx={{ minWidth: 240 }}>
                   <FormControl sx={{ width: "100%" }}>
-                    {/* <InputLabel
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      Region
-                    </InputLabel> */}
                     <Select
-                      sx={{ mt: 2 }}
-                      // label="Region"
                       value={region}
                       onChange={(e) => {
                         setEventRegionError(false);
@@ -326,9 +315,18 @@ const CreateEvent = () => {
                 />
 
                 {/* Sport */}
-                {/* <Typography variant={"h5"}>Sport</Typography> */}
-                <FormControl sx={{ mt: 2 }}>
-                  <InputLabel>Sport</InputLabel>
+                <Typography
+                  variant={"h5"}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    my: 2,
+                  }}
+                >
+                  Sport
+                </Typography>
+                <FormControl>
                   <Select
                     value={selectedSport}
                     onChange={(e) => {
@@ -346,8 +344,18 @@ const CreateEvent = () => {
                 </FormControl>
 
                 {/* Select Time */}
-                <Typography variant={"h5"}>Time</Typography>
-                <DateTimePicker
+                <Typography
+                  variant={"h5"}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    my: 2,
+                  }}
+                >
+                  Time
+                </Typography>
+                <DesktopDateTimePicker
                   value={dayjs(eventDate)}
                   onChange={handleDateChange}
                   error={eventTimeError}
@@ -368,8 +376,6 @@ const CreateEvent = () => {
                   }}
                 />
 
-        
-
                 {/* Location */}
                 <Typography
                   variant={"h5"}
@@ -377,6 +383,7 @@ const CreateEvent = () => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
+                    my: 2,
                   }}
                 >
                   Location
@@ -394,7 +401,7 @@ const CreateEvent = () => {
                 <Button
                   variant="contained"
                   sx={{
-                    marginTop: 2,
+                    marginTop: 8,
                     p: 2,
                     display: "flex",
                     justifySelf: "center",

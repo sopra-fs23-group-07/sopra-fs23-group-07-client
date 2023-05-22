@@ -15,9 +15,9 @@ const colors5 = {
   // secondary: "#95defb",
   // primary: "rgba(2,0,36,1)",
   // secondary: "rgba(0,212,255,1)",
-  primary: "orange",
+  primary: "#FFA500",
   secondary: "#A56DC9",
-  orange: "orange",
+  orange: "#FFA500",
   dominantviolet: "#A56DC9",
   blueone: "rgba(2,0,36,1)",
   bluetwo: "rgba(9,9,121,1)",
@@ -224,6 +224,14 @@ export const themeFive = createTheme({
 
 export const themeSix = createTheme({
   palette: {
+    primary: {
+      default: colors5.primary,
+      main: colors5.primary,
+    },
+    secondary: {
+      default: colors5.secondary,
+      main: colors5.secondary,
+    },
     background: {
       default: colors5.background,
     },

@@ -36,7 +36,7 @@ export const InputSlider = (props) => {
       </Typography>
       <Grid container spacing={2} alignItems="center">
         <Grid item>
-          <Groups2Icon color={maxPartError ? "error" : "primary"} />
+          <Groups2Icon color={maxPartError ? "error" : "secondary"} />
         </Grid>
         <Grid item xs>
           <Slider
