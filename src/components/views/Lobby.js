@@ -264,7 +264,8 @@ const Lobby = () => {
         window.dispatchEvent(new Event("localstorage-update"));
         await api.post(`/users/logout/${userId}`);
       }
-      history.push(`/Lobbies`);
+      if (error.response.status != 500) {
+      history.push(`/Lobbies`);}
     }
   };
 
