@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { DataGrid } from "@mui/x-data-grid";
 import { RenderActions } from "components/ui/RenderActions";
 import { CustomNoRowsOverlay } from "components/ui/CustomNoRowsOverlay";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
 // page where all events are listed
 const Events = () => {
@@ -40,7 +41,7 @@ const Events = () => {
       }
     }
 
-    fetchData().catch(err => console.log(err)); // Make initial request immediately
+    fetchData().catch((err) => console.log(err)); // Make initial request immediately
 
     const intervalId = setInterval(fetchData, 10000); // Update data every second
 
@@ -73,7 +74,7 @@ const Events = () => {
     },
     {
       field: "eventParticipantsCount",
-      headerName: "Number of\nParticipants",
+      headerName: <PeopleAltIcon sx={{ sizeHeight: "1.5em" }} />,
       width: 100,
       flex: 1,
     },
@@ -85,7 +86,7 @@ const Events = () => {
     },
     {
       field: "actions",
-      headerName: "Actions",
+      headerName: " ",
       width: 100,
       flex: 1,
       sortable: false,
@@ -129,17 +130,16 @@ const Events = () => {
 
   return (
     <BaseContainer>
-     
       {/* Title */}
-      <Grid container lg={12} md={12} xs={12} sx={{ marginBottom: 4 }}>
-        <Grid item lg={8} md={8} xs={8}>
+      <Grid container sx={{ marginBottom: 4 }}>
+        <Grid item md={8} xs={12}>
           <Typography
             variant="h3"
             sx={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "left",
-              marginLeft: 4,
+              justifyContent: { md: "left", xs: "center" },
+              marginLeft: { md: 4, xs: 0 },
               color: "white",
             }}
           >
@@ -148,13 +148,12 @@ const Events = () => {
         </Grid>
         <Grid
           item
-          lg={4}
           md={4}
-          xs={4}
+          xs={12}
           sx={{
             display: "flex",
-            justifyContent: "flex-end",
-            paddingRight: 4,
+            justifyContent: { md: "flex-end", xs: "center" },
+            paddingRight: { md: 4, xs: 0 },
           }}
         >
           <Button
@@ -166,82 +165,106 @@ const Events = () => {
           </Button>
         </Grid>
       </Grid>
-      <Grid container lg={12} md={12} xs={12}>
+
       {/* Visible Box */}
-        <Grid item lg={12} md={12} xs={12}>
-          <Box
-            sx={{
-              backgroundColor: "rgba(255, 255, 255, 0.7)",
-              borderRadius: "20px",
-              padding: 4,
-              display: "flex",
-              justifyContent: "space-between",
-              gap: 4,
+      <Grid
+        container
+        xs={12}
+        sx={{
+          backgroundColor: "rgba(255, 255, 255, 0.7)",
+          borderRadius: "20px",
+          padding: 4,
+          // display: "flex",
+          // justifyContent: "space-between",
+          // gap: 4,
+          minHeight: "400px",
+        }}
+      >
+        {/* Table Box */}
+        <Grid
+          item
+          md={8}
+          xs={12}
+          sx={{
+            paddingRight: { md: 2, xs: 0 },
+            paddingBottom: { md: 0, xs: 2 },
+          }}
+        >
+          {/* Table */}
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 5,
+                },
+              },
+              columns: {
+                columnVisibilityModel: {
+                  id: false,
+                },
+              },
             }}
-          >
-            <Grid item lg={8} md={8} xs={12}>
-              {/* Table Box */}
-              <Box sx={{ boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)" }}>
-                {/* Table */}
-                <DataGrid
-                  rows={rows}
-                  columns={columns}
-                  initialState={{
-                    pagination: {
-                      paginationModel: {
-                        pageSize: 5,
-                      },
-                    },
-                    columns: {
-                      columnVisibilityModel: {
-                        id: false,
-                      },
-                    },
-                  }}
-                  pageSizeOptions={[5]}
-                  disableRowSelectionOnClick
-                  slots={{
-                    noRowsOverlay: CustomNoRowsOverlay,
-                  }}
-                  //sx only used for text wrapping and header styling
-                  sx={{
-                    height: "375px",
-                    background: "white",
-                    "& .MuiDataGrid-columnHeaderTitle": {
-                      whiteSpace: "normal",
-                      lineHeight: "normal",
-                      fontWeight: "bold",
-                    },
-                    "& .MuiDataGrid-columnHeader": {
-                      // Forced to use important since overriding inline styles
-                      height: "unset !important",
-                    },
-                    "& .MuiDataGrid-columnHeaders": {
-                      // Forced to use important since overriding inline styles
-                      maxHeight: "168px !important",
-                    }
-                  }}
-                />
-              </Box>
-            </Grid>
-            <Grid item lg={4} md={4} xs={12} >
-              {/* Map */}
-                {events && (
-                  <AddLocation
-                    flyToLocation={flyToLocation}
-                    events_passed={events}
-                    EventPage={true}
-                    sx={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  />
-                )}
-            </Grid>
-          </Box>
+            pageSizeOptions={[5]}
+            disableRowSelectionOnClick
+            slots={{
+              noRowsOverlay: CustomNoRowsOverlay,
+            }}
+            //sx only used for text wrapping and header styling
+            sx={{
+              background: "white",
+              height: "375px",
+              boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
+
+              "& .MuiDataGrid-columnHeaderTitle": {
+                whiteSpace: "normal",
+                lineHeight: "normal",
+                fontWeight: "bold",
+              },
+              "& .MuiDataGrid-columnHeader": {
+                borderBottom: "1px black solid !important",
+              },
+              "& .MuiDataGrid-columnHeaders": {
+                border: "0px solid black !important",
+                maxHeight: "168px !important",
+              },
+              '& .MuiDataGrid-cell': {
+                background: 'rgba(165, 109, 201, 0.1) !important', 
+                borderTop: '0px black solid !important', 
+                borderBottom: '1px black solid !important', 
+              },
+            }}
+          />
+        </Grid>
+
+        {/* Map */}
+        <Grid
+          item
+          md={4}
+          xs={12}
+          sx={{
+            maxHeight: { md: "500px", xs: "500px" },
+            height: { md: "auto", xs: "500px" },
+            paddingLeft: { md: 2, xs: 0 },
+            paddingTop: { md: 0, xs: 2 },
+            position: "relative",
+          }}
+        >
+          {events && (
+            <AddLocation
+              flyToLocation={flyToLocation}
+              events_passed={events}
+              EventPage={true}
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+              }}
+            />
+          )}
         </Grid>
       </Grid>
     </BaseContainer>

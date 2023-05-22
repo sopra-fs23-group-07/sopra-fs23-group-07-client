@@ -56,6 +56,7 @@ colors5.orangegradient =
 
 // analogous colors of dominant
 colors5.violetgradient1 = "linear-gradient(to right, #A56DC9, #6D91C9)"; // sexy
+colors5.violetgradient1right = "#6D91C9";
 
 // triadic color to dominant
 colors5.triadicDominantGradient = "linear-gradient(to right, #C9776D, #6DC977)";
@@ -92,8 +93,12 @@ colors5.background = colors5.light;
 colors5.background = colors5.black;
 
 colors5.iconButtonBackground = colors5.violetgradient1;
-colors5.iconButtonSymbol = "orange"; // gradient doesn't work
-colors5.iconButtonBackgroundHover = colors5.violetgradient1reverse;
+colors5.iconButtonSymbol = colors5.primary; // gradient doesn't work
+// colors5.iconButtonBackgroundHover = colors5.violetgradient1reverse; // original version
+// colors5.iconButtonBackgroundHover = colors5.violetgradient1right; // version 1
+// colors5.iconButtonBackgroundHover = "black"; // version 2 maybe white?
+colors5.iconButtonBackgroundHover = colors5.primary;
+colors5.iconButtonSymbolHover = colors5.secondary;
 // background pictures
 // colors5.backgroundPicture = background2;
 // colors5.backgroundPicture = background3;
@@ -295,6 +300,7 @@ export const themeSix = createTheme({
             // border: "1px black solid",
             // transform: "translate(5%, 5%)",
             background: colors5.iconButtonBackgroundHover,
+            color: colors5.iconButtonSymbolHover,
           },
         },
       },
