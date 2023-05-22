@@ -236,8 +236,8 @@ const Event = () => {
                 sx={{
                   "& td, & th": {
                     background: "rgba(165, 109, 201, 0.1)",
-                    borderTop: "2px black solid", // works
-                    borderBottom: "2px black solid", // works
+                    borderTop: "1px black solid", // works
+                    borderBottom: "1px black solid", // works
                   },
                 }}
               >
@@ -252,8 +252,8 @@ const Event = () => {
                 sx={{
                   "& td, & th": {
                     background: "rgba(165, 109, 201, 0.1)",
-                    borderTop: "2px black solid", // works
-                    borderBottom: "2px black solid", // works
+                    borderTop: "1px black solid", // works
+                    borderBottom: "1px black solid", // works
                   },
                 }}
               >
@@ -268,8 +268,8 @@ const Event = () => {
                 sx={{
                   "& td, & th": {
                     background: "rgba(165, 109, 201, 0.1)",
-                    borderTop: "2px black solid", // works
-                    borderBottom: "2px black solid", // works
+                    borderTop: "1px black solid", // works
+                    borderBottom: "1px black solid", // works
                   },
                 }}
               >
@@ -286,8 +286,8 @@ const Event = () => {
                 sx={{
                   "& td, & th": {
                     background: "rgba(165, 109, 201, 0.1)",
-                    borderTop: "2px black solid", // works
-                    borderBottom: "2px black solid", // works
+                    borderTop: "1px black solid", // works
+                    borderBottom: "1px black solid", // works
                   },
                 }}
               >
@@ -302,8 +302,8 @@ const Event = () => {
                 sx={{
                   "& td, & th": {
                     background: "rgba(165, 109, 201, 0.1)",
-                    borderTop: "2px black solid", // works
-                    borderBottom: "2px black solid", // works
+                    borderTop: "1px black solid", // works
+                    borderBottom: "1px black solid", // works
                   },
                 }}
               >
@@ -320,8 +320,8 @@ const Event = () => {
                 sx={{
                   "& td, & th": {
                     background: "rgba(165, 109, 201, 0.1)",
-                    borderTop: "2px black solid", // works
-                    borderBottom: "2px black solid", // works
+                    borderTop: "1px black solid", // works
+                    borderBottom: "1px black solid", // works
                   },
                 }}
               >
@@ -389,6 +389,7 @@ const Event = () => {
           justifyContent: "center",
           gap: 8,
           marginTop: 2,
+          marginBottom: 4,
         }}
       >
         <Button
