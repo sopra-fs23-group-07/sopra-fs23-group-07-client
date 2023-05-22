@@ -10,12 +10,10 @@ If you have ever tried to organize a sports event with friends then you know how
 - [Launch & Deployment](#launch)
 - [User Flow](#user-flow)
 - [Roadmap](#roadmap)
-- [Contributing](#contributing)
 - [License](#license)
-- [Contact Information](#contact-information)
 
 ## Technologies
-- JavaScript React
+- [JavaScript React](https://legacy.reactjs.org)
 - Material UI 
 - ESLint
 - Npm
