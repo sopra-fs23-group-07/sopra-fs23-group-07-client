@@ -4,7 +4,7 @@ import React from 'react';
 
 export const api = axios.create({
   baseURL: getDomain(),
-  headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'https://sopra-fs23-group-07-server.oa.r.appspot.com', 'http://localhost:8080' }
+  headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': 'https://sopra-fs23-group-07-server.oa.r.appspot.com' }
 });
 export const handleError = error => {
   const response = error.response;
