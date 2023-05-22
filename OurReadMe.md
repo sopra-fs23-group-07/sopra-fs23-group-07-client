@@ -7,20 +7,20 @@ If you have ever tried to organize a sports event with friends then you know how
 
 - [Technologies](#technologies)
 - [Components](#components)
-- [Launch & Deployment](#launch-&-deployment)
+- [Launch & Deployment](#launch)
 - [User Flow](#user-flow)
 - [Roadmap](#roadmap)
-- [Contributing](#contributing)
+- [Authors and Acknowledgments](#authors-and-acknowledgments)
+- [Credits](#credits)
 - [License](#license)
-- [Contact Information](#contact-information)
 
 ## Technologies
-- JavaScript React
-- Material UI 
-- ESLint
-- Npm
-- HTTP/Rest
-- Google Cloud
+- [JavaScript React](https://legacy.reactjs.org)
+- [Material UI](https://mui.com)
+- [ESLint](https://eslint.org)
+- [Npm](https://www.npmjs.com)
+- [Gradle](https://gradle.org)
+- [Google Cloud](https://cloud.google.com)
 
 ## Components
 ### Home Screen
@@ -31,7 +31,7 @@ If you have ever tried to organize a sports event with friends then you know how
 ### My Events Page
 ### Profile Page
 
-## Launch & Deployment
+## Launch & Deployment <a name="launch"></a>
 
 For your local development environment, you will need Node.js. You can download it [here](https://nodejs.org). All other dependencies, including React, get installed with:
 
@@ -55,8 +55,6 @@ This launches the test runner in an interactive watch mode. See the section abou
 Finally, `npm run build` builds the app for production to the `build` folder.<br>
 It correctly bundles React in production mode and optimizes the build for the best performance: the build is minified, and the filenames include hashes.<br>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
 ## Learn More
 
 To learn more about...
@@ -65,7 +63,8 @@ To learn more about...
 - Google Cloud Platform, check out the [GCP documentation](https://cloud.google.com/docs).
 - Toastify, check out the [React toastify documentation](https://fkhadra.github.io/react-toastify/introduction/)
 - tsParticles, check out the [tsParticles documentation](https://particles.js.org/)
-- 
+
+
 ## User Flow
 
 ### Register
@@ -78,7 +77,7 @@ After registration the user is redirected to the home page. The home page consis
 
 ### Events
 
-A user can then go to the events page by clicking "Events" on the navigation bar where they will be sent to a page showing all events. Here a user may view the details of an event by clicking the "View Event" button or view the location of the event on the map by clicking the location icon. If a user wishes to create there own event(without any collaboration), they can click the "Create Event" button.
+A user can then go to the events page by clicking "Events" on the navigation bar where they will be sent to a page showing all events. Here a user may view the details of an event by clicking the "View Event" button or view the location of the event on the map by clicking the location icon. If a user wishes to create there own event(without any collaboration), they can click the "Create Event" button. A user may also filter the events by location, sport, ascending or descending time to find an event which best suits them.
 
 ### Lobbies
 
@@ -97,20 +96,53 @@ While in the lobby a user must select at least one sport, date and time, and loc
 The event details page allows users to view the specifics about an event such as the sport, time, location of the event and particpants of the event. If a user wishes to join the event and there is still space in the event, the user can click the "Join" button. Likewise if a user wishes to leave an event, they can click the "Leave" button. 
 
 ## Roadmap
-Top features to be implemented in future.
 
-## License
+### Friending
+The next step for SpeetUp would be adding a friending system where users can friend in the app and share lobby invites directly through the SpeetUp. 
 
-The license under which the project is released, including any restrictions on use or distribution.
+### Private Lobbies
 
-## Contact Information
+Another feature that could be implemented is private lobbies, where only those users invited can join. Then you can create a lobby with only your friends by only inviting them to the lobby.
 
-- [Omar](https://github.com/oaboha)
-- [Patrick](https://github.com/patrick9051)
-- [Yannic](https://github.com/cinnayre)
-- [Suleman](https://github.com/SuleKhan)
-- [Raffael](https://github.com/theraffael)
+### Rating Users
+
+An additional feature could be teh ability to rate users after an event is done. This way others can see if a user is fun to play with, or if he is not so friendly.
+
+
+## Authors and Acknowledgments
+
+* **Suleman Ali Khan** - *Developer* - [SuleKhan](https://github.com/SuleKhan)
+* **Omar Abo Hamida** - *Developer* - [oaboha](https://github.com/oaboha)
+* **Patrick Schelling** - *Developer* - [patrick9051](https://github.com/patrick9051)
+* **Yannic Laurent Meyer** - *Developer* - [Yannic](https://github.com/Yannic)
+* **Raffael Kummer** - *Developer* - [theraffael](https://github.com/theraffael)
+
+* **Mete** - *Scrum Master* - [SuleKhan](https://github.com/SuleKhan)
 
 ## Credits
 
 <a href="https://www.flaticon.com/authors/freepik" title="icons">Icons created by Freepik - Flaticon</a><br>
+
+## License
+
+MIT License
+
+Copyright (c) [2023] [Suleman Ali Khan, Omar Abo Hamida, Patrick Schelling, Yannic Laurent Meyer, Raffael Kummer]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
