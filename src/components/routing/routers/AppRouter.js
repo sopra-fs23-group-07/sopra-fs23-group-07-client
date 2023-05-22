@@ -11,7 +11,6 @@ import Lobbies from "components/views/Lobbies";
 import Header from "components/views/Header";
 import CreateLobby from "components/views/CreateLobby";
 import CreateEvent from "components/views/CreateEvent";
-import Test from "../../views/Test";
 import Lobby from "../../views/Lobby";
 import { CreateLobbyGuard } from "../routeProtectors/CreateLobbyGuard";
 import { CreateEventGuard } from "../routeProtectors/CreateEventGuard";
@@ -20,7 +19,6 @@ import Event from "../../views/Event";
 import FAQ from "../../views/FAQ";
 import EditProfile from "../../views/EditProfile";
 import { ProfileGuard } from "../routeProtectors/ProfileGuard";
-import {LobbyRoute} from "../routeProtectors/LobbyGuard";
 import {LobbyInviteGuard} from "../routeProtectors/LobbyInviteGuard";
 import {MyEventsGuard} from "../routeProtectors/MyEventsGuard";
 
@@ -58,7 +56,6 @@ const AppRouter = () => {
           <Redirect to="/register" />
         </Route>
 
-        {/* New routes added for navbar */}
         <Route exact path="/Home">
           <HomeGuard>
             <Home />
@@ -90,7 +87,6 @@ const AppRouter = () => {
           </ProfileGuard>
         </Route>
 
-        {/* DONE: Add a Guard to make sure only logged in users can create Lobby */}
         <Route exact path="/CreateLobby">
           <CreateLobbyGuard>
             <CreateLobby />
@@ -102,19 +98,6 @@ const AppRouter = () => {
             <CreateEvent />
           </CreateEventGuard>
         </Route>
-        {/*
-        //TODO: user still has to be redirected to lobby after registration instead of Home
-        //<LobbyRoute path="/Lobby/:id" component={Lobby}/>
-
-        <Route exact path="/Test">
-          <Test />
-        </Route>
-//        <Route exact path="/Lobby">
-//          <Lobby />
-//        </Route>
-        <Route exact path="/Lobby">
-          <Login />
-        </Route> */}
         <Route exact path="/Lobby/:lobbyId">
           <LobbyInviteGuard >
             <Lobby />

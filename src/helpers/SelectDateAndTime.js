@@ -33,7 +33,6 @@ const SelectDateAndTime = (props) => {
 
   useEffect(() => {
     UpdateSelectedTime(chosenDate).catch(err => console.log(err));
-    // console.log(chosenDate);
   }, [chosenDate]);
 
   const handleClick = () => {
@@ -60,18 +59,6 @@ const SelectDateAndTime = (props) => {
     }
   };
 
-  //As an Alternative here you would filter in a way that a user can only choose 5 days in advance!
-  // const filterPassedTime = (time) => {
-  //     const currentDate = new Date();
-  //     const selectedDate = new Date(time);
-  //     const maxDate = new Date();
-  //     maxDate.setDate(currentDate.getDate() + 5);
-  //
-  //     return (
-  //         currentDate.getTime() < selectedDate.getTime() &&
-  //         selectedDate.getTime() < maxDate.getTime()
-  //     );
-  // };
 
   const UpdateSelectedTime = async (selectedDates) => {
     try {
@@ -129,7 +116,6 @@ const SelectDateAndTime = (props) => {
           >
             
             <span
-            // sx={{ marginRight: 2 }}
               style={{
                 marginRight: 12,
                 display: "block",

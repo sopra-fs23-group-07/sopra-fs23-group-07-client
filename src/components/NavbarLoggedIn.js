@@ -110,7 +110,6 @@ const NavbarLoggedIn = () => {
         }
     };
 
-    // TODO: Log out works for tokens but not for updating header
     const handleLogoutClick = async () => {
         if (localStorage.getItem("lobbyId")) {
             console.log("handleLogoutClick was called inside if");
@@ -137,9 +136,6 @@ const NavbarLoggedIn = () => {
         try {
             await api.post(`/users/logout/${userId}`);
 
-            // localStorage.removeItem("token");
-            // localStorage.removeItem("userId");
-            // localStorage.removeItem("lobbyId");
 
             localStorage.clear();
             setUser(null);

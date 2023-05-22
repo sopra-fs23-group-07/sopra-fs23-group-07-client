@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { api, handleError } from "helpers/api";
 import { useHistory, useLocation } from "react-router-dom";
 import BaseContainer from "components/ui/BaseContainer";
-import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { GlobalContext } from "../../helpers/GlobalState";
@@ -33,7 +33,6 @@ const Login = (props) => {
     const location = useLocation();
 
     lobby = location.state.lobby;
-    //console.log(lobby);
     lobbyId = location.state.lobbyId;
   } catch {}
 

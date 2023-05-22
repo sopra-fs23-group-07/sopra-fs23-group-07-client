@@ -51,13 +51,7 @@ const VotingForLocations = (props) => {
 
     const [UserAlreadyVoted, setUserAlreadyVoted] = useState(hasVotedForThisLocation);
 
-    // console.log(props.lobby.lobbyLocationDTOs[0].locationId);
 
-    // React.useEffect(() => {
-    //     return () => {
-    //         setUserAlreadyVoted(false);
-    //     };
-    // }, []);
 
     React.useEffect(() => {
         setUserAlreadyVoted(hasVotedForThisLocation());
@@ -114,7 +108,6 @@ const VotingForLocations = (props) => {
                     </Button>
                 </Badge>
             )}
-            {/* &nbsp;&nbsp; */}
             <span style={addressStyle}>{address}</span>
           
         </Box>

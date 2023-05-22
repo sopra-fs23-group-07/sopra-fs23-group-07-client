@@ -7,7 +7,6 @@ import { useHistory } from "react-router-dom";
 export const RenderActions = (props) => {
   const history = useHistory();
 
-  // const { hasFocus } = props;
   const buttonElement1 = React.useRef(null);
   const buttonElement2 = React.useRef(null);
   const rippleRef1 = React.useRef(null);
@@ -33,7 +32,6 @@ export const RenderActions = (props) => {
           variant="contained"
           size="small"
           // Remove button from tab sequence when cell does not have focus
-          // tabIndex={hasFocus ? 0 : -1}
           onKeyDown={(event) => {
             if (event.key === " ") {
               // Prevent key navigation when focus is on button
@@ -66,7 +64,6 @@ export const RenderActions = (props) => {
           size="small"
           style={{ marginLeft: 10, mr: 3}}
           // Remove button from tab sequence when cell does not have focus
-          // tabIndex={hasFocus ? 0 : -1}
           onKeyDown={(event) => {
             if (event.key === " ") {
               // Prevent key navigation when focus is on button

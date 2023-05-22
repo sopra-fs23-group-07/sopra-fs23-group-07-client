@@ -4,33 +4,11 @@ import ReactMapGL, {GeolocateControl, Marker, NavigationControl} from "react-map
 import Geocoder from "./Geocoder";
 
 const AddLocation = (props) => {
-    //const {state:{location:{lng, lat}}, dispatch} = useValue();
-
-    // console.log("this are the props", props.events_passed);
-    // console.log("this is the event", props.eventLocationDTO);
-
-    const [marker, setMarker] = useState(null);
-    // const [lng, setLng] = useState(8.541042);  //Longitude zurich
-    // const [lat, setLat] = useState(47.374449);  //Latitude zurich
-
 
     const [lng, setLng] = useState(8.232271068252828);  //Longitude Switzerland
     const [lat, setLat] = useState(46.78526040913516);  //Latitude Switzerland
-
-    const [lngEvent, setLngEvent] = useState(null);  //Longitude
-    const [latEvent, setLatEvent] = useState(null);  //Latitude
-
-    const [completeLocation, setCompleteLocation] = useState(null);  //Latitude
-
-    // const eventLocations = props.events_passed.map(event => event.eventLocationDTO);
     const list_of_coordinates = [];
-
-
     const mapRef = useRef();
-
-    // console.log("EventPage", props.EventPage);
-
-
     if (props.events_passed !== undefined) {
 
         const events_for_location = props.events_passed;
@@ -38,10 +16,6 @@ const AddLocation = (props) => {
         for (let i = 0; i < events_for_location.length; i++) {
             list_of_coordinates.push(events_for_location[i].eventLocationDTO);
         }
-
-        //
-        // console.log("list of coordinates", list_of_coordinates);
-        // console.log("props.eventLocationDTO", props.eventLocationDTO);
 
 
     }
@@ -82,7 +56,6 @@ const AddLocation = (props) => {
             >
 
                 {props.events_passed && list_of_coordinates.map((coordinate, index) => (
-                    // console.log("this is the new list of coordinates", list_of_coordinates),
                     coordinate && <Marker
                         key={index}
                         latitude={coordinate.latitude}
@@ -105,18 +78,12 @@ const AddLocation = (props) => {
                 <GeolocateControl //this allows to track the position of the user. With the track icon.
                     position="top-left"
                     trackUserLocation
-                    // onGeolocate={(e) =>
-                    //     dispatch({
-                    //         type: 'UPDATE_LOCATION',
-                    //         payload: { lng: e.coords.longitude, lat: e.coords.latitude },
-                    //     })
-                    // }
+                   
                 />
                 <Geocoder/>
 
 
             </ReactMapGL>
-            {/*<div ref={mapContainer} className="map-container" />*/}
 
         </Box>
     )

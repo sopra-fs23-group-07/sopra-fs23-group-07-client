@@ -7,8 +7,7 @@ import {toast} from "react-toastify";
 const AddLocationForEvent = (props) => {
 
     const TOKEN = process.env.REACT_APP_MAP_TOKEN;
-    //console.log("this are the props", props.locationDTO);
-    //const {state:{location:{lng, lat}}, dispatch} = useValue();
+
     const [lng, setLng] = useState(8.232271068252828);  //Longitude Switzerland
     const [lat, setLat] = useState(46.78526040913516);
 
@@ -23,7 +22,6 @@ const AddLocationForEvent = (props) => {
     const [UserConfirmedLocation, SetUserConfirmedLocation] = useState(false);
 
     const canton = props.canton;
-    const canton_Full_name = props.cantonFullName;
 
     const locationError = props.locationError;
     const setLocationError = props.setLocationError;
@@ -163,8 +161,6 @@ const AddLocationForEvent = (props) => {
             setLng2(lngLat.lng);
             setLngLat(lngLat);
             transformCoordinatesToAddress(lngLat).catch(err => console.log(err));
-            // console.log("this is the canton:", canton); // log the canton variable
-            // console.log("this is the canton full name new:", canton_Full_name); // log the canton variable
 
 
     };
@@ -185,7 +181,6 @@ const AddLocationForEvent = (props) => {
         if (isCantonMatch(data.features[0].context, canton, cantonFullName)) {
             setCorrectAddress(true);
             await setAddress(data.features[0].place_name);
-            // toast.success("You successfully confirmed a location");
         } else {
             setLat2(null);
             setLng2(null);
@@ -211,28 +206,10 @@ const AddLocationForEvent = (props) => {
     useEffect(() => {
         if (Address && LngLat)
             SendLocationToServer(LngLat);
-        // if (shortCode) {
-        //     console.log("this is the shortCode in UseEffect:", shortCode);
-        //     if (shortCode !== props.canton) {
-        //         alert("You are in the wrong canton");
-        //     } else {
-        //         setCorrectAddress(true);
-        //         console.log("setCorrectAddress value is ", CorrectAddress)
-        //     }
-        // }
     }, [Address, shortCode])
 
     useEffect(() => {
 
-        // if (shortCode) {
-        //     console.log("this is the shortCode in UseEffect:", shortCode);
-        //     if (shortCode !== props.canton) {
-        //         alert("You are in the wrong canton");
-        //     } else {
-        //         setCorrectAddress(true);
-        //         console.log("setCorrectAddress value is ", CorrectAddress)
-        //     }
-        // }
     }, [lat2, lng2])
 
 
@@ -283,12 +260,7 @@ const AddLocationForEvent = (props) => {
 
 
             </ReactMapGL>
-            {/*<div className="my-1">*/}
-            {/*    <Button variant="contained" disabled={props.hasLockedSelections}*/}
-            {/*            onClick={() => transformCoordinatesToAddress(LngLat)}>*/}
-            {/*        Confirm Location*/}
-            {/*    </Button>*/}
-            {/*</div>*/}
+           
             <div>
                 <p>{Address}</p>
             </div>

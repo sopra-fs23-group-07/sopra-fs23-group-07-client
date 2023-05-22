@@ -5,7 +5,6 @@ import React, { useContext, useEffect } from "react";
 import { GlobalContext } from "../../helpers/GlobalState";
 import Logo from "../../speetup-high-resolution-color-logo.png";
 import { AppBar, Toolbar } from "@mui/material";
-import { palette } from "@mui/system";
 
 const Header = (props) => {
     const { user, setUser, getUser } = useContext(GlobalContext);

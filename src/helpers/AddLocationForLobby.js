@@ -11,8 +11,6 @@ import { toast } from "react-toastify";
 
 const AddLocationForLobby = (props) => {
   const TOKEN = process.env.REACT_APP_MAP_TOKEN;
-  //console.log("this are the props", props.locationDTO);
-  //const {state:{location:{lng, lat}}, dispatch} = useValue();
   const [lng, setLng] = useState(8.232271068252828); //Longitude Switzerland
   const [lat, setLat] = useState(46.78526040913516);
 
@@ -30,7 +28,6 @@ const AddLocationForLobby = (props) => {
 
   const lobbyId = localStorage.getItem("lobbyId");
 
-  const list_of_coordinates = [];
   const flyToLocation = props.flyToLocation;
 
   const [viewState, setViewState] = useState({
@@ -231,26 +228,6 @@ const AddLocationForLobby = (props) => {
   }, [Address]);
 
 
-  // const exportImage = async (latitude, longitude) => {
-  //     try {
-  //         let url = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${longitude},${latitude},${viewport?.zoom},0/400x280?access_token=${TOKEN}`
-  //         let url2 = `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${process.env.REACT_APP_TOKEN}`
-  //         const response = await axios.get(url, {
-  //             responseType: "blob",
-  //         });
-  //         if (response) {
-  //             var reader = new window.FileReader();
-  //             reader.readAsDataURL(response.data);
-  //             reader.onload = function () {
-  //                 var imageDataUrl = reader.result;
-  //                 setImages(imageDataUrl);
-  //             };
-  //         }
-  //     } catch (err) {
-  //         console.log(err);
-  //     }
-  // };
-
   const SendLocationToServer = async (lngLat) => {
     try {
       if (UserConfirmedLocation === false) {
@@ -312,19 +289,7 @@ const AddLocationForLobby = (props) => {
 
 
 
-  //
-  // if(props.locationDTO !== undefined) {
-  //
-  //     const locationDTO = props.locationDTO;
-  //
-  //     for (let i = 0; i < locationDTO.length; i++) {
-  //         list_of_coordinates.push(locationDTO[i].locationDTO);
-  //     }
-  //
-  //     console.log("list of coordinates", list_of_coordinates);
-  //
-  //
-  // }
+ 
 
   const mapRef = useRef();
 

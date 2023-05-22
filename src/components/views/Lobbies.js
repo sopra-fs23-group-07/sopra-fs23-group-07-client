@@ -60,27 +60,6 @@ const Lobbies = () => {
     }
   };
 
-  // if no lobby exist display disclaimer
-  let noLobbiesDisclaimer = (
-    <Spinner
-      sx={{
-        fontWeight: "bold",
-        textAlign: "center",
-        fontSize: "1.2rem",
-        color: "black",
-        background: "red",
-      }}
-    />
-  );
-  if (!lobbies || lobbies.length === 0) {
-    noLobbiesDisclaimer = (
-      <p sx={{ background: "blue" }}>
-        Currently no lobbies available! <br /> Click create Lobby to create Your
-        own lobby.
-      </p>
-    );
-  }
-
   // fetch data from backend (each second) and save all lobbies
   useEffect(() => {
     async function fetchData() {

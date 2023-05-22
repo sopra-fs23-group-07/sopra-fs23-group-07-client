@@ -13,7 +13,6 @@ import {
   Typography,
 } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import soccer from "../../soccer.jpg";
 import { Add } from "@mui/icons-material";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -21,7 +20,6 @@ import group from "../../group.png";
 import addGroup from "../../addGroup.png";
 import Event from "../../Event.png";
 import addEvent from "../../add-event.png";
-
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
 import { styled } from "@mui/material/styles";

@@ -5,7 +5,6 @@ import { api, handleError } from "helpers/api";
 import {
   Box,
   Button,
-  FormControl,
   Grid,
   MenuItem,
   Select,
@@ -151,11 +150,8 @@ const CreateLobby = () => {
               <Typography sx={{ mt: 2, mb: 0, alignSelf: "left" }}>
                 Choose a region in the menu below
               </Typography>
-              {/* <Box sx={{ minWidth: 240 }}> */}
-              {/* <FormControl > */}
               <Select
-                // labelId="createLobby-select"
-                // id="createLobby-select"
+         
                 value={region}
                 onChange={(e) => {
                   setRegionError(false);
