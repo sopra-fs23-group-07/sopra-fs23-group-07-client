@@ -79,7 +79,7 @@ export default function MultipleSelectChip(props) {
 
     return (
         <div>
-            <FormControl sx={{m: 1, width: 300}}>
+            <FormControl sx={{m: 1, width: "90%"}}>
                 <InputLabel id="demo-multiple-chip-label">Select Sports</InputLabel>
                 <Select
                     disabled={props.hasLockedSelections}
@@ -107,7 +107,7 @@ export default function MultipleSelectChip(props) {
                             value={name}
                             style={{
                                 ...getStyles(name, MainUserSelectedSports, theme),
-                                color: props.chosenSportServer.includes(name) ? 'black' : 'black',
+                                color: "black",
                             }}
                         >
                             {name}

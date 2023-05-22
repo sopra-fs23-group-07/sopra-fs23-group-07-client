@@ -71,14 +71,14 @@ const Lobby = () => {
     setSelectedSports(sports);
   };
 
-  const timeleft = "350";
-
   const [open, setOpen] = useState(false); // state for the pop-up
   const urlRef = useRef(null); // ref for the URL input
 
   const handleCopyClick = () => {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(urlRef.current.value).catch(err => console.log(err));
+      navigator.clipboard
+        .writeText(urlRef.current.value)
+        .catch((err) => console.log(err));
       toast.success("Link copied.");
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 5000); // Reset message after 5 seconds
@@ -93,9 +93,9 @@ const Lobby = () => {
 
   const handleLock = (memberId, hasLockedSelections) => {
     if (hasLockedSelections) {
-      unlockChoice(memberId).catch(err => console.log(err));
+      unlockChoice(memberId).catch((err) => console.log(err));
     } else {
-      lockChoice(memberId).catch(err => console.log(err));
+      lockChoice(memberId).catch((err) => console.log(err));
     }
   };
 
@@ -110,11 +110,14 @@ const Lobby = () => {
       }
       console.log("Choice locked was sent to the backend");
     } catch (error) {
-        if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
-
-        {
-            toast.error(handleError(error));
-        }
+      if (
+        !(
+          error.response.status === 404 &&
+          error.response.data === "The lobbyId provided was not found"
+        )
+      ) {
+        toast.error(handleError(error));
+      }
     }
   };
 
@@ -126,11 +129,14 @@ const Lobby = () => {
       await api.put(`/lobbies/${lobbyId}/unlock`, requestBody);
       console.log("Choice unlocked was sent to the backend");
     } catch (error) {
-        if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
-
-        {
-            toast.error(handleError(error));
-        }
+      if (
+        !(
+          error.response.status === 404 &&
+          error.response.data === "The lobbyId provided was not found"
+        )
+      ) {
+        toast.error(handleError(error));
+      }
     }
   };
 
@@ -146,17 +152,20 @@ const Lobby = () => {
       console.log("Chat Message was sent to the backend");
       setMessage("");
     } catch (error) {
-        if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
-
-        {
-            toast.error(handleError(error));
-        }
+      if (
+        !(
+          error.response.status === 404 &&
+          error.response.data === "The lobbyId provided was not found"
+        )
+      ) {
+        toast.error(handleError(error));
+      }
     }
   };
 
   const handleMessageKeyPress = (e) => {
     if (e.key === "Enter") {
-      handleSendMessage(message).catch(err => console.log(err));
+      handleSendMessage(message).catch((err) => console.log(err));
     }
   };
 
@@ -180,12 +189,10 @@ const Lobby = () => {
     element.scrollTop = element.scrollHeight;
   };
 
-  const [time, setTime] = useState(false); // state for the pop-up
   const [locationDTO, setLocationDTO] = useState([]); // state for the pop-up
 
   const [eventId, setEventId] = useState(null);
   const [hasExecuted, setHasExecuted] = useState(false);
-  const [timerStarted, setTimerStarted] = useState(false);
   var oldChatLength = 0;
 
   useEffect(() => {
@@ -205,14 +212,14 @@ const Lobby = () => {
   }, []);
 
   useEffect(() => {
-      return () => {
-        // && history.location.pathname === "any specific path")
-        if (history.action === "POP") {
-          console.log("Back was clicked");
-          handleLeaveLobbyByButton().catch(err => console.log(err));
-        }
-      };
-    }, [history])
+    return () => {
+      // && history.location.pathname === "any specific path")
+      if (history.action === "POP") {
+        console.log("Back was clicked");
+        handleLeaveLobbyByButton().catch((err) => console.log(err));
+      }
+    };
+  }, [history]);
 
   useEffect(() => {
     async function fetchData() {
@@ -247,17 +254,18 @@ const Lobby = () => {
           oldChatLength = response.data.lobbyMessageDTOs.length;
         }
       } catch (error) {
-          if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
-
-          {
-              toast.error(handleError(error));
-          }
-
-
+        if (
+          !(
+            error.response.status === 404 &&
+            error.response.data === "The lobbyId provided was not found"
+          )
+        ) {
+          toast.error(handleError(error));
+        }
       }
     }
 
-    fetchData().catch(err => console.log(err)); // Make initial request immediately
+    fetchData().catch((err) => console.log(err)); // Make initial request immediately
     const intervalId = setInterval(fetchData, 1000); // Update data every second
     return () => clearInterval(intervalId); // Clear the interval when the component is unmounted
   }, [eventId]); // Add eventId as a dependency
@@ -283,7 +291,8 @@ const Lobby = () => {
         await api.post(`/users/logout/${userId}`);
       }
       if (error.response.status != 500) {
-      history.push(`/Lobbies`);}
+        history.push(`/Lobbies`);
+      }
     }
   };
 
@@ -345,582 +354,102 @@ const Lobby = () => {
 
   return (
     <>
-      {/* Chat attempt 0*/}
-      {/* <Grid
-          container
-          sx={
-            {
-              // position: "fixed",
-              // bottom: 0,
-              // right: 0,
-              // backgroundColor: "brown",
-              // zIndex: 9999, // Ensure the chat is on top of other elements
-              // height: "200px", // Set the desired height
-              // width: "25%", // Set the desired width
-            }
-          }
-        >
-          <Grid
-            item
-            sx={
-              {
-                // width: "fit-content",
-                // backgroundColor: "darkcyan",
-                // color: "white",
-              }
-            }
-          >
-            <Button
-              onClick={() => handleMaximizeChat()}
-              style={
-                {
-                  // cursor: "pointer",
-                  // width: "10px",
-                  // height: "auto",
-                  // backgroundColor: "#00A8EA",
-                  // color: "#fff",
-                  // border: "solid 1px #0095cc",
-                  // textAlign: "center",
-                  // position: "fixed",
-                  // right: "30px",
-                  // top: "950px",
-                  // padding: "0px",
-                  // borderRadius: "3px",
-                }
-              }
-            >
-              Open Chat
-            </Button>
-
-            <div
-              // id="ChatWindow"
-              // className="ChatWindow"
-              style={
-                {
-                  // border: "3px solid #333",
-                  // width: "25%",
-                  // height: "200px",
-                  // padding: "10px",
-                  // marginBottom: "0px",
-                  // backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
-                  // position: "fixed",
-                  // bottom: "10px",
-                  // right: "10px",
-                  // overflow: "auto",
-                  // display: "block",
-                }
-              }
-            >
-              <Button
-                onClick={() => handleMinimizeChat()}
-                style={
-                  {
-                    // cursor: "pointer",
-                    // width: "10px",
-                    // height: "auto",
-                    // backgroundColor: "#00A8EA",
-                    // color: "#fff",
-                    // border: "solid 1px #0095cc",
-                    // textAlign: "center",
-                    // position: "fixed",
-                    // right: "30px",
-                    // top: "810px",
-                    // padding: "0px",
-                    // borderRadius: "3px",
-                  }
-                }
-              >
-                X
-              </Button>
-
-              <div
-              // id="ChatBox" className="ChatBox"
-              >
-                {chat.map((message) => (
-                  <h1
-                  // align="left"
-                  // style={{
-                  //   color: "#000000",
-                  //   fontSize: "16px",
-                  // }}
-                  >
-                    {message.username}: {message.message}
-                  </h1>
-                ))}
-              </div>
-
-              <div
-              // id="EnterMessageBox"
-              // className="EnterMessageBox"
-              // style={{
-              //   backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
-              //   position: "absolute",
-              //   bottom: "10px",
-              //   left: "10px",
-              // }}
-              >
-                <TextField
-                  type={"string"}
-                  // id="message"
-                  placeholder="Enter Message..."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  onKeyPress={(e) => {
-                    handleMessageKeyPress(e);
-                  }}
-                  size="small"
-                  // style={{ width: "78%" }}
-                />
-
-                <Button
-                  variant="contained"
-                  onClick={() => handleSendMessage(message)}
-                  // style={{ height: "39px", width: "15%" }}
-                >
-                  Send
-                </Button>
-              </div>
-            </div>
-          </Grid>
-        </Grid> */}
-
-      {/* Chat attempt 1 */}
-      {/* <Grid
-          sx={{
-            position: "fixed",
-            bottom: 8,
-            right: 8,
-            zIndex: 999,
-            backgroundColor: "white",
-            borderRadius: "4px",
-            border: "2px black solid",
-            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
-            width: "400px",
-            height: "200px",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <Button
-            sx={{
-              // position: "relative",
-              // top: 1,
-              // right: 1,
-              // width: "30px",
-              // height: "30px",
-              alignSelf: "flex-end",
-              marginRight: "8px",
-              marginTop: "8px",
-              bgcolor: "orange",
-            }}
-            // onClick={toggleChat}
-          >
-            Toggle
-          </Button>
-
-          <Box
-            sx={{
-              backgroundColor: "red",
-              flexGrow: 1,
-              marginBottom: "8px",
-            }}
-          >
-            Bottom Left Component
-          </Box>
-
-          <Grid item container
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <Grid item
-              sx={{
-                backgroundColor: "blue",
-                width: "200px",
-                height: "100%",
-                marginRight: "8px",
-                flexDirection: "column"
-              }}
-            >
-              Left Button
-            </Grid>
-            <Grid
-            item
-              sx={{
-                backgroundColor: "green",
-                // width: "calc(100% - 2 * "buttonSize" - 8px)",
-                width: "100px",
-                height: "100%",
-                marginRight: "8px",
-              }}
-            >
-              Top Left Component
-            </Grid>
-            <Grid
-            item
-              sx={{
-                backgroundColor: "yellow",
-                width: "100px",
-                height: "100%",
-              }}
-            >
-              Right Button
-            </Grid>
-          </Grid>
-        </Grid> */}
-
-      {/* Chat attempt 2 */}
-      {/* <Grid
-          container
-           id="ChatWindow"
-          style={{
-            position: "fixed",
-            bottom: 8,
-            right: 8,
-            zIndex: 999,
-            backgroundColor: "white",
-            borderRadius: "4px",
-            border: "2px black solid",
-            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
-            width: "400px",
-            height: "200px",
-            display: "flex",
-            flexDirection: "rows",
-            p: 1,
-          }}
-        >
-          <Grid item container height={"80%"} flexDirection={"column"}>
-            
-            <Grid item width={"80%"} height={"100%"} bgcolor={"blue"}>
-                {chat.map((message) => (
-                  <h1
-                  align="left"
-                  style={{
-                    color: "#000000",
-                    fontSize: "16px",
-                  }}
-                  >
-                    {message.username}: {message.message}
-                  </h1>
-                ))}
-             
-            </Grid>
-
-          
-            <Grid
-              item
-              width={"20%"}
-              display={"flex"}
-              justifyContent={"flex-end"}
-              bgcolor={"pink"}
-            >
-              <IconButton onClick={() => handleMinimizeChat()}>
-                <CloseIcon />
-              </IconButton>
-            </Grid>
-          </Grid>
-
-          <Grid
-            item
-            container
-            height={"20%"}
-            flexDirection={"column"}
-            bgcolor={"green"}
-          >
-            
-            <Grid
-              item
-              width={"50%"}
-              bgcolor={"yellow"}
-              // display={"flex"}
-              // alignSelf={"flex-end"}
-            >
-              <TextField
-                type={"string"}
-                // id="message"
-                placeholder="Enter Message..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyPress={(e) => {
-                  handleMessageKeyPress(e);
-                }}
-                size="small"
-                // style={{ width: "78%" }}
-              />
-            </Grid>
-           
-            <Grid item width={"25%"} bgcolor={"orange"}>
-              <Button
-                variant="contained"
-                onClick={() => handleSendMessage(message)}
-                marginLeft={2}
-              >
-                Send
-              </Button>
-            </Grid>
-           
-            <Grid item width={"25%"} bgcolor={"lightblue"}>
-              <Button
-                variant="contained"
-                marginBottom={2}
-                onClick={() => handleMaximizeChat()}
-              >
-                {" "}
-                open Chat
-              </Button>
-            </Grid>
-          </Grid>
-        </Grid> */}
-
-      {/* Chat attempt 3 */}
       {/* Chat */}
-      {/* <Box
-          container
-          sx={{
-            position: "fixed",
-            bottom: 8,
-            right: 8,
-            zIndex: 999,
-            bgcolor: "brown",
-            width: "400px",
-            height: "200px",
-            // display: "flex",
-            // flexDirection: "rows",
-          }}
-        >
-          <Button
-            onClick={() => handleMaximizeChat()}
-            variant="contained"
-            style={{
-              position: "fixed",
-              bottom: 8,
-              right: 8,
-              zIndex: 999,
-              marginBottom: 2,
-              marginRight: 2,
+      <Button
+        onClick={() => handleMaximizeChat()}
+        variant="contained"
+        style={{
+          textAlign: "center",
+          position: "fixed",
+          right: "1%",
+          bottom: "1%",
+          padding: "0.8%",
+          zIndex: 998,
+          borderRadius: "3px",
+        }}
+      >
+        Open Chat
+      </Button>
 
-              // cursor: "pointer",
-              // width: "10px",
-              // height: "auto",
-              // backgroundColor: "#00A8EA",
-              // color: "#fff",
-              // border: "solid 1px #0095cc",
-              // textAlign: "center",
-              // position: "fixed",
-              // right: "30px",
-              // top: "950px",
-              // padding: "0px",
-              // borderRadius: "3px",
-            }}
-          >
-            Open Chat
-          </Button>
-
-          <Box
-            id="ChatWindow"
-            className="ChatWindow"
-            style={{
-              backgroundColor: "white",
-              borderRadius: "4px",
-              border: "2px black solid",
-              boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
-              p: 1,
-              // border: "3px solid #333",
-              // width: "25%",
-              // height: "200px",
-              maxHeight: "400px",
-              // padding: "10px",
-              // marginBottom: "0px",
-              // backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
-              // position: "fixed",
-              // bottom: "10px",
-              // right: "10px",
-              // overflow: "auto",
-              position: "fixed",
-              bottom: 8,
-              right: 8,
-              zIndex: 999,
-              // width: "100%",
-              display: "block",
-            }}
-          >
-            <Button
-              onClick={() => handleMinimizeChat()}
-              style={
-                {
-                  // cursor: "pointer",
-                  // width: "10px",
-                  // height: "auto",
-                  // backgroundColor: "#00A8EA",
-                  // color: "#fff",
-                  // border: "solid 1px #0095cc",
-                  // textAlign: "center",
-                  // position: "fixed",
-                  // right: "30px",
-                  // top: "810px",
-                  // padding: "0px",
-                  // borderRadius: "3px",
-                }
-              }
-            >
-              X
-            </Button>
-
-            <Box id="ChatBox" className="ChatBox" sx={{ marginLeft: 1 }}>
-              {chat.map((message) => (
-                <h1
-                  align="left"
-                  style={{
-                    color: "#000000",
-                    fontSize: "16px",
-                  }}
-                >
-                  {message.username}: {message.message}
-                </h1>
-              ))}
-            </Box>
-
-            <Box
-              id="EnterMessageBox"
-              className="EnterMessageBox"
-              style={{
-                //   backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
-                //   position: "absolute",
-                //   bottom: "10px",
-                //   left: "10px",
-                padding: "8px",
-              }}
-            >
-              <TextField
-                type={"string"}
-                id="message"
-                placeholder="Enter Message..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyPress={(e) => {
-                  handleMessageKeyPress(e);
-                }}
-                size="small"
-                // style={{ width: "78%" }}
-                sx={{ marginRight: 1 }}
-              />
-
-              <Button
-                variant="contained"
-                onClick={() => handleSendMessage(message)}
-                // style={{ height: "39px", width: "15%" }}
-              >
-                Send
-              </Button>
-            </Box>
-          </Box>
-        </Box> */}
-
-      {/* Chat attempt 4 */}
-       <Button
-          onClick={() => handleMaximizeChat()}
+      <div
+        id="ChatWindow"
+        className="ChatWindow"
+        style={{
+          border: "3px solid #333",
+          width: "24%",
+          height: "35%",
+          padding: "0.5%",
+          marginBottom: "0px",
+          backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
+          position: "fixed",
+          bottom: "1%",
+          right: "0.5%",
+          zIndex: 999,
+          overflow: "auto",
+          display: "block",
+        }}
+      >
+        <Button
+          onClick={() => handleMinimizeChat()}
           variant="contained"
           style={{
-            // cursor: "pointer",
-            // width: "10px",
-            // height: "auto",
-            // backgroundColor: "#00A8EA",
-            // color: "#fff",
-            // border: "solid 1px #0095cc",
+            cursor: "pointer",
+            width: "10px",
+            height: "auto",
+            color: "#fff",
             textAlign: "center",
             position: "fixed",
             right: "1%",
-            bottom: "1%",
-            padding: "0.8%",
-            zIndex: 998,
-            borderRadius: "3px",
+            bottom: "31%",
+            padding: "0px",
           }}
         >
-          Open Chat
+          X
         </Button>
-
+        <div id="ChatBox" className="ChatBox">
+          {chat.map((message) => (
+            <h1
+              align="left"
+              style={{
+                color: "#000000",
+                fontSize: "16px",
+              }}
+            >
+              {message.username}: {message.message}
+            </h1>
+          ))}
+        </div>
         <div
-          id="ChatWindow"
-          className="ChatWindow"
+          id="EnterMessageBox"
+          className="EnterMessageBox"
           style={{
-            border: "3px solid #333",
-            width: "24%",
-            height: "35%",
-            padding: "0.5%",
-            marginBottom: "0px",
             backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
-            position: "fixed",
-            bottom: "1%",
-            right: "0.5%",
-            zIndex: 999,
-            overflow: "auto",
-            display: "block",
+            position: "absolute",
+            bottom: "10px",
+            left: "10px",
           }}
         >
+          <TextField
+            type={"string"}
+            id="message"
+            placeholder="Enter Message..."
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyPress={(e) => {
+              handleMessageKeyPress(e);
+            }}
+            size="small"
+            style={{ width: "78%" }}
+          />
           <Button
-            onClick={() => handleMinimizeChat()}
-            style={{
-              cursor: "pointer",
-              width: "10px",
-              height: "auto",
-              backgroundColor: "#00A8EA",
-              color: "#fff",
-              border: "solid 1px #0095cc",
-              textAlign: "center",
-              position: "fixed",
-              right: "1%",
-              bottom: "31%",
-              padding: "0px",
-              borderRadius: "3px",
-            }}
+            variant="contained"
+            onClick={() => handleSendMessage(message)}
+            style={{ height: "39px", width: "15%" }}
           >
-            X
+            Send
           </Button>
-          <div id="ChatBox" className="ChatBox">
-            {chat.map((message) => (
-              <h1
-                align="left"
-                style={{
-                  color: "#000000",
-                  fontSize: "16px",
-                }}
-              >
-                {message.username}: {message.message}
-              </h1>
-            ))}
-          </div>
-          <div
-            id="EnterMessageBox"
-            className="EnterMessageBox"
-            style={{
-              backgroundColor: "#FFFFFF", // should be equal to #86d4ee and rbga(0,0,0,0.2)
-              position: "absolute",
-              bottom: "10px",
-              left: "10px",
-            }}
-          >
-            <TextField
-              type={"string"}
-              id="message"
-              placeholder="Enter Message..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyPress={(e) => {
-                handleMessageKeyPress(e);
-              }}
-              size="small"
-              style={{ width: "78%" }}
-            />
-            <Button
-              variant="contained"
-              onClick={() => handleSendMessage(message)}
-              style={{ height: "39px", width: "15%" }}
-            >
-              Send
-            </Button>
-          </div>
         </div>
+      </div>
 
       {/* Event + Lobby */}
       <BaseContainer>
@@ -1002,7 +531,6 @@ const Lobby = () => {
                       minWidth: 100,
                       width: "15%",
                       wordWrap: "break-word",
-                      maxWidth: 0,
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                     }}
@@ -1016,7 +544,6 @@ const Lobby = () => {
                       minWidth: 200,
                       width: "30%",
                       wordWrap: "break-word",
-                      maxWidth: 0,
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                     }}
@@ -1036,14 +563,16 @@ const Lobby = () => {
                       minWidth: 150,
                       width: "20%",
                       wordWrap: "break-word",
-                      maxWidth: 0,
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                     }}
                   >
                     <Typography fontWeight="bold">
                       Time
-                      <Tooltip arrow title="To add a time period first click on the field labelled “Select a date and time”. Second select the date in the calendar. Then select the time period from the scrollbar on the right. Finally click the “+” icon to add the time period to your selection. To remove a time period from your selection, click the “X” icon next to the time period you wish to remove. ">
+                      <Tooltip
+                        arrow
+                        title="To add a time period first click on the field labelled “Select a date and time”. Second select the date in the calendar. Then select the time period from the scrollbar on the right. Finally click the “+” icon to add the time period to your selection. To remove a time period from your selection, click the “X” icon next to the time period you wish to remove. "
+                      >
                         <InfoOutlinedIcon />
                       </Tooltip>
                     </Typography>
@@ -1053,22 +582,26 @@ const Lobby = () => {
                       minWidth: 80,
                       width: "15%",
                       wordWrap: "break-word",
-                      maxWidth: 0,
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                     }}
                   >
-                    <Tooltip arrow title="To save your selections, click the toggle switch labelled “Save”. This will lock your selections and you will not be able to change your selections. Once all members of the lobby have locked their selections the lobby will close, and an event will be created. If you would like to change a selection, first unlock by clicking the toggle switch labelled “Save” and you may change your selections. ">
-                      <HourglassTopOutlinedIcon />
-                    </Tooltip>
-                    {String(Math.floor(lobby.timeRemaining / 60000)).padStart(
-                      2,
-                      "0"
-                    )}
-                    :
-                    {String(
-                      Math.floor((lobby.timeRemaining % 60000) / 1000)
-                    ).padStart(2, "0")}
+                    <Typography fontWeight="bold">
+                      {String(Math.floor(lobby.timeRemaining / 60000)).padStart(
+                        2,
+                        "0"
+                      )}
+                      :
+                      {String(
+                        Math.floor((lobby.timeRemaining % 60000) / 1000)
+                      ).padStart(2, "0")}
+                      <Tooltip
+                        arrow
+                        title="When the timer hits 0 the lobby is closed and event is created based on the selection of people who locked their choice. To see what happens when less than two people locked their choice look at the FAQ."
+                      >
+                        <InfoOutlinedIcon />
+                      </Tooltip>
+                    </Typography>
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -1087,7 +620,7 @@ const Lobby = () => {
                   >
                     {/* Player */}
                     <TableCell sx={{ borderLeft: "0px black solid" }}>
-                      {user.userId === parseInt(userId) ? (
+                      {/* {user.userId === parseInt(userId) ? (
                         <p>{user.username}</p>
                       ) : (
                         <Link
@@ -1102,14 +635,14 @@ const Lobby = () => {
                           <AccountCircleIcon fontSize={"inherit"} />{" "}
                           {user.username}
                         </Link>
-                      )}
+                      )} */}
+                      {user.username}
                     </TableCell>
 
                     {/* Sport Selection */}
                     <TableCell
                       sx={{
                         wordWrap: "break-word",
-                        maxWidth: 0,
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                       }}
@@ -1142,18 +675,18 @@ const Lobby = () => {
                     <TableCell
                       sx={{
                         wordWrap: "break-word",
-                        maxWidth: 0,
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                       }}
                     >
                       {user.userId == userId ? (
                         <SelectDateAndTime
+                          sx={{ maxWidth: "90%" }}
                           selectedDatesServer={user.selectedDates}
                           chosenDateServer={lobby.lobbyDecidedDate}
                           memberId={user.memberId}
                           hasLockedSelections={user.hasLockedSelections}
-                        ></SelectDateAndTime>
+                        />
                       ) : (
                         user.selectedDates.map((time) => (
                           <span
@@ -1182,7 +715,18 @@ const Lobby = () => {
                         {user.userId === parseInt(userId) ? (
                           <FormControlLabel
                             control={<Switch />}
-                            label="Save"
+                            // label="Save"
+                            label={
+                              <React.Fragment>
+                                Save
+                                <Tooltip
+                                  arrow
+                                  title="To save your selections, click the toggle switch labelled “Save”. This will lock your selections and you will not be able to change your selections. Once all members of the lobby have locked their selections the lobby will close, and an event will be created. If you would like to change a selection, first unlock by clicking the toggle switch labelled “Save” and you may change your selections. "
+                                >
+                                  <InfoOutlinedIcon />
+                                </Tooltip>
+                              </React.Fragment>
+                            }
                             onChange={() =>
                               handleLock(
                                 user.memberId,
@@ -1211,12 +755,12 @@ const Lobby = () => {
             item
             sx={{
               width: { xl: "30%", xs: "100%" },
-              height: { xl: "auto", xs: "500px" },
+              minHeight: { xl: "auto", xs: "600px" },
               boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
               position: "relative",
               background: "rgba(165, 109, 201, 0.1)",
               border: "2px black solid",
-              overflow: "auto"
+              overflow: "auto",
             }}
           >
             {/* Location title */}
@@ -1227,10 +771,17 @@ const Lobby = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                // backgroundColor: "purple",
               }}
             >
-              <Typography variant="h5" fontWeight={"bold"}>Location </Typography>
+              <Typography variant="h5" fontWeight={"bold"}>
+                Location{" "}
+                <Tooltip
+                  arrow
+                  title="Vote for a location below. If there is no Location to vote for you can suggest your own (first click on the map, then click on add Location)"
+                >
+                  <InfoOutlinedIcon />
+                </Tooltip>
+              </Typography>
             </Grid>
 
             {/* Region text */}
@@ -1239,7 +790,6 @@ const Lobby = () => {
               sx={{
                 display: "flex",
                 justifyContent: "left",
-                // backgroundColor: "pink",
                 padding: 1,
               }}
             >
@@ -1253,14 +803,13 @@ const Lobby = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                flex: 1 //xy
-                // backgroundColor: "lightblue",
+                flex: 1, //xy
               }}
             >
               <Grid
                 style={{
                   width: "100%",
-                  // maxHeight: { lg: "500px", xs: "500px" },
+                  maxHeight: { lg: "500px", xs: "500px" },
                 }}
               >
                 {members.map((user) =>
@@ -1294,7 +843,6 @@ const Lobby = () => {
             <Grid
               item
               sx={{
-                
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "left",
@@ -1332,127 +880,45 @@ const Lobby = () => {
                 </React.Fragment>
               ))}
             </Grid>
-            
           </Grid>
         </Grid>
 
-        {/* Centered elements below  */}
+        {/* Elements below  */}
         <Grid
           container
-          direction="column"
-          justifyContent="center"
-          marginTop={8}
-          // sx={{ backgroundColor: "lightgray" }}
+          direction="row"
+          sx={{
+            marginTop: 2,
+            marginBottom: 16,
+            display: "flex",
+            justifyContent: "flex-end",
+            gap: 6,
+          }}
         >
           {/* Leave Button */}
-          <Grid
-            item
-            container
-            xs={4}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              // backgroundColor: "teal",
-              paddingLeft: "15px",
-            }}
-          >
-            <Grid item>
-              <Button
-                variant="contained"
-                color="error"
-                onClick={() => handleLeaveLobbyByButton()}
-                sx={{
-                  width: "fit-content",
-                  paddingLeft: "30px",
-                  paddingRight: "30px",
-                  // alignSelf: "flex-start",
-                  // justifySelf: "",
-                }}
-              >
-                Leave
-              </Button>
-            </Grid>
-            <Grid item>
-              <InfoIcon />
-            </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              onClick={() => handleLeaveLobbyByButton()}
+              sx={{
+                width: "fit-content",
+                paddingLeft: "30px",
+                paddingRight: "30px",
+                height: "50px",
+              }}
+            >
+              Leave
+            </Button>
           </Grid>
 
-          {/* dev version of Leave Button & InfoIcon */}
-          {/* <Grid
-            item
-            xs={4}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              borderRight: "solid 5px yellow", // Add left border on the same height as the yellow box
-              backgroundColor: "teal",
-              paddingLeft: "5px", // Adjust padding to align the button with the border
-            }}
-          >
-            <Button variant="contained" sx={{ width: "fit-content" }}>
-              Leave (Centered)
-            </Button>
-            <Button sx={{ marginRight: "5px" }}>
-              <InfoIcon />
-            </Button>
-          </Grid> */}
-
-          {/* Accordion short tutorial  */}
-          <Grid item xs={4} sx={{ backgroundColor: "coral" }}>
-            <Accordion>
+          {/* Tutorial */}
+          <Grid item xs={6}>
+            <Accordion sx={{ color: "white", backgroundColor: "orange" }}>
               <AccordionSummary
-                expandIcon={<InfoIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
+                sx={{ height: "50px" }}
+                expandIcon={<HelpOutline color="black" />}
               >
-                <Typography>Short Tutorial Lobby</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <div
-                  className="QuickExplaination"
-                  style={{
-                    border: "3px solid #333",
-                    padding: "10px",
-                    marginBottom: "20px",
-                    backgroundColor: "#6BA9BE", // should be equal to #86d4ee and rbga(0,0,0,0.2)
-                    position: "relative",
-                  }}
-                >
-                  <ol>
-                    <Tooltip title="                For a more detailed description see at the bottom of the page ">
-                      <HelpOutline
-                        style={{ position: "absolute", top: 10, right: 10 }}
-                      />
-                    </Tooltip>
-                    <li>Enter (in any order) your preferences for</li>
-                    <ul>
-                      <li>Sport</li>
-                      <li>Time (First select and then press on the ✓)</li>
-                      <li>Location (vote or suggest yourself)</li>
-                    </ul>
-                    <li>Lock your choices</li>
-                    <li>Wait for other users to lock</li>
-                    <ul>
-                      <li>
-                        or until timer <Schedule /> is up
-                      </li>
-                    </ul>
-                  </ol>
-                </div>
-              </AccordionDetails>
-            </Accordion>
-          </Grid>
-
-          {/* Accordion long tutorial */}
-          <Grid item xs={4} sx={{ backgroundColor: "lime" }}>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography>Long Tutorial Lobby</Typography>
+                <Typography> How to use this Lobby </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <div
@@ -1461,7 +927,7 @@ const Lobby = () => {
                     padding: "10px",
                     marginBottom: "20px",
                     marginTop: "20px",
-                    backgroundColor: "#6BA9BE", // should be equal to #86d4ee and rbga(0,0,0,0.2)
+                    background: "secondary",
                     position: "relative",
                   }}
                 >
@@ -1470,7 +936,7 @@ const Lobby = () => {
                       style={{ position: "absolute", top: 10, right: 10 }}
                     />
 
-                    <li>Enter your preferences for</li>
+                    <li>Enter your preferences (in any order) for</li>
                     <ul>
                       <li>
                         <strong style={{ color: "blue" }}> Sport: </strong>

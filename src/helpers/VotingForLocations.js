@@ -1,4 +1,4 @@
-import { Badge, Button, IconButton, Box, Typography } from "@mui/material";
+import { Badge, Button, IconButton, Box, Tooltip } from "@mui/material";
 import React, { useState } from "react";
 import { api, handleError } from "./api";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
@@ -89,6 +89,7 @@ const VotingForLocations = (props) => {
 
     return (
         <Box>
+             <Tooltip title="Show on Map">
               <IconButton
                 // fly to the location
                 onClick={() => {
@@ -99,6 +100,7 @@ const VotingForLocations = (props) => {
             >
                 <LocationOnIcon />
             </IconButton>
+            </Tooltip>
             {UserAlreadyVoted ? (
                 <Badge badgeContent={memberVotes} color="error" sx={{mr: 1}}>
                     <Button disabled={props.hasLockedSelections} variant="contained" onClick={() => UnVoteForLocation(location)}>

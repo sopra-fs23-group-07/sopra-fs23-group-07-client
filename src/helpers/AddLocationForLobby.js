@@ -166,7 +166,7 @@ const AddLocationForLobby = (props) => {
     if (flyToLocation) {
       mapRef.current.getMap().flyTo({
         center: [flyToLocation.longitude, flyToLocation.latitude],
-        zoom: 12,
+        zoom: 14,
         essential: true, // this animation is considered essential with respect to prefers-reduced-motion
       });
     }
