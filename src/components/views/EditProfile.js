@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { api, handleError } from "helpers/api";
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
-import { Box, Button, Grid, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import SaveOutlinedIcon from "@mui/icons-material/SaveOutlined";
 import CancelIcon from "@mui/icons-material/Cancel";
 import dayjs from "dayjs";
@@ -28,8 +28,12 @@ const EditProfile = () => {
   const [emailError, setEmailError] = useState(false);
 
   function validateEmail(email) {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/i;
-    return emailRegex.test(email) || email === "";
+      if (email.length > 100){
+          return false;
+      } else {
+          const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/i;
+          return emailRegex.test(email);
+      }
   }
 
   const handleUsernameInputChange = (event) => {
