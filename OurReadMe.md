@@ -16,11 +16,11 @@ If you have ever tried to organize a sports event with friends then you know how
 
 ## Technologies
 - [JavaScript React](https://legacy.reactjs.org)
-- Material UI 
-- ESLint
-- Npm
-- HTTP/Rest
-- Google Cloud
+- [Material UI](https://mui.com)
+- [ESLint](https://eslint.org)
+- [Npm](https://www.npmjs.com)
+- [Gradle](https://gradle.org)
+- [Google Cloud](https://cloud.google.com)
 
 ## Components
 ### Home Screen
