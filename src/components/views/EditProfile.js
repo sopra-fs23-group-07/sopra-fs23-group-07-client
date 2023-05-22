@@ -28,6 +28,7 @@ const EditProfile = () => {
   const [emailError, setEmailError] = useState(false);
 
   function validateEmail(email) {
+      if (!email){return true;}
       if (email.length > 100){
           return false;
       } else {
@@ -202,6 +203,8 @@ const EditProfile = () => {
               rows={3}
               onChange={handleBioInputChange}
               sx={{ mt: 2 }}
+              inputProps={{ maxLength: 100 }} // Add this line
+
             />
             {/* Button Container */}
             <Box
