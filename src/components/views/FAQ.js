@@ -42,11 +42,11 @@ function ControlledAccordions() {
           id="panel1bh-header"
         >
           <Typography sx={{ width: "33%", flexShrink: 0 }}>
-            Question 1
+            What is possible without registering or logging in?
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>Answer 1</Typography>
+          <Typography>Withour registering or logging in you are able to see what lobbies and events are currently open as well as view the details of an event. However you may not create or join and event or lobby without first registering and logging in</Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion
@@ -63,11 +63,11 @@ function ControlledAccordions() {
           id="panel2bh-header"
         >
           <Typography sx={{ width: "33%", flexShrink: 0 }}>
-            Question 2
+            What is the difference between a lobby and an event?
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>Answer 2</Typography>
+          <Typography>In a lobby you can make selections for each category which will influence the final decision of the lobby. Once all selections are saved or the timer has run out, an event is created using the information from the lobby. An event is the final version of the lobby and cannot be changed.</Typography>
         </AccordionDetails>
       </Accordion>
 
@@ -88,11 +88,11 @@ function ControlledAccordions() {
           id="panel3bh-header"
         >
           <Typography sx={{ width: "33%", flexShrink: 0 }}>
-            Question 3
+            How does the location voting work in a lobby?
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>Answer 3</Typography>
+          <Typography>First a location must be added before it can be voted for. To add a location place a marker on the map of the location you wish to add, keep in mind the location has to be consistent with the lobby region. Then press the "Add Location" button to add that location to the lobby. Now any member of the lobby may vote for that location by pressing the "Vote" button next to the location's address.</Typography>
         </AccordionDetails>
       </Accordion>
 
@@ -112,11 +112,11 @@ function ControlledAccordions() {
           id="panel4bh-header"
         >
           <Typography sx={{ width: "33%", flexShrink: 0 }}>
-            Question 4
+            How do I create my own event?
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>Answer 4</Typography>
+          <Typography>To create your own event first navigate to the Events page using the navigation bar on the top of the screen. Then press the "Create New Event" button and fill out the necessary information for the event. Upon pressing the "Create Event" button, an event will be created.</Typography>
         </AccordionDetails>
       </Accordion>
     </div>
