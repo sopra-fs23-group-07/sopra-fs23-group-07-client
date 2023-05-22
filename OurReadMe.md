@@ -7,7 +7,7 @@ If you have ever tried to organize a sports event with friends then you know how
 
 - [Technologies](#technologies)
 - [Components](#components)
-- [Launch & Deployment](#launch-deployment)
+- [Launch & Deployment](#launch)
 - [User Flow](#user-flow)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
@@ -31,7 +31,7 @@ If you have ever tried to organize a sports event with friends then you know how
 ### My Events Page
 ### Profile Page
 
-## Launch & Deployment
+## Launch & Deployment <a name="launch"></a>
 
 For your local development environment, you will need Node.js. You can download it [here](https://nodejs.org). All other dependencies, including React, get installed with:
 
