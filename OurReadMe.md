@@ -23,6 +23,23 @@ If you have ever tried to organize a sports event with friends then you know how
 - [Google Cloud](https://cloud.google.com)
 
 ## Components
+
+### NavBar
+
+The NavBar(short for navigation bar) is a component used in most pages in SpeetUp. It allows users to navigate to all beasic pages such as Home, Lobbies, Events, etc. from anywhere in the app with one simple click.
+
+### Lobbies
+
+The Lobbies component is responsible for conveying all open lobbies to the user. It is responsible for giving users a way to join any lobby they wish as well as allows them access to the Create Lobby page with the use of various buttons, for example the "Join" button to join a lobby. For each lobby, the user is shown relevant details about the lobby such as the region the lobby takes place in, the number of participants in the lobby and the time remaining for the lobby.
+
+### Lobby
+
+The Lobby component is responsible for receiving constant updates from the server and displaying them to the users. It shows what each user has selected in each category (sport, time and location) as well as the current majority in each category, which is highlighted in blue. The Lobby component provides users a way to leave the lobby with a button labelled "Leave". Additionally users can click the "Invite Friends" button to get a link to the lobby, which can be shared to friends who wish to join the lobby.
+
+### Events and Event
+
+The Events and Event component are synonymous to the Lobbies and Lobby components respectively. The key difference between Event and Lobby is that in a Lobby users are given the chance to express their choices and have a say on the final decision, whereas an Event is already final and a user may only join or leave the event. 
+
 ### Home Screen
 ### Lobbies Page
 ### Lobby 
