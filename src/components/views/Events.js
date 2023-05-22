@@ -83,6 +83,35 @@ const Events = () => {
       headerName: "Date",
       width: 180,
       flex: 2,
+      valueGetter: (params) => moment(params.row.eventDate).format("MMMM DD, YYYY HH:mm"),
+      filterOperators: [
+        {
+          value: 'from',
+          getApplyFilterFn: (filterItem, column) => {
+            if (!filterItem.value) {
+              return null;
+            }
+            return (params) => {
+              const value = moment(params.value, "MMMM DD, YYYY HH:mm");
+              return !value.isBefore(moment(filterItem.value, "MMMM DD, YYYY HH:mm"));
+            };
+          },
+          InputComponentProps: { type: 'date' },
+        },
+        {
+          value: 'until',
+          getApplyFilterFn: (filterItem, column) => {
+            if (!filterItem.value) {
+              return null;
+            }
+            return (params) => {
+              const value = moment(params.value, "MMMM DD, YYYY HH:mm");
+              return !value.isAfter(moment(filterItem.value, "MMMM DD, YYYY HH:mm"));
+            };
+          },
+          InputComponentProps: { type: 'date' },
+        },
+      ],
     },
     {
       field: "actions",
@@ -119,7 +148,7 @@ const Events = () => {
           "/" +
           String(event.eventMaxParticipants),
         eventMaxParticipants: event.eventMaxParticipants,
-        eventDate: moment(event.eventDate).format("MMMM DD, YYYY h:mm A"),
+        eventDate: event.eventDate,
         eventLatitude: event.eventLocationDTO.latitude,
         eventLongitude: event.eventLocationDTO.longitude,
       };
@@ -230,9 +259,9 @@ const Events = () => {
                 maxHeight: "168px !important",
               },
               '& .MuiDataGrid-cell': {
-                background: 'rgba(165, 109, 201, 0.1) !important', 
-                borderTop: '0px black solid !important', 
-                borderBottom: '1px black solid !important', 
+                background: 'rgba(165, 109, 201, 0.1) !important',
+                borderTop: '0px black solid !important',
+                borderBottom: '1px black solid !important',
               },
             }}
           />

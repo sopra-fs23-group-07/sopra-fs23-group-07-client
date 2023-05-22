@@ -56,7 +56,6 @@ const MyEvents = () => {
 
     fetchData().catch(err => console.log(err)); // Make initial request immediately
   }, []);
-
   const handleViewEventClick = (eventId) => {
     history.push("/Events/" + String(eventId));
   };
