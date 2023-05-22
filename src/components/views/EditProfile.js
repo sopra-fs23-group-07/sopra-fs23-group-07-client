@@ -28,7 +28,7 @@ const EditProfile = () => {
   const [emailError, setEmailError] = useState(false);
 
   function validateEmail(email) {
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/i;
     return emailRegex.test(email) || email === "";
   }
 
