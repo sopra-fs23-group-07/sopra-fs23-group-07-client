@@ -78,12 +78,12 @@ const CreateEvent = () => {
       }
       // Validate the input fields.
       if (
-        !eventName ||
-        !selectedSport ||
-        !eventDate ||
-        (location && !canton_Full_name) ||
-        !maxParticipants ||
-        isNaN(maxParticipants)
+          !eventName ||
+          !selectedSport ||
+          !eventDate ||
+          (location && !canton_Full_name) ||
+          !maxParticipants ||
+          isNaN(maxParticipants)
       ) {
         toast.error("Please fill in all fields with valid data.");
         return;
@@ -91,7 +91,7 @@ const CreateEvent = () => {
 
       if (!location) {
         toast.error(
-          "Please click on the map to add a location in the region you chose"
+            "Please click on the map to add a location in the region you chose"
         );
       }
 
@@ -118,12 +118,12 @@ const CreateEvent = () => {
         window.dispatchEvent(new Event("localstorage-update"));
         await api.post(`/users/logout/${userId}`);
         toast.error(handleError(error));
-      }
-      else {
+      } else if (error.response.status !== 400) {
+        // Only show the error if the status is not 400
         toast.error(handleError(error));
       }
     }
-  };
+  }
 
   const sports = [
     "Basketball",
