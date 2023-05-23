@@ -42,7 +42,7 @@ const Lobby = () => {
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
   const [lobby, setLobby] = useState([]);
-  const [, setSelectedSports] = React.useState([]);
+  const [selectedSports, setSelectedSports] = React.useState([]);
   const [members, setMembers] = useState([]); // state for the pop-up
   const [chat, setChat] = useState([]);
   const [message, setMessage] = useState(null);
@@ -92,6 +92,7 @@ const Lobby = () => {
       if (response.data) {
         toast.warn(response.data);
       }
+      console.log("Choice locked was sent to the backend");
     } catch (error) {
       if (
         !(
@@ -110,6 +111,7 @@ const Lobby = () => {
         memberId: memberId,
       });
       await api.put(`/lobbies/${lobbyId}/unlock`, requestBody);
+      console.log("Choice unlocked was sent to the backend");
     } catch (error) {
       if (
         !(
@@ -131,6 +133,7 @@ const Lobby = () => {
         `/lobbies/${lobbyId}/users/${localStorage.getItem("userId")}/messages`,
         requestBody
       );
+      console.log("Chat Message was sent to the backend");
       setMessage("");
     } catch (error) {
       if (
@@ -159,14 +162,14 @@ const Lobby = () => {
   };
 
   const setEnterMessageBoxRelative = () => {
-    let el = document.getElementById("EnterMessageBox");
+    var el = document.getElementById("EnterMessageBox");
     el.style.position = "relative";
     el.style.left = "0";
     el.style.right = "0";
   };
 
   const updateScroll = async () => {
-    let element = document.getElementById("ChatWindow");
+    var element = document.getElementById("ChatWindow");
     element.scrollTop = element.scrollHeight;
   };
 
@@ -174,7 +177,7 @@ const Lobby = () => {
 
   const [eventId, setEventId] = useState(null);
   const [hasExecuted, setHasExecuted] = useState(false);
-  let oldChatLength = 0;
+  var oldChatLength = 0;
 
   useEffect(() => {
     // Add a listener to show a warning when the user attempts to leave the page
@@ -196,93 +199,65 @@ const Lobby = () => {
     return () => {
       // && history.location.pathname === "any specific path")
       if (history.action === "POP") {
+        console.log("Back was clicked");
         handleLeaveLobbyByButton().catch((err) => console.log(err));
       }
     };
   }, [history]);
 
-    // useEffect hook runs the code inside it after every render. In this case, it runs after the component mounts and whenever 'eventId' changes.
-    useEffect(() => {
-        // Fetch data initially and at intervals
-        const fetchData = async () => {
-            try {
-                // Handle the lobby state
-                await handleLobbyState();
-            } catch (error) {
-                // Only show error toast if it's not a 404 error for a lobby not being found
-                if (!isNotFoundError(error)) {
-                    toast.error(handleError(error));
-                }
-            }
-        }
-
-        // Log error if fetchData throws an error
-        fetchData().catch((err) => console.log(err));
-
-        // Set interval to fetch data every second
-        const intervalId = setInterval(fetchData, 1000);
-
-        // Clean up function to clear the interval when the component is unmounted
-        return () => clearInterval(intervalId);
-    }, [eventId]);
-
-// Function to handle the lobby state based on the eventId and hasExecuted flag
-    const handleLobbyState = async () => {
-        // If eventId is greater than 0 and hasExecuted is false
+  useEffect(() => {
+    async function fetchData() {
+      try {
         if (eventId > 0 && !hasExecuted) {
-            const LobbyState = true;
-            setHasExecuted(true);
-            await handleLeaveLobby(LobbyState);
-        }
-        // If eventId is -1 and hasExecuted is false
-        else if (eventId === -1 && !hasExecuted) {
-            setHasExecuted(true);
-            await handleLeaveTimerUp();
-        }
-        // If none of the above conditions is met
-        else {
-            await handleResponse();
-        }
-    };
+          console.log("if condition was met");
+          const LobbyState = true;
+          setHasExecuted(true);
+          await handleLeaveLobby(LobbyState);
+        } else if (eventId === -1 && !hasExecuted) {
+          console.log("event Id is -1");
+          setHasExecuted(true);
+          await handleLeaveTimerUp();
+        } else {
+          const response = await api.get("/lobbies/" + lobbyId);
+          setLobby(response.data);
+          setMembers(response.data.memberDTOs);
+          setLocationDTO(response.data.lobbyLocationDTOs);
+          setEventId(response.data.createdEventId || null);
+          setShortCodeForRegion(response.data.lobbyRegionShortCode);
+          setCanton_Full_name(response.data.lobbyRegion);
 
-// Function to handle the response from the API call
-    const handleResponse = async () => {
-        // Make the API call
-        const response = await api.get("/lobbies/" + lobbyId);
+          setChat(response.data.lobbyMessageDTOs);
 
-        // Update the state with the response data
-        setLobby(response.data);
-        setMembers(response.data.memberDTOs);
-        setLocationDTO(response.data.lobbyLocationDTOs);
-        setEventId(response.data.createdEventId || null);
-        setShortCodeForRegion(response.data.lobbyRegionShortCode);
-        setCanton_Full_name(response.data.lobbyRegion);
-        setChat(response.data.lobbyMessageDTOs);
-
-        // If there are 4 or more messages, adjust the message box
-        if (response.data.lobbyMessageDTOs.length >= 4) {
+          if (response.data.lobbyMessageDTOs.length >= 4) {
             setEnterMessageBoxRelative();
-        }
+          }
 
-        // If the number of messages has changed, update the scroll position
-        if (response.data.lobbyMessageDTOs.length != oldChatLength) {
+          if (response.data.lobbyMessageDTOs.length != oldChatLength) {
             await updateScroll();
+          }
+          oldChatLength = response.data.lobbyMessageDTOs.length;
         }
+      } catch (error) {
+        if (
+          !(
+            error.response.status === 404 &&
+            error.response.data === "The lobbyId provided was not found"
+          )
+        ) {
+          toast.error(handleError(error));
+        }
+      }
+    }
 
-        // Update the oldChatLength variable
-        oldChatLength = response.data.lobbyMessageDTOs.length;
-    };
-
-// Function to check if the error is a 404 error for a lobby not being found
-    const isNotFoundError = (error) => (
-        error.response.status === 404 &&
-        error.response.data === "The lobbyId provided was not found"
-    );
-
+    fetchData().catch((err) => console.log(err)); // Make initial request immediately
+    const intervalId = setInterval(fetchData, 1000); // Update data every second
+    return () => clearInterval(intervalId); // Clear the interval when the component is unmounted
+  }, [eventId]); // Add eventId as a dependency
 
   const handleLeaveLobby = async (LobbyState) => {
     try {
       if (LobbyState) {
+        console.log("handleLeaveLobby was called");
         const requestBody = JSON.stringify({
           userId: userId,
           token: token,
@@ -294,12 +269,12 @@ const Lobby = () => {
     } catch (error) {
       toast.error(handleError(error));
       localStorage.removeItem("lobbyId");
-      if (error.response.status === 401) {
+      if (error.response.status == 401) {
         localStorage.clear();
         window.dispatchEvent(new Event("localstorage-update"));
         await api.post(`/users/logout/${userId}`);
       }
-      if (error.response.status !== 500) {
+      if (error.response.status != 500) {
         history.push(`/Lobbies`);
       }
     }
@@ -317,7 +292,7 @@ const Lobby = () => {
     } catch (error) {
       toast.error(handleError(error));
       localStorage.removeItem("lobbyId");
-      if (error.response.status === 401) {
+      if (error.response.status == 401) {
         localStorage.clear();
         window.dispatchEvent(new Event("localstorage-update"));
         await api.post(`/users/logout/${userId}`);
@@ -343,7 +318,7 @@ const Lobby = () => {
     } catch (error) {
       toast.error(handleError(error));
       localStorage.removeItem("lobbyId");
-      if (error.response.status === 401) {
+      if (error.response.status == 401) {
         localStorage.clear();
         window.dispatchEvent(new Event("localstorage-update"));
       }
@@ -414,7 +389,6 @@ const Lobby = () => {
                 color: "#000000",
                 fontSize: "16px",
               }}
-              key={message}
             >
               {message.username}: {message.message}
             </h1>
@@ -648,7 +622,6 @@ const Lobby = () => {
                                 ? "blue"
                                 : "black",
                             }}
-                            key={sport}
                           >
                             {sport + " "}
                           </Typography>
@@ -664,7 +637,7 @@ const Lobby = () => {
                         textOverflow: "ellipsis",
                       }}
                     >
-                      {user.userId === userId ? (
+                      {user.userId == userId ? (
                         <SelectDateAndTime
                           sx={{ maxWidth: "90%" }}
                           selectedDatesServer={user.selectedDates}
@@ -681,7 +654,6 @@ const Lobby = () => {
                                 ? "blue"
                                 : "black",
                             }}
-                            key={time}
                           >
                             {
                               <p>

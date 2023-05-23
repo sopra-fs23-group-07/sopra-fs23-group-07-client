@@ -13,8 +13,8 @@ const AddLocation = (props) => {
 
         const events_for_location = props.events_passed;
 
-        for (const element of events_for_location) {
-            list_of_coordinates.push(element.eventLocationDTO);
+        for (let i = 0; i < events_for_location.length; i++) {
+            list_of_coordinates.push(events_for_location[i].eventLocationDTO);
         }
 
 

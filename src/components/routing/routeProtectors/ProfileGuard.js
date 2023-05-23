@@ -11,38 +11,43 @@ export const ProfileGuard = (props) => {
 
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
+    console.log(userId);
+    console.log(token);
     const [toProfile, setToProfile] = useState(false);
 
     const history = useHistory();
 
-    async function fetchData() {
-      try {
-        const response = await api.get(`/users/${userId}`);
+    //useEffect(() => {
+        async function fetchData() {
+          try {
+            const response = await api.get(`/users/${userId}`);
+            console.log(response.data.token);
 
-        if(token === response.data.token) {
-            setToProfile(true); }
-        else {
+            if(token === response.data.token) {
+                setToProfile(true); }
+            else {
+                localStorage.clear();
+                window.dispatchEvent(new CustomEvent("localstorage-update"));
+                toast.error("You could not be authenticated. Please log in or register.");
+                try {await api.post(`/users/logout/${userId}`);}
+                catch {}
+                history.push("/Login");
+            }
+
+
+
+          } catch (error) {
             localStorage.clear();
             window.dispatchEvent(new CustomEvent("localstorage-update"));
-            toast.error("You could not be authenticated. Please log in or register.");
             try {await api.post(`/users/logout/${userId}`);}
             catch {}
             history.push("/Login");
+          }
         }
 
-
-
-      } catch (error) {
-        localStorage.clear();
-        window.dispatchEvent(new CustomEvent("localstorage-update"));
-        try {await api.post(`/users/logout/${userId}`);}
-        catch {}
-        history.push("/Login");
-      }
-    }
-
-    fetchData().catch(err => console.log(err));
-    if(toProfile) { return props.children; }
+        fetchData().catch(err => console.log(err));
+      //}, []);
+    if(setToProfile) { return props.children; }
     return <Spinner />
 };
 

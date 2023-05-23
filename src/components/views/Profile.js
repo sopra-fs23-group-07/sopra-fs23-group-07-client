@@ -94,7 +94,7 @@ const Profile = () => {
   }, [userId]);
 
   const handleEditProfileClick = (userId) => {
-    if (userId === localStorage.getItem("userId")) {
+    if (userId == localStorage.getItem("userId")) {
       history.push("/Profile/" + String(userId) + "/edit");
     } else toast.error("You are not allowed to edit this profile");
   };
@@ -150,7 +150,7 @@ const Profile = () => {
           <Button
             variant="contained"
             onClick={handleClickOpen}
-            disabled={user.userId !== localStorage.getItem("userId")}
+            disabled={user.userId != localStorage.getItem("userId")}
           >
             <SwitchAccountIcon sx={{mr: 1}} />
              Change Avatar
@@ -250,7 +250,7 @@ const Profile = () => {
           startIcon={<EditIcon />}
           sx={{ mt: 2 }}
           onClick={() => handleEditProfileClick(user.userId)}
-          disabled={user.userId !== localStorage.getItem("userId")}
+          disabled={user.userId != localStorage.getItem("userId")}
         >
           Edit Profile
         </Button>
@@ -308,16 +308,6 @@ const Profile = () => {
     </Grid>
   );
 
-    let displayContent;
-
-    if(isLoading) {
-        displayContent = <Spinner />;
-    } else if(noUser) {
-        displayContent = noUserContent;
-    } else {
-        displayContent = content;
-    }
-
   return (
     <BaseContainer>
       {/* Title */}
@@ -350,7 +340,7 @@ const Profile = () => {
           minHeight: "400px",
         }}
       >
-          {displayContent}
+        {isLoading ? <Spinner /> : noUser ? noUserContent : content}{" "}
       </Grid>
     </BaseContainer>
   );

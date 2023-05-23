@@ -26,10 +26,10 @@ const Login = (props) => {
     setPassword(event.target.value);
   };
 
-    let lobby = false;
-    let lobbyId = 0;
+  var lobby = false;
+  var lobbyId = 0;
 
-    try {
+  try {
     const location = useLocation();
 
     lobby = location.state.lobby;

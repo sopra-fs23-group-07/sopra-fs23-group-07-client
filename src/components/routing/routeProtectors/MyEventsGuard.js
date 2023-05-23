@@ -11,12 +11,17 @@ export const MyEventsGuard = (props) => {
 
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
+    console.log(userId);
+    console.log(token);
     const [toProfile, setToProfile] = useState(false);
 
     const history = useHistory();
+
+    //useEffect(() => {
     async function fetchData() {
         try {
             const response = await api.get(`/users/${userId}`);
+            console.log(response.data.token);
 
             if(token === response.data.token) {
                 setToProfile(true); }
@@ -39,7 +44,8 @@ export const MyEventsGuard = (props) => {
     }
 
     fetchData().catch(err => console.log(err));
-    if(toProfile) { return props.children; }
+    //}, []);
+    if(setToProfile) { return props.children; }
     return <Spinner />
 };
 

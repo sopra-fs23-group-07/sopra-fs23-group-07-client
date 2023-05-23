@@ -40,15 +40,23 @@ const VotingForLocations = (props) => {
         const currentLocation = props.lobby.lobbyLocationDTOs.find(location => location.locationId === props.locationId);
 
         // If we found the current location and the memberVotesIds includes the memberId, return true
-        return !!(currentLocation && currentLocation.memberVotesIds.includes(props.memberId));
+        if (currentLocation && currentLocation.memberVotesIds.includes(props.memberId)) {
+            return true;
+        }
+
+        // If we didn't find the location or the memberId is not included in memberVotesIds, return false
+        return false;
     }
 
+
     const [UserAlreadyVoted, setUserAlreadyVoted] = useState(hasVotedForThisLocation);
+
 
 
     React.useEffect(() => {
         setUserAlreadyVoted(hasVotedForThisLocation());
     }, [props.lobby, props.locationId]);
+
 
     const UnVoteForLocation = async () => {
         try {
@@ -67,7 +75,7 @@ const VotingForLocations = (props) => {
         }
     };
 
-    const { lobby } = props;
+    const { location, lobby } = props;
 
     const addressStyle = lobby.lobbyDecidedLocation && lobby.lobbyDecidedLocation.address
         ? { color: lobby.lobbyDecidedLocation.address === address ? "blue" : "inherit" }
@@ -89,13 +97,13 @@ const VotingForLocations = (props) => {
             </Tooltip>
             {UserAlreadyVoted ? (
                 <Badge badgeContent={memberVotes} color="error" sx={{mr: 1}}>
-                    <Button disabled={props.hasLockedSelections} variant="contained" onClick={() => UnVoteForLocation()}>
+                    <Button disabled={props.hasLockedSelections} variant="contained" onClick={() => UnVoteForLocation(location)}>
                         Unvote
                     </Button>
                 </Badge>
             ) : (
                 <Badge badgeContent={memberVotes} color="primary" sx={{mr: 1}}>
-                    <Button disabled={props.hasLockedSelections} variant="contained" onClick={() => VoteForLocation()}>
+                    <Button disabled={props.hasLockedSelections} variant="contained" onClick={() => VoteForLocation(location)}>
                         Vote
                     </Button>
                 </Badge>
