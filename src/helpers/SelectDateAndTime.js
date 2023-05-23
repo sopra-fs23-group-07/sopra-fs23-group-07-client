@@ -118,7 +118,7 @@ const SelectDateAndTime = (props) => {
               style={{
                 marginRight: 12,
                 display: "block",
-                color: props.chosenDateServer.includes(date) ? "blue" : "black",
+                color: props.chosenDateServer.includes(date) ? "orange" : "black",
               }}
             >
               {<p>{moment(date).format("MMMM DD, YYYY h:mm A")}</p>}

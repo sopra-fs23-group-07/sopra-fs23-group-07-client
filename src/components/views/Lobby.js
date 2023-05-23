@@ -493,7 +493,7 @@ const Lobby = () => {
               <TableHead>
                 <TableRow
                   sx={{
-                    border: "2px solid black",
+                    border: "1px solid black",
 
                     "& td, & th": {
                       borderBottom: "0px black solid", // works
@@ -587,8 +587,8 @@ const Lobby = () => {
                     sx={{
                       "& td, & th": {
                         background: "rgba(165, 109, 201, 0.1)",
-                        borderTop: "2px black solid", // works
-                        borderBottom: "2px black solid", // works
+                        borderTop: "1px black solid", // works
+                        borderBottom: "1px black solid", // works
                       },
                     }}
                   >
@@ -619,7 +619,7 @@ const Lobby = () => {
                             sx={{
                               display: "inline",
                               color: lobby.lobbyDecidedSport.includes(sport)
-                                ? "blue"
+                                ? "orange"
                                 : "black",
                             }}
                           >
@@ -651,7 +651,7 @@ const Lobby = () => {
                             style={{
                               display: "block",
                               color: lobby.lobbyDecidedDate.includes(time)
-                                ? "blue"
+                                ? "orange"
                                 : "black",
                             }}
                           >
@@ -714,7 +714,7 @@ const Lobby = () => {
               boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
               position: "relative",
               background: "rgba(165, 109, 201, 0.1)",
-              border: "2px black solid",
+              border: "1px black solid",
               overflow: "auto",
             }}
           >

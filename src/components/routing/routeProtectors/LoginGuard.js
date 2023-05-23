@@ -13,8 +13,6 @@ export const LoginGuard = props => {
 
     const userId = localStorage.getItem("userId");
         const token = localStorage.getItem("token");
-        console.log(userId);
-        console.log(token);
         const [toLogin, setToLogin] = useState(false);
 
         const history = useHistory();
@@ -23,7 +21,6 @@ export const LoginGuard = props => {
             async function fetchData() {
               try {
                 const response = await api.get(`/users/${userId}`);
-                console.log(response.data.token);
 
                 if(token === response.data.token) {
                     history.push("/Home"); }

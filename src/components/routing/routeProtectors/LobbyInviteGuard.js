@@ -20,10 +20,8 @@ export const LobbyInviteGuard = props => {
     }
 
 
-    console.log("this is lobby id: " + lobbyId);
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
-    console.log(userId);
 
 
 
@@ -32,8 +30,6 @@ export const LobbyInviteGuard = props => {
         try {
 
             const response = await api.get(`/users/${userId}`);
-            console.log(token);
-            console.log(response.data.token);
             if (!localStorage.getItem("userId") || !localStorage.getItem("token") || token != response.data.token) {
                 
                 localStorage.clear();
@@ -42,7 +38,6 @@ export const LobbyInviteGuard = props => {
                 await api.post(`/users/logout/${userId}`);
             } else {
 
-                console.log("this is lobby id: " + lobbyId);
                 const requestBody = JSON.stringify({
                     userId: userId,
                     token: token,

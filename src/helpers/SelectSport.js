@@ -94,7 +94,7 @@ export default function MultipleSelectChip(props) {
                             {selected.map((value) => (
                                 <Chip key={value} label={value} style={{
                                     ...getStyles(value, MainUserSelectedSports, theme),
-                                    color: props.chosenSportServer.includes(value) ? 'blue' : 'black',
+                                    color: props.chosenSportServer.includes(value) ? 'orange' : 'black',
                                 }}/>
                             ))}
                         </Box>

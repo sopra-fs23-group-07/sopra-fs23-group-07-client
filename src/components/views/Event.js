@@ -133,10 +133,6 @@ const Event = () => {
         const response = await api.get("/events/" + eventId);
         setEvent(response.data);
         setEventLocationDTO(response.data.eventLocationDTO);
-        console.log("EVENT DATA")
-        console.log(response.data);
-        console.log("IS NEW EVENT");
-        console.log(response.data.isNewEvent);
         setIsNewEvent(response.data.isNewEvent);
 
         const userIds = response.data.participantDTOs.map(

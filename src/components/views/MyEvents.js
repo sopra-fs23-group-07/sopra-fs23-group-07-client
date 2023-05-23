@@ -9,6 +9,7 @@ import {
   TableHead,
   TableRow,
   Typography,
+  Tooltip,
   Grid,
   IconButton,
 } from "@mui/material";
@@ -18,7 +19,6 @@ import { toast } from "react-toastify";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-
 
 const MyEvents = () => {
   // initializing variables and hooks need
@@ -36,14 +36,13 @@ const MyEvents = () => {
         const userEvents = response.data.eventGetDTOs;
 
         setEvents(userEvents);
-
       } catch (error) {
         console.error(`Something went wrong while fetching the events.`);
         toast.error(handleError(error));
       }
     }
 
-    fetchData().catch(err => console.log(err)); // Make initial request immediately
+    fetchData().catch((err) => console.log(err)); // Make initial request immediately
   }, []);
   const handleViewEventClick = (eventId) => {
     history.push("/Events/" + String(eventId));
@@ -102,7 +101,7 @@ const MyEvents = () => {
             <TableHead>
               <TableRow
                 sx={{
-                  border: "2px solid black",
+                  border: "1px solid black",
 
                   "& td, & th": {
                     borderBottom: "0px black solid", // works
@@ -138,8 +137,8 @@ const MyEvents = () => {
                       sx={{
                         "& td, & th": {
                           background: "rgba(165, 109, 201, 0.1)",
-                          borderTop: "2px black solid", // works
-                          borderBottom: "2px black solid", // works
+                          borderTop: "1px black solid", // works
+                          borderBottom: "1px black solid", // works
                         },
                       }}
                     >
@@ -147,17 +146,19 @@ const MyEvents = () => {
                         {event.eventName}
                       </TableCell>
                       <TableCell>
-                        <IconButton
-                          variant="contained"
-                          onClick={() => {
-                            setFlyToLocation({
-                              latitude: event.eventLocationDTO.latitude,
-                              longitude: event.eventLocationDTO.longitude,
-                            });
-                          }}
-                        >
-                          <LocationOnIcon />
-                        </IconButton>
+                        <Tooltip title="Show on Map">
+                          <IconButton
+                            variant="contained"
+                            onClick={() => {
+                              setFlyToLocation({
+                                latitude: event.eventLocationDTO.latitude,
+                                longitude: event.eventLocationDTO.longitude,
+                              });
+                            }}
+                          >
+                            <LocationOnIcon />
+                          </IconButton>
+                        </Tooltip>
                         {" " + event.eventRegion}
                       </TableCell>
                       <TableCell>{event.eventSport}</TableCell>
@@ -170,11 +171,13 @@ const MyEvents = () => {
                       </TableCell>
 
                       <TableCell sx={{ borderRight: "0px black solid" }}>
-                        <IconButton
-                          onClick={() => handleViewEventClick(event.eventId)}
-                        >
-                          <VisibilityIcon />
-                        </IconButton>
+                        <Tooltip title="View Event Details">
+                          <IconButton
+                            onClick={() => handleViewEventClick(event.eventId)}
+                          >
+                            <VisibilityIcon />
+                          </IconButton>
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   );

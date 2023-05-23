@@ -39,9 +39,7 @@ const Lobbies = () => {
   };
 
   const handleJoinLobby = async (lobbyId) => {
-    console.log("this is lobby id: " + lobbyId);
     try {
-      console.log("this is lobby id: " + lobbyId);
       const requestBody = JSON.stringify({
         userId: userId,
         token: token,
@@ -67,13 +65,6 @@ const Lobbies = () => {
         const response = await api.get(`/lobbies`);
 
         setLobbies(response.data);
-
-        // logs for debugging can be deleted after proper testing
-        // console.log("request to:", response.request.responseURL);
-        // console.log("status code:", response.status);
-        // console.log("status text:", response.statusText);
-        // console.log("requested data:", response.data);
-        // console.log(response);
       } catch (error) {
         console.error(`Something went wrong while fetching the lobbies`);
         console.error("Details:", error);
@@ -188,8 +179,8 @@ const Lobbies = () => {
                       sx={{
                         "& td, & th": {
                           background: "rgba(165, 109, 201, 0.1)",
-                          borderTop: "2px black solid", // works
-                          borderBottom: "2px black solid", // works
+                          borderTop: "1px black solid", // works
+                          borderBottom: "1px black solid", // works
                         },
                       }}
                     >

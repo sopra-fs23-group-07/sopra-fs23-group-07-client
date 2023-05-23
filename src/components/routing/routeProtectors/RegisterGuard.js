@@ -38,16 +38,6 @@ export const RegisterGuard = (props) => {
     if(toRegister) { return props.children; }
     return <Spinner />
 
-    // if user is already logged in, redirects to the main /app
-//    if (userId && token) {
-//        return <Redirect to="/Home"/>;
-//    } else {
-//        localStorage.removeItem("token");
-//        localStorage.removeItem("userId");
-//        return props.children;
-//    }
-
-
 
 };
 

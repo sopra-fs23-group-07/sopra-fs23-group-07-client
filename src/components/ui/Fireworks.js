@@ -6,7 +6,6 @@ const Fireworks = () => {
     const [showParticles, setShowParticles] = useState(true);
 
     const particlesInit = useCallback(async engine => {
-        console.log(engine);
         await loadFull(engine);
     }, []);
 

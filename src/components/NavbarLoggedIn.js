@@ -29,7 +29,6 @@ const NavbarLoggedIn = () => {
 
     const handleLeaveLobby = async () => {
         try {
-            console.log("handleLeaveLobby was called");
             const requestBody = JSON.stringify({
                 userId: userId,
                 token: token,
@@ -112,7 +111,6 @@ const NavbarLoggedIn = () => {
 
     const handleLogoutClick = async () => {
         if (localStorage.getItem("lobbyId")) {
-            console.log("handleLogoutClick was called inside if");
             setPushTo("/login");
             setIsLogOut(true);
             handleClickOpen();
@@ -122,7 +120,6 @@ const NavbarLoggedIn = () => {
                 localStorage.clear();
                 setUser(null);
                 history.push("/login");
-                console.log(response);
             } catch (error) {
                 toast.error(`Something went wrong during the logout: \n${handleError(error)}`);
                 history.push("/login");
@@ -140,7 +137,6 @@ const NavbarLoggedIn = () => {
             localStorage.clear();
             setUser(null);
 
-            console.log("handleLogoutClick was called inside try");
         } catch (error) {
             toast.error(`Something went wrong during the logout: \n${handleError(error)}`);
             history.push("/login");

@@ -11,8 +11,6 @@ export const ProfileGuard = (props) => {
 
     const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
-    console.log(userId);
-    console.log(token);
     const [toProfile, setToProfile] = useState(false);
 
     const history = useHistory();
@@ -21,7 +19,6 @@ export const ProfileGuard = (props) => {
         async function fetchData() {
           try {
             const response = await api.get(`/users/${userId}`);
-            console.log(response.data.token);
 
             if(token === response.data.token) {
                 setToProfile(true); }

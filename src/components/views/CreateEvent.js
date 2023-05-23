@@ -50,7 +50,6 @@ const CreateEvent = () => {
       latitude: lat,
     };
     setLocation(newLocation);
-    console.log("this is the location", location);
   };
 
   useEffect(() => {
@@ -226,8 +225,6 @@ const CreateEvent = () => {
                         setRegion(e.target.value); // Set the entire value
                         setCanton_Full_name(canton_Full_name2);
                         setShortCodeForRegion(shortCode1);
-                        console.log("shortCode:", shortCodeForRegion);
-                        console.log("canton_Full_name:", canton_Full_name2);
                       }}
                       error={eventRegionError}
                     >
