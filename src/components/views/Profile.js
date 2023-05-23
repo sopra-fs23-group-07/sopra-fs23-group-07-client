@@ -211,9 +211,10 @@ const Profile = () => {
             {/* Table */}
             <Table
               sx={{
+                borderCollapse: "separate",
+                borderSpacing: "0 16px",
                 "& td, & th": {
                   background: "rgba(165, 109, 201, 0.1)",
-                  border: "1px black solid", // works
                 },
               }}
             >
@@ -258,14 +259,15 @@ const Profile = () => {
             </Typography>
             <Box
               sx={{
-                border: "black solid 1px",
+                background: "rgba(165, 109, 201, 0.1)",
+                borderRadius: "10px",
                 minHeight: "200px",
                 minWidth: "100%",
-                p: 1,
+                p: 2,
               }}
             >
               <Typography>
-                Tell the world something about you! <br /> {user.bio}
+                What the world should know about me: <br /> <br /> {user.bio}
               </Typography>
             </Box>
           </Grid>
