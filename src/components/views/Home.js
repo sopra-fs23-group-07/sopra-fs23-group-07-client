@@ -111,7 +111,7 @@ const Home = () => {
       <Grid container xs={12} sx={{ my: 5,  }}>
         <Grid item xs={12} md={6} xl={3} sx={{ padding: 3 }}>
           <Card>
-            <CardHeader title="Discover and join existing lobbies" />
+            <CardHeader title="Join existing lobby" />
             <CardMedia
               component="img"
               src={group}
@@ -132,7 +132,7 @@ const Home = () => {
                 onClick={() => history.push("/Lobbies/")}
                 sx={{ mt: 3 }}
               >
-                Discover open Lobbies
+                Join existing lobby
               </Button>
               <ExpandMore
                 expand={expanded1}
@@ -263,7 +263,7 @@ const Home = () => {
 
         <Grid item xs={12} md={6} xl={3} sx={{ padding: 3 }}>
           <Card >
-            <CardHeader title="Discover and join existing events" />
+            <CardHeader title="Join existing event" />
             <CardMedia
               component="img"
               src={Event}
@@ -284,7 +284,7 @@ const Home = () => {
                 sx={{ mt: 3 }}
                 onClick={() => history.push("/Events")}
               >
-                Discover upcoming Events
+                Join existing Event
               </Button>
 
               <ExpandMore

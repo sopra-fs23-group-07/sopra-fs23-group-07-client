@@ -18,7 +18,7 @@ export function CustomNoRowsOverlay() {
                 <EventBusyIcon fontSize="large"/>
             </Box>
             <Box sx={{ mt: 1 }}>
-                Currently no events available! Go to the Lobbies Page and start creating one.
+                Currently no events available!
             </Box>
         </StyledGridOverlay>
     );

@@ -5,6 +5,7 @@ import Spinner from "../ui/Spinner";
 import {
   Avatar,
   Badge,
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -62,9 +63,11 @@ const Profile = () => {
         toast.error(handleError(error));
       }
     };
-    fetchData().then(() => {
-      setAvatar(avatars[index]); // Set avatar only if API call is successful.
-    }).catch(err => console.log(err));
+    fetchData()
+      .then(() => {
+        setAvatar(avatars[index]); // Set avatar only if API call is successful.
+      })
+      .catch((err) => console.log(err));
   };
   const handleClickOpen = () => {
     setOpen(true);
@@ -88,9 +91,11 @@ const Profile = () => {
         toast.error(handleError(error));
       }
     };
-    fetchData().then(() => {
-      console.log("Data fetched successfully"); // This will be executed after fetchData is complete.
-    }).catch(err => console.log(err));
+    fetchData()
+      .then(() => {
+        console.log("Data fetched successfully"); // This will be executed after fetchData is complete.
+      })
+      .catch((err) => console.log(err));
   }, [userId]);
 
   const handleEditProfileClick = (userId) => {
@@ -130,12 +135,12 @@ const Profile = () => {
         }}
       >
         {/* Avatar Picture with status */}
-        <Grid item xs={12} sx={{display: "flex", justifyContent: "center"}}>
+        <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
           <Badge
             color={user.status === "OFFLINE" ? "error" : "success"}
             badgeContent={" "}
             overlap={"circular"}
-            anchorOrigin={{ 
+            anchorOrigin={{
               vertical: "bottom",
               horizontal: "right",
             }}
@@ -152,8 +157,8 @@ const Profile = () => {
             onClick={handleClickOpen}
             disabled={user.userId != localStorage.getItem("userId")}
           >
-            <SwitchAccountIcon sx={{mr: 1}} />
-             Change Avatar
+            <SwitchAccountIcon sx={{ mr: 1 }} />
+            Change Avatar
           </Button>
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Choose an Avatar</DialogTitle>
@@ -188,76 +193,98 @@ const Profile = () => {
         container
         md={8}
         xs={12}
-        sx={{flexDirection: "column", display: "flex", justifyContent: "flex-start", alignItems: "center" }}
+        sx={{
+          flexDirection: "column",
+          display: "flex",
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
       >
         {/* Data */}
-        <Grid item > 
-        {/* Table */}
-        <Table sx={{
-                        "& td, & th": {
-                          background: "rgba(165, 109, 201, 0.1)",
-                          border: "1px black solid", // works
-                        },
-                      }}>
-                <TableRow >
-                  <TableCell >
-                    <Typography variant={"h6"}>Username</Typography>
-                  </TableCell>
-                  <TableCell >
-                    <Typography>{user.username}</Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell >
-                    <Typography variant={"h6"}>Email</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography>{user.email}</Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell >
-                    <Typography variant={"h6"}>Birthdate</Typography>
-                  </TableCell>
-                  <TableCell >
-                    <Typography>{user.birthdate}</Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell >
-                    <Typography variant={"h6"}>Member since</Typography>
-                  </TableCell>
-                  <TableCell >
-                    <Typography>{user.creationDate}</Typography>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell >
-                    <Typography variant={"h6"}>Bio</Typography>
-                  </TableCell>
-                  <TableCell >
-                    <Typography>{user.bio}</Typography>
-                  </TableCell>
-                </TableRow>
-              </Table>
-        </Grid>
-        
-        {/* Edit Button */}
-        <Grid item > 
-        <Button
-          variant={"contained"}
-          size="lg"
-          startIcon={<EditIcon />}
-          sx={{ mt: 2 }}
-          onClick={() => handleEditProfileClick(user.userId)}
-          disabled={user.userId != localStorage.getItem("userId")}
+        <Grid
+          container
+          item
+          sx={{ display: "flex", justifyContent: "center", gap: "10%", p: 2 }}
         >
-          Edit Profile
-        </Button>
+          <Grid item>
+            {" "}
+            {/* Table */}
+            <Table
+              sx={{
+                "& td, & th": {
+                  background: "rgba(165, 109, 201, 0.1)",
+                  border: "1px black solid", // works
+                },
+              }}
+            >
+              <TableRow>
+                <TableCell>
+                  <Typography variant={"h6"}>Username</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>{user.username}</Typography>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <Typography variant={"h6"}>Email</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>{user.email}</Typography>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <Typography variant={"h6"}>Birthdate</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>{user.birthdate}</Typography>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>
+                  <Typography variant={"h6"}>Member since</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>{user.creationDate}</Typography>
+                </TableCell>
+              </TableRow>
+            </Table>
+          </Grid>
+          <Grid item>
+            {" "}
+            <Typography variant={"h6"} sx={{ textAlign: "center" }}>
+              Bio
+            </Typography>
+            <Box
+              sx={{
+                border: "black solid 1px",
+                minHeight: "200px",
+                minWidth: "100%",
+                p: 1,
+              }}
+            >
+              <Typography>
+                Tell the world something about you! <br /> {user.bio}
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
+
+        {/* Edit Button */}
+        <Grid item>
+          <Button
+            variant={"contained"}
+            size="lg"
+            startIcon={<EditIcon />}
+            sx={{ mt: 2 }}
+            onClick={() => handleEditProfileClick(user.userId)}
+            disabled={user.userId != localStorage.getItem("userId")}
+          >
+            Edit Profile
+          </Button>
         </Grid>
       </Grid>
-
-
     </Grid>
   );
 

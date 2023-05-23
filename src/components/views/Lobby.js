@@ -539,7 +539,7 @@ const Lobby = () => {
                       Time
                       <Tooltip
                         arrow
-                        title="To add a time period first click on the field labelled “Select a date and time”. Second select the date in the calendar. Then select the time period from the scrollbar on the right. Finally click the “+” icon to add the time period to your selection. To remove a time period from your selection, click the “X” icon next to the time period you wish to remove. "
+                        title="To add a time period first click on the field labelled “Select a date and time”. Second select the date in the calendar. Then select the time period from the scrollbar on the right. Finally click the + icon to add the time period to your selection. To remove a time period from your selection, click the X icon next to the time period you wish to remove. "
                       >
                         <InfoOutlinedIcon />
                       </Tooltip>
@@ -565,7 +565,7 @@ const Lobby = () => {
                       ).padStart(2, "0")}
                       <Tooltip
                         arrow
-                        title="When the timer hits 0 the lobby is closed and event is created based on the selection of people who locked their choice. To see what happens when less than two people locked their choice look at the FAQ."
+                        title="When the timer hits 0 the lobby is closed and event is created based on the selection of people who saved their choice. When less than two people saved their choice no event is created."
                       >
                         <InfoOutlinedIcon />
                       </Tooltip>
@@ -670,7 +670,7 @@ const Lobby = () => {
                                 Save
                                 <Tooltip
                                   arrow
-                                  title="To save your selections, click the toggle switch labelled “Save”. This will lock your selections and you will not be able to change your selections. Once all members of the lobby have locked their selections the lobby will close, and an event will be created. If you would like to change a selection, first unlock by clicking the toggle switch labelled “Save” and you may change your selections. "
+                                  title="To save your selections, click the toggle switch labelled “Save”. This will save your selections and you will not be able to change your selections. Once all members of the lobby have saved their selections the lobby will close, and an event will be created. If you would like to change a selection, first unsave by clicking the toggle switch labelled “Save” and you may change your selections. "
                                 >
                                   <InfoOutlinedIcon />
                                 </Tooltip>
@@ -707,8 +707,7 @@ const Lobby = () => {
               minHeight: { xl: "auto", xs: "600px" },
               boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
               position: "relative",
-              background: "rgba(165, 109, 201, 0.1)",
-              border: "1px black solid",
+              background: "white",
               overflow: "auto",
             }}
           >
@@ -859,10 +858,10 @@ const Lobby = () => {
 
           {/* Tutorial */}
           <Grid item xs={6}>
-            <Accordion sx={{ color: "white", backgroundColor: "orange" }}>
+            <Accordion sx={{ color: "white", background: "rgba(255, 255, 255, 0.7)"}}>
               <AccordionSummary
-                sx={{ height: "50px" }}
-                expandIcon={<HelpOutline color="black" />}
+                sx={{ height: "50px", color: "black" }}
+                expandIcon={<HelpOutline />}
               >
                 <Typography> How to use this Lobby </Typography>
               </AccordionSummary>
@@ -873,8 +872,9 @@ const Lobby = () => {
                     padding: "10px",
                     marginBottom: "20px",
                     marginTop: "20px",
-                    background: "secondary",
                     position: "relative",
+                    background: "white",
+                    color: "black",
                   }}
                 >
                   <ol>
@@ -885,23 +885,20 @@ const Lobby = () => {
                     <li>Enter your preferences (in any order) for</li>
                     <ul>
                       <li>
-                        <strong style={{ color: "blue" }}> Sport: </strong>
+                        <strong style={{ color: "orange" }}> Sport: </strong>
                         You can select multiple sports and you should choose all
-                        sports you like to do. So you can find a sport that you
+                        sports you like. So you can find a sport that you
                         have common with the other users in the lobby.
                       </li>
                       <li>
-                        <strong style={{ color: "blue" }}>
+                        <strong style={{ color: "orange" }}>
                           {" "}
                           Time and Date:{" "}
                         </strong>
-                        Here you can select multiple timeslots and you should
-                        select like explained for sports above. To select a
-                        timeslot you first have to press on it and afterwards
-                        hit the checkmark.
+                        Here you can add multiple time slots and you again should add all that work for you such that you find a common time with other participants. To add a time slot you first have to press on it and afterwards hit the add button.
                       </li>
                       <li>
-                        <strong style={{ color: "blue" }}>Location:</strong>{" "}
+                        <strong style={{ color: "orange" }}>Location:</strong>{" "}
                         Here you have two options.
                       </li>
                       <ul>
@@ -909,35 +906,26 @@ const Lobby = () => {
                           Option 1: Vote for locations someone else suggested.
                         </li>
                         <li>
-                          Option 2: Suggest a location yourself by clicking on
-                          the map where you want the event to take place. Then
-                          press confirm location and vote for it.
+                          Option 2: Suggest a location yourself by clicking on the map where you want the event to take place. Then press add location and vote for it.
                         </li>
                         <li>
-                          If you have already voted but want to change your vote
-                          you first have to unvote before you can vote for a
-                          different location.
+                          Every participant can only add one location. If you changed your mind you have to delete the old location first before you add a new one. 
                         </li>
                       </ul>
                     </ul>
 
                     <li>
-                      <strong style={{ color: "blue" }}>
-                        Lock your choice:{" "}
+                      <strong style={{ color: "orange" }}>
+                        Save your choice:{" "}
                       </strong>
-                      If you are happy with all your choices lock them. After
-                      you locked your choice you can't edit your preferences for
-                      sport, timeslot and location anymore. If you change your
-                      mind about one of the preferences you can unlock and then
-                      edit your choices.
+                      If you are happy with all your choices save them. After you save your choice you can't edit your preferences for sport, time slot and location anymore. If you change your mind about one of the preferences you can press the save button again and then edit your choices.
                     </li>
                     <li>
-                      <strong style={{ color: "blue" }}>
-                        Wait for event to be created:
+                      <strong style={{ color: "orange" }}>
+                        Wait for an event to be created: {" "}
                       </strong>
-                      Either when all users in the lobby have locked their
-                      choices or when the timer <Schedule />
-                      hits zero.
+                      Either when all users in the lobby have saved their
+                      choices or when the timer hits zero.
                     </li>
                   </ol>
                 </div>
