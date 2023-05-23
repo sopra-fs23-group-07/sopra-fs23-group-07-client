@@ -34,7 +34,7 @@ The Lobbies component is responsible for conveying all open lobbies to the user.
 
 ### Lobby
 
-The Lobby component is responsible for receiving constant updates from the server and displaying them to the users. It shows what each user has selected in each category (sport, time and location) as well as the current majority in each category, which is highlighted in blue. The Lobby component provides users a way to leave the lobby with a button labelled "Leave". Additionally users can click the "Invite Friends" button to get a link to the lobby, which can be shared to friends who wish to join the lobby.
+The Lobby component is responsible for receiving constant updates from the server and displaying them to the users. It shows what each user has selected in each category (sport, time and location) as well as the current majority in each category, which is highlighted in orange. The Lobby component provides users a way to leave the lobby with a button labelled "Leave". Additionally users can click the "Invite Friends" button to get a link to the lobby, which can be shared to friends who wish to join the lobby.
 
 ### Events and Event
 

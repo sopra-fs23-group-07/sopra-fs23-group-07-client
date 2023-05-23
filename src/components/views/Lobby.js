@@ -92,7 +92,6 @@ const Lobby = () => {
       if (response.data) {
         toast.warn(response.data);
       }
-      console.log("Choice locked was sent to the backend");
     } catch (error) {
       if (
         !(
@@ -111,7 +110,6 @@ const Lobby = () => {
         memberId: memberId,
       });
       await api.put(`/lobbies/${lobbyId}/unlock`, requestBody);
-      console.log("Choice unlocked was sent to the backend");
     } catch (error) {
       if (
         !(
@@ -133,7 +131,6 @@ const Lobby = () => {
         `/lobbies/${lobbyId}/users/${localStorage.getItem("userId")}/messages`,
         requestBody
       );
-      console.log("Chat Message was sent to the backend");
       setMessage("");
     } catch (error) {
       if (
@@ -197,9 +194,7 @@ const Lobby = () => {
 
   useEffect(() => {
     return () => {
-      // && history.location.pathname === "any specific path")
       if (history.action === "POP") {
-        console.log("Back was clicked");
         handleLeaveLobbyByButton().catch((err) => console.log(err));
       }
     };
@@ -209,12 +204,10 @@ const Lobby = () => {
     async function fetchData() {
       try {
         if (eventId > 0 && !hasExecuted) {
-          console.log("if condition was met");
           const LobbyState = true;
           setHasExecuted(true);
           await handleLeaveLobby(LobbyState);
         } else if (eventId === -1 && !hasExecuted) {
-          console.log("event Id is -1");
           setHasExecuted(true);
           await handleLeaveTimerUp();
         } else {
@@ -257,7 +250,6 @@ const Lobby = () => {
   const handleLeaveLobby = async (LobbyState) => {
     try {
       if (LobbyState) {
-        console.log("handleLeaveLobby was called");
         const requestBody = JSON.stringify({
           userId: userId,
           token: token,
