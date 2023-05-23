@@ -120,9 +120,7 @@ const CreateEvent = () => {
         await api.post(`/users/logout/${userId}`);
         toast.error(handleError(error));
       }
-      if (error.response.status == 400 && error.response.data == "Please choose event date in the future.") {
-        toast.error(handleError(error));
-      } else {
+      else {
         toast.error(handleError(error));
       }
     }

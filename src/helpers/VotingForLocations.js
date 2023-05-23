@@ -97,13 +97,13 @@ const VotingForLocations = (props) => {
             </Tooltip>
             {UserAlreadyVoted ? (
                 <Badge badgeContent={memberVotes} color="error" sx={{mr: 1}}>
-                    <Button disabled={props.hasLockedSelections} variant="contained" onClick={() => UnVoteForLocation(location)}>
+                    <Button disabled={props.hasLockedSelections} variant="contained" onClick={() => UnVoteForLocation()}>
                         Unvote
                     </Button>
                 </Badge>
             ) : (
                 <Badge badgeContent={memberVotes} color="primary" sx={{mr: 1}}>
-                    <Button disabled={props.hasLockedSelections} variant="contained" onClick={() => VoteForLocation(location)}>
+                    <Button disabled={props.hasLockedSelections} variant="contained" onClick={() => VoteForLocation()}>
                         Vote
                     </Button>
                 </Badge>

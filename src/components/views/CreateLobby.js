@@ -58,7 +58,7 @@ const CreateLobby = () => {
         lobbyName: lobbyName,
         lobbyRegion: canton_Full_name,
         lobbyMaxMembers: maxParticipants,
-        lobbyTimeLimit: "3",
+        lobbyTimeLimit: "30",
         hostMemberId: userId,
         hostMemberToken: token,
         lobbyRegionShortCode: shortCodeForRegion,
