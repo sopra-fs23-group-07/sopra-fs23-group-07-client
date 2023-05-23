@@ -11,6 +11,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { RenderActions } from "components/ui/RenderActions";
 import { CustomNoRowsOverlay } from "components/ui/CustomNoRowsOverlay";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import Spinner from "../ui/Spinner";
 
 // page where all events are listed
 const Events = () => {
@@ -18,6 +19,8 @@ const Events = () => {
   const history = useHistory();
   const [events, setEvents] = useState(null);
   const [flyToLocation, setFlyToLocation] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
 
   const handleCreateEventClick = () => {
     if (
@@ -36,7 +39,10 @@ const Events = () => {
       try {
         const response = await api.get(`/events`);
         setEvents(response.data);
+        setIsLoading(false);
+
       } catch (error) {
+        setIsLoading(false);
         toast.error(handleError(error));
       }
     }
@@ -84,34 +90,8 @@ const Events = () => {
       width: 180,
       flex: 2,
       valueGetter: (params) => moment(params.row.eventDate).format("MMMM DD, YYYY HH:mm"),
-      filterOperators: [
-        {
-          value: 'from',
-          getApplyFilterFn: (filterItem, column) => {
-            if (!filterItem.value) {
-              return null;
-            }
-            return (params) => {
-              const value = moment(params.value, "MMMM DD, YYYY HH:mm");
-              return !value.isBefore(moment(filterItem.value, "MMMM DD, YYYY HH:mm"));
-            };
-          },
-          InputComponentProps: { type: 'date' },
-        },
-        {
-          value: 'until',
-          getApplyFilterFn: (filterItem, column) => {
-            if (!filterItem.value) {
-              return null;
-            }
-            return (params) => {
-              const value = moment(params.value, "MMMM DD, YYYY HH:mm");
-              return !value.isAfter(moment(filterItem.value, "MMMM DD, YYYY HH:mm"));
-            };
-          },
-          InputComponentProps: { type: 'date' },
-        },
-      ],
+      sortable: false,
+      filterable: false,
     },
     {
       field: "actions",
@@ -217,7 +197,8 @@ const Events = () => {
           }}
         >
           {/* Table */}
-          <DataGrid
+          {isLoading ? <Spinner /> :
+            <DataGrid
             rows={rows}
             columns={columns}
             initialState={{
@@ -261,7 +242,7 @@ const Events = () => {
                 borderBottom: '1px black solid !important',
               },
             }}
-          />
+          />}
         </Grid>
 
         {/* Map */}
