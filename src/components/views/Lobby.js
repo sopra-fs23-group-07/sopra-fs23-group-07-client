@@ -111,17 +111,17 @@ const Lobby = () => {
       });
       await api.put(`/lobbies/${lobbyId}/unlock`, requestBody);
     } catch (error) {
-      if (
-        !(
-          error.response.status === 404 &&
-          error.response.data === "The lobbyId provided was not found"
-        )
-      ) {
-        toast.error(handleError(error));
-      }
+        if (
+            !(
+                (error.response.status === 404 &&
+                    error.response.data === "The lobbyId provided was not found") ||
+                error.response.status === 500
+            )
+        ) {
+            toast.error(handleError(error));
+        }
     }
   };
-
   const handleSendMessage = async (message) => {
     try {
       const requestBody = JSON.stringify({
@@ -133,14 +133,15 @@ const Lobby = () => {
       );
       setMessage("");
     } catch (error) {
-      if (
-        !(
-          error.response.status === 404 &&
-          error.response.data === "The lobbyId provided was not found"
-        )
-      ) {
-        toast.error(handleError(error));
-      }
+        if (
+            !(
+                (error.response.status === 404 &&
+                    error.response.data === "The lobbyId provided was not found") ||
+                error.response.status === 500
+            )
+        ) {
+            toast.error(handleError(error));
+        }
     }
   };
 
@@ -221,7 +222,7 @@ const Lobby = () => {
 
           setChat(response.data.lobbyMessageDTOs);
 
-          if (response.data.lobbyMessageDTOs.length >= 4) {
+          if (response.data.lobbyMessageDTOs.length >= 5) {
             setEnterMessageBoxRelative();
           }
 
@@ -231,16 +232,17 @@ const Lobby = () => {
           oldChatLength = response.data.lobbyMessageDTOs.length;
         }
       } catch (error) {
-        if (
-          !(
-            error.response.status === 404 &&
-            error.response.data === "The lobbyId provided was not found"
-          )
-        ) {
-          toast.error(handleError(error));
-        }
+          if (
+              !(
+                  (error.response.status === 404 &&
+                      error.response.data === "The lobbyId provided was not found") ||
+                  error.response.status === 500
+              )
+          ) {
+              toast.error(handleError(error));
+          }
       }
-    }
+    };
 
     fetchData().catch((err) => console.log(err)); // Make initial request immediately
     const intervalId = setInterval(fetchData, 1000); // Update data every second

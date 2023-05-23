@@ -24,7 +24,13 @@ const VotingForLocations = (props) => {
             setUserAlreadyVoted(true);
         } catch (error) {
 
-            if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
+            if (
+                !(
+                    (error.response.status === 404 &&
+                        error.response.data === "The lobbyId provided was not found") ||
+                    error.response.status === 500
+                )
+            )
 
             {
                 toast.error(`Something went wrong when joining the lobby: \n${handleError(error)}`);
@@ -67,7 +73,13 @@ const VotingForLocations = (props) => {
             await api.put(`/lobbies/${lobbyId}/locations/${locationId}/unvote`, requestBody);
             setUserAlreadyVoted(false);
         } catch (error) {
-            if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
+            if (
+                !(
+                    (error.response.status === 404 &&
+                        error.response.data === "The lobbyId provided was not found") ||
+                    error.response.status === 500
+                )
+            )
 
             {
                 toast.error(`Something went wrong when joining the lobby: \n${handleError(error)}`);

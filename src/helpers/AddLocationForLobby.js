@@ -239,7 +239,13 @@ const AddLocationForLobby = (props) => {
       }
     } catch (error) {
 
-      if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
+      if (
+          !(
+              (error.response.status === 404 &&
+                  error.response.data === "The lobbyId provided was not found") ||
+              error.response.status === 500
+          )
+      )
 
       {
         toast.error(
@@ -270,7 +276,13 @@ const AddLocationForLobby = (props) => {
       }
     } catch (error) {
 
-      if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
+      if (
+          !(
+              (error.response.status === 404 &&
+                  error.response.data === "The lobbyId provided was not found") ||
+              error.response.status === 500
+          )
+      )
 
       {
         toast.error(

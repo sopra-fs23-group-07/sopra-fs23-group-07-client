@@ -68,7 +68,13 @@ const SelectDateAndTime = (props) => {
       await api.put(`/lobbies/${lobbyId}/date`, requestBody);
     } catch (error) {
 
-      if(!(error.response.status === 404 && error.response.data === "The lobbyId provided was not found"))
+      if (
+          !(
+              (error.response.status === 404 &&
+                  error.response.data === "The lobbyId provided was not found") ||
+              error.response.status === 500
+          )
+      )
       {
         toast.error(handleError(error));
       }
