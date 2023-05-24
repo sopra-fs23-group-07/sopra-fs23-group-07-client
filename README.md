@@ -2,6 +2,8 @@
 
 If you have ever tried to organize a sports event with friends then you know how difficult and frustrating it can be to get a group of even 5 people to come to an agreenment. The greatest difficulty arises from trying to keep track of everyones preferences regarding what sport to play, when to play and where to play. It is simply impossible to organize an event with which everyone is happy with. This is precisely the problem SpeetUp was designed to solve, so next time you need to organize an event don't open WhatsApp, instead head over to SpeetUp. SpeetUp allows it's users to create lobbies where every member can express which sports they would like to play as well as where and when they can play. After all members of the lobby have saved their choices or if the timer has run out an event will be created using the majority option in each category. This way an event can be created with which everyone is satisfied by.
 
+Try now at [SpeetUp.ch](speetup.ch)
+
 
 ## Table of Contents
 
@@ -15,12 +17,19 @@ If you have ever tried to organize a sports event with friends then you know how
 - [License](#license)
 
 ## Technologies
-- [JavaScript React](https://legacy.reactjs.org)
-- [Material UI](https://mui.com)
-- [ESLint](https://eslint.org)
-- [Npm](https://www.npmjs.com)
-- [Gradle](https://gradle.org)
-- [Google Cloud](https://cloud.google.com)
+
+### User Technologies
+- [JavaScript React](https://legacy.reactjs.org) - Used for front end logic, structure and design
+- [Material UI](https://mui.com) - Icons as well as many other UI elements
+
+### Developer Technologies
+- [ESLint](https://eslint.org) - Code quality check
+- [Npm](https://www.npmjs.com) - Package manager
+- [Gradle](https://gradle.org) - Build automation
+- [Google App Engine](https://cloud.google.com) - Cloud build and deployment
+
+### APIs
+- [React Mapbox GL](https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/) - Map components
 
 ## Components
 
@@ -107,6 +116,10 @@ To create a lobby the user must first give the lobby a unique name, set the maxi
 ### Lobby
 
 While in the lobby a user must select at least one sport, date and time, and location which suits them. Instructions on how to make selections for the various categories can be found in a text box when hovering over the information icon next to the categoriy headers. Once all members have saved their choices or if the timer has run out, the majority of each category will be used to create a new event and all users of the lobby will be redirected to the event details page for that event. If at any time the user wishes to leave the lobby, they can click the "Leave Lobby" button.
+
+### Share Lobby Invite Link
+
+When in a lobby a user may want to share the lobby link to a friend so that they may also join the lobby. To accomplish this the user in the lobby can click the "Invite Friends" which will open a pop up containg the lobby's link. The user can copy the link and send it to their friend or send it via WhatsApp, SMS or E-mail by clicking the respective icon.
 
 ### Event Details
 
