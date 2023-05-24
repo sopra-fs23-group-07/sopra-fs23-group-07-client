@@ -170,76 +170,76 @@ const Lobbies = () => {
                 <TableCell sx={{ minWidth: 130, width: "20%" }} />
               </TableRow>
             </TableHead>
-            <TableBody>
-                {lobbies && lobbies.length > 0 ? (
-                    lobbies
-                        .filter((lobby) => lobby.createdEventId === null)
-                        .map((lobby) => {
-                  return (
-                    <TableRow
-                      key={lobby.lobbyName}
-                      sx={{
-                        "& td, & th": {
-                          background: "rgba(165, 109, 201, 0.1)",
-                          borderTop: "1px black solid", // works
-                          borderBottom: "1px black solid", // works
-                        },
-                      }}
-                    >
-                      <TableCell sx={{ borderLeft: "0px black solid" }}>
-                        {lobby.lobbyName}
-                      </TableCell>
-                      <TableCell>{lobby.lobbyRegion}</TableCell>
-                      <TableCell>
-                        {lobby.lobbyMembersCount}/{lobby.lobbyMaxMembers}
-                      </TableCell>
-                      <TableCell>
-                        <div>
-                          {String(
-                            Math.floor(lobby.timeRemaining / 60000)
-                          ).padStart(2, "0")}
-                          :
-                          {String(
-                            Math.floor((lobby.timeRemaining % 60000) / 1000)
-                          ).padStart(2, "0")}
-                        </div>
-                      </TableCell>
-                      <TableCell
-                        sx={{
-                          borderRight: "0px black solid",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Button
-                          variant="contained"
-                          endIcon={<PersonAddOutlinedIcon />}
-                          onClick={() => handleJoinLobby(lobby.lobbyId)}
-                        >
-                          Join
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={6}
-                    sx={{
-                      maxWidth: "300px",
-                      textAlign: "center",
-                      verticalAlign: "middle",
-                      borderBottom: "0px black solid", // works
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Currently no lobbies available! <br /> Click create Lobby to
-                    create Your own lobby.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
+              <TableBody>
+                  {(!lobbies || lobbies.filter((lobby) => lobby.createdEventId === null).length === 0) ? (
+                      <TableRow>
+                          <TableCell
+                              colSpan={6}
+                              sx={{
+                                  maxWidth: "300px",
+                                  textAlign: "center",
+                                  verticalAlign: "middle",
+                                  borderBottom: "0px black solid", // works
+                                  fontWeight: "bold",
+                              }}
+                          >
+                              Currently no lobbies available! <br /> Click create Lobby to
+                              create Your own lobby.
+                          </TableCell>
+                      </TableRow>
+                  ) : (
+                      lobbies
+                          .filter((lobby) => lobby.createdEventId === null)
+                          .map((lobby) => {
+                              return (
+                                  <TableRow
+                                      key={lobby.lobbyName}
+                                      sx={{
+                                          "& td, & th": {
+                                              background: "rgba(165, 109, 201, 0.1)",
+                                              borderTop: "1px black solid", // works
+                                              borderBottom: "1px black solid", // works
+                                          },
+                                      }}
+                                  >
+                                      <TableCell sx={{ borderLeft: "0px black solid" }}>
+                                          {lobby.lobbyName}
+                                      </TableCell>
+                                      <TableCell>{lobby.lobbyRegion}</TableCell>
+                                      <TableCell>
+                                          {lobby.lobbyMembersCount}/{lobby.lobbyMaxMembers}
+                                      </TableCell>
+                                      <TableCell>
+                                          <div>
+                                              {String(
+                                                  Math.floor(lobby.timeRemaining / 60000)
+                                              ).padStart(2, "0")}
+                                              :
+                                              {String(
+                                                  Math.floor((lobby.timeRemaining % 60000) / 1000)
+                                              ).padStart(2, "0")}
+                                          </div>
+                                      </TableCell>
+                                      <TableCell
+                                          sx={{
+                                              borderRight: "0px black solid",
+                                              display: "flex",
+                                              justifyContent: "center",
+                                          }}
+                                      >
+                                          <Button
+                                              variant="contained"
+                                              endIcon={<PersonAddOutlinedIcon />}
+                                              onClick={() => handleJoinLobby(lobby.lobbyId)}
+                                          >
+                                              Join
+                                          </Button>
+                                      </TableCell>
+                                  </TableRow>
+                              );
+                          })
+                  )}
+              </TableBody>
           </Table>
         </Grid>
       </Grid>
