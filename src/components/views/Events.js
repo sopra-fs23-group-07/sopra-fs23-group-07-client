@@ -59,30 +59,35 @@ const Events = () => {
       field: "id",
       headerName: "ID",
       width: 50,
+      sortable: false,
     },
     {
       field: "eventName",
       headerName: "Event Name",
       width: 120,
       flex: 1,
+      hideable: false,
     },
     {
       field: "eventRegion",
       headerName: "Region",
       width: 100,
       flex: 1,
+      hideable: false,
     },
     {
       field: "eventSport",
       headerName: "Sport",
       width: 100,
       flex: 1,
+      hideable: false,
     },
     {
       field: "eventParticipantsCount",
       headerName: <PeopleAltIcon sx={{ sizeHeight: "1.5em" }} />,
       width: 100,
       flex: 1,
+      hideable: false,
     },
     {
       field: "eventDate",
@@ -92,6 +97,7 @@ const Events = () => {
       valueGetter: (params) => moment(params.row.eventDate).format("MMMM DD, YYYY HH:mm"),
       sortable: false,
       filterable: false,
+      hideable: false,
     },
     {
       field: "actions",
@@ -100,6 +106,7 @@ const Events = () => {
       flex: 1,
       sortable: false,
       filterable: false,
+      hideable: false,
       renderCell: (props) => {
         return (
           <RenderActions
