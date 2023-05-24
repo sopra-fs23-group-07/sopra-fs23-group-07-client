@@ -97,33 +97,49 @@ To learn more about...
 
 Upon going to our app, the user is first shown the register page. Although it is not required to register/login to use our app, there are certain features only available for logged in users. To successfully register, a unique username, email and a password is required.
 
+![image](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/blob/main/Screenshots/SpeetUp%20Register%20Page.png)
+
 ### Home
 
 After registration the user is redirected to the home page. The home page consists of many tutorials explaining how to use SpeetUp and its many features. At the top of the page there is a navigation bar which allows users to navigate our app with ease.
+
+![image](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/blob/main/Screenshots/SpeetUp%20Home%20Page.png)
 
 ### Events
 
 A user can then go to the events page by clicking "Events" on the navigation bar where they will be sent to a page showing all events. Here a user may view the details of an event by clicking the "View Event" button or view the location of the event on the map by clicking the location icon. If a user wishes to create there own event(without any collaboration), they can click the "Create Event" button. A user may also filter the events by location, sport, ascending or descending time to find an event which best suits them.
 
+![image](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/blob/main/Screenshots/SpeetUp%20Events%20Page.png)
+
 ### Lobbies
 
 Incase there is no event which interests the user, they can have a look at what lobbies are currently open in the lobbies page by clicking "Lobbies" on the navigation bar on top of the page. Here the user is shown all lobbies including the number of patricpants in a lobby and the area in which the lobby is considering. To join a lobby the user can click the "Join Lobby" or if there is nothing which suits the user, they can create a new lobby by clicking the "Create Lobby" button.
+
+![image](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/blob/main/Screenshots/SpeetUp%20Lobbies%20Page.png)
 
 ### Create Lobby
 
 To create a lobby the user must first give the lobby a unique name, set the maximum number of participants and select a Kanton where the event will take place. To create the event the user must simply click the "Create Lobby" button and they will be redireted to the lobby page.
 
+![image](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/blob/main/Screenshots/SpeetUp%20CreateLobby%20Page.png)
+
 ### Lobby
 
 While in the lobby a user must select at least one sport, date and time, and location which suits them. Instructions on how to make selections for the various categories can be found in a text box when hovering over the information icon next to the categoriy headers. Once all members have saved their choices or if the timer has run out, the majority of each category will be used to create a new event and all users of the lobby will be redirected to the event details page for that event. If at any time the user wishes to leave the lobby, they can click the "Leave Lobby" button.
+
+![image](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/blob/main/Screenshots/SpeetUp%20Lobby%20Page.png)
 
 ### Share Lobby Invite Link
 
 When in a lobby a user may want to share the lobby link to a friend so that they may also join the lobby. To accomplish this the user in the lobby can click the "Invite Friends" which will open a pop up containg the lobby's link. The user can copy the link and send it to their friend or send it via WhatsApp, SMS or E-mail by clicking the respective icon.
 
+![image](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/blob/main/Screenshots/SpeetUp%20Invite%20Link.png)
+
 ### Event Details
 
 The event details page allows users to view the specifics about an event such as the sport, time, location of the event and particpants of the event. If a user wishes to join the event and there is still space in the event, the user can click the "Join" button. Likewise if a user wishes to leave an event, they can click the "Leave" button. 
+
+![image](https://github.com/sopra-fs23-group-07/sopra-fs23-group-07-client/blob/main/Screenshots/SpeetUp%20EventDetails%20Page.png)
 
 ## Roadmap
 
