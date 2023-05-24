@@ -118,7 +118,7 @@ const CreateEvent = () => {
         window.dispatchEvent(new Event("localstorage-update"));
         await api.post(`/users/logout/${userId}`);
         toast.error(handleError(error));
-      } else if (error.response.status !== 400) {
+      } else if (error.response.status !== 400 || error.response.data == "Please choose event date in the future.") {
         // Only show the error if the status is not 400
         toast.error(handleError(error));
       }
