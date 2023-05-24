@@ -128,7 +128,10 @@ const Event = () => {
   };
 
   useEffect(() => {
+    let errorCounter = 0; // initialize error counter
     const fetchData = async () => {
+
+
       try {
         const response = await api.get("/events/" + eventId);
         setEvent(response.data);
@@ -141,9 +144,12 @@ const Event = () => {
         setIsParticipant(userIds.includes(Number(userId)));
       } catch (error) {
         if (error.response.status === 404) {
-          toast.error("This event does not exist anymore.");
-          history.push("/events");
-        } else {
+          errorCounter++; // increment the error counter if the error is 404
+          if (errorCounter > 3) {
+            toast.error("This event does not exist anymore.");
+            history.push("/events");
+          }
+        }  else {
           toast.error(handleError(error));
         }
       }
