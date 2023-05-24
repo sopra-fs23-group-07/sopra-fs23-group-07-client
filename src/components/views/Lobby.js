@@ -261,7 +261,9 @@ const Lobby = () => {
         history.push("/Events/" + eventId);
       }
     } catch (error) {
-      toast.error(handleError(error));
+        if(error.response.status != 409){
+            toast.error(handleError(error));
+        }
       localStorage.removeItem("lobbyId");
       if (error.response.status == 401) {
         localStorage.clear();
@@ -269,7 +271,7 @@ const Lobby = () => {
         await api.post(`/users/logout/${userId}`);
       }
       if (error.response.status != 500) {
-        history.push(`/Lobbies`);
+          history.push("/Events/" + eventId);
       }
     }
   };

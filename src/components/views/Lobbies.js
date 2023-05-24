@@ -171,8 +171,10 @@ const Lobbies = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {lobbies && lobbies.length > 0 ? (
-                lobbies.map((lobby) => {
+                {lobbies && lobbies.length > 0 ? (
+                    lobbies
+                        .filter((lobby) => lobby.createdEventId === null)
+                        .map((lobby) => {
                   return (
                     <TableRow
                       key={lobby.lobbyName}
