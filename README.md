@@ -29,7 +29,7 @@ Try now at [SpeetUp.ch](http://speetup.ch)
 - [Google App Engine](https://cloud.google.com) - Cloud build and deployment
 
 ### APIs
-- [React Mapbox GL](https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/) - Map components
+- [React Mapbox GL](https://docs.mapbox.com/help/tutorials/use-mapbox-gl-js-with-react/) - Map functionalities
 
 ## Components
 
