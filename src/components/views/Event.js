@@ -329,17 +329,24 @@ const Event = () => {
                     event.participantDTOs.map((participantDTO) => (
                       <Typography>
                         <Link
-                          href={`/Profile/${participantDTO.userId}`}
-                          target={"_blank"}
-                          title={"This opens the profile page in a new tab"}
-                          sx={{
-                            color: "black",
-                            textDecoration: "none",
-                          }}
+                            href={`/Profile/${participantDTO.userId}`}
+                            target={"_blank"}
+                            title={"This opens the profile page in a new tab"}
+                            sx={{
+                              color: "black",
+                              textDecoration: "none",
+                            }}
+                            onClick={(e) => {
+                              if (!userId || !token) {
+                                e.preventDefault();
+                                toast.error('Please login to check this profile');
+                              }
+                            }}
                         >
                           <AccountCircleIcon fontSize={"inherit"} />
-                           {" " + participantDTO.username}
+                          {" " + participantDTO.username}
                         </Link>
+
                       </Typography>
                     ))}
                 </TableCell>
