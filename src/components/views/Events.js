@@ -84,7 +84,7 @@ const Events = () => {
     },
     {
       field: "eventParticipantsCount",
-      headerName: <PeopleAltIcon sx={{ sizeHeight: "1.5em" }} />,
+      headerName: "Participants",
       width: 100,
       flex: 1,
       hideable: false,

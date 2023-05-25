@@ -331,7 +331,7 @@ const Event = () => {
                       <Typography>
                         <Link
                             href={`/Profile/${participantDTO.userId}`}
-                            title={"This opens the profile page in a new tab"}
+                            title={"This redirects to the profile page"}
                             sx={{
                               color: "black",
                               textDecoration: "none",
