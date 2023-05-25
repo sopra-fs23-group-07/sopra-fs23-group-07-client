@@ -59,10 +59,14 @@ const EditProfile = () => {
   const handleBioInputChange = (event) => {
     setBio(event.target.value);
   };
-  const handleBirthdateInputChange = (value) => {
-    const newBirthdate = dayjs(value);
-    setBirthdate(newBirthdate);
-  };
+    const handleBirthdateInputChange = (value) => {
+        const newBirthdate = dayjs(value);
+        if (newBirthdate.isAfter(dayjs())) {
+            toast.error("Birthdate cannot be in the future.");
+        } else {
+            setBirthdate(newBirthdate);
+        }
+    };
   const handleUpdateProfile = async () => {
     if (password !== repeatPassword) {
       toast.error("Passwords do not match");
