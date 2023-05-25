@@ -208,6 +208,7 @@ const Event = () => {
           display: "flex",
           justifyContent: "space-between",
           gap: 4,
+          minHeight: "400px",
         }}
       >
         {/* Table Box */}
@@ -358,9 +359,9 @@ const Event = () => {
         <Grid
           item
           sx={{
-            width: { md: "30%", xs: "100%" },
-            maxHeight: { md: "500px", xs: "500px" },
-            height: { md: "auto", xs: "500px" },
+            width: { lg: "30%", xs: "100%" },
+            maxHeight: { lg: "500px", xs: "500px" },
+            height: { lg: "auto", xs: "500px" },
             boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.3)",
             position: "relative",
           }}
