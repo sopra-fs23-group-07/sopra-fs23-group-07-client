@@ -330,7 +330,6 @@ const Event = () => {
                       <Typography>
                         <Link
                             href={`/Profile/${participantDTO.userId}`}
-                            target={"_blank"}
                             title={"This opens the profile page in a new tab"}
                             sx={{
                               color: "black",
